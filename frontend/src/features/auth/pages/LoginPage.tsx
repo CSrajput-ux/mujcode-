@@ -13,10 +13,9 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [selectedRole, setSelectedRole] = useState('student');
   const [credentials, setCredentials] = useState({
-    collegeId: 'chhotu.2427030521@muj.manipal.edu', // Auto-fill Student
-    username: 'dr.rishigupta@jaipur.manipal.edu',   // Auto-fill Faculty/Admin
-    password: 'chhotu.2427030521'                        // Default password (changeable)
-    // company email handles by username state for simplicity or add 'email' if needed
+    collegeId: '',
+    username: '',
+    password: ''
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
