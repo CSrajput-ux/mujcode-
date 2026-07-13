@@ -1,0 +1,457 @@
+{
+  "course": "cn",
+  "module": 1,
+  "topic": "Network Basics",
+  "questions": [
+    {
+      "id": "cn1q1",
+      "number": 1,
+      "title": "OSI Model Layer",
+      "difficulty": "Easy",
+      "topic": "Network Basics",
+      "description": "Which OSI model layer is responsible for logical addressing and routing?",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the OSI layer name.",
+      "constraints": "Single answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "Network"
+        }
+      ],
+      "explanation": "The Network layer (Layer 3) handles logical addressing (IP addresses) and routing of packets between networks.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        },
+        {
+          "input": "",
+          "output": "Network"
+        }
+      ],
+      "tags": ["osi-model", "network-layer", "routing"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the OSI layer name\nprint()",
+      "solution": "# Print the OSI layer name\nprint('Network')",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["OSI has 7 layers", "Layer 3 is Network layer", "Handles IP addressing and routing"]
+    },
+    {
+      "id": "cn1q2",
+      "number": 2,
+      "title": "IP Address Class",
+      "difficulty": "Easy",
+      "topic": "Network Basics",
+      "description": "Given the IP address 192.168.1.1, which class does it belong to?",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the IP address class.",
+      "constraints": "Single answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "Class C"
+        }
+      ],
+      "explanation": "Class C IP addresses have first octet range 192-223. 192 falls in this range, so it's Class C.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        },
+        {
+          "input": "",
+          "output": "Class C"
+        }
+      ],
+      "tags": ["ip-address", "addressing", "classes"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the IP address class\nprint()",
+      "solution": "# Print the IP address class\nprint('Class C')",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Class A: 1-126", "Class B: 128-191", "Class C: 192-223", "Look at first octet"]
+    },
+    {
+      "id": "cn1q3",
+      "number": 3,
+      "title": "Subnet Mask Calculation",
+      "difficulty": "Medium",
+      "topic": "Network Basics",
+      "description": "Given a /24 subnet mask prefix, what is the dotted decimal representation of the subnet mask?",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the subnet mask in dotted decimal format.",
+      "constraints": "Single answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        }
+      ],
+      "explanation": "/24 means 24 bits are set to 1. In binary: 11111111.11111111.11111111.00000000 = 255.255.255.0",
+      "testCases": [
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        },
+        {
+          "input": "",
+          "output": "255.255.255.0"
+        }
+      ],
+      "tags": ["subnet-mask", "cidr", "calculation"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the subnet mask\nprint()",
+      "solution": "# Print the subnet mask\nprint('255.255.255.0')",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["/24 means 24 network bits", "Convert prefix to binary then to decimal", "Each octet is 8 bits"]
+    },
+    {
+      "id": "cn1q4",
+      "number": 4,
+      "title": "Port Number Range",
+      "difficulty": "Medium",
+      "topic": "Network Basics",
+      "description": "Which port number range is used for well-known services (like HTTP, FTP, SSH)?",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the port number range.",
+      "constraints": "Single answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "0-1023"
+        }
+      ],
+      "explanation": "Well-known ports (system ports) are in the range 0-1023. These are assigned by IANA for standard services.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        },
+        {
+          "input": "",
+          "output": "0-1023"
+        }
+      ],
+      "tags": ["ports", "well-known", "services"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the port number range\nprint()",
+      "solution": "# Print the port number range\nprint('0-1023')",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Well-known: 0-1023", "Registered: 1024-49151", "Dynamic/Private: 49152-65535", "HTTP uses 80, HTTPS uses 443"]
+    },
+    {
+      "id": "cn1q5",
+      "number": 5,
+      "title": "MAC Address Format",
+      "difficulty": "Hard",
+      "topic": "Network Basics",
+      "description": "A MAC address is 48 bits long. How many hexadecimal characters are needed to represent a MAC address?",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the number of hexadecimal characters.",
+      "constraints": "Single numeric answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "12"
+        }
+      ],
+      "explanation": "Each hexadecimal character represents 4 bits. 48 bits / 4 bits per hex digit = 12 hexadecimal characters.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        },
+        {
+          "input": "",
+          "output": "12"
+        }
+      ],
+      "tags": ["mac-address", "hexadecimal", "format"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the number of hexadecimal characters\nprint()",
+      "solution": "# Print the number of hexadecimal characters\nprint(12)",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["1 hex digit = 4 bits", "MAC address = 48 bits", "Divide total bits by 4", "Format: XX:XX:XX:XX:XX:XX (6 groups of 2)"]
+    }
+  ]
+}

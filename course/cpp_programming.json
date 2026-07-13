@@ -1,0 +1,457 @@
+{
+  "course": "cpp_programming",
+  "module": 1,
+  "topic": "Object-Oriented Basics",
+  "questions": [
+    {
+      "id": "cpp1q1",
+      "number": 1,
+      "title": "Class Declaration and Object Creation",
+      "difficulty": "Easy",
+      "topic": "Object-Oriented Basics",
+      "description": "Create a simple class named 'Student' with a public integer member variable 'rollNumber'. Create an object of this class, assign a value to rollNumber, and print it.",
+      "inputFormat": "A single integer representing the roll number.",
+      "outputFormat": "Print the roll number.",
+      "constraints": "1 <= rollNumber <= 1000",
+      "examples": [
+        {
+          "input": "101",
+          "output": "101"
+        }
+      ],
+      "explanation": "Define a class with a public member variable. Create an object, assign the input value to the member, and output it.",
+      "testCases": [
+        {
+          "input": "101",
+          "output": "101"
+        },
+        {
+          "input": "205",
+          "output": "205"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "999",
+          "output": "999"
+        },
+        {
+          "input": "500",
+          "output": "500"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "123",
+          "output": "123"
+        },
+        {
+          "input": "456",
+          "output": "456"
+        },
+        {
+          "input": "789",
+          "output": "789"
+        },
+        {
+          "input": "333",
+          "output": "333"
+        },
+        {
+          "input": "666",
+          "output": "666"
+        },
+        {
+          "input": "100",
+          "output": "100"
+        },
+        {
+          "input": "200",
+          "output": "200"
+        },
+        {
+          "input": "300",
+          "output": "300"
+        },
+        {
+          "input": "400",
+          "output": "400"
+        },
+        {
+          "input": "1000",
+          "output": "1000"
+        }
+      ],
+      "tags": ["class", "object", "basic"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <iostream>\nusing namespace std;\n\nclass Student {\npublic:\n    int rollNumber;\n};\n\nint main() {\n    Student s;\n    cin >> s.rollNumber;\n    // Your code here\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nclass Student {\npublic:\n    int rollNumber;\n};\n\nint main() {\n    Student s;\n    cin >> s.rollNumber;\n    cout << s.rollNumber;\n    return 0;\n}",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Create a class with public member", "Use dot operator to access member"]
+    },
+    {
+      "id": "cpp1q2",
+      "number": 2,
+      "title": "Class with Member Function",
+      "difficulty": "Easy",
+      "topic": "Object-Oriented Basics",
+      "description": "Create a class 'Calculator' with a public member function 'add' that takes two integers and returns their sum. Use this function to add two given numbers.",
+      "inputFormat": "Two space-separated integers.",
+      "outputFormat": "Print the sum of the two numbers.",
+      "constraints": "1 <= numbers <= 1000",
+      "examples": [
+        {
+          "input": "10 20",
+          "output": "30"
+        }
+      ],
+      "explanation": "Define a class with a member function. Create an object and call the member function to perform addition.",
+      "testCases": [
+        {
+          "input": "10 20",
+          "output": "30"
+        },
+        {
+          "input": "5 5",
+          "output": "10"
+        },
+        {
+          "input": "100 200",
+          "output": "300"
+        },
+        {
+          "input": "1 999",
+          "output": "1000"
+        },
+        {
+          "input": "500 500",
+          "output": "1000"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "15 25",
+          "output": "40"
+        },
+        {
+          "input": "35 65",
+          "output": "100"
+        },
+        {
+          "input": "123 877",
+          "output": "1000"
+        },
+        {
+          "input": "250 750",
+          "output": "1000"
+        },
+        {
+          "input": "400 600",
+          "output": "1000"
+        },
+        {
+          "input": "50 150",
+          "output": "200"
+        },
+        {
+          "input": "75 125",
+          "output": "200"
+        },
+        {
+          "input": "300 700",
+          "output": "1000"
+        },
+        {
+          "input": "450 550",
+          "output": "1000"
+        },
+        {
+          "input": "80 120",
+          "output": "200"
+        }
+      ],
+      "tags": ["class", "member-function", "methods"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <iostream>\nusing namespace std;\n\nclass Calculator {\npublic:\n    int add(int a, int b) {\n        // Your code here\n    }\n};\n\nint main() {\n    Calculator calc;\n    int a, b;\n    cin >> a >> b;\n    cout << calc.add(a, b);\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nclass Calculator {\npublic:\n    int add(int a, int b) {\n        return a + b;\n    }\n};\n\nint main() {\n    Calculator calc;\n    int a, b;\n    cin >> a >> b;\n    cout << calc.add(a, b);\n    return 0;\n}",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Define a member function inside class", "Return the sum of parameters"]
+    },
+    {
+      "id": "cpp1q3",
+      "number": 3,
+      "title": "Constructor Initialization",
+      "difficulty": "Medium",
+      "topic": "Object-Oriented Basics",
+      "description": "Create a class 'Rectangle' with private member variables length and width. Implement a constructor that initializes these values. Add a public method 'getArea' that returns the area. Create an object using the constructor and print the area.",
+      "inputFormat": "Two space-separated integers representing length and width.",
+      "outputFormat": "Print the area of the rectangle.",
+      "constraints": "1 <= length, width <= 1000",
+      "examples": [
+        {
+          "input": "5 4",
+          "output": "20"
+        }
+      ],
+      "explanation": "Use a constructor to initialize private members. Implement a getter method to calculate and return the area.",
+      "testCases": [
+        {
+          "input": "5 4",
+          "output": "20"
+        },
+        {
+          "input": "10 10",
+          "output": "100"
+        },
+        {
+          "input": "7 3",
+          "output": "21"
+        },
+        {
+          "input": "15 6",
+          "output": "90"
+        },
+        {
+          "input": "1 1000",
+          "output": "1000"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "8 12",
+          "output": "96"
+        },
+        {
+          "input": "20 25",
+          "output": "500"
+        },
+        {
+          "input": "25 40",
+          "output": "1000"
+        },
+        {
+          "input": "50 20",
+          "output": "1000"
+        },
+        {
+          "input": "100 10",
+          "output": "1000"
+        },
+        {
+          "input": "30 30",
+          "output": "900"
+        },
+        {
+          "input": "40 25",
+          "output": "1000"
+        },
+        {
+          "input": "125 8",
+          "output": "1000"
+        },
+        {
+          "input": "200 5",
+          "output": "1000"
+        },
+        {
+          "input": "250 4",
+          "output": "1000"
+        }
+      ],
+      "tags": ["class", "constructor", "private-members", "encapsulation"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <iostream>\nusing namespace std;\n\nclass Rectangle {\nprivate:\n    int length, width;\npublic:\n    Rectangle(int l, int w) {\n        // Initialize members\n    }\n    int getArea() {\n        // Return area\n    }\n};\n\nint main() {\n    int l, w;\n    cin >> l >> w;\n    Rectangle rect(l, w);\n    cout << rect.getArea();\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nclass Rectangle {\nprivate:\n    int length, width;\npublic:\n    Rectangle(int l, int w) {\n        length = l;\n        width = w;\n    }\n    int getArea() {\n        return length * width;\n    }\n};\n\nint main() {\n    int l, w;\n    cin >> l >> w;\n    Rectangle rect(l, w);\n    cout << rect.getArea();\n    return 0;\n}",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Constructor has same name as class", "Use this-> or direct assignment in constructor", "Area = length * width"]
+    },
+    {
+      "id": "cpp1q4",
+      "number": 4,
+      "title": "Static Member Variable",
+      "difficulty": "Medium",
+      "topic": "Object-Oriented Basics",
+      "description": "Create a class 'Counter' with a static integer member variable 'count' and a constructor that increments count each time an object is created. Also add a static method 'getCount' that returns the current count. Create N objects and print the final count.",
+      "inputFormat": "A single integer N representing number of objects to create.",
+      "outputFormat": "Print the final count after creating N objects.",
+      "constraints": "1 <= N <= 100",
+      "examples": [
+        {
+          "input": "5",
+          "output": "5"
+        }
+      ],
+      "explanation": "Static members are shared across all objects. Each constructor call increments the static count. Use static method to access it.",
+      "testCases": [
+        {
+          "input": "5",
+          "output": "5"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "10",
+          "output": "10"
+        },
+        {
+          "input": "50",
+          "output": "50"
+        },
+        {
+          "input": "100",
+          "output": "100"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "2",
+          "output": "2"
+        },
+        {
+          "input": "3",
+          "output": "3"
+        },
+        {
+          "input": "4",
+          "output": "4"
+        },
+        {
+          "input": "20",
+          "output": "20"
+        },
+        {
+          "input": "25",
+          "output": "25"
+        },
+        {
+          "input": "30",
+          "output": "30"
+        },
+        {
+          "input": "40",
+          "output": "40"
+        },
+        {
+          "input": "60",
+          "output": "60"
+        },
+        {
+          "input": "75",
+          "output": "75"
+        },
+        {
+          "input": "90",
+          "output": "90"
+        }
+      ],
+      "tags": ["static", "constructor", "class"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <iostream>\nusing namespace std;\n\nclass Counter {\nprivate:\n    static int count;\npublic:\n    Counter() {\n        // Increment count\n    }\n    static int getCount() {\n        // Return count\n    }\n};\n\nint Counter::count = 0;\n\nint main() {\n    int n;\n    cin >> n;\n    for(int i = 0; i < n; i++) {\n        Counter c;\n    }\n    cout << Counter::getCount();\n    return 0;\n}",
+      "solution": "#include <iostream>\nusing namespace std;\n\nclass Counter {\nprivate:\n    static int count;\npublic:\n    Counter() {\n        count++;\n    }\n    static int getCount() {\n        return count;\n    }\n};\n\nint Counter::count = 0;\n\nint main() {\n    int n;\n    cin >> n;\n    for(int i = 0; i < n; i++) {\n        Counter c;\n    }\n    cout << Counter::getCount();\n    return 0;\n}",
+      "timeComplexity": "O(N)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Static variable must be defined outside class", "Static members are shared across all instances", "Use ClassName::staticMember to access"]
+    },
+    {
+      "id": "cpp1q5",
+      "number": 5,
+      "title": "Inheritance and Method Overriding",
+      "difficulty": "Hard",
+      "topic": "Object-Oriented Basics",
+      "description": "Create a base class 'Animal' with a virtual method 'makeSound' that prints 'Animal sound'. Create a derived class 'Dog' that inherits from Animal and overrides makeSound to print 'Bark'. Create another derived class 'Cat' that overrides makeSound to print 'Meow'. Based on input string (dog or cat), create appropriate object and call makeSound.",
+      "inputFormat": "A single string either 'dog' or 'cat'.",
+      "outputFormat": "Print the sound made by the specified animal.",
+      "constraints": "Input will be either 'dog' or 'cat' (lowercase).",
+      "examples": [
+        {
+          "input": "dog",
+          "output": "Bark"
+        }
+      ],
+      "explanation": "Use inheritance to create derived classes. Use virtual functions for runtime polymorphism. Create object based on input type.",
+      "testCases": [
+        {
+          "input": "dog",
+          "output": "Bark"
+        },
+        {
+          "input": "cat",
+          "output": "Meow"
+        },
+        {
+          "input": "dog",
+          "output": "Bark"
+        },
+        {
+          "input": "cat",
+          "output": "Meow"
+        },
+        {
+          "input": "dog",
+          "output": "Bark"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "cat",
+          "output": "Meow"
+        },
+        {
+          "input": "dog",
+          "output": "Bark"
+        },
+        {
+          "input": "cat",
+          "output": "Meow"
+        },
+        {
+          "input": "dog",
+          "output": "Bark"
+        },
+        {
+          "input": "cat",
+          "output": "Meow"
+        },
+        {
+          "input": "dog",
+          "output": "Bark"
+        },
+        {
+          "input": "cat",
+          "output": "Meow"
+        },
+        {
+          "input": "dog",
+          "output": "Bark"
+        },
+        {
+          "input": "cat",
+          "output": "Meow"
+        },
+        {
+          "input": "dog",
+          "output": "Bark"
+        }
+      ],
+      "tags": ["inheritance", "virtual-functions", "polymorphism", "override"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <iostream>\n#include <string>\nusing namespace std;\n\nclass Animal {\npublic:\n    virtual void makeSound() {\n        cout << \"Animal sound\";\n    }\n};\n\nclass Dog : public Animal {\npublic:\n    void makeSound() override {\n        // Override for dog\n    }\n};\n\nclass Cat : public Animal {\npublic:\n    void makeSound() override {\n        // Override for cat\n    }\n};\n\nint main() {\n    string type;\n    cin >> type;\n    Animal* animal;\n    if(type == \"dog\") {\n        animal = new Dog();\n    } else {\n        animal = new Cat();\n    }\n    animal->makeSound();\n    delete animal;\n    return 0;\n}",
+      "solution": "#include <iostream>\n#include <string>\nusing namespace std;\n\nclass Animal {\npublic:\n    virtual void makeSound() {\n        cout << \"Animal sound\";\n    }\n};\n\nclass Dog : public Animal {\npublic:\n    void makeSound() override {\n        cout << \"Bark\";\n    }\n};\n\nclass Cat : public Animal {\npublic:\n    void makeSound() override {\n        cout << \"Meow\"؛\n    }\n};\n\nint main() {\n    string type;\n    cin >> type;\n    Animal* animal;\n    if(type == \"dog\") {\n        animal = new Dog();\n    } else {\n        animal = new Cat();\n    }\n    animal->makeSound();\n    delete animal;\n    return 0;\n}",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Use virtual keyword for base class method", "Use override keyword in derived class", "Use base class pointer for polymorphism", "Remember to delete dynamically allocated memory"]
+    }
+  ]
+}

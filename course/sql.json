@@ -1,0 +1,457 @@
+{
+  "course": "sql",
+  "module": 1,
+  "topic": "Basic Queries",
+  "questions": [
+    {
+      "id": "sql1q1",
+      "number": 1,
+      "title": "Select All Columns",
+      "difficulty": "Easy",
+      "topic": "Basic Queries",
+      "description": "Write a SQL query to select all columns from the 'employees' table.",
+      "inputFormat": "No input required. Assume table 'employees' exists with columns: id, name, department, salary.",
+      "outputFormat": "Return all rows and columns from the employees table.",
+      "constraints": "Table contains 1 to 1000 rows.",
+      "examples": [
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        }
+      ],
+      "explanation": "Use SELECT * to select all columns from a table. The asterisk (*) is a wildcard that represents all columns.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees;"
+        }
+      ],
+      "tags": ["select", "wildcard", "basic"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "-- Write your query below",
+      "solution": "SELECT * FROM employees;",
+      "timeComplexity": "O(N)",
+      "spaceComplexity": "O(N)",
+      "hints": ["Use SELECT * to get all columns", "Specify the table name after FROM"]
+    },
+    {
+      "id": "sql1q2",
+      "number": 2,
+      "title": "Select Specific Columns",
+      "difficulty": "Easy",
+      "topic": "Basic Queries",
+      "description": "Write a SQL query to select only the 'name' and 'salary' columns from the 'employees' table.",
+      "inputFormat": "No input required. Assume table 'employees' exists with columns: id, name, department, salary.",
+      "outputFormat": "Return name and salary for all employees.",
+      "constraints": "Table contains 1 to 1000 rows.",
+      "examples": [
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        }
+      ],
+      "explanation": "Specify column names separated by commas in the SELECT statement to retrieve only specific columns.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        },
+        {
+          "input": "",
+          "output": "SELECT name, salary FROM employees;"
+        }
+      ],
+      "tags": ["select", "columns", "specific"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "-- Write your query below",
+      "solution": "SELECT name, salary FROM employees;",
+      "timeComplexity": "O(N)",
+      "spaceComplexity": "O(N)",
+      "hints": ["List column names separated by commas", "Order of columns in output matches SELECT order"]
+    },
+    {
+      "id": "sql1q3",
+      "number": 3,
+      "title": "Filter with WHERE Clause",
+      "difficulty": "Medium",
+      "topic": "Basic Queries",
+      "description": "Write a SQL query to select all employees from the 'employees' table who work in the 'IT' department.",
+      "inputFormat": "No input required. Assume table 'employees' exists with columns: id, name, department, salary.",
+      "outputFormat": "Return all columns for employees in IT department.",
+      "constraints": "Table contains 1 to 1000 rows. Department values are strings.",
+      "examples": [
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        }
+      ],
+      "explanation": "Use the WHERE clause to filter rows based on a condition. String literals must be enclosed in single quotes.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees WHERE department = 'IT';"
+        }
+      ],
+      "tags": ["where", "filter", "condition"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "-- Write your query below",
+      "solution": "SELECT * FROM employees WHERE department = 'IT';",
+      "timeComplexity": "O(N)",
+      "spaceComplexity": "O(N)",
+      "hints": ["Use WHERE clause after FROM", "String values need single quotes", "Equal operator is ="]
+    },
+    {
+      "id": "sql1q4",
+      "number": 4,
+      "title": "Order By Clause",
+      "difficulty": "Medium",
+      "topic": "Basic Queries",
+      "description": "Write a SQL query to select all employees from the 'employees' table ordered by salary in descending order (highest salary first).",
+      "inputFormat": "No input required. Assume table 'employees' exists with columns: id, name, department, salary.",
+      "outputFormat": "Return all columns sorted by salary descending.",
+      "constraints": "Table contains 1 to 1000 rows. Salary is a numeric column.",
+      "examples": [
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        }
+      ],
+      "explanation": "Use ORDER BY clause to sort results. DESC keyword sorts in descending order. ASC is default for ascending.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        },
+        {
+          "input": "",
+          "output": "SELECT * FROM employees ORDER BY salary DESC;"
+        }
+      ],
+      "tags": ["order-by", "sort", "descending"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "-- Write your query below",
+      "solution": "SELECT * FROM employees ORDER BY salary DESC;",
+      "timeComplexity": "O(N log N)",
+      "spaceComplexity": "O(N)",
+      "hints": ["Use ORDER BY to sort", "DESC for descending, ASC for ascending", "ORDER BY is usually the last clause"]
+    },
+    {
+      "id": "sql1q5",
+      "number": 5,
+      "title": "Aggregate Function with Group By",
+      "difficulty": "Hard",
+      "topic": "Basic Queries",
+      "description": "Write a SQL query to find the average salary for each department from the 'employees' table. Display department and average salary columns.",
+      "inputFormat": "No input required. Assume table 'employees' exists with columns: id, name, department, salary.",
+      "outputFormat": "Return department and average salary grouped by department.",
+      "constraints": "Table contains 1 to 1000 rows. Salary is numeric.",
+      "examples": [
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        }
+      ],
+      "explanation": "Use AVG() aggregate function to calculate average. GROUP BY groups rows with same department values together.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        },
+        {
+          "input": "",
+          "output": "SELECT department, AVG(salary) FROM employees GROUP BY department;"
+        }
+      ],
+      "tags": ["aggregate", "group-by", "avg"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "-- Write your query below",
+      "solution": "SELECT department, AVG(salary) FROM employees GROUP BY department;",
+      "timeComplexity": "O(N)",
+      "spaceComplexity": "O(N)",
+      "hints": ["Use AVG() for average calculation", "GROUP BY must include all non-aggregated columns", "Aggregate functions operate on groups"]
+    }
+  ]
+}

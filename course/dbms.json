@@ -1,0 +1,457 @@
+{
+  "course": "dbms",
+  "module": 1,
+  "topic": "Database Concepts",
+  "questions": [
+    {
+      "id": "dbms1q1",
+      "number": 1,
+      "title": "Primary Key Identification",
+      "difficulty": "Easy",
+      "topic": "Database Concepts",
+      "description": "Given a table schema with columns: student_id (unique), name, age, department. Identify which column should be the primary key and explain why in your solution.",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the column name that should be the primary key.",
+      "constraints": "Single answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "student_id"
+        }
+      ],
+      "explanation": "Primary key must be unique and not null. student_id is unique for each student, making it the ideal primary key.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        }
+      ],
+      "tags": ["primary-key", "schema", "design"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the primary key column name\nprint()",
+      "solution": "# Print the primary key column name\nprint('student_id')",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Primary key must uniquely identify each row", "It cannot contain null values", "Choose the column that is guaranteed unique"]
+    },
+    {
+      "id": "dbms1q2",
+      "number": 2,
+      "title": "Foreign Key Relationship",
+      "difficulty": "Easy",
+      "topic": "Database Concepts",
+      "description": "Given two tables: Students (student_id, name) and Enrollments (enrollment_id, student_id, course_id). Which column in Enrollments is a foreign key?",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the foreign key column name.",
+      "constraints": "Single answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "student_id"
+        }
+      ],
+      "explanation": "Foreign key references a primary key in another table. student_id in Enrollments references student_id in Students table.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        },
+        {
+          "input": "",
+          "output": "student_id"
+        }
+      ],
+      "tags": ["foreign-key", "relationships", "referential-integrity"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the foreign key column name\nprint()",
+      "solution": "# Print the foreign key column name\nprint('student_id')",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Foreign key references another table's primary key", "It establishes relationship between tables", "Look for column that exists in both tables"]
+    },
+    {
+      "id": "dbms1q3",
+      "number": 3,
+      "title": "Normalization Level",
+      "difficulty": "Medium",
+      "topic": "Database Concepts",
+      "description": "Given a table with columns: order_id, customer_id, customer_name, product_id, product_name, quantity. This table has partial dependency. Which normal form does it violate and what is the solution?",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the normal form violated (e.g., '2NF').",
+      "constraints": "Single answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "2NF"
+        }
+      ],
+      "explanation": "The table violates 2NF because customer_name depends only on customer_id (partial dependency), not on the full primary key.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        },
+        {
+          "input": "",
+          "output": "2NF"
+        }
+      ],
+      "tags": ["normalization", "2nf", "partial-dependency"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the normal form violated\nprint()",
+      "solution": "# Print the normal form violated\nprint('2NF')",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["2NF requires no partial dependencies", "Partial dependency: non-key attribute depends on part of composite key", "Solution: separate into multiple tables"]
+    },
+    {
+      "id": "dbms1q4",
+      "number": 4,
+      "title": "ER Diagram Relationship",
+      "difficulty": "Medium",
+      "topic": "Database Concepts",
+      "description": "A Student can enroll in multiple Courses. A Course can have multiple Students. What type of relationship exists between Student and Course entities?",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the relationship type (e.g., 'Many-to-Many').",
+      "constraints": "Single answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        }
+      ],
+      "explanation": "Since many students can take many courses and many courses can have many students, this is a many-to-many relationship.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        },
+        {
+          "input": "",
+          "output": "Many-to-Many"
+        }
+      ],
+      "tags": ["er-diagram", "relationships", "many-to-many"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the relationship type\nprint()",
+      "solution": "# Print the relationship type\nprint('Many-to-Many')",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["One-to-One: 1:1 relationship", "One-to-Many: 1 entity relates to many of another", "Many-to-Many: many entities relate to many of another"]
+    },
+    {
+      "id": "dbms1q5",
+      "number": 5,
+      "title": "ACID Properties",
+      "difficulty": "Hard",
+      "topic": "Database Concepts",
+      "description": "A transaction transfers $100 from Account A to Account B. If the system crashes after deducting $100 from A but before adding to B, which ACID property ensures that the transaction is not partially committed?",
+      "inputFormat": "No input required.",
+      "outputFormat": "Print the ACID property name.",
+      "constraints": "Single answer expected.",
+      "examples": [
+        {
+          "input": "",
+          "output": "Atomicity"
+        }
+      ],
+      "explanation": "Atomicity ensures that a transaction is treated as a single unit - either all operations succeed or none do. Partial commits are not allowed.",
+      "testCases": [
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        },
+        {
+          "input": "",
+          "output": "Atomicity"
+        }
+      ],
+      "tags": ["acid", "transactions", "atomicity"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "# Print the ACID property\nprint()",
+      "solution": "# Print the ACID property\nprint('Atomicity')",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["ACID: Atomicity, Consistency, Isolation, Durability", "Atomicity: all or nothing", "Consistency: database remains valid", "Isolation: transactions don't interfere", "Durability: committed transactions persist"]
+    }
+  ]
+}

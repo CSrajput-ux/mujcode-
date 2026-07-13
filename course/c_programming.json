@@ -1,0 +1,457 @@
+{
+  "course": "c_programming",
+  "module": 1,
+  "topic": "Basic Syntax and Variables",
+  "questions": [
+    {
+      "id": "c1q1",
+      "number": 1,
+      "title": "Variable Declaration and Output",
+      "difficulty": "Easy",
+      "topic": "Basic Syntax and Variables",
+      "description": "Write a C program that declares an integer variable, assigns it a value, and prints it to the console.",
+      "inputFormat": "A single integer N.",
+      "outputFormat": "Print the integer N as it is.",
+      "constraints": "1 <= N <= 1000",
+      "examples": [
+        {
+          "input": "42",
+          "output": "42"
+        }
+      ],
+      "explanation": "Declare an integer variable using int, read the input using scanf, and print it using printf.",
+      "testCases": [
+        {
+          "input": "42",
+          "output": "42"
+        },
+        {
+          "input": "100",
+          "output": "100"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "500",
+          "output": "500"
+        },
+        {
+          "input": "999",
+          "output": "999"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "10",
+          "output": "10"
+        },
+        {
+          "input": "250",
+          "output": "250"
+        },
+        {
+          "input": "777",
+          "output": "777"
+        },
+        {
+          "input": "333",
+          "output": "333"
+        },
+        {
+          "input": "888",
+          "output": "888"
+        },
+        {
+          "input": "123",
+          "output": "123"
+        },
+        {
+          "input": "456",
+          "output": "456"
+        },
+        {
+          "input": "789",
+          "output": "789"
+        },
+        {
+          "input": "1000",
+          "output": "1000"
+        },
+        {
+          "input": "555",
+          "output": "555"
+        }
+      ],
+      "tags": ["variables", "input-output", "basic"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    // Your code here\n    return 0;\n}",
+      "solution": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n    printf(\"%d\", n);\n    return 0;\n}",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Use scanf to read input", "Use printf to output the value"]
+    },
+    {
+      "id": "c1q2",
+      "number": 2,
+      "title": "Sum of Two Numbers",
+      "difficulty": "Easy",
+      "topic": "Basic Syntax and Variables",
+      "description": "Write a C program that reads two integers and prints their sum.",
+      "inputFormat": "Two space-separated integers A and B.",
+      "outputFormat": "Print the sum of A and B.",
+      "constraints": "1 <= A, B <= 1000",
+      "examples": [
+        {
+          "input": "5 3",
+          "output": "8"
+        }
+      ],
+      "explanation": "Read two integers using scanf, add them using the + operator, and print the result.",
+      "testCases": [
+        {
+          "input": "5 3",
+          "output": "8"
+        },
+        {
+          "input": "10 20",
+          "output": "30"
+        },
+        {
+          "input": "1 1",
+          "output": "2"
+        },
+        {
+          "input": "100 200",
+          "output": "300"
+        },
+        {
+          "input": "500 500",
+          "output": "1000"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "7 8",
+          "output": "15"
+        },
+        {
+          "input": "15 25",
+          "output": "40"
+        },
+        {
+          "input": "99 1",
+          "output": "100"
+        },
+        {
+          "input": "333 667",
+          "output": "1000"
+        },
+        {
+          "input": "123 456",
+          "output": "579"
+        },
+        {
+          "input": "777 222",
+          "output": "999"
+        },
+        {
+          "input": "50 50",
+          "output": "100"
+        },
+        {
+          "input": "400 600",
+          "output": "1000"
+        },
+        {
+          "input": "250 750",
+          "output": "1000"
+        },
+        {
+          "input": "888 112",
+          "output": "1000"
+        }
+      ],
+      "tags": ["variables", "arithmetic", "input-output"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <stdio.h>\n\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    // Your code here\n    return 0;\n}",
+      "solution": "#include <stdio.h>\n\nint main() {\n    int a, b;\n    scanf(\"%d %d\", &a, &b);\n    printf(\"%d\", a + b);\n    return 0;\n}",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Use scanf with %d %d to read two integers", "Add the two variables and print"]
+    },
+    {
+      "id": "c1q3",
+      "number": 3,
+      "title": "Area of Rectangle",
+      "difficulty": "Medium",
+      "topic": "Basic Syntax and Variables",
+      "description": "Write a C program that calculates the area of a rectangle given its length and width. The area is length multiplied by width.",
+      "inputFormat": "Two space-separated integers L and W representing length and width.",
+      "outputFormat": "Print the area of the rectangle.",
+      "constraints": "1 <= L, W <= 10000",
+      "examples": [
+        {
+          "input": "5 3",
+          "output": "15"
+        }
+      ],
+      "explanation": "Read length and width, multiply them to get area, and print the result. Handle potential integer overflow by using appropriate data type.",
+      "testCases": [
+        {
+          "input": "5 3",
+          "output": "15"
+        },
+        {
+          "input": "10 10",
+          "output": "100"
+        },
+        {
+          "input": "7 4",
+          "output": "28"
+        },
+        {
+          "input": "100 50",
+          "output": "5000"
+        },
+        {
+          "input": "1 10000",
+          "output": "10000"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "12 8",
+          "output": "96"
+        },
+        {
+          "input": "25 25",
+          "output": "625"
+        },
+        {
+          "input": "100 100",
+          "output": "10000"
+        },
+        {
+          "input": "500 20",
+          "output": "10000"
+        },
+        {
+          "input": "200 50",
+          "output": "10000"
+        },
+        {
+          "input": "333 30",
+          "output": "9990"
+        },
+        {
+          "input": "125 80",
+          "output": "10000"
+        },
+        {
+          "input": "250 40",
+          "output": "10000"
+        },
+        {
+          "input": "400 25",
+          "output": "10000"
+        },
+        {
+          "input": "1000 10",
+          "output": "10000"
+        }
+      ],
+      "tags": ["variables", "arithmetic", "geometry"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <stdio.h>\n\nint main() {\n    int length, width;\n    scanf(\"%d %d\", &length, &width);\n    // Your code here\n    return 0;\n}",
+      "solution": "#include <stdio.h>\n\nint main() {\n    int length, width;\n    scanf(\"%d %d\", &length, &width);\n    printf(\"%d\", length * width);\n    return 0;\n}",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Area = length * width", "Use int data type for the result"]
+    },
+    {
+      "id": "c1q4",
+      "number": 4,
+      "title": "Temperature Conversion",
+      "difficulty": "Medium",
+      "topic": "Basic Syntax and Variables",
+      "description": "Write a C program that converts temperature from Celsius to Fahrenheit. The formula is: F = (C * 9/5) + 32. Output the result rounded to 2 decimal places.",
+      "inputFormat": "A single floating-point number C representing temperature in Celsius.",
+      "outputFormat": "Print the temperature in Fahrenheit rounded to 2 decimal places.",
+      "constraints": "-100 <= C <= 100",
+      "examples": [
+        {
+          "input": "0",
+          "output": "32.00"
+        }
+      ],
+      "explanation": "Use the formula F = (C * 9/5) + 32. Use float or double for decimal values and printf with %.2f for 2 decimal places.",
+      "testCases": [
+        {
+          "input": "0",
+          "output": "32.00"
+        },
+        {
+          "input": "100",
+          "output": "212.00"
+        },
+        {
+          "input": "37",
+          "output": "98.60"
+        },
+        {
+          "input": "-40",
+          "output": "-40.00"
+        },
+        {
+          "input": "25",
+          "output": "77.00"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "10",
+          "output": "50.00"
+        },
+        {
+          "input": "20",
+          "output": "68.00"
+        },
+        {
+          "input": "30",
+          "output": "86.00"
+        },
+        {
+          "input": "40",
+          "output": "104.00"
+        },
+        {
+          "input": "50",
+          "output": "122.00"
+        },
+        {
+          "input": "-10",
+          "output": "14.00"
+        },
+        {
+          "input": "-20",
+          "output": "-4.00"
+        },
+        {
+          "input": "-30",
+          "output": "-22.00"
+        },
+        {
+          "input": "15",
+          "output": "59.00"
+        },
+        {
+          "input": "5",
+          "output": "41.00"
+        }
+      ],
+      "tags": ["variables", "floating-point", "conversion"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <stdio.h>\n\nint main() {\n    double celsius;\n    scanf(\"%lf\", &celsius);\n    // Your code here\n    return 0;\n}",
+      "solution": "#include <stdio.h>\n\nint main() {\n    double celsius, fahrenheit;\n    scanf(\"%lf\", &celsius);\n    fahrenheit = (celsius * 9.0 / 5.0) + 32.0;\n    printf(\"%.2lf\", fahrenheit);\n    return 0;\n}",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Use double for precision", "Formula: F = (C * 9/5) + 32", "Use %.2lf for 2 decimal places"]
+    },
+    {
+      "id": "c1q5",
+      "number": 5,
+      "title": "Simple Interest Calculator",
+      "difficulty": "Hard",
+      "topic": "Basic Syntax and Variables",
+      "description": "Write a C program to calculate simple interest. Given principal amount, rate of interest per annum, and time in years, calculate the simple interest using the formula: SI = (P * R * T) / 100. Also calculate the total amount (A = P + SI). Output both values rounded to 2 decimal places.",
+      "inputFormat": "Three space-separated values: P (principal), R (rate), T (time).",
+      "outputFormat": "Print the simple interest and total amount on separate lines, each rounded to 2 decimal places.",
+      "constraints": "1 <= P <= 1000000, 1 <= R <= 100, 1 <= T <= 50",
+      "examples": [
+        {
+          "input": "1000 5 2",
+          "output": "100.00\n1100.00"
+        }
+      ],
+      "explanation": "Calculate simple interest using SI = (P * R * T) / 100. Then calculate total amount as A = P + SI. Use double for precision and format output to 2 decimal places.",
+      "testCases": [
+        {
+          "input": "1000 5 2",
+          "output": "100.00\n1100.00"
+        },
+        {
+          "input": "5000 10 3",
+          "output": "1500.00\n6500.00"
+        },
+        {
+          "input": "10000 8 5",
+          "output": "4000.00\n14000.00"
+        },
+        {
+          "input": "2500 12 4",
+          "output": "1200.00\n3700.00"
+        },
+        {
+          "input": "100 1 1",
+          "output": "1.00\n101.00"
+        }
+      ],
+      "hiddenTestCases": [
+        {
+          "input": "2000 7.5 3",
+          "output": "450.00\n2450.00"
+        },
+        {
+          "input": "15000 6.5 2",
+          "output": "1950.00\n16950.00"
+        },
+        {
+          "input": "50000 5 10",
+          "output": "25000.00\n75000.00"
+        },
+        {
+          "input": "100000 8 5",
+          "output": "40000.00\n140000.00"
+        },
+        {
+          "input": "7500 9 4",
+          "output": "2700.00\n10200.00"
+        },
+        {
+          "input": "3000 11 2",
+          "output": "660.00\n3660.00"
+        },
+        {
+          "input": "8000 5.5 3",
+          "output": "1320.00\n9320.00"
+        },
+        {
+          "input": "12000 7 4",
+          "output": "3360.00\n15360.00"
+        },
+        {
+          "input": "4500 8.5 2",
+          "output": "765.00\n5265.00"
+        },
+        {
+          "input": "6000 6 5",
+          "output": "1800.00\n7800.00"
+        }
+      ],
+      "tags": ["variables", "floating-point", "arithmetic", "financial"],
+      "timeLimit": 1,
+      "memoryLimit": 256,
+      "starterCode": "#include <stdio.h>\n\nint main() {\n    double p, r, t;\n    scanf(\"%lf %lf %lf\", &p, &r, &t);\n    // Your code here\n    return 0;\n}",
+      "solution": "#include <stdio.h>\n\nint main() {\n    double p, r, t, si, amount;\n    scanf(\"%lf %lf %lf\", &p, &r, &t);\n    si = (p * r * t) / 100.0;\n    amount = p + si;\n    printf(\"%.2lf\\n%.2lf\", si, amount);\n    return 0;\n}",
+      "timeComplexity": "O(1)",
+      "spaceComplexity": "O(1)",
+      "hints": ["Use double for all calculations", "SI = (P * R * T) / 100", "Amount = Principal + SI", "Print each result on separate line"]
+    }
+  ]
+}
