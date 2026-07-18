@@ -684,8 +684,8 @@ export default function LandingPage() {
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>support@mujcode.edu</li>
-                <li>+91 1234567890</li>
+                <li>csjadon415@gmail.com</li>
+                <li>+91 7579948087</li>
               </ul>
             </div>
           </div>

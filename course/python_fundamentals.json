@@ -1,0 +1,1020 @@
+{
+    "courseName": "Python Fundamentals",
+    "language": "Python",
+    "category": "Python",
+    "totalQuestions": 22,
+    "questions": [
+        {
+            "id": "PYF001",
+            "number": 301,
+            "title": "String Character Frequency",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a string, create a frequency dictionary and print each character with its count in the order of first appearance.\n\nNote: Consider all characters including spaces and special characters.",
+            "inputFormat": "A single line string.",
+            "outputFormat": "Print each unique character followed by its count, one per line, in format: 'char count'.",
+            "constraints": "1 <= length <= 1000",
+            "sampleInput": "hello",
+            "sampleOutput": "h 1\ne 1\nl 2\no 1",
+            "explanation": "h appears 1 time, e appears 1 time, l appears 2 times, o appears 1 time.",
+            "testCases": [
+                {
+                    "input": "hello",
+                    "expectedOutput": "h 1\ne 1\nl 2\no 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "aaa",
+                    "expectedOutput": "a 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "a b c",
+                    "expectedOutput": "a 1\n  1\nb 1\n  1\nc 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "Python",
+                    "expectedOutput": "P 1\ny 1\nt 1\nh 1\no 1\nn 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "11223",
+                    "expectedOutput": "1 2\n2 2\n3 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "AaAa",
+                    "expectedOutput": "A 2\na 2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF002",
+            "number": 302,
+            "title": "List Element Rotation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a list of N integers and a rotation value K, rotate the list left by K positions.\n\nLeft rotation means moving the first K elements to the end.",
+            "inputFormat": "First line: Two integers N and K.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the rotated list as space-separated integers.",
+            "constraints": "1 <= N <= 10^5\n0 <= K <= 10^9",
+            "sampleInput": "5 2\n1 2 3 4 5",
+            "sampleOutput": "3 4 5 1 2",
+            "explanation": "Left rotate by 2: Move first 2 elements (1,2) to end. Result: [3,4,5,1,2].",
+            "testCases": [
+                {
+                    "input": "5 2\n1 2 3 4 5",
+                    "expectedOutput": "3 4 5 1 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 4\n1 2 3 4",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 1\n1 2 3",
+                    "expectedOutput": "2 3 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 7\n1 2 3 4 5",
+                    "expectedOutput": "3 4 5 1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 100\n5",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 0\n1 2 3 4 5 6",
+                    "expectedOutput": "1 2 3 4 5 6",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF003",
+            "number": 303,
+            "title": "Fibonacci Series Generator",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a positive integer N, generate and print the first N terms of the Fibonacci series.\n\nFibonacci series: 0, 1, 1, 2, 3, 5, 8, 13, ...",
+            "inputFormat": "A single positive integer N.",
+            "outputFormat": "Print the first N Fibonacci numbers, space-separated.",
+            "constraints": "1 <= N <= 50",
+            "sampleInput": "7",
+            "sampleOutput": "0 1 1 2 3 5 8",
+            "explanation": "First 7 Fibonacci numbers: 0, 1, 1, 2, 3, 5, 8",
+            "testCases": [
+                {
+                    "input": "7",
+                    "expectedOutput": "0 1 1 2 3 5 8",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2",
+                    "expectedOutput": "0 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10",
+                    "expectedOutput": "0 1 1 2 3 5 8 13 21 34",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5",
+                    "expectedOutput": "0 1 1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "15",
+                    "expectedOutput": "0 1 1 2 3 5 8 13 21 34 55 89 144 233 377",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF004",
+            "number": 304,
+            "title": "Check Palindrome Number",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an integer N, check if it is a palindrome number.\n\nA palindrome number reads the same forwards and backwards. Negative numbers are not palindromes.",
+            "inputFormat": "A single integer N.",
+            "outputFormat": "Print 'YES' if palindrome, otherwise 'NO'.",
+            "constraints": "-10^9 <= N <= 10^9",
+            "sampleInput": "121",
+            "sampleOutput": "YES",
+            "explanation": "121 reversed is 121. Same, so palindrome.",
+            "testCases": [
+                {
+                    "input": "121",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "-121",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "12321",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "0",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1234321",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF005",
+            "number": 305,
+            "title": "Remove Duplicates from List",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a list of integers, remove duplicates while maintaining the original order of first occurrences.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the list without duplicates, space-separated.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "7\n1 2 3 1 2 4 5",
+            "sampleOutput": "1 2 3 4 5",
+            "explanation": "Remove duplicate 1 and 2 (keep first occurrences).",
+            "testCases": [
+                {
+                    "input": "7\n1 2 3 1 2 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n5 5 5 5 5",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\n10",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "8\n1 1 2 2 3 3 4 4",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n-1 -1 0 0 1 1",
+                    "expectedOutput": "-1 0 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF006",
+            "number": 306,
+            "title": "Prime Checker Using Function",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a number N, check if it is prime using a function.\n\nA prime number is greater than 1 and has no divisors other than 1 and itself.",
+            "inputFormat": "A single positive integer N.",
+            "outputFormat": "Print 'PRIME' if N is prime, otherwise 'NOT PRIME'.",
+            "constraints": "1 <= N <= 10^6",
+            "sampleInput": "17",
+            "sampleOutput": "PRIME",
+            "explanation": "17 is only divisible by 1 and 17. Hence prime.",
+            "testCases": [
+                {
+                    "input": "17",
+                    "expectedOutput": "PRIME",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4",
+                    "expectedOutput": "NOT PRIME",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "NOT PRIME",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2",
+                    "expectedOutput": "PRIME",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "999983",
+                    "expectedOutput": "PRIME",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000000",
+                    "expectedOutput": "NOT PRIME",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF007",
+            "number": 307,
+            "title": "Count Words in String",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a string, count the number of words. Words are separated by one or more spaces.",
+            "inputFormat": "A single line string.",
+            "outputFormat": "Print the number of words.",
+            "constraints": "1 <= length <= 1000",
+            "sampleInput": "Hello World Python",
+            "sampleOutput": "3",
+            "explanation": "Three words: Hello, World, Python",
+            "testCases": [
+                {
+                    "input": "Hello World Python",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SingleWord",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "  leading spaces",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "trailing spaces  ",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "   ",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "a b c d e",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF008",
+            "number": 308,
+            "title": "Sum of Digits Until Single",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a non-negative integer N, repeatedly sum its digits until a single digit is obtained.\n\nFor example: 9875 → 9+8+7+5 = 29 → 2+9 = 11 → 1+1 = 2",
+            "inputFormat": "A single non-negative integer N.",
+            "outputFormat": "Print the single digit result.",
+            "constraints": "0 <= N <= 10^18",
+            "sampleInput": "9875",
+            "sampleOutput": "2",
+            "explanation": "9875 → 29 → 11 → 2",
+            "testCases": [
+                {
+                    "input": "9875",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "999999999999",
+                    "expectedOutput": "9",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "123",
+                    "expectedOutput": "6",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "38",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF009",
+            "number": 309,
+            "title": "Dictionary Key-Value Swap",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a dictionary with unique values, swap keys and values.\n\nInput will be given as key:value pairs.",
+            "inputFormat": "First line: Integer N (number of pairs).\nNext N lines: Each line contains 'key value' separated by space.",
+            "outputFormat": "Print swapped pairs in alphabetical order of new keys (original values), format: 'new_key new_value'.",
+            "constraints": "1 <= N <= 100\nAll values are unique.",
+            "sampleInput": "3\na 1\nb 2\nc 3",
+            "sampleOutput": "1 a\n2 b\n3 c",
+            "explanation": "Original: {a:1, b:2, c:3}. Swapped: {1:a, 2:b, 3:c}. Sorted by keys.",
+            "testCases": [
+                {
+                    "input": "3\na 1\nb 2\nc 3",
+                    "expectedOutput": "1 a\n2 b\n3 c",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\nname John\nage 25",
+                    "expectedOutput": "25 age\nJohn name",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\nx y",
+                    "expectedOutput": "y x",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\np 10\nq 20\nr 30\ns 40",
+                    "expectedOutput": "10 p\n20 q\n30 r\n40 s",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\nred 1\ngreen 2\nblue 3",
+                    "expectedOutput": "1 red\n2 green\n3 blue",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\nfirst 100\nsecond 200",
+                    "expectedOutput": "100 first\n200 second",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF010",
+            "number": 310,
+            "title": "Matrix Transpose",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a matrix of size N x M, compute and print its transpose.\n\nThe transpose of a matrix is obtained by swapping rows with columns.",
+            "inputFormat": "First line: Two integers N and M.\nNext N lines: M space-separated integers each.",
+            "outputFormat": "Print the transposed matrix (M lines, each with N integers).",
+            "constraints": "1 <= N, M <= 100\n-1000 <= matrix[i][j] <= 1000",
+            "sampleInput": "2 3\n1 2 3\n4 5 6",
+            "sampleOutput": "1 4\n2 5\n3 6",
+            "explanation": "Original 2x3 matrix transposed to 3x2 matrix.",
+            "testCases": [
+                {
+                    "input": "2 3\n1 2 3\n4 5 6",
+                    "expectedOutput": "1 4\n2 5\n3 6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3\n1 2 3\n4 5 6\n7 8 9",
+                    "expectedOutput": "1 4 7\n2 5 8\n3 6 9",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 4\n1 2 3 4",
+                    "expectedOutput": "1\n2\n3\n4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 1\n1\n2\n3\n4",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 2\n0 0\n0 0",
+                    "expectedOutput": "0 0\n0 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 2\n-1 2\n3 -4",
+                    "expectedOutput": "-1 3\n2 -4",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF011",
+            "number": 311,
+            "title": "Two Sum Problem",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a list of integers and a target sum, find two distinct indices such that their elements add up to the target.\n\nReturn the indices (0-indexed). If multiple solutions exist, return any one. If no solution exists, print -1.",
+            "inputFormat": "First line: Two integers N and target.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print two space-separated indices or -1.",
+            "constraints": "2 <= N <= 10^5\n-10^6 <= elements, target <= 10^6",
+            "sampleInput": "4 9\n2 7 11 15",
+            "sampleOutput": "0 1",
+            "explanation": "nums[0] + nums[1] = 2 + 7 = 9.",
+            "testCases": [
+                {
+                    "input": "4 9\n2 7 11 15",
+                    "expectedOutput": "0 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 6\n3 2 4",
+                    "expectedOutput": "1 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 10\n5 5",
+                    "expectedOutput": "0 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 100\n1 2 3 4",
+                    "expectedOutput": "-1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 0\n-1 0 1 2 -2",
+                    "expectedOutput": "0 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 -2\n-1 -1 0",
+                    "expectedOutput": "0 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF012",
+            "number": 312,
+            "title": "Group Anagrams",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a list of strings, group the anagrams together.\n\nAnagrams are strings that contain the same characters with the same frequencies.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated strings (lowercase letters).",
+            "outputFormat": "Print each group on a new line, with strings space-separated. Groups should be in order of first occurrence.",
+            "constraints": "1 <= N <= 100\n1 <= string length <= 100",
+            "sampleInput": "6\neat tea tan ate nat bat",
+            "sampleOutput": "eat tea ate\ntan nat\nbat",
+            "explanation": "eat, tea, ate are anagrams. tan, nat are anagrams. bat is alone.",
+            "testCases": [
+                {
+                    "input": "6\neat tea tan ate nat bat",
+                    "expectedOutput": "eat tea ate\ntan nat\nbat",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\nabc bca cab",
+                    "expectedOutput": "abc bca cab",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\na",
+                    "expectedOutput": "a",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\nlisten silent enlist abc",
+                    "expectedOutput": "listen silent enlist\nabc",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\na b c",
+                    "expectedOutput": "a\nb\nc",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\nab ba cd dc",
+                    "expectedOutput": "ab ba\ncd dc",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF013",
+            "number": 313,
+            "title": "Flatten Nested List",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a nested list structure, flatten it to a single-level list.\n\nFor simplicity, input is given as a string representation of nested list.",
+            "inputFormat": "A single line representing nested list (e.g., '[1,[2,[3,4]],5]').",
+            "outputFormat": "Print the flattened list elements, space-separated.",
+            "constraints": "1 <= total elements <= 1000\nElements are integers.",
+            "sampleInput": "[1,[2,[3,4]],5]",
+            "sampleOutput": "1 2 3 4 5",
+            "explanation": "Flatten all nested levels: 1, 2, 3, 4, 5",
+            "testCases": [
+                {
+                    "input": "[1,[2,[3,4]],5]",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "[1,2,3]",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "[[1,2],[3,4]]",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "[[[1]]]",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "[1,[2,[3,[4,[5]]]]]",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "[[],[1],[2,3]]",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF014",
+            "number": 314,
+            "title": "Longest Common Prefix",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a list of strings, find the longest common prefix among all strings.\n\nIf there is no common prefix, return an empty string.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated strings.",
+            "outputFormat": "Print the longest common prefix or 'NONE' if empty.",
+            "constraints": "1 <= N <= 200\n1 <= string length <= 200",
+            "sampleInput": "3\nflower flow flight",
+            "sampleOutput": "fl",
+            "explanation": "Common prefix in flower, flow, flight is 'fl'.",
+            "testCases": [
+                {
+                    "input": "3\nflower flow flight",
+                    "expectedOutput": "fl",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\ndog racecar car",
+                    "expectedOutput": "NONE",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\ninterspecies interstellar interstate",
+                    "expectedOutput": "inters",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\nalone",
+                    "expectedOutput": "alone",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\naa ab",
+                    "expectedOutput": "a",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\na a a",
+                    "expectedOutput": "a",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF015",
+            "number": 315,
+            "title": "Valid Parentheses",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a string containing only '(', ')', '{', '}', '[', ']', determine if the input string is valid.\n\nA string is valid if:\n1. Open brackets are closed by the same type.\n2. Open brackets are closed in the correct order.",
+            "inputFormat": "A single string of brackets.",
+            "outputFormat": "Print 'VALID' or 'INVALID'.",
+            "constraints": "0 <= length <= 1000",
+            "sampleInput": "()[]{}",
+            "sampleOutput": "VALID",
+            "explanation": "All brackets are properly matched and ordered.",
+            "testCases": [
+                {
+                    "input": "()[]{}",
+                    "expectedOutput": "VALID",
+                    "visibility": "public"
+                },
+                {
+                    "input": "([)]",
+                    "expectedOutput": "INVALID",
+                    "visibility": "public"
+                },
+                {
+                    "input": "{[]}",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "(",
+                    "expectedOutput": "INVALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "((()))",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF016",
+            "number": 316,
+            "title": "Merge Intervals",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a collection of intervals, merge all overlapping intervals.\n\nIntervals are given as pairs [start, end].",
+            "inputFormat": "First line: Integer N.\nNext N lines: Two integers start and end for each interval.",
+            "outputFormat": "Print merged intervals, each on a new line as 'start end'.",
+            "constraints": "1 <= N <= 1000\n0 <= start <= end <= 10^6",
+            "sampleInput": "4\n1 3\n2 6\n8 10\n15 18",
+            "sampleOutput": "1 6\n8 10\n15 18",
+            "explanation": "[1,3] and [2,6] overlap, merged to [1,6]. Others don't overlap.",
+            "testCases": [
+                {
+                    "input": "4\n1 3\n2 6\n8 10\n15 18",
+                    "expectedOutput": "1 6\n8 10\n15 18",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n1 4\n4 5",
+                    "expectedOutput": "1 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n1 10",
+                    "expectedOutput": "1 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n1 5\n2 3\n4 6",
+                    "expectedOutput": "1 6",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 2\n3 4\n5 6\n7 8\n9 10",
+                    "expectedOutput": "1 2\n3 4\n5 6\n7 8\n9 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n1 10\n2 3\n4 5\n6 7",
+                    "expectedOutput": "1 10",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF017",
+            "number": 317,
+            "title": "Generate Permutations",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a list of N distinct integers, generate all possible permutations.\n\nPrint each permutation on a new line in lexicographical order.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated distinct integers.",
+            "outputFormat": "Print all permutations, one per line, in lexicographical order.",
+            "constraints": "1 <= N <= 8\n-100 <= arr[i] <= 100",
+            "sampleInput": "3\n1 2 3",
+            "sampleOutput": "1 2 3\n1 3 2\n2 1 3\n2 3 1\n3 1 2\n3 2 1",
+            "explanation": "All 6 permutations of [1,2,3] in lexicographical order.",
+            "testCases": [
+                {
+                    "input": "3\n1 2 3",
+                    "expectedOutput": "1 2 3\n1 3 2\n2 1 3\n2 3 1\n3 1 2\n3 2 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n1 2",
+                    "expectedOutput": "1 2\n2 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n5",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n3 1 2",
+                    "expectedOutput": "1 2 3\n1 3 2\n2 1 3\n2 3 1\n3 1 2\n3 2 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\n-1 1",
+                    "expectedOutput": "-1 1\n1 -1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n1 2 3 4",
+                    "expectedOutput": "1 2 3 4\n1 2 4 3\n1 3 2 4\n1 3 4 2\n1 4 2 3\n1 4 3 2\n2 1 3 4\n2 1 4 3\n2 3 1 4\n2 3 4 1\n2 4 1 3\n2 4 3 1\n3 1 2 4\n3 1 4 2\n3 2 1 4\n3 2 4 1\n3 4 1 2\n3 4 2 1\n4 1 2 3\n4 1 3 2\n4 2 1 3\n4 2 3 1\n4 3 1 2\n4 3 2 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF018",
+            "number": 318,
+            "title": "Longest Substring Without Repeat",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a string, find the length of the longest substring without repeating characters.",
+            "inputFormat": "A single string.",
+            "outputFormat": "Print the length of the longest substring without repeating characters.",
+            "constraints": "1 <= length <= 10^5\nString contains ASCII characters.",
+            "sampleInput": "abcabcbb",
+            "sampleOutput": "3",
+            "explanation": "The longest substring without repeating is 'abc' with length 3.",
+            "testCases": [
+                {
+                    "input": "abcabcbb",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "bbbbb",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "pwwkew",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abcdef",
+                    "expectedOutput": "6",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "a",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "dvdf",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF019",
+            "number": 319,
+            "title": "Spiral Matrix Order",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given an N x M matrix, return all elements in spiral order (clockwise starting from top-left).",
+            "inputFormat": "First line: Two integers N and M.\nNext N lines: M space-separated integers.",
+            "outputFormat": "Print all elements in spiral order, space-separated.",
+            "constraints": "1 <= N, M <= 50\n-1000 <= elements <= 1000",
+            "sampleInput": "3 3\n1 2 3\n4 5 6\n7 8 9",
+            "sampleOutput": "1 2 3 6 9 8 7 4 5",
+            "explanation": "Spiral: top row (1,2,3) → right column (6,9) → bottom row reverse (8,7) → left column up (4) → center (5).",
+            "testCases": [
+                {
+                    "input": "3 3\n1 2 3\n4 5 6\n7 8 9",
+                    "expectedOutput": "1 2 3 6 9 8 7 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 3\n1 2 3\n4 5 6",
+                    "expectedOutput": "1 2 3 6 5 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 4\n1 2 3 4",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 1\n1\n2\n3\n4",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 2\n1 2\n3 4",
+                    "expectedOutput": "1 2 4 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 4\n1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16",
+                    "expectedOutput": "1 2 3 4 8 12 16 15 14 13 9 5 6 7 11 10",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF020",
+            "number": 320,
+            "title": "Generate Subsets (Power Set)",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a list of N distinct integers, generate all possible subsets (the power set).\n\nPrint each subset on a new line in lexicographical order. Empty subset is represented as 'EMPTY'.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated distinct integers.",
+            "outputFormat": "Print all subsets, one per line, space-separated elements. Print 'EMPTY' for empty subset.",
+            "constraints": "0 <= N <= 10\n-100 <= arr[i] <= 100",
+            "sampleInput": "3\n1 2 3",
+            "sampleOutput": "EMPTY\n1\n1 2\n1 2 3\n1 3\n2\n2 3\n3",
+            "explanation": "All 2^3 = 8 subsets of [1,2,3] in lexicographical order.",
+            "testCases": [
+                {
+                    "input": "3\n1 2 3",
+                    "expectedOutput": "EMPTY\n1\n1 2\n1 2 3\n1 3\n2\n2 3\n3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n5",
+                    "expectedOutput": "EMPTY\n5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n1 2",
+                    "expectedOutput": "EMPTY\n1\n1 2\n2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "0\n",
+                    "expectedOutput": "EMPTY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\n2 1",
+                    "expectedOutput": "EMPTY\n1\n1 2\n2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n3 1 2",
+                    "expectedOutput": "EMPTY\n1\n1 2\n1 2 3\n1 3\n2\n2 3\n3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF021",
+            "number": 321,
+            "title": "Word Ladder Length",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given two words (beginWord and endWord) and a dictionary of words, find the length of the shortest transformation sequence from beginWord to endWord.\n\nRules:\n1. Only one letter can be changed at a time.\n2. Each transformed word must exist in the dictionary.\n\nReturn 0 if no such transformation exists.",
+            "inputFormat": "First line: beginWord and endWord separated by space.\nSecond line: Integer N (dictionary size).\nThird line: N dictionary words separated by space.",
+            "outputFormat": "Print the length of shortest transformation sequence.",
+            "constraints": "1 <= word length <= 10\n1 <= N <= 5000",
+            "sampleInput": "hit cog\n6\nhot dot dog lot log cog",
+            "sampleOutput": "5",
+            "explanation": "hit → hot → dot → dog → cog. Length = 5.",
+            "testCases": [
+                {
+                    "input": "hit cog\n6\nhot dot dog lot log cog",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "hit cog\n5\nhot dot dog lot log",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "a c\n2\na c",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "hot dog\n3\nhot dot dog",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "cat dog\n8\nbat bag bog bog dog cot cog cat",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abc abd\n2\nabc abd",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "PYF022",
+            "number": 322,
+            "title": "Knapsack 0/1 Problem",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given weights and values of N items, put these items in a knapsack of capacity W to get the maximum total value.\n\nEach item can only be selected once (0/1 property).",
+            "inputFormat": "First line: Two integers N and W.\nSecond line: N space-separated weights.\nThird line: N space-separated values.",
+            "outputFormat": "Print the maximum value that can be obtained.",
+            "constraints": "1 <= N <= 100\n1 <= W <= 1000\n1 <= weight[i], value[i] <= 1000",
+            "sampleInput": "3 50\n10 20 30\n60 100 120",
+            "sampleOutput": "220",
+            "explanation": "Take items with weight 20 (value 100) and weight 30 (value 120). Total weight = 50, value = 220.",
+            "testCases": [
+                {
+                    "input": "3 50\n10 20 30\n60 100 120",
+                    "expectedOutput": "220",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 10\n5 4 6 3\n10 40 30 50",
+                    "expectedOutput": "90",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 5\n10\n100",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 100\n50 50\n100 100",
+                    "expectedOutput": "200",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 10\n1 2 3 4 5\n1 2 3 4 5",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 6\n1 2 3\n6 10 12",
+                    "expectedOutput": "22",
+                    "visibility": "hidden"
+                }
+            ]
+        }
+    ]
+}

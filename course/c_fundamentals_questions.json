@@ -1,0 +1,6248 @@
+{
+  "courseName": "C Programming Fundamentals",
+  "category": "C Programming",
+  "questions": [
+    {
+      "number": 3001,
+      "title": "The Classic Greeting",
+      "description": "Write a C program that prints \"Hello, C Programming!\" to the console. This is the first step in your journey to becoming a C expert. Ensure you use the standard header for input and output.\n\n**Input Format**\nNone.\n\n**Output Format**\nA single line containing the string \"Hello, C Programming!\".",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Basic I/O",
+        "Printf"
+      ],
+      "testCases": [
+        {
+          "input": "(None)",
+          "output": "Hello, C Programming!"
+        },
+        {
+          "input": "(None)",
+          "output": "Hello, C Programming!"
+        },
+        {
+          "input": "(None)",
+          "output": "Hello, C Programming!"
+        },
+        {
+          "input": "(None)",
+          "output": "Hello, C Programming!"
+        },
+        {
+          "input": "(None)",
+          "output": "Hello, C Programming!"
+        }
+      ],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "None.",
+          "output": "Hello, C Programming!",
+          "explanation": "The program uses `printf` from the `stdio.h` library to output a fixed string."
+        }
+      ]
+    },
+    {
+      "number": 3002,
+      "title": "Echo the Integer",
+      "description": "Write a program that takes an integer as input and prints it back to the console with the prefix \"The number is: \".\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nA single line: \"The number is: [N]\".",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Basic I/O",
+        "Scanf",
+        "Variables"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "The number is: 0"
+        },
+        {
+          "input": "-5",
+          "output": "The number is: -5"
+        },
+        {
+          "input": "100",
+          "output": "The number is: 100"
+        },
+        {
+          "input": "99999",
+          "output": "The number is: 99999"
+        },
+        {
+          "input": "-12345",
+          "output": "The number is: -12345"
+        }
+      ],
+      "constraints": [
+        "$-10^5 \\leq N \\leq 10^5$"
+      ],
+      "examples": [
+        {
+          "input": "42",
+          "output": "The number is: 42",
+          "explanation": "The program reads an integer using `scanf` and displays it using `printf`."
+        }
+      ]
+    },
+    {
+      "number": 3003,
+      "title": "Floating Point Precision",
+      "description": "Input a floating-point number (decimal) and print it rounded to exactly 2 decimal places.\n\n**Input Format**\nA single float value $X$.\n\n**Output Format**\nThe value $X$ rounded to 2 decimal places.",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Float",
+        "Precision",
+        "Basic I/O"
+      ],
+      "testCases": [
+        {
+          "input": "10.5",
+          "output": "10.50"
+        },
+        {
+          "input": "0.001",
+          "output": "0.00"
+        },
+        {
+          "input": "99.999",
+          "output": "100.00"
+        },
+        {
+          "input": "1.2345",
+          "output": "1.23"
+        },
+        {
+          "input": "500.0",
+          "output": "500.00"
+        }
+      ],
+      "constraints": [
+        "$0.0 \\leq X \\leq 10^6$"
+      ],
+      "examples": [
+        {
+          "input": "3.14159",
+          "output": "3.14",
+          "explanation": "Use the `%.2f` format specifier in `printf` to control the precision of the output."
+        }
+      ]
+    },
+    {
+      "number": 3004,
+      "title": "ASCII Value Finder",
+      "description": "Every character in C has an associated integer value (ASCII). Write a program that takes a single character as input and prints its ASCII value.\n\n**Input Format**\nA single character $C$.\n\n**Output Format**\nAn integer representing the ASCII value of $C$.",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Character",
+        "ASCII",
+        "Data Types"
+      ],
+      "testCases": [
+        {
+          "input": "a",
+          "output": "97"
+        },
+        {
+          "input": "0",
+          "output": "48"
+        },
+        {
+          "input": "(space)",
+          "output": "32"
+        },
+        {
+          "input": "$",
+          "output": "36"
+        },
+        {
+          "input": "Z",
+          "output": "90"
+        }
+      ],
+      "constraints": [
+        "The input will be a valid printable ASCII character."
+      ],
+      "examples": [
+        {
+          "input": "A",
+          "output": "65",
+          "explanation": "In C, characters are treated as small integers. Printing a `char` with the `%d` format specifier reveals its ASCII value."
+        }
+      ]
+    },
+    {
+      "number": 3005,
+      "title": "The Size Explorer",
+      "description": "Different data types occupy different amounts of memory. Write a program that prints the size (in bytes) of an `int`, `float`, `double`, and `char` on the current system, each on a new line.\n\n**Input Format**\nNone.\n\n**Output Format**\n",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Memory",
+        "Data Types",
+        "Sizeof"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "None.",
+          "output": "(Architecture dependent, typically: 4, 4, 8, 1)",
+          "explanation": "`sizeof` returns the number of bytes consumed by a type or variable."
+        }
+      ]
+    },
+    {
+      "number": 3006,
+      "title": "Area of a Square",
+      "description": "Given the length of the side of a square as an integer, calculate and print its area.\n\n**Input Format**\nA single integer $S$ representing the side.\n\n**Output Format**\nA single integer representing the area ($S \\times S$).",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Math",
+        "Variables"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "10",
+          "output": "100"
+        },
+        {
+          "input": "50",
+          "output": "2500"
+        },
+        {
+          "input": "3",
+          "output": "9"
+        },
+        {
+          "input": "1000",
+          "output": "1000000"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq S \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "25",
+          "explanation": "Area = Side * Side."
+        }
+      ]
+    },
+    {
+      "number": 3007,
+      "title": "Swap Without Headache",
+      "description": "Input two integers $A$ and $B$. Swap their values using a third (temporary) variable and print the swapped values.\n\n**Input Format**\nTwo space-separated integers $A$ and $B$.\n\n**Output Format**\nTwo space-separated integers $B$ and $A$.",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Logic",
+        "Variables",
+        "Swapping"
+      ],
+      "testCases": [
+        {
+          "input": "1 2",
+          "output": "2 1"
+        },
+        {
+          "input": "-5 5",
+          "output": "5 -5"
+        },
+        {
+          "input": "0 100",
+          "output": "100 0"
+        },
+        {
+          "input": "99 99",
+          "output": "99 99"
+        },
+        {
+          "input": "-10 -20",
+          "output": "-20 -10"
+        }
+      ],
+      "constraints": [
+        "$-10^4 \\leq A, B \\leq 10^4$"
+      ],
+      "examples": [
+        {
+          "input": "10 20",
+          "output": "20 10",
+          "explanation": "Store $A$ in `temp`, set $A = B$, set $B = temp$."
+        }
+      ]
+    },
+    {
+      "number": 3008,
+      "title": "Celsius to Fahrenheit",
+      "description": "Write a program to convert temperature from Celsius to Fahrenheit. The formula is: $F = (C \\times 9/5) + 32$.\n\n**Input Format**\nA float value $C$ (Celsius).\n\n**Output Format**\nA float value $F$ (Fahrenheit) rounded to 2 decimal places.",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Math",
+        "Float",
+        "Conversion"
+      ],
+      "testCases": [
+        {
+          "input": "100",
+          "output": "212.00"
+        },
+        {
+          "input": "-40",
+          "output": "-40.00"
+        },
+        {
+          "input": "37",
+          "output": "98.60"
+        },
+        {
+          "input": "-17.777",
+          "output": "0.00"
+        },
+        {
+          "input": "25.5",
+          "output": "77.90"
+        }
+      ],
+      "constraints": [
+        "$-100.0 \\leq C \\leq 1000.0$"
+      ],
+      "examples": [
+        {
+          "input": "0",
+          "output": "32.00",
+          "explanation": "Applying the conversion formula using float arithmetic."
+        }
+      ]
+    },
+    {
+      "number": 3009,
+      "title": "Character Case Toggle",
+      "description": "Input an uppercase English alphabet and print its lowercase version. (Constraint: Do not use `tolower()` from `ctype.h`).\n\n**Input Format**\nA single uppercase character.\n\n**Output Format**\nA single lowercase character.",
+      "difficulty": "Medium",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Character",
+        "ASCII",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "A",
+          "output": "a"
+        },
+        {
+          "input": "Z",
+          "output": "z"
+        },
+        {
+          "input": "M",
+          "output": "m"
+        },
+        {
+          "input": "B",
+          "output": "b"
+        },
+        {
+          "input": "Q",
+          "output": "q"
+        }
+      ],
+      "constraints": [
+        "Input will be between 'A' and 'Z'."
+      ],
+      "examples": [
+        {
+          "input": "G",
+          "output": "g",
+          "explanation": "Add 32 to the ASCII value of an uppercase character to get its lowercase equivalent."
+        }
+      ]
+    },
+    {
+      "number": 3010,
+      "title": "Simple Interest Calculator",
+      "description": "Calculate the Simple Interest based on Principal ($P$), Rate ($R$), and Time ($T$). Formula: $SI = (P \\times R \\times T) / 100$.\n\n**Input Format**\nThree float values representing Principal, Rate, and Time.\n\n**Output Format**\nThe calculated Simple Interest rounded to 2 decimal places.",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Math",
+        "Float",
+        "Variables"
+      ],
+      "testCases": [
+        {
+          "input": "2000 7.5 3",
+          "output": "450.00"
+        },
+        {
+          "input": "500 10 1",
+          "output": "50.00"
+        },
+        {
+          "input": "10000 2.25 5",
+          "output": "1125.00"
+        },
+        {
+          "input": "1 1 1",
+          "output": "0.01"
+        },
+        {
+          "input": "100000 12 1",
+          "output": "12000.00"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq P, R, T \\leq 10^5$"
+      ],
+      "examples": [
+        {
+          "input": "1000 5 2",
+          "output": "100.00",
+          "explanation": "standard interest calculation using decimals."
+        }
+      ]
+    },
+    {
+      "number": 3011,
+      "title": "Average of Three Numbers",
+      "description": "Input three integers and calculate their average. The result should be a floating-point number.\n\n**Input Format**\nThree space-separated integers.\n\n**Output Format**\nThe average rounded to 3 decimal places.",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Float Division",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "1 1 1",
+          "output": "1.000"
+        },
+        {
+          "input": "5 10 12",
+          "output": "9.000"
+        },
+        {
+          "input": "0 0 100",
+          "output": "33.333"
+        },
+        {
+          "input": "99 100 101",
+          "output": "100.000"
+        },
+        {
+          "input": "123 456 789",
+          "output": "456.000"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq$ Numbers $\\leq 10^6$"
+      ],
+      "examples": [
+        {
+          "input": "10 20 30",
+          "output": "20.000",
+          "explanation": "Sum the three numbers and divide by 3.0 to ensure float division."
+        }
+      ]
+    },
+    {
+      "number": 3012,
+      "title": "Net Salary Calculator",
+      "description": "A company gives HRA (10% of Basic) and TA (5% of Basic) to its employees. Given the Basic Salary, calculate the Total Salary (Basic + HRA + TA).\n\n**Input Format**\nAn integer representing the basic salary.\n\n**Output Format**\nA float representing the total salary rounded to 2 decimal places.",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Percentages",
+        "Math",
+        "Variables"
+      ],
+      "testCases": [
+        {
+          "input": "20000",
+          "output": "23000.00"
+        },
+        {
+          "input": "5000",
+          "output": "5750.00"
+        },
+        {
+          "input": "100000",
+          "output": "115000.00"
+        },
+        {
+          "input": "12000",
+          "output": "13800.00"
+        },
+        {
+          "input": "1000",
+          "output": "1150.00"
+        }
+      ],
+      "constraints": [
+        "$1000 \\leq Basic \\leq 10^7$"
+      ],
+      "examples": [
+        {
+          "input": "10000",
+          "output": "11500.00",
+          "explanation": "HRA = 0.1 * Basic, TA = 0.05 * Basic. Total = Basic + 0.15 * Basic."
+        }
+      ]
+    },
+    {
+      "number": 3013,
+      "title": "Constant Circle",
+      "description": "Define a constant `PI` as `3.14159`. Use it to calculate the circumference of a circle given its radius. Circumference = $2 \\times \\pi \\times r$.\n\n**Input Format**\nA float value representing the radius.\n\n**Output Format**\nThe circumference rounded to 4 decimal places.",
+      "difficulty": "Medium",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Constants",
+        "Math",
+        "Circle"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "6.2832"
+        },
+        {
+          "input": "10",
+          "output": "62.8318"
+        },
+        {
+          "input": "0.5",
+          "output": "3.1416"
+        },
+        {
+          "input": "100",
+          "output": "628.3180"
+        },
+        {
+          "input": "2.75",
+          "output": "17.2787"
+        }
+      ],
+      "constraints": [
+        "$0 < r \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "31.4159",
+          "explanation": "Use `#define` or `const` to store the value of PI."
+        }
+      ]
+    },
+    {
+      "number": 3014,
+      "title": "Multiple Input Read",
+      "description": "Write a program to read one integer, one float, and one character in a single line and print them back separated by \" | \".\n\n**Input Format**\n`int` `float` `char` (all in one line, space-separated).\n\n**Output Format**\n`[int] | [float] | [char]` (format float to 2 decimal places).",
+      "difficulty": "Easy",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Basic I/O",
+        "scanf"
+      ],
+      "testCases": [
+        {
+          "input": "1 0.1 a",
+          "output": "1"
+        },
+        {
+          "input": "-5 -6.7 $",
+          "output": "-5"
+        },
+        {
+          "input": "100 99.9 9",
+          "output": "100"
+        },
+        {
+          "input": "0 3.141 Q",
+          "output": "0"
+        },
+        {
+          "input": "2024 12.01 M",
+          "output": "2024"
+        }
+      ],
+      "constraints": [
+        "Standard input limits."
+      ],
+      "examples": [
+        {
+          "input": "10 5.5 Z",
+          "output": "10 | 5.50 | Z",
+          "explanation": "Testing ability to use `scanf` with multiple format specifiers."
+        }
+      ]
+    },
+    {
+      "number": 3015,
+      "title": "Days to Years, Weeks, Days",
+      "description": "Input a total number of days and convert it into years, weeks, and remaining days. (Assume 1 year = 365 days).\n\n**Input Format**\nA single integer representing days.\n\n**Output Format**\n",
+      "difficulty": "Medium",
+      "topic": "Introduction, Variables & Data Types",
+      "tags": [
+        "Arithmetic",
+        "Logic",
+        "Conversion"
+      ],
+      "testCases": [
+        {
+          "input": "365",
+          "output": "Years: 1, Weeks: 0, Days: 0"
+        },
+        {
+          "input": "7",
+          "output": "Years: 0, Weeks: 1, Days: 0"
+        },
+        {
+          "input": "1000",
+          "output": "Years: 2, Weeks: 38, Days: 4"
+        },
+        {
+          "input": "1",
+          "output": "Years: 0, Weeks: 0, Days: 1"
+        },
+        {
+          "input": "0",
+          "output": "Years: 0, Weeks: 0, Days: 0"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq Days \\leq 10^6$"
+      ],
+      "examples": [
+        {
+          "input": "400",
+          "output": "",
+          "explanation": "$Y = Days / 365$; Remainder = $Days \\% 365$; $W = Remainder / 7$; $D = Remainder \\% 7$."
+        }
+      ]
+    },
+    {
+      "number": 3016,
+      "title": "The Remainder Finder",
+      "description": "Write a program that takes two integers $A$ and $B$, and calculates the remainder when $A$ is divided by $B$.\n\n**Input Format**\nTwo space-separated integers $A$ and $B$.\n\n**Output Format**\nA single integer representing $A \\% B$.",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Arithmetic",
+        "Modulus"
+      ],
+      "testCases": [
+        {
+          "input": "10 3",
+          "output": "1"
+        },
+        {
+          "input": "100 10",
+          "output": "0"
+        },
+        {
+          "input": "7 8",
+          "output": "7"
+        },
+        {
+          "input": "1000000 3",
+          "output": "1"
+        },
+        {
+          "input": "15 4",
+          "output": "3"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq A \\leq 10^9$, $1 \\leq B \\leq 10^9$"
+      ],
+      "examples": [
+        {
+          "input": "17 5",
+          "output": "2",
+          "explanation": "The `%` (modulus) operator is used to find the remainder of division."
+        }
+      ]
+    },
+    {
+      "number": 3017,
+      "title": "Increment and Decrement",
+      "description": "Given an integer $X$, perform the following sequence of operations: 1. Increment $X$ by 1. 2. Decrement $X$ by 2. 3. Increment $X$ by 5. Print the final value of $X$.\n\n**Input Format**\nA single integer $X$.\n\n**Output Format**\nA single integer representing the final value.",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Unary Operators",
+        "Arithmetic"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "4"
+        },
+        {
+          "input": "-5",
+          "output": "-1"
+        },
+        {
+          "input": "100",
+          "output": "104"
+        },
+        {
+          "input": "-4",
+          "output": "0"
+        },
+        {
+          "input": "1234",
+          "output": "1238"
+        }
+      ],
+      "constraints": [
+        "$-10^4 \\leq X \\leq 10^4$"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "14",
+          "explanation": "$10 + 1 = 11$; $11 - 2 = 9$; $9 + 5 = 14$."
+        }
+      ]
+    },
+    {
+      "number": 3018,
+      "title": "Relational Check",
+      "description": "Input two integers $A$ and $B$. Print `1` if $A$ is greater than $B$, and `0` otherwise.\n\n**Input Format**\nTwo space-separated integers $A$ and $B$.\n\n**Output Format**\nAn integer (`1` or `0`).",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Relational Operators",
+        "Comparison"
+      ],
+      "testCases": [
+        {
+          "input": "10 20",
+          "output": "0"
+        },
+        {
+          "input": "5 5",
+          "output": "0"
+        },
+        {
+          "input": "-1 -5",
+          "output": "1"
+        },
+        {
+          "input": "0 0",
+          "output": "0"
+        },
+        {
+          "input": "99 98",
+          "output": "1"
+        }
+      ],
+      "constraints": [
+        "Standard integer range."
+      ],
+      "examples": [
+        {
+          "input": "15 10",
+          "output": "1",
+          "explanation": "Relational operators like `>` return a boolean-like integer (1 for true, 0 for false) in C."
+        }
+      ]
+    },
+    {
+      "number": 3019,
+      "title": "Logical AND Gate",
+      "description": "Input two integers $A$ and $B$. Print `1` if BOTH $A$ and $B$ are non-zero. Otherwise, print `0`.\n\n**Input Format**\nTwo space-separated integers.\n\n**Output Format**\nAn integer (`1` or `0`).",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Logical Operators",
+        "Boolean Logic"
+      ],
+      "testCases": [
+        {
+          "input": "0 10",
+          "output": "0"
+        },
+        {
+          "input": "7 0",
+          "output": "0"
+        },
+        {
+          "input": "0 0",
+          "output": "0"
+        },
+        {
+          "input": "-5 -5",
+          "output": "1"
+        },
+        {
+          "input": "1 1",
+          "output": "1"
+        }
+      ],
+      "constraints": [
+        "Standard integer range."
+      ],
+      "examples": [
+        {
+          "input": "5 2",
+          "output": "1",
+          "explanation": "The logical AND operator `&&` returns 1 if both operands are true (non-zero in C)."
+        }
+      ]
+    },
+    {
+      "number": 3020,
+      "title": "Assignment with Flavour",
+      "description": "Start with a variable `sum = 0`. Given five integers, add each one to `sum` using the shorthand assignment operator `+=` and print the final value of `sum`.\n\n**Input Format**\nFive space-separated integers.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Assignment Operators",
+        "Arithmetic"
+      ],
+      "testCases": [
+        {
+          "input": "0 0 0 0 0",
+          "output": "0"
+        },
+        {
+          "input": "10 -10 20 -20 5",
+          "output": "5"
+        },
+        {
+          "input": "100 100 100 100 100",
+          "output": "500"
+        },
+        {
+          "input": "-1 -2 -3 -4 -5",
+          "output": "-15"
+        },
+        {
+          "input": "1 0 1 0 1",
+          "output": "3"
+        }
+      ],
+      "constraints": [
+        "$-1000 \\leq Numbers \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "1 2 3 4 5",
+          "output": "15",
+          "explanation": "`sum += a; sum += b; ...` results in the total sum."
+        }
+      ]
+    },
+    {
+      "number": 3021,
+      "title": "Ternary Minimum",
+      "description": "Input two integers and find the minimum of the two using the **Ternary Operator** (`? :`).\n\n**Input Format**\nTwo space-separated integers.\n\n**Output Format**\nA single integer (the smaller one).",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Ternary Operator",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "5 5",
+          "output": "5"
+        },
+        {
+          "input": "-10 -5",
+          "output": "-10"
+        },
+        {
+          "input": "0 100",
+          "output": "0"
+        },
+        {
+          "input": "99 98",
+          "output": "98"
+        },
+        {
+          "input": "-100 -200",
+          "output": "-200"
+        }
+      ],
+      "constraints": [
+        "Standard integer range."
+      ],
+      "examples": [
+        {
+          "input": "10 20",
+          "output": "10",
+          "explanation": "`min = (a < b) ? a : b;`"
+        }
+      ]
+    },
+    {
+      "number": 3022,
+      "title": "Bitwise AND Explorer",
+      "description": "Input two integers and print the result of their bitwise AND operation.\n\n**Input Format**\nTwo integers $A$ and $B$.\n\n**Output Format**\nA single integer representing $A \\& B$.",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Bitwise",
+        "Operators"
+      ],
+      "testCases": [
+        {
+          "input": "0 5",
+          "output": "0"
+        },
+        {
+          "input": "7 7",
+          "output": "7"
+        },
+        {
+          "input": "1 2",
+          "output": "0"
+        },
+        {
+          "input": "10 6",
+          "output": "2"
+        },
+        {
+          "input": "15 15",
+          "output": "15"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq A, B \\leq 1024$"
+      ],
+      "examples": [
+        {
+          "input": "12 25",
+          "output": "8",
+          "explanation": "`12` is `01100`, `25` is `11001`. `01100 & 11001` is `01000` (which is `8`)."
+        }
+      ]
+    },
+    {
+      "number": 3023,
+      "title": "Left Shift Power",
+      "description": "Given an integer $N$ and an integer $K$, calculate $N \\times 2^K$ using the **Left Shift operator** (`<<`).\n\n**Input Format**\nTwo space-separated integers $N$ and $K$.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Bitwise",
+        "Left Shift",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "1 1",
+          "output": "2"
+        },
+        {
+          "input": "10 3",
+          "output": "80"
+        },
+        {
+          "input": "3 0",
+          "output": "3"
+        },
+        {
+          "input": "2 10",
+          "output": "2048"
+        },
+        {
+          "input": "7 4",
+          "output": "112"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$, $1 \\leq K \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "5 2",
+          "output": "20",
+          "explanation": "$5 \\ll 2$ is $5 \\times 2^2 = 20$."
+        }
+      ]
+    },
+    {
+      "number": 3024,
+      "title": "Even or Odd without IF",
+      "description": "Determine if a number is Even or Odd using the **Bitwise AND** operator (`&`). Print `1` for Odd and `0` for Even.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n`1` or `0`.",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Bitwise",
+        "Logic",
+        "Even-Odd"
+      ],
+      "testCases": [
+        {
+          "input": "10",
+          "output": "0"
+        },
+        {
+          "input": "0",
+          "output": "0"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "999",
+          "output": "1"
+        },
+        {
+          "input": "1000000",
+          "output": "0"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq N \\leq 10^9$"
+      ],
+      "examples": [
+        {
+          "input": "7",
+          "output": "1",
+          "explanation": "Any odd number has its last bit set to 1. Thus, `N & 1` is 1 for odd numbers."
+        }
+      ]
+    },
+    {
+      "number": 3025,
+      "title": "Size of Expressions",
+      "description": "What is the size of the expression `(a + b)` where `a` is an `int` and `b` is a `double`? Print the size in bytes.\n\n**Input Format**\nNone.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Type Promotion",
+        "sizeof"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "None.",
+          "output": "8",
+          "explanation": "When an `int` is added to a `double`, the result is promoted to a `double`. The size of a `double` is typically 8 bytes."
+        }
+      ]
+    },
+    {
+      "number": 3026,
+      "title": "Commas in C",
+      "description": "In the expression `x = (a = 5, b = 10, a + b)`, what is the final value assigned to `x`? Write a program that takes two integers $A$ and $B$, calculates this expression, and prints $X$.\n\n**Input Format**\nTwo integers $A$ and $B$.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Comma Operator",
+        "Expressions"
+      ],
+      "testCases": [
+        {
+          "input": "1 2",
+          "output": "3"
+        },
+        {
+          "input": "10 20",
+          "output": "30"
+        },
+        {
+          "input": "-5 5",
+          "output": "0"
+        },
+        {
+          "input": "0 0",
+          "output": "0"
+        },
+        {
+          "input": "100 -50",
+          "output": "50"
+        }
+      ],
+      "constraints": [
+        "Standard int range."
+      ],
+      "examples": [
+        {
+          "input": "5 10",
+          "output": "15",
+          "explanation": "The comma operator evaluates each expression from left to right and returns the value of the last expression."
+        }
+      ]
+    },
+    {
+      "number": 3027,
+      "title": "Bitwise XOR Swap",
+      "description": "Swap two integers $A$ and $B$ without using a temporary variable by using the **Bitwise XOR** operator (`^`). Print the swapped values.\n\n**Input Format**\nTwo space-separated integers $A$ and $B$.\n\n**Output Format**\nTwo space-separated integers $B$ and $A$.",
+      "difficulty": "Medium",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Bitwise",
+        "XOR",
+        "Swapping"
+      ],
+      "testCases": [
+        {
+          "input": "10 20",
+          "output": "20 10"
+        },
+        {
+          "input": "0 5",
+          "output": "5 0"
+        },
+        {
+          "input": "7 7",
+          "output": "7 7"
+        },
+        {
+          "input": "-1 -2",
+          "output": "-2 -1"
+        },
+        {
+          "input": "100 0",
+          "output": "0 100"
+        }
+      ],
+      "constraints": [
+        "Standard integer range."
+      ],
+      "examples": [
+        {
+          "input": "3 5",
+          "output": "5 3",
+          "explanation": "$A = A \\wedge B$; $B = A \\wedge B$; $A = A \\wedge B$."
+        }
+      ]
+    },
+    {
+      "number": 3028,
+      "title": "Not Logically Zero",
+      "description": "Input an integer and print its logical negation result using the `!` operator.\n\n**Input Format**\nAn integer $N$.\n\n**Output Format**\n`1` if $N$ is zero, and `0` otherwise.",
+      "difficulty": "Easy",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Logical NOT",
+        "Boolean Logic"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "1"
+        },
+        {
+          "input": "1",
+          "output": "0"
+        },
+        {
+          "input": "-1",
+          "output": "0"
+        },
+        {
+          "input": "100",
+          "output": "0"
+        },
+        {
+          "input": "-0",
+          "output": "1"
+        }
+      ],
+      "constraints": [
+        "Standard integer range."
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "0",
+          "explanation": "`!5` is `0`, `!0` is `1`."
+        }
+      ]
+    },
+    {
+      "number": 3029,
+      "title": "Power of Two Check",
+      "description": "Check if a given positive integer $N$ is a power of 2 using only bitwise operators. Print `Yes` or `No`.\n\n**Input Format**\nA positive integer $N$.\n\n**Output Format**\n`Yes` or `No`.",
+      "difficulty": "Medium",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Bitwise",
+        "Logic",
+        "Powers"
+      ],
+      "testCases": [
+        {
+          "input": "8",
+          "output": "Yes"
+        },
+        {
+          "input": "7",
+          "output": "No"
+        },
+        {
+          "input": "1",
+          "output": "Yes"
+        },
+        {
+          "input": "10",
+          "output": "No"
+        },
+        {
+          "input": "1024",
+          "output": "Yes"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10^9$"
+      ],
+      "examples": [
+        {
+          "input": "16",
+          "output": "Yes",
+          "explanation": "A number $N$ is a power of 2 if `(N & (N - 1)) == 0`."
+        }
+      ]
+    },
+    {
+      "number": 3030,
+      "title": "Expression Priority",
+      "description": "Evaluate the following expression based on C operator precedence: result = $A + B * C / D - E \\% F$. Input the values and print the result.\n\n**Input Format**\nSix space-separated integers $A, B, C, D, E, F$.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Operators & Expressions",
+      "tags": [
+        "Precedence",
+        "Arithmetic",
+        "Expressions"
+      ],
+      "testCases": [
+        {
+          "input": "1 2 3 1 4 2",
+          "output": "7"
+        },
+        {
+          "input": "10 10 10 10 10 10",
+          "output": "10"
+        },
+        {
+          "input": "0 1 1 1 1 1",
+          "output": "1"
+        },
+        {
+          "input": "100 10 2 5 20 7",
+          "output": "98"
+        },
+        {
+          "input": "5 5 5 5 5 5",
+          "output": "5"
+        }
+      ],
+      "constraints": [
+        "All intermediate results fit in an integer. $D, F \\neq 0$."
+      ],
+      "examples": [
+        {
+          "input": "10 5 4 2 8 3",
+          "output": "18",
+          "explanation": "$10 + (5 * 4 / 2) - (8 \\% 3) = 10 + 10 - 2 = 18$."
+        }
+      ]
+    },
+    {
+      "number": 3031,
+      "title": "Pass or Fail",
+      "description": "Write a program that takes a student's marks as input and prints \"Pass\" if the marks are 40 or above, and \"Fail\" otherwise.\n\n**Input Format**\nA single integer representing marks.\n\n**Output Format**\n\"Pass\" or \"Fail\".",
+      "difficulty": "Easy",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else",
+        "Beginner"
+      ],
+      "testCases": [
+        {
+          "input": "40",
+          "output": "Pass"
+        },
+        {
+          "input": "39",
+          "output": "Fail"
+        },
+        {
+          "input": "100",
+          "output": "Pass"
+        },
+        {
+          "input": "0",
+          "output": "Fail"
+        },
+        {
+          "input": "75",
+          "output": "Pass"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq Marks \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "45",
+          "output": "Pass",
+          "explanation": "Simple `if-else` condition."
+        }
+      ]
+    },
+    {
+      "number": 3032,
+      "title": "Maximum of Three",
+      "description": "Input three integers and find the largest among them using `if-else`.\n\n**Input Format**\nThree space-separated integers.\n\n**Output Format**\nA single integer (the largest).",
+      "difficulty": "Easy",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else",
+        "Comparison"
+      ],
+      "testCases": [
+        {
+          "input": "1 2 3",
+          "output": "3"
+        },
+        {
+          "input": "10 10 5",
+          "output": "10"
+        },
+        {
+          "input": "-5 -2 -10",
+          "output": "-2"
+        },
+        {
+          "input": "100 0 50",
+          "output": "100"
+        },
+        {
+          "input": "7 7 7",
+          "output": "7"
+        }
+      ],
+      "constraints": [
+        "Standard integer range."
+      ],
+      "examples": [
+        {
+          "input": "10 25 15",
+          "output": "25",
+          "explanation": "Use nested `if-else` or logical operators to compare the three numbers."
+        }
+      ]
+    },
+    {
+      "number": 3033,
+      "title": "Leap Year Checker",
+      "description": "Determine if a given year is a Leap Year. A year is leap if it is divisible by 4, but not by 100, unless it is also divisible by 400.\n\n**Input Format**\nA single integer representing the year.\n\n**Output Format**\n\"Leap Year\" or \"Not a Leap Year\".",
+      "difficulty": "Easy",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else",
+        "Math",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "1900",
+          "output": "Not a Leap Year"
+        },
+        {
+          "input": "2024",
+          "output": "Leap Year"
+        },
+        {
+          "input": "2023",
+          "output": "Not a Leap Year"
+        },
+        {
+          "input": "1600",
+          "output": "Leap Year"
+        },
+        {
+          "input": "2100",
+          "output": "Not a Leap Year"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq Year \\leq 9999$"
+      ],
+      "examples": [
+        {
+          "input": "2000",
+          "output": "Leap Year",
+          "explanation": "Standard leap year logic using modulus operator."
+        }
+      ]
+    },
+    {
+      "number": 3034,
+      "title": "Vowel or Consonant",
+      "description": "Input a single alphabet and check whether it is a vowel (a, e, i, o, u) or a consonant. Handle both uppercase and lowercase inputs.\n\n**Input Format**\nA single character.\n\n**Output Format**\n\"Vowel\" or \"Consonant\".",
+      "difficulty": "Easy",
+      "topic": "Conditional Statements",
+      "tags": [
+        "Switch",
+        "If-Else",
+        "Character"
+      ],
+      "testCases": [
+        {
+          "input": "a",
+          "output": "Vowel"
+        },
+        {
+          "input": "B",
+          "output": "Consonant"
+        },
+        {
+          "input": "i",
+          "output": "Vowel"
+        },
+        {
+          "input": "z",
+          "output": "Consonant"
+        },
+        {
+          "input": "U",
+          "output": "Vowel"
+        }
+      ],
+      "constraints": [
+        "Input will be an English alphabet."
+      ],
+      "examples": [
+        {
+          "input": "E",
+          "output": "Vowel",
+          "explanation": "Use a `switch` statement or an `if` condition with multiple `||` operators."
+        }
+      ]
+    },
+    {
+      "number": 3035,
+      "title": "Grade Calculator",
+      "description": "Give grades based on marks:\n\n**Input Format**\nA single integer.\n\n**Output Format**\nA single character representing the grade.",
+      "difficulty": "Easy",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else Ladder",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "90",
+          "output": "A"
+        },
+        {
+          "input": "79",
+          "output": "C"
+        },
+        {
+          "input": "60",
+          "output": "D"
+        },
+        {
+          "input": "55",
+          "output": "F"
+        },
+        {
+          "input": "100",
+          "output": "A"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq Marks \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "85",
+          "output": "B",
+          "explanation": "Use an `if-else if-else` ladder."
+        }
+      ]
+    },
+    {
+      "number": 3036,
+      "title": "Day of the Week",
+      "description": "Input an integer (1-7) and print the corresponding day of the week (1=Monday, 2=Tuesday, ..., 7=Sunday). Use a `switch` statement. If the input is outside 1-7, print \"Invalid Input\".\n\n**Input Format**\nA single integer.\n\n**Output Format**\nString representing the day or \"Invalid Input\".",
+      "difficulty": "Medium",
+      "topic": "Conditional Statements",
+      "tags": [
+        "Switch Case",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "Monday"
+        },
+        {
+          "input": "7",
+          "output": "Sunday"
+        },
+        {
+          "input": "5",
+          "output": "Friday"
+        },
+        {
+          "input": "0",
+          "output": "Invalid Input"
+        },
+        {
+          "input": "8",
+          "output": "Invalid Input"
+        }
+      ],
+      "constraints": [
+        "Standard int range."
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "Wednesday",
+          "explanation": "`switch(day) { case 1: ... case 7: ... default: ... }`"
+        }
+      ]
+    },
+    {
+      "number": 3037,
+      "title": "Quadrant Finder",
+      "description": "Given the $(X, Y)$ coordinates of a point, find the quadrant in which it lies:\n\n**Input Format**\nTwo space-separated integers $X$ and $Y$.\n\n**Output Format**\n\"Q1\", \"Q2\", \"Q3\", \"Q4\", \"Origin\", or \"On Axis\".",
+      "difficulty": "Medium",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else",
+        "Coordinates",
+        "Geometry"
+      ],
+      "testCases": [
+        {
+          "input": "10 10",
+          "output": "Q1"
+        },
+        {
+          "input": "-5 -5",
+          "output": "Q3"
+        },
+        {
+          "input": "0 0",
+          "output": "Origin"
+        },
+        {
+          "input": "5 0",
+          "output": "On Axis"
+        },
+        {
+          "input": "2 -3",
+          "output": "Q4"
+        }
+      ],
+      "constraints": [
+        "$-1000 \\leq X, Y \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "-5 10",
+          "output": "Q2",
+          "explanation": "Use nested `if-else` to check signs of $X$ and $Y$."
+        }
+      ]
+    },
+    {
+      "number": 3038,
+      "title": "Number Sign and Parity",
+      "description": "Input an integer and check if it is \"Positive Even\", \"Positive Odd\", \"Negative Even\", \"Negative Odd\", or \"Zero\".\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nOne of the five specified strings.",
+      "difficulty": "Easy",
+      "topic": "Conditional Statements",
+      "tags": [
+        "Nested If-Else",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "10",
+          "output": "Positive Even"
+        },
+        {
+          "input": "7",
+          "output": "Positive Odd"
+        },
+        {
+          "input": "-3",
+          "output": "Negative Odd"
+        },
+        {
+          "input": "0",
+          "output": "Zero"
+        },
+        {
+          "input": "-100",
+          "output": "Negative Even"
+        }
+      ],
+      "constraints": [
+        "Standard int range."
+      ],
+      "examples": [
+        {
+          "input": "-4",
+          "output": "Negative Even",
+          "explanation": "Combine sign check ($N>0$) and parity check ($N\\%2==0$)."
+        }
+      ]
+    },
+    {
+      "number": 3039,
+      "title": "Eligibility to Vote",
+      "description": "A person is eligible to vote if their age is 18 or above. Input the age and print \"Eligible\" or \"Not Eligible\". If the age is less than 0, print \"Invalid Age\".\n\n**Input Format**\nA single integer.\n\n**Output Format**\nString response.",
+      "difficulty": "Easy",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else",
+        "Validation"
+      ],
+      "testCases": [
+        {
+          "input": "18",
+          "output": "Eligible"
+        },
+        {
+          "input": "17",
+          "output": "Not Eligible"
+        },
+        {
+          "input": "-5",
+          "output": "Invalid Age"
+        },
+        {
+          "input": "0",
+          "output": "Not Eligible"
+        },
+        {
+          "input": "100",
+          "output": "Eligible"
+        }
+      ],
+      "constraints": [
+        "$-100 \\leq Age \\leq 150$"
+      ],
+      "examples": [
+        {
+          "input": "21",
+          "output": "Eligible",
+          "explanation": "Simple threshold check with validation."
+        }
+      ]
+    },
+    {
+      "number": 3040,
+      "title": "Calculator Switch",
+      "description": "Take two numbers and an operator (+, -, *, /) as input. Perform the operation and print the result. If the operator is not one of these, print \"Error\". For division, check if the second number is zero before dividing; if it is, print \"Division by Zero Error\".\n\n**Input Format**\n`float` `char` `float` (e.g., `10 + 5`).\n\n**Output Format**\nResult formatted to 2 decimal places or error message.",
+      "difficulty": "Medium",
+      "topic": "Conditional Statements",
+      "tags": [
+        "Switch Case",
+        "If-Else",
+        "Calculator"
+      ],
+      "testCases": [
+        {
+          "input": "10 + 2",
+          "output": "12.00"
+        },
+        {
+          "input": "5 * 0",
+          "output": "0.00"
+        },
+        {
+          "input": "10 / 0",
+          "output": "Division by Zero Error"
+        },
+        {
+          "input": "10 ^ 2",
+          "output": "Error"
+        },
+        {
+          "input": "15.5 - 5.5",
+          "output": "10.00"
+        }
+      ],
+      "constraints": [
+        "Standard float range."
+      ],
+      "examples": [
+        {
+          "input": "20 / 4",
+          "output": "5.00",
+          "explanation": "Use `switch(operator)` and `if` for zero division check."
+        }
+      ]
+    },
+    {
+      "number": 3041,
+      "title": "Triangle Validator",
+      "description": "Input three angles of a triangle and check if it is valid (Sum of angles should be exactly 180 degrees and each angle must be > 0).\n\n**Input Format**\nThree integers representing angles.\n\n**Output Format**\n\"Valid\" or \"Invalid\".",
+      "difficulty": "Medium",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else",
+        "Math",
+        "Geonetry"
+      ],
+      "testCases": [
+        {
+          "input": "90 45 45",
+          "output": "Valid"
+        },
+        {
+          "input": "100 50 30",
+          "output": "Valid"
+        },
+        {
+          "input": "0 90 90",
+          "output": "Invalid"
+        },
+        {
+          "input": "60 60 70",
+          "output": "Invalid"
+        },
+        {
+          "input": "180 0 0",
+          "output": "Invalid"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq Angle \\leq 360$"
+      ],
+      "examples": [
+        {
+          "input": "60 60 60",
+          "output": "Valid",
+          "explanation": "$A + B + C = 180$ and $A, B, C > 0$."
+        }
+      ]
+    },
+    {
+      "number": 3042,
+      "title": "Character Finder",
+      "description": "Input a character and check if it is an Uppercase alphabet, Lowercase alphabet, Digit, or Special Character.\n\n**Input Format**\nA single character $C$.\n\n**Output Format**\n\"Uppercase\", \"Lowercase\", \"Digit\", or \"Special Character\".",
+      "difficulty": "Easy",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else",
+        "Character",
+        "ASCII"
+      ],
+      "testCases": [
+        {
+          "input": "G",
+          "output": "Uppercase"
+        },
+        {
+          "input": "m",
+          "output": "Lowercase"
+        },
+        {
+          "input": "$",
+          "output": "Special Character"
+        },
+        {
+          "input": "0",
+          "output": "Digit"
+        },
+        {
+          "input": "",
+          "output": "Special Character"
+        }
+      ],
+      "constraints": [
+        "Any ASCII character."
+      ],
+      "examples": [
+        {
+          "input": "7",
+          "output": "Digit",
+          "explanation": "Use ASCII ranges: 'A'-'Z' (65-90), 'a'-'z' (97-122), '0'-'9' (48-57)."
+        }
+      ]
+    },
+    {
+      "number": 3043,
+      "title": "Electricity Bill Calculator",
+      "description": "Calculate the electricity bill based on units consumed:\n\n**Input Format**\nA single integer (units).\n\n**Output Format**\nA float representing the bill rounded to 2 decimal places.",
+      "difficulty": "Medium",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else Ladder",
+        "Real-world Logic"
+      ],
+      "testCases": [
+        {
+          "input": "50",
+          "output": "250.00"
+        },
+        {
+          "input": "100",
+          "output": "500.00"
+        },
+        {
+          "input": "300",
+          "output": "1900.00"
+        },
+        {
+          "input": "400",
+          "output": "2900.00"
+        },
+        {
+          "input": "0",
+          "output": "0.00"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq Units \\leq 10^5$"
+      ],
+      "examples": [
+        {
+          "input": "150",
+          "output": "850.00",
+          "explanation": "(100 * 5) + (50 * 7) = 500 + 350 = 850."
+        }
+      ]
+    },
+    {
+      "number": 3044,
+      "title": "Roots of a Quadratic Equation",
+      "description": "Find the nature of roots for a quadratic equation $ax^2 + bx + c = 0$ based on its discriminant ($D = b^2 - 4ac$):\n\n**Input Format**\nThree integers $A, B, C$.\n\n**Output Format**\nnature of roots (strings).",
+      "difficulty": "Medium",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else",
+        "Math",
+        "Discriminant"
+      ],
+      "testCases": [
+        {
+          "input": "1 2 1",
+          "output": "Real and Equal"
+        },
+        {
+          "input": "1 1 1",
+          "output": "Imaginary"
+        },
+        {
+          "input": "2 4 2",
+          "output": "Real and Equal"
+        },
+        {
+          "input": "1 0 -4",
+          "output": "Real and Distinct"
+        },
+        {
+          "input": "5 2 1",
+          "output": "Imaginary"
+        }
+      ],
+      "constraints": [
+        "Standard int range."
+      ],
+      "examples": [
+        {
+          "input": "1 -5 6",
+          "output": "Real and Distinct",
+          "explanation": "$D = (-5)^2 - 4(1)(6) = 25 - 24 = 1$. Since $D > 0$, roots are real and distinct."
+        }
+      ]
+    },
+    {
+      "number": 3045,
+      "title": "ATM Withdrawal",
+      "description": "An ATM allows withdrawals in multiples of 100. The user has an initial balance of Rs. 10,000. Take the withdrawal amount as input. If the amount is not a multiple of 100, print \"Invalid Amount\". If the balance is insufficient, print \"Insufficient Balance\". Otherwise, print \"Withdrawal Successful\" and the remaining balance.\n\n**Input Format**\nA single integer (Withdrawal Amount).\n\n**Output Format**\nSpecified message and balance if successful.",
+      "difficulty": "Medium",
+      "topic": "Conditional Statements",
+      "tags": [
+        "If-Else",
+        "Real-world Logic",
+        "Validation"
+      ],
+      "testCases": [
+        {
+          "input": "1000",
+          "output": "Withdrawal Successful, Remaining Balance: 9000"
+        },
+        {
+          "input": "150",
+          "output": "Invalid Amount"
+        },
+        {
+          "input": "15000",
+          "output": "Insufficient Balance"
+        },
+        {
+          "input": "10000",
+          "output": "Withdrawal Successful, Remaining Balance: 0"
+        },
+        {
+          "input": "0",
+          "output": "Withdrawal Successful, Remaining Balance: 10000"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq Amount \\leq 20000$"
+      ],
+      "examples": [
+        {
+          "input": "500",
+          "output": "",
+          "explanation": "Check `amount % 100 == 0` first, then compare with balance."
+        }
+      ]
+    },
+    {
+      "number": 3046,
+      "title": "Print N Numbers",
+      "description": "Write a program that takes an integer $N$ as input and prints all numbers from 1 to $N$ separated by space.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nNumbers from 1 to $N$ separated by space.",
+      "difficulty": "Easy",
+      "topic": "Loops – I",
+      "tags": [
+        "For Loop",
+        "Beginner"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "10",
+          "output": "1 2 3 4 5 6 7 8 9 10"
+        },
+        {
+          "input": "3",
+          "output": "1 2 3"
+        },
+        {
+          "input": "0",
+          "output": "(Empty)"
+        },
+        {
+          "input": "5",
+          "output": "1 2 3 4 5"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "1 2 3 4 5",
+          "explanation": "Use a `for` loop from 1 to $N$."
+        }
+      ]
+    },
+    {
+      "number": 3047,
+      "title": "Sum of First N Natural Numbers",
+      "description": "Write a program to calculate the sum of the first $N$ natural numbers using a `while` loop.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nA single integer representing the sum.",
+      "difficulty": "Easy",
+      "topic": "Loops – I",
+      "tags": [
+        "While Loop",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "5",
+          "output": "15"
+        },
+        {
+          "input": "100",
+          "output": "5050"
+        },
+        {
+          "input": "0",
+          "output": "0"
+        },
+        {
+          "input": "10",
+          "output": "55"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10^4$"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "55",
+          "explanation": "Initialize `sum = 0` and increment in a loop until $N$ is reached."
+        }
+      ]
+    },
+    {
+      "number": 3048,
+      "title": "Factorial Finder",
+      "description": "Calculate the factorial of a given number $N$ using a loop. (Factorial of $N = 1 \\times 2 \\times 3 \\times \\dots \\times N$).\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nA single integer representing $N!$.",
+      "difficulty": "Easy",
+      "topic": "Loops – I",
+      "tags": [
+        "Loops",
+        "Factorial",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "1"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "4",
+          "output": "24"
+        },
+        {
+          "input": "6",
+          "output": "720"
+        },
+        {
+          "input": "10",
+          "output": "3628800"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq N \\leq 12$ (to fit in a 32-bit int)."
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "120",
+          "explanation": "$5! = 5 \\times 4 \\times 3 \\times 2 \\times 1 = 120$. Factorial of 0 is 1."
+        }
+      ]
+    },
+    {
+      "number": 3049,
+      "title": "Table of a Number",
+      "description": "Input a number $N$ and print its multiplication table from 1 to 10 in the format: `N x 1 = Result`.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n10 lines, each containing one multiplication step.",
+      "difficulty": "Easy",
+      "topic": "Loops – I",
+      "tags": [
+        "For Loop",
+        "Basic Math"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "Output contains 1 x 1 = 1 and 1 x 10 = 10"
+        },
+        {
+          "input": "10",
+          "output": "Output contains 10 x 5 = 50"
+        },
+        {
+          "input": "7",
+          "output": "Output contains 7 x 7 = 49"
+        },
+        {
+          "input": "100",
+          "output": "Output contains 100 x 1 = 100"
+        },
+        {
+          "input": "5",
+          "output": "Output lines correct."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "",
+          "explanation": "Use a loop from 1 to 10 and print `N * i`."
+        }
+      ]
+    },
+    {
+      "number": 3050,
+      "title": "Count Digits",
+      "description": "Input an integer and count the total number of digits it contains.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nA single integer (the count of digits).",
+      "difficulty": "Medium",
+      "topic": "Loops – I",
+      "tags": [
+        "While Loop",
+        "Number Logic"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "1"
+        },
+        {
+          "input": "7",
+          "output": "1"
+        },
+        {
+          "input": "1000",
+          "output": "4"
+        },
+        {
+          "input": "-123",
+          "output": "3"
+        },
+        {
+          "input": "999999999999",
+          "output": "12"
+        }
+      ],
+      "constraints": [
+        "$-10^{18} \\leq N \\leq 10^{18}$ (Use `long long`)."
+      ],
+      "examples": [
+        {
+          "input": "12345",
+          "output": "5",
+          "explanation": "Repeatedly divide the number by 10 in a loop and count the steps. Handle $N=0$ specifically."
+        }
+      ]
+    },
+    {
+      "number": 3051,
+      "title": "Reverse a Number",
+      "description": "Input an integer and output its reverse. For example, input `123`, output `321`. Handle numbers ending in zeros.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nA single integer (the reversed number).",
+      "difficulty": "Medium",
+      "topic": "Loops – I",
+      "tags": [
+        "Number Logic",
+        "While Loop"
+      ],
+      "testCases": [
+        {
+          "input": "123",
+          "output": "321"
+        },
+        {
+          "input": "5",
+          "output": "5"
+        },
+        {
+          "input": "100",
+          "output": "1"
+        },
+        {
+          "input": "-456",
+          "output": "-654"
+        },
+        {
+          "input": "0",
+          "output": "0"
+        }
+      ],
+      "constraints": [
+        "$-10^9 \\leq N \\leq 10^9$"
+      ],
+      "examples": [
+        {
+          "input": "120",
+          "output": "21",
+          "explanation": "Extract digits using `N % 10` and build the reverse number using `rev = rev * 10 + digit`."
+        }
+      ]
+    },
+    {
+      "number": 3052,
+      "title": "Even Numbers in Range",
+      "description": "Given a range $[A, B]$, print all even numbers within this range inclusive, separated by space.\n\n**Input Format**\nTwo space-separated integers $A$ and $B$.\n\n**Output Format**\nEven numbers separated by space.",
+      "difficulty": "Easy",
+      "topic": "Loops – I",
+      "tags": [
+        "For Loop",
+        "If Condition"
+      ],
+      "testCases": [
+        {
+          "input": "1 5",
+          "output": "2 4"
+        },
+        {
+          "input": "10 10",
+          "output": "10"
+        },
+        {
+          "input": "11 11",
+          "output": "(Empty)"
+        },
+        {
+          "input": "0 3",
+          "output": "0 2"
+        },
+        {
+          "input": "10 20",
+          "output": "10 12 14 16 18 20"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq A \\leq B \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "4 10",
+          "output": "4 6 8 10",
+          "explanation": "Loop from $A$ to $B$ and check if `i % 2 == 0`."
+        }
+      ]
+    },
+    {
+      "number": 3053,
+      "title": "Palindrome Number",
+      "description": "Check if a given integer is a Palindrome (reads the same forward and backward). Print \"Yes\" or \"No\".\n\n**Input Format**\nA positive integer $N$.\n\n**Output Format**\n\"Yes\" or \"No\".",
+      "difficulty": "Medium",
+      "topic": "Loops – I",
+      "tags": [
+        "Palindrome",
+        "Number Logic",
+        "While Loop"
+      ],
+      "testCases": [
+        {
+          "input": "121",
+          "output": "Yes"
+        },
+        {
+          "input": "123",
+          "output": "No"
+        },
+        {
+          "input": "7",
+          "output": "Yes"
+        },
+        {
+          "input": "10",
+          "output": "No"
+        },
+        {
+          "input": "110011",
+          "output": "Yes"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq N \\leq 10^9$"
+      ],
+      "examples": [
+        {
+          "input": "121",
+          "output": "Yes",
+          "explanation": "Reverse the number and compare it with the original value."
+        }
+      ]
+    },
+    {
+      "number": 3054,
+      "title": "Power of a Number",
+      "description": "Input base $B$ and exponent $E$. Calculate $B^E$ using a loop. (Constraint: Do not use `pow()` from `math.h`).\n\n**Input Format**\nTwo space-separated integers $B$ and $E$.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Easy",
+      "topic": "Loops – I",
+      "tags": [
+        "For Loop",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "5 0",
+          "output": "1"
+        },
+        {
+          "input": "3 2",
+          "output": "9"
+        },
+        {
+          "input": "10 4",
+          "output": "10000"
+        },
+        {
+          "input": "1 100",
+          "output": "1"
+        },
+        {
+          "input": "7 2",
+          "output": "49"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq B \\leq 10$, $0 \\leq E \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "2 3",
+          "output": "8",
+          "explanation": "Multiply result by $B$, $E$ times."
+        }
+      ]
+    },
+    {
+      "number": 3055,
+      "title": "Fibonacci Sequence",
+      "description": "Print the first $N$ terms of the Fibonacci sequence starting with `0` and `1`. (Sequence: 0, 1, 1, 2, 3, 5, 8, ...).\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n$N$ integers separated by space.",
+      "difficulty": "Medium",
+      "topic": "Loops – I",
+      "tags": [
+        "Fibonacci",
+        "Loops"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "0"
+        },
+        {
+          "input": "2",
+          "output": "0 1"
+        },
+        {
+          "input": "3",
+          "output": "0 1 1"
+        },
+        {
+          "input": "10",
+          "output": "0 1 1 2 3 5 8 13 21 34"
+        },
+        {
+          "input": "5",
+          "output": "0 1 1 2 3"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 30$"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "0 1 1 2 3",
+          "explanation": "Use three variables to keep track of previous terms."
+        }
+      ]
+    },
+    {
+      "number": 3056,
+      "title": "Average Until Zero",
+      "description": "Write a program that takes integers as input continuously until the user enters `0`. Then, print the sum and average of all entered numbers (excluding the 0).\n\n**Input Format**\nA sequence of integers ending with 0.\n\n**Output Format**\n",
+      "difficulty": "Easy",
+      "topic": "Loops – I",
+      "tags": [
+        "Sentinel Loops",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "5 0",
+          "output": "Sum: 5, Average: 5.00"
+        },
+        {
+          "input": "0",
+          "output": "Sum: 0, Average: 0.00"
+        },
+        {
+          "input": "1 2 3 4 5 0",
+          "output": "Sum: 15, Average: 3.00"
+        },
+        {
+          "input": "10 -10 10 0",
+          "output": "Sum: 10, Average: 3.33"
+        },
+        {
+          "input": "-5 -5 0",
+          "output": "Sum: -10, Average: -5.00"
+        }
+      ],
+      "constraints": [
+        "Total numbers entered $\\leq 100$."
+      ],
+      "examples": [
+        {
+          "input": "10 20 30 0",
+          "output": "",
+          "explanation": "Use a `do-while` loop or `while(1)` with a break condition."
+        }
+      ]
+    },
+    {
+      "number": 3057,
+      "title": "GCD (Greatest Common Divisor)",
+      "description": "Find the GCD of two integers $A$ and $B$ using a loop (Euclidean algorithm or simple subtraction/division).\n\n**Input Format**\nTwo space-separated integers.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Loops – I",
+      "tags": [
+        "Math",
+        "GCD",
+        "Loops"
+      ],
+      "testCases": [
+        {
+          "input": "10 5",
+          "output": "5"
+        },
+        {
+          "input": "13 17",
+          "output": "1"
+        },
+        {
+          "input": "100 25",
+          "output": "25"
+        },
+        {
+          "input": "48 36",
+          "output": "12"
+        },
+        {
+          "input": "7 0 (Wait, constraints say $\\geq 1$) -> Input: 7 7",
+          "output": "7"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq A, B \\leq 10^9$"
+      ],
+      "examples": [
+        {
+          "input": "12 18",
+          "output": "6",
+          "explanation": "The largest number that divides both 12 and 18 is 6."
+        }
+      ]
+    },
+    {
+      "number": 3058,
+      "title": "Alphabet Ladder",
+      "description": "Print all alphabets from 'A' to 'Z' separated by space using a single loop.\n\n**Input Format**\nNone.\n\n**Output Format**\n`A B C ... Z`",
+      "difficulty": "Easy",
+      "topic": "Loops – I",
+      "tags": [
+        "Character Loops",
+        "Basic"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "None.",
+          "output": "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+          "explanation": "Use a `char` variable in the loop condition: `for(char c='A'; c<='Z'; c++)`."
+        }
+      ]
+    },
+    {
+      "number": 3059,
+      "title": "Sum of Digits",
+      "description": "Calculate the sum of digits of a given integer. For example, sum of digits of `123` is $1+2+3=6$.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Loops – I",
+      "tags": [
+        "Number Logic",
+        "Loops"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "0"
+        },
+        {
+          "input": "9",
+          "output": "9"
+        },
+        {
+          "input": "100",
+          "output": "1"
+        },
+        {
+          "input": "12345",
+          "output": "15"
+        },
+        {
+          "input": "999",
+          "output": "27"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq N \\leq 10^{18}$"
+      ],
+      "examples": [
+        {
+          "input": "456",
+          "output": "15",
+          "explanation": "Extract each digit using `%10` and add to a running `sum`."
+        }
+      ]
+    },
+    {
+      "number": 3060,
+      "title": "Multiples of 5 or 7",
+      "description": "Given $N$, find the sum of all numbers between 1 and $N$ that are multiples of either 5 or 7.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nA single integer representing the sum.",
+      "difficulty": "Easy",
+      "topic": "Loops – I",
+      "tags": [
+        "For Loop",
+        "If-Else",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "10",
+          "output": "22 (5, 7, 10 $\\to 22$)"
+        },
+        {
+          "input": "5",
+          "output": "5"
+        },
+        {
+          "input": "35",
+          "output": "140 (5, 7, 10, 14, 15, 20, 21, 25, 28, 30, 35)"
+        },
+        {
+          "input": "1",
+          "output": "0"
+        },
+        {
+          "input": "20",
+          "output": "71"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "20",
+          "output": "51",
+          "explanation": "Multiples are 5, 7, 10, 14, 15, 20. Sum = $5+7+10+14+15+20 = 71$. Wait, $5+7+10+14+15+20 = 71$. Let's recheck: $5, 7, 10, 14, 15, 20 \\to$ Sum is 71."
+        }
+      ]
+    },
+    {
+      "number": 3061,
+      "title": "Right-Angled Triangle Pattern",
+      "description": "Write a program to print a right-angled triangle pattern of asterisks (`*`) for $N$ rows.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n$N$ rows of asterisks.",
+      "difficulty": "Easy",
+      "topic": "Loops – II",
+      "tags": [
+        "Nested Loops",
+        "Patterns"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "*"
+        },
+        {
+          "input": "2",
+          "output": "*, **"
+        },
+        {
+          "input": "4",
+          "output": "*, **, ***, ****"
+        },
+        {
+          "input": "0",
+          "output": "(Empty)"
+        },
+        {
+          "input": "3",
+          "output": "Output as sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 20$"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "",
+          "explanation": "Use nested loops: the outer loop for rows and the inner loop for printing asterisks."
+        }
+      ]
+    },
+    {
+      "number": 3062,
+      "title": "Number Pyramid",
+      "description": "Print a number pyramid pattern for $N$ rows.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n$N$ rows of numbers.",
+      "difficulty": "Easy",
+      "topic": "Loops – II",
+      "tags": [
+        "Nested Loops",
+        "Patterns"
+      ],
+      "testCases": [
+        {
+          "input": "2",
+          "output": "1, 1 2"
+        },
+        {
+          "input": "5",
+          "output": "5 rows ending in 1 2 3 4 5"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "3",
+          "output": "Output as sample."
+        },
+        {
+          "input": "4",
+          "output": "Output ending in 1 2 3 4"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 20$"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "",
+          "explanation": "The inner loop prints values from 1 to the current row number."
+        }
+      ]
+    },
+    {
+      "number": 3063,
+      "title": "Prime Number Checker",
+      "description": "Check if a given number $N$ is Prime. A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n\"Prime\" or \"Not Prime\".",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Math",
+        "Prime Numbers",
+        "Loops"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "Not Prime"
+        },
+        {
+          "input": "2",
+          "output": "Prime"
+        },
+        {
+          "input": "4",
+          "output": "Not Prime"
+        },
+        {
+          "input": "97",
+          "output": "Prime"
+        },
+        {
+          "input": "100",
+          "output": "Not Prime"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10^9$"
+      ],
+      "examples": [
+        {
+          "input": "7",
+          "output": "Prime",
+          "explanation": "Loop from 2 to $\\sqrt{N}$ and check for divisibility."
+        }
+      ]
+    },
+    {
+      "number": 3064,
+      "title": "Armstrong Number",
+      "description": "Check if a number is an Armstrong number. A 3-digit number is Armstrong if the sum of the cubes of its digits equals the number itself ($153 = 1^3 + 5^3 + 3^3$). For $N$ digits, it's the sum of digits raised to the power of $N$.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n\"Yes\" or \"No\".",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Number Logic",
+        "Armstrong",
+        "Loops"
+      ],
+      "testCases": [
+        {
+          "input": "370",
+          "output": "Yes"
+        },
+        {
+          "input": "371",
+          "output": "Yes"
+        },
+        {
+          "input": "407",
+          "output": "Yes"
+        },
+        {
+          "input": "123",
+          "output": "No"
+        },
+        {
+          "input": "9",
+          "output": "Yes (9^1 = 9)"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10^6$"
+      ],
+      "examples": [
+        {
+          "input": "153",
+          "output": "Yes",
+          "explanation": "Extract digits, find their count, and calculate the sum of powers."
+        }
+      ]
+    },
+    {
+      "number": 3065,
+      "title": "Perfect Number Checker",
+      "description": "A perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. Example: $6 (1 + 2 + 3 = 6)$. Check if $N$ is a perfect number.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n\"Yes\" or \"No\".",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Math",
+        "Divisors",
+        "Loops"
+      ],
+      "testCases": [
+        {
+          "input": "6",
+          "output": "Yes"
+        },
+        {
+          "input": "10",
+          "output": "No"
+        },
+        {
+          "input": "496",
+          "output": "Yes"
+        },
+        {
+          "input": "8128",
+          "output": "Yes"
+        },
+        {
+          "input": "1",
+          "output": "No"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10^5$"
+      ],
+      "examples": [
+        {
+          "input": "28",
+          "output": "Yes",
+          "explanation": "Divisors of 28 are 1, 2, 4, 7, 14. $1+2+4+7+14 = 28$."
+        }
+      ]
+    },
+    {
+      "number": 3066,
+      "title": "Floyd's Triangle",
+      "description": "Print Floyd’s Triangle for $N$ rows.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nFloyd's triangle with space-separated numbers.",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Nested Loops",
+        "Patterns"
+      ],
+      "testCases": [
+        {
+          "input": "2",
+          "output": "1, 2 3"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "3",
+          "output": "Output ending in 4 5 6"
+        },
+        {
+          "input": "5",
+          "output": "Output ending in 11 12 13 14 15"
+        },
+        {
+          "input": "4",
+          "output": "Output as sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 20$"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "",
+          "explanation": "Use a counter variable that increments every time a number is printed in the nested loop."
+        }
+      ]
+    },
+    {
+      "number": 3067,
+      "title": "Inverted Pyramid",
+      "description": "Print an inverted pyramid of asterisks for $N$ rows.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nInverted pyramid pattern.",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Nested Loops",
+        "Patterns",
+        "Symmetry"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "*"
+        },
+        {
+          "input": "2",
+          "output": "***,  *"
+        },
+        {
+          "input": "4",
+          "output": "Output starts with *******"
+        },
+        {
+          "input": "3",
+          "output": "Output as sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 20$"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "",
+          "explanation": "Outer loop for rows, first inner loop for leading spaces, second inner loop for asterisks ($2 \\times (N-i) - 1$)."
+        }
+      ]
+    },
+    {
+      "number": 3068,
+      "title": "Multiples in Range",
+      "description": "Print all prime numbers between two numbers $Low$ and $High$.\n\n**Input Format**\nTwo space-separated integers $Low$ and $High$.\n\n**Output Format**\nPrime numbers separated by space.",
+      "difficulty": "Easy",
+      "topic": "Loops – II",
+      "tags": [
+        "Prime Numbers",
+        "Nested Loops"
+      ],
+      "testCases": [
+        {
+          "input": "1 10",
+          "output": "2 3 5 7"
+        },
+        {
+          "input": "20 30",
+          "output": "23 29"
+        },
+        {
+          "input": "100 110",
+          "output": "101 103 107 109"
+        },
+        {
+          "input": "14 16",
+          "output": "(Empty)"
+        },
+        {
+          "input": "2 3",
+          "output": "2 3"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq Low \\leq High \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "10 20",
+          "output": "11 13 17 19",
+          "explanation": "Loop from $Low$ to $High$ and use the prime checker logic inside."
+        }
+      ]
+    },
+    {
+      "number": 3069,
+      "title": "Pascal's Triangle (Simplified)",
+      "description": "Print the first $N$ rows of Pascal's Triangle. Each number is the sum of the two numbers directly above it.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n$N$ rows of Pascal's Triangle.",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Combinatorics",
+        "Patterns",
+        "Nested Loops"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "2",
+          "output": "1, 1 1"
+        },
+        {
+          "input": "4",
+          "output": "Output ending in 1 3 3 1"
+        },
+        {
+          "input": "5",
+          "output": "Output ending in 1 4 6 4 1"
+        },
+        {
+          "input": "10",
+          "output": "Max constraint reached."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "",
+          "explanation": "Use the formula $C(n, k) = C(n, k-1) \\times (n-k+1) / k$ or calculate combinations."
+        }
+      ]
+    },
+    {
+      "number": 3070,
+      "title": "Strong Number Checker",
+      "description": "A number is called a Strong number if the sum of factorials of its digits is equal to the number itself. Example: $145 (1! + 4! + 5! = 1 + 24 + 120 = 145)$.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n\"Yes\" or \"No\".",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Number Logic",
+        "Factorial",
+        "Loops"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "Yes (1! = 1)"
+        },
+        {
+          "input": "2",
+          "output": "Yes (2! = 2)"
+        },
+        {
+          "input": "40585",
+          "output": "Yes"
+        },
+        {
+          "input": "123",
+          "output": "No"
+        },
+        {
+          "input": "10",
+          "output": "No"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10^6$"
+      ],
+      "examples": [
+        {
+          "input": "145",
+          "output": "Yes",
+          "explanation": "Extract digits, calculate factorial of each, and sum them up."
+        }
+      ]
+    },
+    {
+      "number": 3071,
+      "title": "Odd-Even Pyramid",
+      "description": "For $N$ rows, print 'E' if the row number is even and 'O' if the row number is odd.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nPyramid of 'O' and 'E'.",
+      "difficulty": "Easy",
+      "topic": "Loops – II",
+      "tags": [
+        "Nested Loops",
+        "Logic",
+        "Patterns"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "O"
+        },
+        {
+          "input": "2",
+          "output": "O, EE"
+        },
+        {
+          "input": "4",
+          "output": "O, EE, OOO, EEEE"
+        },
+        {
+          "input": "3",
+          "output": "Output as sample."
+        },
+        {
+          "input": "5",
+          "output": "Row 5 is OOOOO"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 20$"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "",
+          "explanation": "Outer loop checks if `i % 2 == 0`, inner loop prints the chosen character `i` times."
+        }
+      ]
+    },
+    {
+      "number": 3072,
+      "title": "Binary to Decimal",
+      "description": "Input a binary number (as an integer) and convert it into its decimal equivalent.\n\n**Input Format**\nA binary number $B$ (consisting of 0s and 1s).\n\n**Output Format**\nA single decimal integer.",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Number Conversion",
+        "Binary",
+        "Loops"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "0"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "111",
+          "output": "7"
+        },
+        {
+          "input": "1010",
+          "output": "10"
+        },
+        {
+          "input": "10000",
+          "output": "16"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq B \\leq 1111111111$ (10 bits)"
+      ],
+      "examples": [
+        {
+          "input": "1011",
+          "output": "11",
+          "explanation": "$1 \\times 2^3 + 0 \\times 2^2 + 1 \\times 2^1 + 1 \\times 2^0 = 8+0+2+1 = 11$."
+        }
+      ]
+    },
+    {
+      "number": 3073,
+      "title": "Decimal to Binary",
+      "description": "Input a decimal integer and print its binary representation. (Constraint: Do not use arrays, print the bits as you find them or reverse the number).\n\n**Input Format**\nA positive integer $N$.\n\n**Output Format**\nBinary string.",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Number Conversion",
+        "Loops"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "0"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "7",
+          "output": "111"
+        },
+        {
+          "input": "16",
+          "output": "10000"
+        },
+        {
+          "input": "100",
+          "output": "1100100"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq N \\leq 1023$"
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "1010",
+          "explanation": "$10/2=5 (0), 5/2=2 (1), 2/2=1 (0), 1/2=0 (1) \\to$ Reverse order: `1010`."
+        }
+      ]
+    },
+    {
+      "number": 3074,
+      "title": "Hollow Square Pattern",
+      "description": "Print a hollow square of asterisks for $N$ rows and columns.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nHollow square pattern.",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Nested Loops",
+        "Patterns",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "*"
+        },
+        {
+          "input": "2",
+          "output": "**, **"
+        },
+        {
+          "input": "3",
+          "output": "***, * *, ***"
+        },
+        {
+          "input": "5",
+          "output": "5x5 hollow square."
+        },
+        {
+          "input": "4",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 20$"
+      ],
+      "examples": [
+        {
+          "input": "4",
+          "output": "",
+          "explanation": "Inner loop uses `if` to check if it's the first/last row or first/last column."
+        }
+      ]
+    },
+    {
+      "number": 3075,
+      "title": "Diamond Pattern",
+      "description": "Print a diamond pattern of asterisks for $2N-1$ rows.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nDiamond pattern.",
+      "difficulty": "Medium",
+      "topic": "Loops – II",
+      "tags": [
+        "Nested Loops",
+        "Patterns",
+        "Symmetry"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "*"
+        },
+        {
+          "input": "2",
+          "output": "* , ***,  *"
+        },
+        {
+          "input": "3",
+          "output": "As sample."
+        },
+        {
+          "input": "4",
+          "output": "7 rows total."
+        },
+        {
+          "input": "5",
+          "output": "9 rows total."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 15$"
+      ],
+      "examples": [
+        {
+          "input": "3",
+          "output": "",
+          "explanation": "Combine a regular pyramid with an inverted pyramid."
+        }
+      ]
+    },
+    {
+      "number": 3076,
+      "title": "Area of Circle Function",
+      "description": "Write a user-defined function `float calculateArea(float radius)` that returns the area of a circle. Call this function from `main()` and print the result.\n\n**Input Format**\nA float value representing the radius.\n\n**Output Format**\nThe area rounded to 2 decimal places.",
+      "difficulty": "Easy",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Functions",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "1",
+          "output": "3.14"
+        },
+        {
+          "input": "10",
+          "output": "314.16"
+        },
+        {
+          "input": "0.5",
+          "output": "0.79"
+        },
+        {
+          "input": "100",
+          "output": "31415.93"
+        },
+        {
+          "input": "5",
+          "output": "Output as sample."
+        }
+      ],
+      "constraints": [
+        "$0 < Radius \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "78.54",
+          "explanation": "Area = $3.14159 \\times radius^2$. The function encapsulates the formula."
+        }
+      ]
+    },
+    {
+      "number": 3077,
+      "title": "Odd or Even Function",
+      "description": "Write a function `int isEven(int n)` that returns `1` if the number is even and `0` if it is odd. Use this function in `main()` to print \"Even\" or \"Odd\".\n\n**Input Format**\nA single integer.\n\n**Output Format**\n\"Even\" or \"Odd\".",
+      "difficulty": "Easy",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Functions",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "10",
+          "output": "Even"
+        },
+        {
+          "input": "0",
+          "output": "Even"
+        },
+        {
+          "input": "-5",
+          "output": "Odd"
+        },
+        {
+          "input": "100",
+          "output": "Even"
+        },
+        {
+          "input": "1",
+          "output": "Odd"
+        }
+      ],
+      "constraints": [
+        "Standard int range."
+      ],
+      "examples": [
+        {
+          "input": "7",
+          "output": "Odd",
+          "explanation": "Logic: `return (n % 2 == 0);`."
+        }
+      ]
+    },
+    {
+      "number": 3078,
+      "title": "Swap by Value",
+      "description": "Write a function `void swap(int a, int b)` that attempts to swap two numbers. In `main()`, print the values before and after calling the function. Explain whether the values in `main()` actually change.\n\n**Input Format**\nTwo space-separated integers $X$ and $Y$.\n\n**Output Format**\n",
+      "difficulty": "Easy",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Call by Value",
+        "Functions",
+        "Scope"
+      ],
+      "testCases": [
+        {
+          "input": "5 5",
+          "output": "Before: 5 5, After: 5 5"
+        },
+        {
+          "input": "1 2",
+          "output": "Before: 1 2, After: 1 2"
+        },
+        {
+          "input": "-10 10",
+          "output": "Before: -10 10, After: -10 10"
+        },
+        {
+          "input": "0 0",
+          "output": "Before: 0 0, After: 0 0"
+        },
+        {
+          "input": "10 20",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Standard int range."
+      ],
+      "examples": [
+        {
+          "input": "10 20",
+          "output": "",
+          "explanation": "In C, parameters are passed by value. Changes made to parameters inside a function do not affect the original variables in `main()`."
+        }
+      ]
+    },
+    {
+      "number": 3079,
+      "title": "Power Function (Recursion)",
+      "description": "Write a recursive function `int power(int base, int exp)` to calculate $base^{exp}$.\n\n**Input Format**\nTwo integers $B$ and $E$.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Recursion",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "5 0",
+          "output": "1"
+        },
+        {
+          "input": "3 3",
+          "output": "27"
+        },
+        {
+          "input": "10 2",
+          "output": "100"
+        },
+        {
+          "input": "1 10",
+          "output": "1"
+        },
+        {
+          "input": "2 5",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq B \\leq 10, 0 \\leq E \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "2 5",
+          "output": "32",
+          "explanation": "Base case: `if (exp == 0) return 1;`. Recursive step: `return base * power(base, exp - 1);`."
+        }
+      ]
+    },
+    {
+      "number": 3080,
+      "title": "Factorial (Recursion)",
+      "description": "Write a recursive function `long long factorial(int n)` to find the factorial of $N$.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Recursion",
+        "Factorial",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "1"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "6",
+          "output": "720"
+        },
+        {
+          "input": "10",
+          "output": "3628800"
+        },
+        {
+          "input": "20",
+          "output": "2432902008176640000"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq N \\leq 20$"
+      ],
+      "examples": [
+        {
+          "input": "5",
+          "output": "120",
+          "explanation": "$fact(n) = n \\times fact(n-1)$; $fact(0) = 1$."
+        }
+      ]
+    },
+    {
+      "number": 3081,
+      "title": "Fibonacci Term (Recursion)",
+      "description": "Find the $N^{th}$ Fibonacci number using recursion (0-indexed: $F(0)=0, F(1)=1, \\dots$).\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n$N^{th}$ Fibonacci number.",
+      "difficulty": "Medium",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Recursion",
+        "Fibonacci"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "0"
+        },
+        {
+          "input": "1",
+          "output": "1"
+        },
+        {
+          "input": "2",
+          "output": "1"
+        },
+        {
+          "input": "10",
+          "output": "55"
+        },
+        {
+          "input": "25",
+          "output": "75025"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq N \\leq 25$"
+      ],
+      "examples": [
+        {
+          "input": "6",
+          "output": "8",
+          "explanation": "$F(n) = F(n-1) + F(n-2)$ with base cases $F(0)=0, F(1)=1$."
+        }
+      ]
+    },
+    {
+      "number": 3082,
+      "title": "Prime Checker Function",
+      "description": "Create a function `void printPrimes(int start, int end)` that prints all prime numbers in the given range.\n\n**Input Format**\nTwo space-separated integers $start$ and $end$.\n\n**Output Format**\nPrime numbers separated by space.",
+      "difficulty": "Easy",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Functions",
+        "Nested Loops",
+        "Prime"
+      ],
+      "testCases": [
+        {
+          "input": "1 5",
+          "output": "2 3 5"
+        },
+        {
+          "input": "50 60",
+          "output": "53 59"
+        },
+        {
+          "input": "100 110",
+          "output": "101 103 107 109"
+        },
+        {
+          "input": "20 20",
+          "output": "(Empty)"
+        },
+        {
+          "input": "2 3",
+          "output": "2 3"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq start \\leq end \\leq 500$"
+      ],
+      "examples": [
+        {
+          "input": "10 20",
+          "output": "11 13 17 19",
+          "explanation": "Modularize the prime checking logic into its own function."
+        }
+      ]
+    },
+    {
+      "number": 3083,
+      "title": "Sum of Digits (Recursion)",
+      "description": "Write a recursive function `int sumOfDigits(int n)` that returns the sum of digits of $N$.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Recursion",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "0",
+          "output": "0"
+        },
+        {
+          "input": "7",
+          "output": "7"
+        },
+        {
+          "input": "999",
+          "output": "27"
+        },
+        {
+          "input": "1010",
+          "output": "2"
+        },
+        {
+          "input": "12345",
+          "output": "15"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq N \\leq 10^9$"
+      ],
+      "examples": [
+        {
+          "input": "1234",
+          "output": "10",
+          "explanation": "`sumOfDigits(n) = (n % 10) + sumOfDigits(n / 10)`. Base case: `n == 0`."
+        }
+      ]
+    },
+    {
+      "number": 3084,
+      "title": "Celsius Converter Function",
+      "description": "Create a function `float toFahrenheit(float c)` and another `float toCelsius(float f)`. Use them to convert a given choice.\n\n**Input Format**\nChoice (1 for C to F, 2 for F to C) and the temperature value.\n\n**Output Format**\nConverted value rounded to 2 decimal places.",
+      "difficulty": "Easy",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Functions",
+        "Conversion",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "1 0",
+          "output": "32.00"
+        },
+        {
+          "input": "2 212",
+          "output": "100.00"
+        },
+        {
+          "input": "2 32",
+          "output": "0.00"
+        },
+        {
+          "input": "1 100",
+          "output": "212.00"
+        },
+        {
+          "input": "2 -40",
+          "output": "-40.00"
+        }
+      ],
+      "constraints": [
+        "Standard temperature range."
+      ],
+      "examples": [
+        {
+          "input": "1 37",
+          "output": "98.60",
+          "explanation": "choice 1 calls `toFahrenheit`, choice 2 calls `toCelsius`."
+        }
+      ]
+    },
+    {
+      "number": 3085,
+      "title": "Multi-file Prototype",
+      "description": "Explain the importance of a **Function Prototype** in C. Write a program where a function definition appears AFTER `main()`, but it is called INSIDE `main()`. Use a prototype to fix the compiler error.\n\n**Input Format**\nTwo integers $A, B$.\n\n**Output Format**\nTheir product.",
+      "difficulty": "Easy",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Functions",
+        "Compilation",
+        "Prototypes"
+      ],
+      "testCases": [
+        {
+          "input": "10 0",
+          "output": "0"
+        },
+        {
+          "input": "-2 3",
+          "output": "-6"
+        },
+        {
+          "input": "1 1",
+          "output": "1"
+        },
+        {
+          "input": "100 100",
+          "output": "10000"
+        },
+        {
+          "input": "4 5",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Standard int range."
+      ],
+      "examples": [
+        {
+          "input": "4 5",
+          "output": "20",
+          "explanation": "Prototypes tell the compiler the function's signature before its actual implementation is encountered."
+        }
+      ]
+    },
+    {
+      "number": 3086,
+      "title": "GCD using Recursion",
+      "description": "Write a recursive function `int gcd(int a, int b)` based on the Euclidean algorithm: `gcd(a, b) = gcd(b, a % b)` with base case `b == 0`.\n\n**Input Format**\nTwo space-separated integers.\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Recursion",
+        "Math",
+        "GCD"
+      ],
+      "testCases": [
+        {
+          "input": "10 5",
+          "output": "5"
+        },
+        {
+          "input": "7 13",
+          "output": "1"
+        },
+        {
+          "input": "100 25",
+          "output": "25"
+        },
+        {
+          "input": "12 18",
+          "output": "6"
+        },
+        {
+          "input": "1 1",
+          "output": "1"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq A, B \\leq 10^9$"
+      ],
+      "examples": [
+        {
+          "input": "48 18",
+          "output": "6",
+          "explanation": "Recursive execution: `gcd(48,18) -> gcd(18,12) -> gcd(12,6) -> gcd(6,0) -> 6`."
+        }
+      ]
+    },
+    {
+      "number": 3087,
+      "title": "Reverse String (Recursion)",
+      "description": "Write a recursive function that takes a string (as a char array) and prints it in reverse. (Constraint: Do not use `strrev()` or iterative loops).\n\n**Input Format**\nA single string (no spaces).\n\n**Output Format**\nReversed string.",
+      "difficulty": "Medium",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Recursion",
+        "Strings"
+      ],
+      "testCases": [
+        {
+          "input": "hello",
+          "output": "olleh"
+        },
+        {
+          "input": "a",
+          "output": "a"
+        },
+        {
+          "input": "12345",
+          "output": "54321"
+        },
+        {
+          "input": "racecar",
+          "output": "racecar"
+        },
+        {
+          "input": "CProg",
+          "output": "gorPC"
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "abcde",
+          "output": "edcba",
+          "explanation": "Recursive call `reverse(str + 1)` and then print `str[0]`."
+        }
+      ]
+    },
+    {
+      "number": 3088,
+      "title": "Static Variable Demo",
+      "description": "Demonstrate the use of `static` variables inside a function. Create a function `void incrementAndPrint()` that increments a static variable and prints its value. Call it three times from `main()`.\n\n**Input Format**\nNone.\n\n**Output Format**\n",
+      "difficulty": "Easy",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Functions",
+        "Storage Classes",
+        "Static"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "None.",
+          "output": "As above.",
+          "explanation": "Static variables retain their value between function calls."
+        }
+      ]
+    },
+    {
+      "number": 3089,
+      "title": "Binary Search (Recursive)",
+      "description": "Write a recursive function `int binarySearch(int arr[], int low, int high, int key)`. (Assume the array is already sorted). If found, return the index; else return `-1`.\n\n**Input Format**\nSize of array, sorted elements, and the search key.\n\n**Output Format**\nIndex or `-1`.",
+      "difficulty": "Medium",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Recursion",
+        "Binary Search",
+        "Algorithms"
+      ],
+      "testCases": [
+        {
+          "input": "5, 1 2 3 4 5, 1",
+          "output": "0"
+        },
+        {
+          "input": "5, 1 2 3 4 5, 5",
+          "output": "4"
+        },
+        {
+          "input": "5, 1 2 3 4 5, 10",
+          "output": "-1"
+        },
+        {
+          "input": "3, 10 20 30, 20",
+          "output": "1"
+        },
+        {
+          "input": "3, 10 20 30, 15",
+          "output": "-1"
+        }
+      ],
+      "constraints": [
+        "Size $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "2",
+          "explanation": "Compare key with middle element, then recurse left or right."
+        }
+      ]
+    },
+    {
+      "number": 3090,
+      "title": "Decimal to Hexadecimal (Recursion)",
+      "description": "Convert a decimal number to its hexadecimal equivalent using a recursive function.\n\n**Input Format**\nA positive integer $N$.\n\n**Output Format**\nHexadecimal string (Uppercase).",
+      "difficulty": "Medium",
+      "topic": "Functions & Recursion",
+      "tags": [
+        "Recursion",
+        "Number Conversion",
+        "Hex"
+      ],
+      "testCases": [
+        {
+          "input": "10",
+          "output": "A"
+        },
+        {
+          "input": "16",
+          "output": "10"
+        },
+        {
+          "input": "4096",
+          "output": "1000"
+        },
+        {
+          "input": "0",
+          "output": "0"
+        },
+        {
+          "input": "31",
+          "output": "1F"
+        }
+      ],
+      "constraints": [
+        "$0 \\leq N \\leq 10^6$"
+      ],
+      "examples": [
+        {
+          "input": "255",
+          "output": "FF",
+          "explanation": "Recurse `N/16` and then print the remainder as a hex digit (0-9, A-F)."
+        }
+      ]
+    },
+    {
+      "number": 3091,
+      "title": "Array Traversal",
+      "description": "Input $N$ integers into an array and print all elements in the same order separated by space.\n\n**Input Format**\n\n\n**Output Format**\n$N$ integers separated by space.",
+      "difficulty": "Easy",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Traversal",
+        "Basic"
+      ],
+      "testCases": [
+        {
+          "input": "1, 5",
+          "output": "5"
+        },
+        {
+          "input": "3, 1 2 3",
+          "output": "1 2 3"
+        },
+        {
+          "input": "5, 0 0 0 0 0",
+          "output": "0 0 0 0 0"
+        },
+        {
+          "input": "2, -5 5",
+          "output": "-5 5"
+        },
+        {
+          "input": "5, 10 20 30 40 50",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "10 20 30 40 50",
+          "explanation": "Use a loop to read $N$ elements into an array and another loop to print them."
+        }
+      ]
+    },
+    {
+      "number": 3092,
+      "title": "Sum and Average of Array",
+      "description": "Find the sum and average of all elements in a 1D array of size $N$.\n\n**Input Format**\n\n\n**Output Format**\n",
+      "difficulty": "Easy",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Math",
+        "Average"
+      ],
+      "testCases": [
+        {
+          "input": "1, 10",
+          "output": "Sum: 10, Average: 10.00"
+        },
+        {
+          "input": "3, 5 5 5",
+          "output": "Sum: 15, Average: 5.00"
+        },
+        {
+          "input": "5, 1 1 1 1 1",
+          "output": "Sum: 5, Average: 1.00"
+        },
+        {
+          "input": "2, 10 20",
+          "output": "Sum: 30, Average: 15.00"
+        },
+        {
+          "input": "4, 1 2 3 4",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$, each element $\\leq 1000$."
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "",
+          "explanation": "Iterate through the array, add elements to a `sum` variable, then divide by $N.0$."
+        }
+      ]
+    },
+    {
+      "number": 3093,
+      "title": "Maximum and Minimum in Array",
+      "description": "Find the largest and smallest elements in a 1D array.\n\n**Input Format**\n\n\n**Output Format**\n",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Min-Max",
+        "Comparison"
+      ],
+      "testCases": [
+        {
+          "input": "1, 100",
+          "output": "Largest: 100, Smallest: 100"
+        },
+        {
+          "input": "3, -5 0 5",
+          "output": "Largest: 5, Smallest: -5"
+        },
+        {
+          "input": "5, 10 10 10 10 10",
+          "output": "Largest: 10, Smallest: 10"
+        },
+        {
+          "input": "4, 9 8 7 6",
+          "output": "Largest: 9, Smallest: 6"
+        },
+        {
+          "input": "2, 256 1024",
+          "output": "Largest: 1024, Smallest: 256"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "",
+          "explanation": "Initialize `max = arr[0]` and `min = arr[0]`, then compare with other elements in a loop."
+        }
+      ]
+    },
+    {
+      "number": 3094,
+      "title": "Reverse an Array",
+      "description": "Write a program to reverse the elements of a 1D array in-place. (Constraint: Do not use another array).\n\n**Input Format**\n\n\n**Output Format**\nReversed array elements separated by space.",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Swapping",
+        "In-place"
+      ],
+      "testCases": [
+        {
+          "input": "1, 10",
+          "output": "10"
+        },
+        {
+          "input": "2, 20 30",
+          "output": "30 20"
+        },
+        {
+          "input": "4, 1 2 1 2",
+          "output": "2 1 2 1"
+        },
+        {
+          "input": "6, 10 20 30 40 50 60",
+          "output": "60 50 40 30 20 10"
+        },
+        {
+          "input": "3, 100 0 -100",
+          "output": "-100 0 100"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "5 4 3 2 1",
+          "explanation": "Use two pointers (start and end) and swap them until they meet in the middle."
+        }
+      ]
+    },
+    {
+      "number": 3095,
+      "title": "Search an Element",
+      "description": "Input $N$ integers and a \"Key\". Find if the key exists in the array and print its first occurrence index (0-indexed). If not found, print \"-1\".\n\n**Input Format**\n\n\n**Output Format**\nIndex or -1.",
+      "difficulty": "Easy",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Searching",
+        "Linear Search"
+      ],
+      "testCases": [
+        {
+          "input": "3, 1 2 3, 2",
+          "output": "1"
+        },
+        {
+          "input": "5, 10 20 30 40 50, 60",
+          "output": "-1"
+        },
+        {
+          "input": "1, 10, 10",
+          "output": "0"
+        },
+        {
+          "input": "4, 5 5 5 5, 5",
+          "output": "0"
+        },
+        {
+          "input": "2, 10 20, 20",
+          "output": "1"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 500$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "2",
+          "explanation": "Linear search through the array."
+        }
+      ]
+    },
+    {
+      "number": 3096,
+      "title": "Second Largest Element",
+      "description": "Find the second largest element in a 1D array of size $N$.\n\n**Input Format**\n\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Logic",
+        "Optimization"
+      ],
+      "testCases": [
+        {
+          "input": "2, 10 20",
+          "output": "10"
+        },
+        {
+          "input": "3, 1 2 3",
+          "output": "2"
+        },
+        {
+          "input": "5, 10 5 8 12 11",
+          "output": "11"
+        },
+        {
+          "input": "4, -1 -5 -2 -10",
+          "output": "-2"
+        },
+        {
+          "input": "5, 10 20 4 45 99",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$2 \\leq N \\leq 1000$, all elements distinctive."
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "45",
+          "explanation": "Keep track of `largest` and `second_largest` as you iterate through the array."
+        }
+      ]
+    },
+    {
+      "number": 3097,
+      "title": "Count Even and Odd elements",
+      "description": "Count how many even and odd numbers are present in a 1D array.\n\n**Input Format**\n\n\n**Output Format**\n",
+      "difficulty": "Easy",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Logic",
+        "Counting"
+      ],
+      "testCases": [
+        {
+          "input": "1, 0",
+          "output": "Even: 1, Odd: 0"
+        },
+        {
+          "input": "2, 1 3",
+          "output": "Even: 0, Odd: 2"
+        },
+        {
+          "input": "4, 2 4 6 8",
+          "output": "Even: 4, Odd: 0"
+        },
+        {
+          "input": "3, 10 11 12",
+          "output": "Even: 2, Odd: 1"
+        },
+        {
+          "input": "0 (Wait, $N \\geq 1$) -> Input: 1, 1",
+          "output": "Even: 0, Odd: 1"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "",
+          "explanation": "Check each element with `% 2` and increment respective counters."
+        }
+      ]
+    },
+    {
+      "number": 3098,
+      "title": "Copy Array",
+      "description": "Input an array $A$ and copy its elements into another array $B$ in reverse order. Print array $B$.\n\n**Input Format**\n\n\n**Output Format**\nArray $B$ elements.",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Copying"
+      ],
+      "testCases": [
+        {
+          "input": "1, 5",
+          "output": "5"
+        },
+        {
+          "input": "2, 1 2",
+          "output": "2 1"
+        },
+        {
+          "input": "5, 1 1 1 1 1",
+          "output": "1 1 1 1 1"
+        },
+        {
+          "input": "3, -1 0 1",
+          "output": "1 0 -1"
+        },
+        {
+          "input": "4, 10 20 30 40",
+          "output": "40 30 20 10"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "30 20 10",
+          "explanation": "Loop through $A$ from end to start and assign to $B$."
+        }
+      ]
+    },
+    {
+      "number": 3099,
+      "title": "Delete an Element",
+      "description": "Given an array of size $N$, delete the element at a specific index $K$ (0-indexed) and print the resulting array.\n\n**Input Format**\n\n\n**Output Format**\n$N-1$ integers.",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Deletion",
+        "Shifting"
+      ],
+      "testCases": [
+        {
+          "input": "3, 1 2 3, 0",
+          "output": "2 3"
+        },
+        {
+          "input": "3, 1 2 3, 2",
+          "output": "1 2"
+        },
+        {
+          "input": "1, 10, 0",
+          "output": "(Empty)"
+        },
+        {
+          "input": "5, 1 2 3 4 5, 1",
+          "output": "1 3 4 5"
+        },
+        {
+          "input": "2, 10 20, 0",
+          "output": "20"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100, 0 \\leq K < N$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "10 20 40 50",
+          "explanation": "Shift elements from $K+1$ onwards one position to the left."
+        }
+      ]
+    },
+    {
+      "number": 3100,
+      "title": "Merge Two Arrays",
+      "description": "Input two arrays of size $N1$ and $N2$. Merge them into a third array and print the merged array.\n\n**Input Format**\n\n\n**Output Format**\n$N1+N2$ elements.",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Merging"
+      ],
+      "testCases": [
+        {
+          "input": "1 5, 1 10",
+          "output": "5 10"
+        },
+        {
+          "input": "3 1 2 3, 0 (Wait $N \\geq 1$) -> 3 1 2 3, 1 4",
+          "output": "1 2 3 4"
+        },
+        {
+          "input": "2 1 1, 2 1 1",
+          "output": "1 1 1 1"
+        },
+        {
+          "input": "1 100, 1 -100",
+          "output": "100 -100"
+        },
+        {
+          "input": "4 1 2 3 4, 2 5 6",
+          "output": "1 2 3 4 5 6"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N1, N2 \\leq 50$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "10 20 30 40 50",
+          "explanation": "Copy first array into the third, then append the second array."
+        }
+      ]
+    },
+    {
+      "number": 3101,
+      "title": "Unique Elements",
+      "description": "Input an array and print all those elements that appear exactly once.\n\n**Input Format**\n\n\n**Output Format**\nUnique integers separated by space.",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Frequency",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "3, 1 1 1",
+          "output": "(Empty)"
+        },
+        {
+          "input": "3, 1 2 3",
+          "output": "1 2 3"
+        },
+        {
+          "input": "4, 10 20 10 30",
+          "output": "20 30"
+        },
+        {
+          "input": "1, 5",
+          "output": "5"
+        },
+        {
+          "input": "5, 1 2 1 2 3",
+          "output": "3"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "3 4",
+          "explanation": "Use nested loops: for each element, check its frequency across the array."
+        }
+      ]
+    },
+    {
+      "number": 3102,
+      "title": "Array Frequency",
+      "description": "Count the frequency of a specific element $X$ in an array of size $N$.\n\n**Input Format**\n\n\n**Output Format**\nFrequency of $X$.",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Counting"
+      ],
+      "testCases": [
+        {
+          "input": "5, 1 1 1 1 1, 1",
+          "output": "5"
+        },
+        {
+          "input": "5, 1 2 3 4 5, 10",
+          "output": "0"
+        },
+        {
+          "input": "1, 5, 5",
+          "output": "1"
+        },
+        {
+          "input": "4, 10 20 10 20, 20",
+          "output": "2"
+        },
+        {
+          "input": "6, 1 2 1 2 1 2, 1",
+          "output": "3"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "3",
+          "explanation": "Simple loop with an `if` condition and a counter."
+        }
+      ]
+    },
+    {
+      "number": 3103,
+      "title": "Left Rotate Array",
+      "description": "Rotate an array to the left by one position. Example: `[1, 2, 3]` becomes `[2, 3, 1]`.\n\n**Input Format**\n\n\n**Output Format**\nRotated array.",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Rotation",
+        "Shifting"
+      ],
+      "testCases": [
+        {
+          "input": "1, 5",
+          "output": "5"
+        },
+        {
+          "input": "2, 1 2",
+          "output": "2 1"
+        },
+        {
+          "input": "4, 1 2 3 4",
+          "output": "2 3 4 1"
+        },
+        {
+          "input": "5, 10 10 20 20 30",
+          "output": "10 20 20 30 10"
+        },
+        {
+          "input": "3, 100 200 300",
+          "output": "200 300 100"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "20 30 10",
+          "explanation": "Store the first element, shift rest to left, put first element at the end."
+        }
+      ]
+    },
+    {
+      "number": 3104,
+      "title": "Split Even and Odd",
+      "description": "Given an array, store all even numbers in a new array `even[]` and all odd numbers in `odd[]`. Print both arrays.\n\n**Input Format**\n\n\n**Output Format**\n",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Conditional Logic"
+      ],
+      "testCases": [
+        {
+          "input": "2, 1 2",
+          "output": "Even: 2, Odd: 1"
+        },
+        {
+          "input": "3, 1 3 5",
+          "output": "Even: , Odd: 1 3 5"
+        },
+        {
+          "input": "2, 10 12",
+          "output": "Even: 10 12, Odd:"
+        },
+        {
+          "input": "1, 0",
+          "output": "Even: 0, Odd:"
+        },
+        {
+          "input": "5, 1 2 3 4 5",
+          "output": "Even: 2 4, Odd: 1 3 5"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "",
+          "explanation": "Use separate arrays and counters for even and odd elements."
+        }
+      ]
+    },
+    {
+      "number": 3105,
+      "title": "Array Symmetry",
+      "description": "An array is symmetric if it reads the same forward and backward (like a palindrome). Check if the input array is symmetric.\n\n**Input Format**\n\n\n**Output Format**\n\"Symmetric\" or \"Not Symmetric\".",
+      "difficulty": "Medium",
+      "topic": "Arrays (1D)",
+      "tags": [
+        "Arrays",
+        "Palindrome",
+        "Symmetry"
+      ],
+      "testCases": [
+        {
+          "input": "1, 100",
+          "output": "Symmetric"
+        },
+        {
+          "input": "2, 10 20",
+          "output": "Not Symmetric"
+        },
+        {
+          "input": "4, 1 2 2 1",
+          "output": "Symmetric"
+        },
+        {
+          "input": "5, 1 2 3 2 1",
+          "output": "Symmetric"
+        },
+        {
+          "input": "4, 1 2 3 4",
+          "output": "Not Symmetric"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "Symmetric",
+          "explanation": "Compare `arr[i]` with `arr[N-1-i]` for all $i$."
+        }
+      ]
+    },
+    {
+      "number": 3106,
+      "title": "Matrix Traversal",
+      "description": "Input a 2D array (matrix) of size $R \\times C$ and print the elements in matrix form.\n\n**Input Format**\n\n\n**Output Format**\nMatrix with elements separated by space in each row.",
+      "difficulty": "Easy",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Matrix",
+        "Traversal"
+      ],
+      "testCases": [
+        {
+          "input": "1 1, 5",
+          "output": "5"
+        },
+        {
+          "input": "2 2, 1 0 0 1",
+          "output": "1 0, 0 1"
+        },
+        {
+          "input": "3 1, 10 20 30",
+          "output": "10, 20, 30"
+        },
+        {
+          "input": "3 3, 1 1 1 2 2 2 3 3 3",
+          "output": "3x3 matrix."
+        },
+        {
+          "input": "2 3, 1 2 3 4 5 6",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq R, C \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "",
+          "explanation": "Use nested loops: outer for rows ($i$) and inner for columns ($j$)."
+        }
+      ]
+    },
+    {
+      "number": 3107,
+      "title": "Sum of Matrix Elements",
+      "description": "Write a program to find the sum of all elements in a 2D array of size $R \\times C$.\n\n**Input Format**\n\n\n**Output Format**\nA single integer.",
+      "difficulty": "Easy",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "1 1, 100",
+          "output": "100"
+        },
+        {
+          "input": "2 3, 1 1 1 1 1 1",
+          "output": "6"
+        },
+        {
+          "input": "3 3, 1 2 3 4 5 6 7 8 9",
+          "output": "45"
+        },
+        {
+          "input": "2 2, 0 0 0 0",
+          "output": "0"
+        },
+        {
+          "input": "2 2, 10 10 10 10",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq R, C \\leq 20$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "40",
+          "explanation": "Iterate through all elements using nested loops and add them to a `sum`."
+        }
+      ]
+    },
+    {
+      "number": 3108,
+      "title": "Matrix Addition",
+      "description": "Input two matrices of the same size $R \\times C$ and print their sum.\n\n**Input Format**\n\n\n**Output Format**\nResulting matrix.",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Matrix Addition"
+      ],
+      "testCases": [
+        {
+          "input": "1 1, 5, 10",
+          "output": "15"
+        },
+        {
+          "input": "2 2, 0 0 0 0, 1 1 1 1",
+          "output": "1 1, 1 1"
+        },
+        {
+          "input": "2 2, 1 -1 -1 1, -1 1 1 -1",
+          "output": "0 0, 0 0"
+        },
+        {
+          "input": "2 3, 1 1 1 1 1 1, 2 2 2 2 2 2",
+          "output": "3 3 3, 3 3 3"
+        },
+        {
+          "input": "2 2, 1 2 3 4, 5 6 7 8",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq R, C \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "",
+          "explanation": "$C[i][j] = A[i][j] + B[i][j]$."
+        }
+      ]
+    },
+    {
+      "number": 3109,
+      "title": "Row-wise Sum",
+      "description": "For a given $R \\times C$ matrix, print the sum of each row.\n\n**Input Format**\n\n\n**Output Format**\nSums separated by space or newline.",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "1 3, 1 2 3",
+          "output": "6"
+        },
+        {
+          "input": "3 1, 10 20 30",
+          "output": "10 20 30"
+        },
+        {
+          "input": "2 2, 1 1 2 2",
+          "output": "2 4"
+        },
+        {
+          "input": "3 3, 1 1 1 1 1 1 1 1 1",
+          "output": "3 3 3"
+        },
+        {
+          "input": "2 3, 1 2 3 4 5 6",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq R, C \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "6 15",
+          "explanation": "For each row, reset a `rowSum` counter and iterate columns."
+        }
+      ]
+    },
+    {
+      "number": 3110,
+      "title": "Transpose of a Matrix",
+      "description": "Input an $R \\times C$ matrix and output its transpose ($C \\times R$ matrix).\n\n**Input Format**\n\n\n**Output Format**\nTransposed matrix.",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Matrix Transpose"
+      ],
+      "testCases": [
+        {
+          "input": "1 1, 10",
+          "output": "10"
+        },
+        {
+          "input": "2 2, 1 2 3 4",
+          "output": "1 3, 2 4"
+        },
+        {
+          "input": "3 1, 1 2 3",
+          "output": "1 2 3 (Row vector)"
+        },
+        {
+          "input": "1 3, 1 2 3",
+          "output": "1, 2, 3 (Column vector)"
+        },
+        {
+          "input": "2 3, 1 2 3 4 5 6",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq R, C \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "",
+          "explanation": "In transpose, $B[j][i] = A[i][j]$."
+        }
+      ]
+    },
+    {
+      "number": 3111,
+      "title": "Diagonal Sum",
+      "description": "Find the sum of the main diagonal elements of a square matrix ($N \\times N$).\n\n**Input Format**\n\n\n**Output Format**\nA single integer.",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Diagonal",
+        "Math"
+      ],
+      "testCases": [
+        {
+          "input": "1, 100",
+          "output": "100"
+        },
+        {
+          "input": "2, 1 2 3 4",
+          "output": "5"
+        },
+        {
+          "input": "3, 1 0 0 0 1 0 0 0 1",
+          "output": "3 (Identity matrix)"
+        },
+        {
+          "input": "4, 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1",
+          "output": "4"
+        },
+        {
+          "input": "3, 1 2 3 4 5 6 7 8 9",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "15",
+          "explanation": "Add elements $A[i][i]$ for $i = 0 \\dots N-1$. Sum = $1+5+9=15$."
+        }
+      ]
+    },
+    {
+      "number": 3112,
+      "title": "Bubble Sort",
+      "description": "Input an array of size $N$ and sort it in ascending order using the Bubble Sort algorithm.\n\n**Input Format**\n\n\n**Output Format**\nSorted array space-separated.",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "Sorting",
+        "Bubble Sort",
+        "Algorithms"
+      ],
+      "testCases": [
+        {
+          "input": "1, 10",
+          "output": "10"
+        },
+        {
+          "input": "3, 3 2 1",
+          "output": "1 2 3"
+        },
+        {
+          "input": "4, 1 2 3 4",
+          "output": "1 2 3 4"
+        },
+        {
+          "input": "5, 10 -5 0 20 8",
+          "output": "-5 0 8 10 20"
+        },
+        {
+          "input": "5, 5 1 4 2 8",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "1 2 4 5 8",
+          "explanation": "Repeatedly swap adjacent elements if they are in the wrong order."
+        }
+      ]
+    },
+    {
+      "number": 3113,
+      "title": "Selection Sort",
+      "description": "Sort an array of size $N$ in ascending order using Selection Sort.\n\n**Input Format**\n\n\n**Output Format**\nSorted array.",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "Sorting",
+        "Selection Sort",
+        "Algorithms"
+      ],
+      "testCases": [
+        {
+          "input": "2, 2 1",
+          "output": "1 2"
+        },
+        {
+          "input": "5, 10 20 30 40 50",
+          "output": "10 20 30 40 50"
+        },
+        {
+          "input": "4, -1 -10 5 0",
+          "output": "-10 -1 0 5"
+        },
+        {
+          "input": "3, 1 1 1",
+          "output": "1 1 1"
+        },
+        {
+          "input": "5, 64 25 12 22 11",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "11 12 22 25 64",
+          "explanation": "Find the minimum element in the unsorted part and put it at the beginning."
+        }
+      ]
+    },
+    {
+      "number": 3114,
+      "title": "Linear Search in Matrix",
+      "description": "Search for a key in an $R \\times C$ matrix. If found, print its position (Row, Col); else print \"-1\".\n\n**Input Format**\n\n\n**Output Format**\n`Row: [r], Col: [c]` or `-1`.",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Searching"
+      ],
+      "testCases": [
+        {
+          "input": "2 2, 1 2 3 4, 1",
+          "output": "Row: 0, Col: 0"
+        },
+        {
+          "input": "2 2, 1 2 3 4, 5",
+          "output": "-1"
+        },
+        {
+          "input": "1 3, 10 20 30, 30",
+          "output": "Row: 0, Col: 2"
+        },
+        {
+          "input": "3 1, 5 10 15, 10",
+          "output": "Row: 1, Col: 0"
+        },
+        {
+          "input": "2 2, 10 20 30 40, 30",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq R, C \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "Row: 1, Col: 0",
+          "explanation": "Nested loop search."
+        }
+      ]
+    },
+    {
+      "number": 3115,
+      "title": "Binary Search (Iterative)",
+      "description": "Implement Binary Search iteratively on a sorted array. If the key exists, return its index; otherwise, return `-1`.\n\n**Input Format**\n\n\n**Output Format**\nIndex or -1.",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "Binary Search",
+        "Searching",
+        "Algorithms"
+      ],
+      "testCases": [
+        {
+          "input": "5, 1 2 3 4 5, 1",
+          "output": "0"
+        },
+        {
+          "input": "5, 1 2 3 4 5, 5",
+          "output": "4"
+        },
+        {
+          "input": "5, 1 2 3 4 5, 6",
+          "output": "-1"
+        },
+        {
+          "input": "1, 10, 10",
+          "output": "0"
+        },
+        {
+          "input": "6, 2 4 6 8 10 12, 10",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "4",
+          "explanation": "Use `low`, `high`, and `mid` pointers. Update `low` or `high` based on comparison."
+        }
+      ]
+    },
+    {
+      "number": 3116,
+      "title": "Identity Matrix Checker",
+      "description": "Check if a given $N \\times N$ square matrix is an Identity Matrix (Diagonal elements are 1, others are 0).\n\n**Input Format**\n\n\n**Output Format**\n\"Yes\" or \"No\".",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Matrix",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "1, 1",
+          "output": "Yes"
+        },
+        {
+          "input": "2, 1 1 1 1",
+          "output": "No"
+        },
+        {
+          "input": "3, 1 0 0 0 1 0 0 0 1",
+          "output": "Yes"
+        },
+        {
+          "input": "2, 2 0 0 2",
+          "output": "No"
+        },
+        {
+          "input": "2, 1 0 0 1",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "Yes",
+          "explanation": "Check $A[i][j]$: if $i==j$, value must be 1; else 0."
+        }
+      ]
+    },
+    {
+      "number": 3117,
+      "title": "Matrix Multiplication",
+      "description": "Write a program to multiply two matrices. Matrix 1 size $R1 \\times C1$ and Matrix 2 size $R2 \\times C2$. Assume $C1 == R2$.\n\n**Input Format**\n\n\n**Output Format**\nResulting Matrix.",
+      "difficulty": "Hard",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Matrix Multiplication",
+        "Hard"
+      ],
+      "testCases": [
+        {
+          "input": "1 1, 2, 1 1, 3",
+          "output": "6"
+        },
+        {
+          "input": "2 2, 1 0 0 1, 2 2, 5 6 7 8",
+          "output": "5 6, 7 8"
+        },
+        {
+          "input": "2 2, 1 2 3 4, 2 2, 1 0 0 1",
+          "output": "1 2, 3 4"
+        },
+        {
+          "input": "2 2, 0 0 0 0, 2 2, 1 2 3 4",
+          "output": "0 0, 0 0"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq R, C \\leq 5$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "",
+          "explanation": "$C[i][j] = \\sum (A[i][k] \\times B[k][j])$."
+        }
+      ]
+    },
+    {
+      "number": 3118,
+      "title": "Sparse Matrix Checker",
+      "description": "A matrix is sparse if the number of zeros is greater than half the total number of elements. Check if an $R \\times C$ matrix is sparse.\n\n**Input Format**\n\n\n**Output Format**\n\"Sparse\" or \"Not Sparse\".",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Matrix Property"
+      ],
+      "testCases": [
+        {
+          "input": "1 1, 0",
+          "output": "Sparse"
+        },
+        {
+          "input": "2 2, 1 1 1 1",
+          "output": "Not Sparse"
+        },
+        {
+          "input": "3 3, 1 0 0 0 1 0 0 0 1",
+          "output": "Sparse (6 zeros out of 9)"
+        },
+        {
+          "input": "2 2, 0 0 1 1",
+          "output": "Not Sparse (Zero count 2 is not > 2)"
+        },
+        {
+          "input": "2 2, 1 0 0 0",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq R, C \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "Sparse",
+          "explanation": "Total 4 elements. Zero count is 3. 3 > 2, so Sparse."
+        }
+      ]
+    },
+    {
+      "number": 3119,
+      "title": "Insertion Sort",
+      "description": "Sort an array using Insertion Sort. (Optional: Suitable for small arrays).\n\n**Input Format**\n\n\n**Output Format**\nSorted array.",
+      "difficulty": "Medium",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "Sorting",
+        "Insertion Sort",
+        "Algorithms"
+      ],
+      "testCases": [
+        {
+          "input": "2, 10 5",
+          "output": "5 10"
+        },
+        {
+          "input": "4, 1 3 2 4",
+          "output": "1 2 3 4"
+        },
+        {
+          "input": "3, -1 -2 -3",
+          "output": "-3 -2 -1"
+        },
+        {
+          "input": "1, 7",
+          "output": "7"
+        },
+        {
+          "input": "5, 12 11 13 5 6",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "5 6 11 12 13",
+          "explanation": "Build a sorted array one element at a time by picking from the unsorted part and inserting it at the correct position."
+        }
+      ]
+    },
+    {
+      "number": 3120,
+      "title": "Spiral Matrix Print",
+      "description": "Print an $R \\times C$ matrix in spiral order.\n\n**Input Format**\n\n\n**Output Format**\nElements in spiral order separated by space.",
+      "difficulty": "Hard",
+      "topic": "Arrays (2D), Searching & Sorting",
+      "tags": [
+        "2D Arrays",
+        "Matrix",
+        "Patterns",
+        "Hard"
+      ],
+      "testCases": [
+        {
+          "input": "1 1, 5",
+          "output": "5"
+        },
+        {
+          "input": "2 2, 1 2 3 4",
+          "output": "1 2 4 3"
+        },
+        {
+          "input": "1 3, 1 2 3",
+          "output": "1 2 3"
+        },
+        {
+          "input": "3 1, 10 20 30",
+          "output": "10 20 30"
+        },
+        {
+          "input": "3 3, 1 2 3 4 5 6 7 8 9",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "$1 \\leq R, C \\leq 5$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "1 2 3 6 9 8 7 4 5",
+          "explanation": "Use four boundaries (`top`, `bottom`, `left`, `right`) and iterate in cycles."
+        }
+      ]
+    },
+    {
+      "number": 3121,
+      "title": "String Length",
+      "description": "Input a string and calculate its length without using the `strlen()` function.\n\n**Input Format**\nA string (may contain spaces).\n\n**Output Format**\nA single integer.",
+      "difficulty": "Easy",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Basic",
+        "Null Terminator"
+      ],
+      "testCases": [
+        {
+          "input": "a",
+          "output": "1"
+        },
+        {
+          "input": "",
+          "output": "1 (Space)"
+        },
+        {
+          "input": "C Programming",
+          "output": "13"
+        },
+        {
+          "input": "12345",
+          "output": "5"
+        },
+        {
+          "input": "Hello World",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "Hello World",
+          "output": "11",
+          "explanation": "Loop through the string until you encounter the null terminator `\\0`."
+        }
+      ]
+    },
+    {
+      "number": 3122,
+      "title": "String Copy",
+      "description": "Copy one string to another without using `strcpy()`.\n\n**Input Format**\nA source string $S$.\n\n**Output Format**\nThe destination string.",
+      "difficulty": "Easy",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Manipulation"
+      ],
+      "testCases": [
+        {
+          "input": "a",
+          "output": "a"
+        },
+        {
+          "input": "123",
+          "output": "123"
+        },
+        {
+          "input": "Space Test",
+          "output": "Space Test"
+        },
+        {
+          "input": "LongStringWithNoSpaces",
+          "output": "LongStringWithNoSpaces"
+        },
+        {
+          "input": "Hello",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "Hello",
+          "output": "Hello",
+          "explanation": "Copy each character `dest[i] = src[i]` until `\\0`."
+        }
+      ]
+    },
+    {
+      "number": 3123,
+      "title": "String Concatenation",
+      "description": "Join (concatenate) two strings without using `strcat()`.\n\n**Input Format**\nTwo space-separated strings (on separate lines if they contain spaces).\n\n**Output Format**\nJoined string.",
+      "difficulty": "Easy",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Manipulation"
+      ],
+      "testCases": [
+        {
+          "input": "A, B",
+          "output": "AB"
+        },
+        {
+          "input": "Hey, There",
+          "output": "HeyThere"
+        },
+        {
+          "input": ", Space",
+          "output": "Space"
+        },
+        {
+          "input": "123, 456",
+          "output": "123456"
+        },
+        {
+          "input": "Hello , World",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Combined length $\\leq 200$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "Hello World",
+          "explanation": "Find the end of the first string and start appending the second string from there."
+        }
+      ]
+    },
+    {
+      "number": 3124,
+      "title": "String Comparison",
+      "description": "Compare two strings lexicographically without using `strcmp()`. Output `0` if equal, `1` if the first is greater, and `-1` if the second is greater.\n\n**Input Format**\nTwo strings.\n\n**Output Format**\n`0`, `1`, or `-1`.",
+      "difficulty": "Medium",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Logic",
+        "Comparison"
+      ],
+      "testCases": [
+        {
+          "input": "abc, abc",
+          "output": "0"
+        },
+        {
+          "input": "abd, abc",
+          "output": "1"
+        },
+        {
+          "input": "abc, abd",
+          "output": "-1"
+        },
+        {
+          "input": "apple, apples",
+          "output": "-1"
+        },
+        {
+          "input": "banana, apple",
+          "output": "1"
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "-1",
+          "explanation": "Compare character by character. If difference found, return sign of `str1[i] - str2[i]`."
+        }
+      ]
+    },
+    {
+      "number": 3125,
+      "title": "Reverse a String",
+      "description": "Reverse a given string in-place without using `strrev()`.\n\n**Input Format**\nA string.\n\n**Output Format**\nReversed string.",
+      "difficulty": "Easy",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Reverse"
+      ],
+      "testCases": [
+        {
+          "input": "a",
+          "output": "a"
+        },
+        {
+          "input": "ab",
+          "output": "ba"
+        },
+        {
+          "input": "level",
+          "output": "level"
+        },
+        {
+          "input": "12345",
+          "output": "54321"
+        },
+        {
+          "input": "Coding",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "Coding",
+          "output": "gnidoC",
+          "explanation": "Swap characters from both ends until the middle."
+        }
+      ]
+    },
+    {
+      "number": 3126,
+      "title": "String Palindrome",
+      "description": "Check if a given string is a palindrome. (Case-sensitive).\n\n**Input Format**\nA string.\n\n**Output Format**\n\"Yes\" or \"No\".",
+      "difficulty": "Medium",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Palindrome"
+      ],
+      "testCases": [
+        {
+          "input": "racecar",
+          "output": "Yes"
+        },
+        {
+          "input": "hello",
+          "output": "No"
+        },
+        {
+          "input": "Madam",
+          "output": "No (Case-sensitive)"
+        },
+        {
+          "input": "a",
+          "output": "Yes"
+        },
+        {
+          "input": "aba",
+          "output": "Yes"
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "madam",
+          "output": "Yes",
+          "explanation": "Compare the string with its reverse or compare characters from both ends."
+        }
+      ]
+    },
+    {
+      "number": 3127,
+      "title": "Count Vowels and Consonants",
+      "description": "Input a string and count the number of vowels and consonants in it. Ignore spaces and digits.\n\n**Input Format**\nA string.\n\n**Output Format**\n",
+      "difficulty": "Medium",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Character Logic"
+      ],
+      "testCases": [
+        {
+          "input": "aeiou",
+          "output": "Vowels: 5, Consonants: 0"
+        },
+        {
+          "input": "bcd",
+          "output": "Vowels: 0, Consonants: 3"
+        },
+        {
+          "input": "123!",
+          "output": "Vowels: 0, Consonants: 0"
+        },
+        {
+          "input": "HELLO",
+          "output": "Vowels: 2, Consonants: 3"
+        },
+        {
+          "input": "Learning C is fun!",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 1000$"
+      ],
+      "examples": [
+        {
+          "input": "Learning C is fun!",
+          "output": "",
+          "explanation": "Iterate through the string, use `tolower()` for case-insensitivity, and check against `a, e, i, o, u`."
+        }
+      ]
+    },
+    {
+      "number": 3128,
+      "title": "Uppercase to Lowercase",
+      "description": "Convert a given uppercase string to lowercase without using `strlwr()`.\n\n**Input Format**\nA string in ALL CAPS.\n\n**Output Format**\nString in lowercase.",
+      "difficulty": "Easy",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "ASCII",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "A",
+          "output": "a"
+        },
+        {
+          "input": "HELLO",
+          "output": "hello"
+        },
+        {
+          "input": "C PROG",
+          "output": "c prog"
+        },
+        {
+          "input": "123",
+          "output": "123"
+        },
+        {
+          "input": "GEMINI",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "GEMINI",
+          "output": "gemini",
+          "explanation": "Loop through the string, add 32 to the ASCII value of each uppercase letter."
+        }
+      ]
+    },
+    {
+      "number": 3129,
+      "title": "Toggle Case",
+      "description": "Write a program that converts every uppercase character to lowercase and every lowercase character to uppercase in a given string.\n\n**Input Format**\nA mixed-case string.\n\n**Output Format**\nString with toggled case.",
+      "difficulty": "Medium",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "ctype.h",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "abc",
+          "output": "ABC"
+        },
+        {
+          "input": "ABC",
+          "output": "abc"
+        },
+        {
+          "input": "a1B2",
+          "output": "A1b2"
+        },
+        {
+          "input": "",
+          "output": ""
+        },
+        {
+          "input": "aBc123De",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "aBc123De",
+          "output": "AbC123dE",
+          "explanation": "Use `isupper()` and `islower()` from `ctype.h` or ASCII checks."
+        }
+      ]
+    },
+    {
+      "number": 3130,
+      "title": "Word Count",
+      "description": "Calculate the total number of words in a given sentence. Assume words are separated by a single space.\n\n**Input Format**\nA sentence.\n\n**Output Format**\nNumber of words.",
+      "difficulty": "Medium",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Logic",
+        "Word Counting"
+      ],
+      "testCases": [
+        {
+          "input": "Hello",
+          "output": "1"
+        },
+        {
+          "input": "Hello World",
+          "output": "2"
+        },
+        {
+          "input": "(Spaces only)",
+          "output": "0 (or 1 depending on logic - let's assume 0 for empty words)"
+        },
+        {
+          "input": "C is fun",
+          "output": "3"
+        },
+        {
+          "input": "Learning to code is exciting",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 500$"
+      ],
+      "examples": [
+        {
+          "input": "Learning to code is exciting",
+          "output": "5",
+          "explanation": "Count the number of spaces and add 1 (handle empty strings if necessary)."
+        }
+      ]
+    },
+    {
+      "number": 3131,
+      "title": "Remove Special Characters",
+      "description": "Remove all non-alphabetic characters (numbers, symbols) from a string.\n\n**Input Format**\nA string.\n\n**Output Format**\nCleaned string.",
+      "difficulty": "Medium",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Validation",
+        "Logic"
+      ],
+      "testCases": [
+        {
+          "input": "abc123",
+          "output": "abc"
+        },
+        {
+          "input": "!@#",
+          "output": "(Empty)"
+        },
+        {
+          "input": "Hello 2024",
+          "output": "Hello  (wait, space is not alpha) $\\to$ Hello"
+        },
+        {
+          "input": "C++",
+          "output": "C"
+        },
+        {
+          "input": "P@r0gr@m!ng",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "P@r0gr@m!ng",
+          "output": "Prgrmng",
+          "explanation": "Build a new string (or modify in-place) by checking `isalpha()`."
+        }
+      ]
+    },
+    {
+      "number": 3132,
+      "title": "Substring Finding",
+      "description": "Find if a substring exists within a main string. If found, print \"Found\" and its first occurrence index; else print \"Not Found\". (Constraint: Do not use `strstr()`).\n\n**Input Format**\n\n\n**Output Format**\n`Found at index: [I]` or `Not Found`.",
+      "difficulty": "Medium",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Substring",
+        "Nested Loops"
+      ],
+      "testCases": [
+        {
+          "input": "Hello, ell",
+          "output": "Found at index: 1"
+        },
+        {
+          "input": "Hello, low",
+          "output": "Not Found"
+        },
+        {
+          "input": "abcde, a",
+          "output": "Found at index: 0"
+        },
+        {
+          "input": "abcde, z",
+          "output": "Not Found"
+        },
+        {
+          "input": "Programming, gram",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Lengths $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "Found at index: 3",
+          "explanation": "Use nested loops to check if segments of the main string match the substring."
+        }
+      ]
+    },
+    {
+      "number": 3133,
+      "title": "Sort String Characters",
+      "description": "Sort the characters of a string alphabetically.\n\n**Input Format**\nA string.\n\n**Output Format**\nSorted string.",
+      "difficulty": "Medium",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Sorting"
+      ],
+      "testCases": [
+        {
+          "input": "dcba",
+          "output": "abcd"
+        },
+        {
+          "input": "hello",
+          "output": "ehllo"
+        },
+        {
+          "input": "Cba",
+          "output": "Cba (ASCII check: C < a)"
+        },
+        {
+          "input": "132",
+          "output": "123"
+        },
+        {
+          "input": "cba",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "cba",
+          "output": "abc",
+          "explanation": "Use any sorting algorithm (like Bubble Sort) comparing ASCII values of characters."
+        }
+      ]
+    },
+    {
+      "number": 3134,
+      "title": "Remove Duplicates",
+      "description": "Remove all duplicate characters from a string so that each character appears only once.\n\n**Input Format**\nA string.\n\n**Output Format**\nModified string.",
+      "difficulty": "Medium",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Logic",
+        "Uniqueness"
+      ],
+      "testCases": [
+        {
+          "input": "aaaa",
+          "output": "a"
+        },
+        {
+          "input": "abc",
+          "output": "abc"
+        },
+        {
+          "input": "1122",
+          "output": "12"
+        },
+        {
+          "input": "banana",
+          "output": "ban"
+        },
+        {
+          "input": "programming",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "programming",
+          "output": "progamin",
+          "explanation": "Use a secondary array or frequency check to keep only the first occurrence of each character."
+        }
+      ]
+    },
+    {
+      "number": 3135,
+      "title": "Anagram Checker",
+      "description": "Check if two strings are anagrams of each other (contain the same characters in any order).\n\n**Input Format**\nTwo strings.\n\n**Output Format**\n\"Anagrams\" or \"Not Anagrams\".",
+      "difficulty": "Hard",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Anagram",
+        "Frequency Array"
+      ],
+      "testCases": [
+        {
+          "input": "abc, cba",
+          "output": "Anagrams"
+        },
+        {
+          "input": "test, best",
+          "output": "Not Anagrams"
+        },
+        {
+          "input": "rail safety, fairy tales",
+          "output": "Anagrams"
+        },
+        {
+          "input": "abc, abcd",
+          "output": "Not Anagrams"
+        },
+        {
+          "input": "listen, silent",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Length $\\leq 100$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "Anagrams",
+          "explanation": "Sort both strings and compare, or use a frequency array to count characters."
+        }
+      ]
+    },
+    {
+      "number": 3136,
+      "title": "Pointer Basics",
+      "description": "Write a program to declare an integer variable, a pointer to that integer, and print the address and value using the pointer.\n\n**Input Format**\nA single integer $N$.\n\n**Output Format**\n",
+      "difficulty": "Easy",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Pointers",
+        "Address-of",
+        "Dereferencing"
+      ],
+      "testCases": [
+        {
+          "input": "5",
+          "output": "Value: 5"
+        },
+        {
+          "input": "-1",
+          "output": "Value: -1"
+        },
+        {
+          "input": "0",
+          "output": "Value: 0"
+        }
+      ],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "10",
+          "output": "",
+          "explanation": "Use `&` (address-of) and `*` (dereference) operators."
+        }
+      ]
+    },
+    {
+      "number": 3137,
+      "title": "Swap using Pointers",
+      "description": "Implement a function `void swap(int *a, int *b)` that swaps two integers using pointers (call by reference).\n\n**Input Format**\nTwo space-separated integers $X$ and $Y$.\n\n**Output Format**\nSwapped values `Y X`.",
+      "difficulty": "Easy",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Pointers",
+        "Call by Reference",
+        "Swapping"
+      ],
+      "testCases": [
+        {
+          "input": "1 2",
+          "output": "2 1"
+        },
+        {
+          "input": "5 5",
+          "output": "5 5"
+        },
+        {
+          "input": "-10 10",
+          "output": "10 -10"
+        },
+        {
+          "input": "0 0",
+          "output": "0 0"
+        },
+        {
+          "input": "10 20",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Standard int range."
+      ],
+      "examples": [
+        {
+          "input": "10 20",
+          "output": "20 10",
+          "explanation": "Use a temporary variable to swap values pointed to by `a` and `b`."
+        }
+      ]
+    },
+    {
+      "number": 3138,
+      "title": "Pointer Arithmetic",
+      "description": "Input an array of 5 integers and print its elements using pointer increment (`ptr++`) rather than indexing.\n\n**Input Format**\n5 integers.\n\n**Output Format**\n5 integers separated by space.",
+      "difficulty": "Easy",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Pointers",
+        "Pointer Arithmetic",
+        "Arrays"
+      ],
+      "testCases": [
+        {
+          "input": "10 20 30 40 50",
+          "output": "10 20 30 40 50"
+        },
+        {
+          "input": "0 0 0 0 0",
+          "output": "0 0 0 0 0"
+        },
+        {
+          "input": "-1 -2 -3 -4 -5",
+          "output": "-1 -2 -3 -4 -5"
+        }
+      ],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "1 2 3 4 5",
+          "output": "1 2 3 4 5",
+          "explanation": "Initialize pointer to array start, loop 5 times, print `*ptr` and increment."
+        }
+      ]
+    },
+    {
+      "number": 3139,
+      "title": "Define a Structure",
+      "description": "Create a structure `Student` with fields: `id` (int), `name` (string), and `marks` (float). Input data for one student and display it.\n\n**Input Format**\n\n\n**Output Format**\n",
+      "difficulty": "Easy",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Structures",
+        "Basic"
+      ],
+      "testCases": [
+        {
+          "input": "1, A, 10",
+          "output": "ID: 1, Name: A, Marks: 10.00"
+        },
+        {
+          "input": "2, John, 99.9",
+          "output": "ID: 2, Name: John, Marks: 99.90"
+        },
+        {
+          "input": "101, Rahul, 85.5",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "",
+          "explanation": "Declare the struct, create an instance, and use `.` operator for access."
+        }
+      ]
+    },
+    {
+      "number": 3140,
+      "title": "Array of Structures",
+      "description": "Input details for $N$ students (ID, Name, Marks) into an array of structures. Calculate and print the average marks of all students.\n\n**Input Format**\n\n\n**Output Format**\nAverage marks rounded to 2 decimal places.",
+      "difficulty": "Medium",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Structures",
+        "Arrays",
+        "Average"
+      ],
+      "testCases": [
+        {
+          "input": "1, 1 A 10",
+          "output": "10.00"
+        },
+        {
+          "input": "3, 1 A 10, 2 B 20, 3 C 30",
+          "output": "20.00"
+        },
+        {
+          "input": "2, 1 X 75.5, 2 Y 74.5",
+          "output": "75.00"
+        }
+      ],
+      "constraints": [
+        "$1 \\leq N \\leq 10$"
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "85.00",
+          "explanation": "Sum the marks field of all struct elements in the array and divide by $N$."
+        }
+      ]
+    },
+    {
+      "number": 3141,
+      "title": "Nested Structures",
+      "description": "Create a structure `Date` (day, month, year). Create another structure `Employee` which has a name and a field of type `Date` (joining date). Input and display employee details.\n\n**Input Format**\n\n\n**Output Format**\nName: [N], Joined: [D/M/Y]",
+      "difficulty": "Medium",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Structures",
+        "Nesting"
+      ],
+      "testCases": [
+        {
+          "input": "Bob, 1 1 2020",
+          "output": "Name: Bob, Joined: 1/1/2020"
+        },
+        {
+          "input": "Dev, 31 12 1999",
+          "output": "Name: Dev, Joined: 31/12/1999"
+        }
+      ],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "Name: Alice, Joined: 15/8/2022",
+          "explanation": "Access nested fields using `employee.joinDate.day`."
+        }
+      ]
+    },
+    {
+      "number": 3142,
+      "title": "Distance Structure",
+      "description": "Create a structure `Distance` containing `feet` (int) and `inches` (float). Write a program to add two distances. (12 inches = 1 foot).\n\n**Input Format**\n\n\n**Output Format**\nTotal distance in Feet and Inches.",
+      "difficulty": "Medium",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Structures",
+        "Math",
+        "Real-world Logic"
+      ],
+      "testCases": [
+        {
+          "input": "1 6, 0 6",
+          "output": "2 Feet, 0.0 Inches"
+        },
+        {
+          "input": "10 0, 5 0",
+          "output": "15 Feet, 0.0 Inches"
+        },
+        {
+          "input": "0 11, 0 2",
+          "output": "1 Feet, 1.0 Inches"
+        }
+      ],
+      "constraints": [
+        "Positive values."
+      ],
+      "examples": [
+        {
+          "input": "",
+          "output": "8 Feet, 2.0 Inches",
+          "explanation": "$10+4 = 14$ inches $\\to 1$ foot, $2$ inches. Total feet: $5+2+1 = 8$."
+        }
+      ]
+    },
+    {
+      "number": 3143,
+      "title": "Array vs Pointer in String",
+      "description": "Explain the difference between `char str[] = \"Hello\"` and `char *ptr = \"Hello\"`. Write a program to change a character in the first one and explain why the second one might cause a segmentation fault if you try to modify it directly.\n\n**Input Format**\nNone.\n\n**Output Format**\nModified string.",
+      "difficulty": "Hard",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Pointers",
+        "Strings",
+        "Memory Management"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "None.",
+          "output": "Kello (if 'H' changed to 'K')",
+          "explanation": "Character arrays are writable; string literals pointed to by `char *` are often stored in read-only memory."
+        }
+      ]
+    },
+    {
+      "number": 3144,
+      "title": "Pointer To Structure",
+      "description": "Create a structure `Rectangle` (length, width). Use a structure pointer and the arrow operator (`->`) to input and calculate area.\n\n**Input Format**\nLength and Width.\n\n**Output Format**\nArea.",
+      "difficulty": "Medium",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Structures",
+        "Pointers",
+        "Arrow Operator"
+      ],
+      "testCases": [
+        {
+          "input": "10 10",
+          "output": "100"
+        },
+        {
+          "input": "1 5",
+          "output": "5"
+        },
+        {
+          "input": "0 5",
+          "output": "0"
+        },
+        {
+          "input": "5 4",
+          "output": "As sample."
+        }
+      ],
+      "constraints": [
+        "Positive numbers."
+      ],
+      "examples": [
+        {
+          "input": "5 4",
+          "output": "20",
+          "explanation": "`ptr->length` is equivalent to `(*ptr).length`."
+        }
+      ]
+    },
+    {
+      "number": 3145,
+      "title": "File Write",
+      "description": "Write a program to create a file named `output.txt` and write the string \"C Question Bank\" into it.\n\n**Input Format**\nNone.\n\n**Output Format**\n\"File written successfully\".",
+      "difficulty": "Easy",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "File Handling",
+        "IO"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "None.",
+          "output": "File written successfully",
+          "explanation": "Use `fopen()`, `fprintf()`, and `fclose()`."
+        }
+      ]
+    },
+    {
+      "number": 3146,
+      "title": "File Read",
+      "description": "Read the content of a file `data.txt` and display it on the console. (Assume `data.txt` already exists).\n\n**Input Format**\nNone.\n\n**Output Format**\nContent of the file.",
+      "difficulty": "Easy",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "File Handling",
+        "Read"
+      ],
+      "testCases": [],
+      "constraints": [
+        "File size $\\leq 1000$ bytes."
+      ],
+      "examples": [
+        {
+          "input": "(Assume file has \"Hello C\")",
+          "output": "Hello C",
+          "explanation": "Use `fgets()` or `fgetc()` in a loop until `EOF`."
+        }
+      ]
+    },
+    {
+      "number": 3147,
+      "title": "Copy File Content",
+      "description": "Write a program to copy the content of `source.txt` to `destination.txt`.\n\n**Input Format**\nNone.\n\n**Output Format**\n\"Content copied\".",
+      "difficulty": "Medium",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "File Handling",
+        "Copy"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "None.",
+          "output": "Content copied",
+          "explanation": "Open both files, read from one and write to the other."
+        }
+      ]
+    },
+    {
+      "number": 3148,
+      "title": "Count Lines in File",
+      "description": "Write a program to count the total number of lines in a text file.\n\n**Input Format**\nNone (Assume file exists).\n\n**Output Format**\nNumber of lines.",
+      "difficulty": "Medium",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "File Handling",
+        "Logic"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "(Assume file has 3 lines)",
+          "output": "3",
+          "explanation": "Count the occurrences of the newline character `\\n`."
+        }
+      ]
+    },
+    {
+      "number": 3149,
+      "title": "Union Exploration",
+      "description": "Explain the difference between `struct` and `union` in C. Write a program to define a `union Data { int i; float f; char c; }`, assign a value to `i`, and see what happens to `f` and `c`.\n\n**Input Format**\nAn integer for field `i`.\n\n**Output Format**\n",
+      "difficulty": "Medium",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "Union",
+        "Memory",
+        "Basics"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "65",
+          "output": "",
+          "explanation": "Unions share the same memory location for all members."
+        }
+      ]
+    },
+    {
+      "number": 3150,
+      "title": "Search Records in File",
+      "description": "Assume a file contains student records (one per line: ID Name Marks). Write a program to search for a student by ID and print their details.\n\n**Input Format**\nStudent ID to search.\n\n**Output Format**\n\"Found: [Details]\" or \"Not Found\".",
+      "difficulty": "Hard",
+      "topic": "Pointers, Structures & File Handling",
+      "tags": [
+        "File Handling",
+        "Structures",
+        "Searching",
+        "Hard"
+      ],
+      "testCases": [],
+      "constraints": [
+        "None."
+      ],
+      "examples": [
+        {
+          "input": "101",
+          "output": "Found: 101 Rahul 85.5",
+          "explanation": "Use `fscanf()` in a loop to read one line at a time until the end of the file."
+        }
+      ]
+    }
+  ]
+}

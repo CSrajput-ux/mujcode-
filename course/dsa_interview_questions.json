@@ -1,0 +1,3043 @@
+{
+  "courseName": "DSA Interview Questions Company Wise",
+  "category": "Interview",
+  "questions": [
+    {
+      "number": 2001,
+      "title": "The Extreme Temperatures",
+      "description": "A meteorological station records the temperature of a city every hour for a specific day. You are given an array of integers `temperatures` representing these recordings. Your task is to identify the **highest** and **lowest** temperatures recorded during that day to help scientists analyze the climate variability.\r\n\r\nYou must return these two values.\n\n**Input Format**\n- An integer `n`, representing the number of temperature recordings.\r\n- An array of `n` integers `temperatures`.\n\n**Output Format**\n- Two integers separated by a space: the maximum temperature followed by the minimum temperature.",
+      "difficulty": "Easy",
+      "topic": "Arrays",
+      "tags": [
+        "Arrays",
+        "Amazon",
+        "Google",
+        "Adobe",
+        "Cisco"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "40 12\r\n\r\nExplanation:\r\nThe temperatures recorded are [23, 12, 35, 12, 40].\r\nThe highest temperature is 40.\r\nThe lowest temperature is 12.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n1\r\n-5\r\n\r\nOutput:\r\n-5 -5\r\n\r\nExplanation:\r\nOnly one recording exists, so it is both the maximum and minimum.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Google, Adobe, Cisco",
+      "originalNumber": "1"
+    },
+    {
+      "number": 2002,
+      "title": "The Reversed Data Stream",
+      "description": "A satellite sends data packets to earth as an array of integers. Due to a transmission protocol error, the packets are received in the exact reverse order of their generation. The ground station needs to process them in the original chronological order.\r\n\r\nGiven the array `received_data`, your task is to verify the system by reversing the array strictly **in-place** (without creating a new array) to restore the original order.\n\n**Input Format**\n- An integer `n`, the size of the array.\r\n- An array `received_data` of size `n`.\n\n**Output Format**\n- The modified array elements separated by spaces.",
+      "difficulty": "Easy",
+      "topic": "Arrays",
+      "tags": [
+        "Arrays",
+        "Infosys",
+        "Moonfrog Labs"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "4 3 2 1\r\n\r\nExplanation:\r\nThe array [1, 2, 3, 4] reversed becomes [4, 3, 2, 1].\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n3\r\n-1 -2 -3\r\n\r\nOutput:\r\n-3 -2 -1\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Infosys, Moonfrog Labs",
+      "originalNumber": "2"
+    },
+    {
+      "number": 2003,
+      "title": "The Most Profitable Timeframe",
+      "description": "You are a financial analyst monitoring the hourly performance of a volatile stock. You have an array `pnl` (Profit and Loss) where each element represents the net profit (positive) or loss (negative) recorded in a specific hour.\r\n\r\nYour goal is to find a contiguous sequence of hours (a subarray) that produces the **maximum possible total profit**. Even if all hours show a loss, you must identify the timeframe that results in the least loss (single least negative hour).\n\n**Input Format**\n- An integer `n`.\r\n- An array `pnl` of integers.\n\n**Output Format**\n- A single integer representing the maximum subarray sum.",
+      "difficulty": "Medium",
+      "topic": "Arrays",
+      "tags": [
+        "Arrays",
+        "Microsoft",
+        "Facebook",
+        "LinkedIn"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "7\r\n\r\nExplanation:\r\nThe contiguous subarray [4, -1, -2, 1, 5] gives the sum = 4 - 1 - 2 + 1 + 5 = 7.\r\nThis is the highest possible sum.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n4\r\n-10 -2 -3 -5\r\n\r\nOutput:\r\n-2\r\n\r\nExplanation:\r\nSince all numbers are negative, picking the single element -2 gives the maximum sum.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft, Facebook, LinkedIn",
+      "originalNumber": "3"
+    },
+    {
+      "number": 2004,
+      "title": "The Duplicate ID Detection",
+      "description": "In a secure database system, every transaction is assigned a unique integer ID. However, due to a system glitch, some IDs might have been generated more than once.\r\n\r\nYou are given an array `transaction_ids`. Write a function to check if **any** ID appears at least twice in the array. Return `true` if any duplicate exists, otherwise return `false`.\n\n**Input Format**\n- An integer `n`.\r\n- An array `transaction_ids`.\n\n**Output Format**\n- String \"true\" or \"false\".",
+      "difficulty": "Easy",
+      "topic": "Arrays, Hashing",
+      "tags": [
+        "Arrays, Hashing",
+        "Amazon",
+        "Apple"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "true\r\n\r\nExplanation:\r\nID '1' appears twice.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n4\r\n1 2 3 4\r\n\r\nOutput:\r\nfalse\r\n\r\nExplanation:\r\nAll IDs are distinct.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Apple",
+      "originalNumber": "4"
+    },
+    {
+      "number": 2005,
+      "title": "The Gift Hamper Fairness",
+      "description": "You are organizing a contest and have `n` different gift hampers, each with a specific value (price). You need to select `m` hampers to give to `m` winners.\r\n\r\nTo be as fair as possible, you want to choose the `m` hampers such that the difference between the **most expensive** hamper and the **least expensive** hamper in your chosen subset is **minimized**.\r\n\r\nReturn this minimum difference.\n\n**Input Format**\n- An integer `n` (total hampers).\r\n- An integer `m` (winners).\r\n- An array `hamper_values` of size `n`.\n\n**Output Format**\n- A single integer representing the minimum difference.",
+      "difficulty": "Easy",
+      "topic": "Arrays, Sorting",
+      "tags": [
+        "Arrays, Sorting",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "6\r\n\r\nExplanation:\r\nSorted hampers: [1, 3, 4, 7, 9, 9, 12, 56]\r\nWe need to pick 5 hampers.\r\nPossible subsets of size 5:\r\n[1, 3, 4, 7, 9] -> Diff = 9 - 1 = 8\r\n[3, 4, 7, 9, 9] -> Diff = 9 - 3 = 6  <-- Min\r\n[4, 7, 9, 9, 12] -> Diff = 12 - 4 = 8\r\n...\r\nThe minimum difference is 6.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n5 3\r\n10 20 30 100 101\r\n\r\nOutput:\r\n20\r\n\r\nExplanation:\r\nSorted: [10, 20, 30, 100, 101]\r\nSubset [10, 20, 30] -> Diff = 20.\r\nSubset [30, 100, 101] -> Diff = 71.\r\nMin is 20.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "5"
+    },
+    {
+      "number": 2006,
+      "title": "The Circular Library Search",
+      "description": "A digital library stores book IDs in a sorted array in ascending order. However, due to a database reorganization, the storage array was effectively \"rotated\" at some unknown pivot index. \r\n\r\n(For example, `[0, 1, 2, 4, 5, 6, 7]` might become `[4, 5, 6, 7, 0, 1, 2]`).\r\n\r\nYou are given this rotated sorted array `book_ids` and a specific `target_id`. Your task is to find the index of `target_id` in the array. If the ID is not found, return `-1`.\r\n\r\nYou must implement an algorithm with **O(log N)** time complexity.\n\n**Input Format**\n- An integer `n`.\r\n- An array `book_ids` of size `n` (rotated sorted).\r\n- An integer `target_id`.\n\n**Output Format**\n- A single integer index of the target, or -1.",
+      "difficulty": "Medium",
+      "topic": "Arrays, Binary Search",
+      "tags": [
+        "Arrays, Binary Search",
+        "Microsoft",
+        "Google",
+        "Adobe",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "4\r\n\r\nExplanation:\r\nThe target 0 is found at index 4.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n7\r\n4 5 6 7 0 1 2\r\n3\r\n\r\nOutput:\r\n-1\r\n\r\nExplanation:\r\nThe target 3 is not present in the array.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft, Google, Adobe, Amazon",
+      "originalNumber": "6"
+    },
+    {
+      "number": 2007,
+      "title": "The Lexicographical Signal",
+      "description": "A secret signal consisting of numeric digits is encoded as an array of integers. To prevent unauthorized access, the protocol requires changing the signal to the **next lexicographically greater permutation** of its numbers.\r\n\r\nIf the current signal is already the largest possible permutation (e.g., `[3, 2, 1]`), it must be rearranged to the lowest possible order (i.e., sorted in ascending order `[1, 2, 3]`).\r\n\r\nYou must perform this rearrangement **in-place**.\n\n**Input Format**\n- An integer `n`.\r\n- An array `signal` of size `n`.\n\n**Output Format**\n- The rearranged signal array separated by spaces.",
+      "difficulty": "Medium",
+      "topic": "Arrays",
+      "tags": [
+        "Arrays",
+        "Uber",
+        "Goldman Sachs",
+        "Adobe"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "1 3 2\r\n\r\nExplanation:\r\nThe permutations of [1,2,3] in order are:\r\n[1,2,3], [1,3,2], [2,1,3]...\r\nThe next one after [1,2,3] is [1,3,2].\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n3\r\n3 2 1\r\n\r\nOutput:\r\n1 2 3\r\n\r\nExplanation:\r\n[3,2,1] is the largest permutation. Reset to smallest [1,2,3].\r\n```\r\n\r\n**Example 3:**\r\n```text\r\nInput:\r\n3\r\n1 1 5\r\n\r\nOutput:\r\n1 5 1\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Uber, Goldman Sachs, Adobe",
+      "originalNumber": "7"
+    },
+    {
+      "number": 2008,
+      "title": "Maximum Profit from Bitcoin Trading",
+      "description": "You have historical price data of Bitcoin for a series of days stored in an array `prices`. \r\nYou are allowed to complete **at most one transaction** (i.e., buy one unit of Bitcoin and sell it later). Note that you cannot sell before you buy.\r\nFind the maximum profit you can achieve. If no profit is possible (prices only go down), return 0.\n\n**Input Format**\n- An integer `n`.\r\n- An array `prices` of size `n`.\n\n**Output Format**\n- A single integer representing maximum profit.",
+      "difficulty": "Easy",
+      "topic": "Arrays, Dynamic Programming",
+      "tags": [
+        "Arrays, Dynamic Programming",
+        "Amazon",
+        "D-E-Shaw",
+        "Flipkart"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "5\r\n\r\nExplanation:\r\nBuy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\r\nNote that 7-1 = 6 is not allowed because you must buy before you sell.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n5\r\n7 6 4 3 1\r\n\r\nOutput:\r\n0\r\n\r\nExplanation:\r\nPrices are strictly decreasing. Any transaction results in a loss or 0 profit.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, D-E-Shaw, Flipkart",
+      "originalNumber": "8"
+    },
+    {
+      "number": 2009,
+      "title": "The Corrupted Inventory List",
+      "description": "You are an inventory manager. Your inventory list contains `n` items labeled from `1` to `n`. However, due to a clerical error, one specific item ID appears **twice** in the list, and one item ID is **missing** completely.\r\n\r\nYou are given an unsorted array `inventory` of size `n` containing these IDs. Your task is to find the repeating number and the missing number.\n\n**Input Format**\n- An integer `n`.\r\n- An array `inventory` of size `n`.\n\n**Output Format**\n- Two integers separated by space: `repeating_number` `missing_number`.",
+      "difficulty": "Medium",
+      "topic": "Arrays, Math",
+      "tags": [
+        "Arrays, Math",
+        "Amazon",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "3 2\r\n\r\nExplanation:\r\nThe input array is [3, 1, 3]. It should be [1, 2, 3].\r\nRepeating: 3. Missing: 2.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n4\r\n4 3 6 2 1 1 (Wait, input length must match n)\r\nInput:\r\n5\r\n1 2 2 4 5\r\n\r\nOutput:\r\n2 3\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Microsoft",
+      "originalNumber": "9"
+    },
+    {
+      "number": 2010,
+      "title": "The K-th Highest Ranked Gamer",
+      "description": "In a massive online tournament, player scores are stored in an array. You want to identify the `k`-th highest score on the leaderboard. Note that the `k`-th highest score is the score that would be at index `k-1` if the array were sorted in descending order.\r\n\r\nYou must solve this problem without fully sorting the array if possible (or understand the sorting trade-off).\n\n**Input Format**\n- An integer `n`.\r\n- An array `scores` of size `n`.\r\n- An integer `k`.\n\n**Output Format**\n- A single integer representing the k-th largest element.",
+      "difficulty": "Medium",
+      "topic": "Arrays, Sorting, Heap",
+      "tags": [
+        "Arrays, Sorting, Heap",
+        "Amazon",
+        "Microsoft",
+        "Adobe"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "5\r\n\r\nExplanation:\r\nSorted descending: [6, 5, 4, 3, 2, 1].\r\n2nd largest is 5.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n9\r\n3 2 3 1 2 4 5 5 6\r\n4\r\n\r\nOutput:\r\n4\r\n\r\nExplanation:\r\nSorted descending: [6, 5, 5, 4, 3, 3, 2, 2, 1].\r\n4th largest is 4.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Microsoft, Adobe",
+      "originalNumber": "10"
+    },
+    {
+      "number": 2011,
+      "title": "The Water Containment Challenge",
+      "description": "You are given an array of non-negative integers representing an elevation map where the width of each bar is 1. Your task is to calculate how much water it can trap after raining.\r\n\r\nImagine these bars are like walls. When it rains, water fills the valid gaps between the walls.\n\n**Input Format**\n- An integer `n`.\r\n- An array `height` of size `n`.\n\n**Output Format**\n- A single integer representing the total water trapped.",
+      "difficulty": "Hard",
+      "topic": "Arrays",
+      "tags": [
+        "Arrays",
+        "Samsung",
+        "Google",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "6\r\n\r\nExplanation:\r\nThe elevation map corresponds to the heights. 6 units of rain water are being trapped.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n6\r\n4 2 0 3 2 5\r\n\r\nOutput:\r\n9\r\n\r\nExplanation:\r\nBetween 4 and 5, water can form.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Samsung, Google, Amazon",
+      "originalNumber": "11"
+    },
+    {
+      "number": 2012,
+      "title": "Special Product Array",
+      "description": "You are given an array `nums`. You need to return an array `answer` such that `answer[i]` is equal to the product of all the elements of `nums` except `nums[i]`.\r\n\r\n**Important:** You must solve this **without division** and in **O(N)** time complexity.\n\n**Input Format**\n- An integer `n`.\r\n- An array `nums` of size `n`.\n\n**Output Format**\n- The array `answer` elements separated by spaces.",
+      "difficulty": "Medium",
+      "topic": "Arrays",
+      "tags": [
+        "Arrays",
+        "Microsoft",
+        "Facebook",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "24 12 8 6\r\n\r\nExplanation:\r\n[2*3*4, 1*3*4, 1*2*4, 1*2*3] = [24, 12, 8, 6]\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n5\r\n-1 1 0 -3 3\r\n\r\nOutput:\r\n0 0 9 0 0\r\n\r\nExplanation:\r\nZero handles correctly. Product except 0 is -1*1*-3*3 = 9.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft, Facebook, Amazon",
+      "originalNumber": "12"
+    },
+    {
+      "number": 2013,
+      "title": "The Maximum Product Segment",
+      "description": "Given an integer array `nums`, find a contiguous non-empty subarray within the array that has the **largest product**, and return the product.\n\n**Input Format**\n- An integer `n`.\r\n- An array `nums`.\n\n**Output Format**\n- A single integer representing maximum product.",
+      "difficulty": "Medium",
+      "topic": "Arrays",
+      "tags": [
+        "Arrays",
+        "Amazon",
+        "D-E-Shaw",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "6\r\n\r\nExplanation:\r\n[2, 3] has product 6.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n3\r\n-2 0 -1\r\n\r\nOutput:\r\n0\r\n\r\nExplanation:\r\nThe result cannot be 2, because [-2,-1] is not a subarray.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, D-E-Shaw, Microsoft",
+      "originalNumber": "13"
+    },
+    {
+      "number": 2014,
+      "title": "Rotated Array Minima",
+      "description": "Suppose an array of length `n` sorted in ascending order is rotated between `1` and `n` times.\r\nYou need to find the **minimum element** in this array.\r\nYou must write an algorithm that runs in **O(log N)** time.\n\n**Input Format**\n- An integer `n`.\r\n- An array `nums`.\n\n**Output Format**\n- A single integer.",
+      "difficulty": "Medium",
+      "topic": "Arrays, Binary Search",
+      "tags": [
+        "Arrays, Binary Search",
+        "Adobe",
+        "Amazon",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "1\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n7\r\n4 5 6 7 0 1 2\r\n\r\nOutput:\r\n0\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Adobe, Amazon, Microsoft",
+      "originalNumber": "14"
+    },
+    {
+      "number": 2015,
+      "title": "The Sum Pair in Rotated Array",
+      "description": "Given a **sorted and rotated** array of distinct integers and a target sum `x`, find if there is a pair in the array with sum equal to `x`.\n\n**Input Format**\n- An integer `n` and target `x`.\r\n- An array `nums`.\n\n**Output Format**\n- \"true\" if found, else \"false\".",
+      "difficulty": "Medium",
+      "topic": "Arrays, Two Pointers",
+      "tags": [
+        "Arrays, Two Pointers",
+        "Microsoft",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "true\r\n\r\nExplanation:\r\nPair (6, 10) sums to 16.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n4 100\r\n10 20 30 40\r\n\r\nOutput:\r\nfalse\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft, Google",
+      "originalNumber": "15"
+    },
+    {
+      "number": 2016,
+      "title": "The Trio Sum Zero",
+      "description": "You are given an integer array `nums`. You need to return all unique triplets `[nums[i], nums[j], nums[k]]` such that their sum is exactly zero (`nums[i] + nums[j] + nums[k] == 0`) and the indices are distinct (`i != j`, `i != k`, `j != k`).\r\n\r\nThe solution set must not contain duplicate triplets.\n\n**Input Format**\n- An integer `n`.\r\n- An array `nums`.\n\n**Output Format**\n- A list of triplets printed one per line. (Triplets should be sorted internally, and the output lines should be sorted).",
+      "difficulty": "Medium",
+      "topic": "Arrays, Two Pointers",
+      "tags": [
+        "Arrays, Two Pointers",
+        "Adobe",
+        "Amazon",
+        "Microsoft",
+        "Facebook"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "-1 -1 2\r\n-1 0 1\r\n\r\nExplanation:\r\nTriplets summing to 0 are:\r\n[-1, 0, 1]\r\n[-1, 2, -1] -> sorted to [-1, -1, 2]\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n3\r\n0 1 1\r\n\r\nOutput:\r\n(No Output)\r\n\r\nExplanation:\r\nNo triplet sums to 0.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Adobe, Amazon, Microsoft, Facebook",
+      "originalNumber": "16"
+    },
+    {
+      "number": 2017,
+      "title": "The Hydraulic Storage",
+      "description": "You are given an integer array `height` of length `n`. There are `n` vertical lines drawn such that the two endpoints of the `i-th` line are `(i, 0)` and `(i, height[i])`.\r\n\r\nFind two lines that together with cylinder walls (x-axis) form a container, such that the container contains the most water.\r\n\r\nReturn the maximum amount of water a container can store.\n\n**Input Format**\n- An integer `n`.\r\n- An array `height`.\n\n**Output Format**\n- A single integer max area.",
+      "difficulty": "Medium",
+      "topic": "Arrays, Two Pointers",
+      "tags": [
+        "Arrays, Two Pointers",
+        "Flipkart",
+        "Dunzo",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "49\r\n\r\nExplanation:\r\nLines at index 1 (height 8) and index 8 (height 7).\r\nWidth = 8 - 1 = 7.\r\nHeight = min(8, 7) = 7.\r\nArea = 7 * 7 = 49.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n2\r\n1 1\r\n\r\nOutput:\r\n1\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Flipkart, Dunzo, Amazon",
+      "originalNumber": "17"
+    },
+    {
+      "number": 2018,
+      "title": "The Complementary Couple",
+      "description": "Given an array of integers `nums` and an integer `target`, return the **indices** of the two numbers such that they add up to `target`.\r\n\r\nYou may assume that each input would have **exactly one solution**, and you may not use the same element twice. You can return the answer in any order.\n\n**Input Format**\n- An integer `n` and `target`.\r\n- An array `nums`.\n\n**Output Format**\n- Two integers separated by space (indices).",
+      "difficulty": "Easy",
+      "topic": "Arrays, Hashing",
+      "tags": [
+        "Arrays, Hashing",
+        "Infosys",
+        "Amazon",
+        "Flipkart"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "0 1\r\n\r\nExplanation:\r\nnums[0] + nums[1] = 2 + 7 = 9.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n3 6\r\n3 2 4\r\n\r\nOutput:\r\n1 2\r\n\r\nExplanation:\r\n2 + 4 = 6. Indices 1 and 2.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Infosys, Amazon, Flipkart",
+      "originalNumber": "18"
+    },
+    {
+      "number": 2019,
+      "title": "The K-th Lowest Rank",
+      "description": "Given an array `arr` and a number `k` where `k` is smaller than the size of the array, find the `k`-th **smallest** element in the given array. It is given that all array elements are distinct.\n\n**Input Format**\n- An integer `n`.\r\n- An array `arr`.\r\n- An integer `k`.\n\n**Output Format**\n- A single integer.",
+      "difficulty": "Medium",
+      "topic": "Arrays, Heap, Selection",
+      "tags": [
+        "Arrays, Heap, Selection",
+        "ABCO",
+        "Accolite",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "7\r\n\r\nExplanation:\r\nSorted: 3, 4, 7, 10, 15, 20.\r\n3rd smallest is 7.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n5\r\n7 10 4 20 15\r\n4\r\n\r\nOutput:\r\n15\r\n\r\nExplanation:\r\nSorted: 4, 7, 10, 15, 20.\r\n4th smallest is 15.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "ABCO, Accolite, Amazon",
+      "originalNumber": "19"
+    },
+    {
+      "number": 2020,
+      "title": "The Time Interval Merger",
+      "description": "You are given an array of `intervals` where `intervals[i] = [start_i, end_i]`. \r\n\r\nMerge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.\n\n**Input Format**\n- An integer `n`.\r\n- `n` lines, each containing two integers `start` and `end`.\n\n**Output Format**\n- The merged intervals, one per line.",
+      "difficulty": "Medium",
+      "topic": "Arrays, Sorting",
+      "tags": [
+        "Arrays, Sorting",
+        "Google",
+        "LinkedIn",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "1 6\r\n8 10\r\n15 18\r\n\r\nExplanation:\r\nIntervals [1,3] and [2,6] overlap since 2 < 3. Merger is [1,6].\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n2\r\n1 4\r\n4 5\r\n\r\nOutput:\r\n1 5\r\n\r\nExplanation:\r\nTouching intervals [1,4] and [4,5] are treated as overlapping.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google, LinkedIn, Microsoft",
+      "originalNumber": "20"
+    },
+    {
+      "number": 2021,
+      "title": "The Palindrome Transformation",
+      "description": "You are given an array of positive integers. In one operation, you can choose any two adjacent elements and replace them with their sum. \r\n\r\nYour task is to find the **minimum number of operations** required to make the array a **palindrome**.\r\n(An array is a palindrome if it reads the same forward and backward).\n\n**Input Format**\n- An integer `n`.\r\n- An array `arr`.\n\n**Output Format**\n- A single integer representing the minimum operations.",
+      "difficulty": "Medium",
+      "topic": "Arrays",
+      "tags": [
+        "Arrays",
+        "Amazon",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "1\r\n\r\nExplanation:\r\nMerge 4 and 5 -> [1, 9, 1]. This is a palindrome. 1 Operation.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n5\r\n11 13 15 15 11\r\n\r\nOutput:\r\n0\r\n\r\nExplanation:\r\nAlready a palindrome.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Google",
+      "originalNumber": "21"
+    },
+    {
+      "number": 2022,
+      "title": "The Largest Value Formation",
+      "description": "Given a list of non-negative integers, arrange them such that they form the **largest possible number**.\r\nSince the result may be very large, return it as a string.\n\n**Input Format**\n- An integer `n`.\r\n- An array `nums`.\n\n**Output Format**\n- A single string representing the largest number.",
+      "difficulty": "Medium",
+      "topic": "Arrays, Sorting",
+      "tags": [
+        "Arrays, Sorting",
+        "Barclays",
+        "Amazon",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "210\r\n\r\nExplanation:\r\n\"210\" > \"102\".\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n5\r\n3 30 34 5 9\r\n\r\nOutput:\r\n9534330\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Barclays, Amazon, Microsoft",
+      "originalNumber": "22"
+    },
+    {
+      "number": 2023,
+      "title": "The Compact Absentee Tracker",
+      "description": "You are given an array `nums` where every element appears **three times** except for one, which appears exactly once. Find the single element.\r\n\r\nYou must implement a solution with a linear runtime complexity and use **only constant extra space** (Space Optimization).\n\n**Input Format**\n- An integer `n`.\r\n- An array `nums`.\n\n**Output Format**\n- A single integer.",
+      "difficulty": "Medium",
+      "topic": "Bit Manipulation, Arrays",
+      "tags": [
+        "Bit Manipulation, Arrays",
+        "Amazon",
+        "Oracle",
+        "Adobe"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "3\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n7\r\n0 1 0 1 0 1 99\r\n\r\nOutput:\r\n99\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Oracle, Adobe",
+      "originalNumber": "23"
+    },
+    {
+      "number": 2024,
+      "title": "The Divisible Data Segments",
+      "description": "Given an integer array `nums` and an integer `k`, return the number of **non-empty subarrays** that have a sum divisible by `k`.\r\n\r\nA subarray is a contiguous part of an array.\n\n**Input Format**\n- An integer `n`.\r\n- An array `nums`.\r\n- An integer `k`.\n\n**Output Format**\n- A single integer (count).",
+      "difficulty": "Medium",
+      "topic": "Arrays, Hashing",
+      "tags": [
+        "Arrays, Hashing",
+        "Microsoft",
+        "Snapdeal"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "7\r\n\r\nExplanation:\r\nSubarrays: [5], [0], [5,0], [-2,-3], [5,0,-2,-3], [0,-2,-3], [-2,-3,1,4]? No index not cyclic.\r\nValid: [4, 5, 0, -2, -3, 1] sum=5.\r\n[5], [0], [5,0], [-2,-3] (sum -5), [0,-2,-3] (-5), [5,0,-2,-3] (0), [4,5,0,-2,-3,1] (5).\r\nCount = 7.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft, Snapdeal",
+      "originalNumber": "24"
+    },
+    {
+      "number": 2025,
+      "title": "The Delegation Combinations",
+      "description": "Given an array of `n` distinct integers and a number `r`, print all possible **combinations** of `r` elements chosen from the array.\r\n\r\nThe order of elements within a combination does not matter (i.e., `[1, 2]` is same as `[2, 1]`), but you should print them in the order they appear in finding them (lexicographically or index-wise).\n\n**Input Format**\n- An integer `n`.\r\n- An integer `r`.\r\n- An array `arr`.\n\n**Output Format**\n- Print each combination on a new line, elements separated by space.",
+      "difficulty": "Medium",
+      "topic": "Backtracking, Recursion",
+      "tags": [
+        "Backtracking, Recursion",
+        "Amazon",
+        "Adobe"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "1 2\r\n1 3\r\n1 4\r\n2 3\r\n2 4\r\n3 4\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n3 3\r\n1 2 3\r\n\r\nOutput:\r\n1 2 3\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Adobe",
+      "originalNumber": "25"
+    },
+    {
+      "number": 2026,
+      "title": "The Range Query Optimization",
+      "description": "You are given an array `arr` of `n` elements and `q` queries. Each query consists of a range `[L, R]`. You need to compute the sum of elements in this range.\r\nWhile this sounds simple, `n` and `q` are very large (up to `10^5`), and the queries are given offline (you know all queries beforehand).\r\n\r\nOptimize the processing of these queries using **Mo's Algorithm** (Square Root Decomposition) to answer them faster than standard iteration.\n\n**Input Format**\n- An integer `n`.\r\n- An array `arr`.\r\n- An integer `q`.\r\n- `q` lines containing `L` and `R` (0-indexed).\n\n**Output Format**\n- `q` lines, each containing the sum for that query.",
+      "difficulty": "Hard",
+      "topic": "Arrays, Square Root Decomposition",
+      "tags": [
+        "Arrays, Square Root Decomposition",
+        "Microsoft",
+        "Directi"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "8\r\n4\r\n6\r\n\r\nExplanation:\r\n0-4: 1+1+2+1+3 = 8\r\n1-3: 1+2+1 = 4\r\n2-4: 2+1+3 = 6\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft, Directi",
+      "originalNumber": "26"
+    },
+    {
+      "number": 2027,
+      "title": "The Palindrome Verification",
+      "description": "A phrase is a **palindrome** if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.\r\n\r\nGiven a string `s`, return `true` if it is a palindrome, or `false` otherwise.\n\n**Input Format**\n- A single line containing string `s`.\n\n**Output Format**\n- `true` or `false`.",
+      "difficulty": "Easy",
+      "topic": "Strings, Two Pointers",
+      "tags": [
+        "Strings, Two Pointers",
+        "Amazon",
+        "Adobe",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "true\r\n\r\nExplanation:\r\n\"amanaplanacanalpanama\" is a palindrome.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n\"race a car\"\r\n\r\nOutput:\r\nfalse\r\n\r\nExplanation:\r\n\"raceacar\" is not a palindrome.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Adobe, Microsoft",
+      "originalNumber": "27"
+    },
+    {
+      "number": 2028,
+      "title": "The Anagram Audit",
+      "description": "Given two strings `s` and `t`, return `true` if `t` is an **anagram** of `s`, and `false` otherwise.\r\n\r\nAn Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.\n\n**Input Format**\n- Two strings `s` and `t` on separate lines.\n\n**Output Format**\n- `true` or `false`.",
+      "difficulty": "Easy",
+      "topic": "Strings, Hashing",
+      "tags": [
+        "Strings, Hashing",
+        "Nagarro",
+        "Google",
+        "Adobe"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "true\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\nrat\r\ncar\r\n\r\nOutput:\r\nfalse\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Nagarro, Google, Adobe",
+      "originalNumber": "28"
+    },
+    {
+      "number": 2029,
+      "title": "The Balanced Syntax",
+      "description": "Given a string `s` containing just the characters `(`, `)`, `{`, `}`, `[` and `]`, determine if the input string is valid.\r\n\r\nAn input string is valid if:\r\n1. Open brackets must be closed by the same type of brackets.\r\n2. Open brackets must be closed in the correct order.\n\n**Input Format**\n- A string `s`.\n\n**Output Format**\n- `true` or `false`.",
+      "difficulty": "Easy",
+      "topic": "Strings, Stack",
+      "tags": [
+        "Strings, Stack",
+        "Google",
+        "Facebook",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "true\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n(]\r\n\r\nOutput:\r\nfalse\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google, Facebook, Amazon",
+      "originalNumber": "29"
+    },
+    {
+      "number": 2030,
+      "title": "The Consecutive Cleaner",
+      "description": "Given a string `s`, remove all **consecutive duplicates** recursively/iteratively such that no two adjacent characters are the same in the final string.\r\n\r\n(E.g. `aabbc` -> `abc`).\n\n**Input Format**\n- A string `s`.\n\n**Output Format**\n- The modified string.",
+      "difficulty": "Easy",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Samsung",
+        "Adobe"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "abc\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\naabaa\r\n\r\nOutput:\r\naba\r\n\r\nExplanation:\r\na, a -> a. b -> b. a, a -> a. Result aba.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Samsung, Adobe",
+      "originalNumber": "30"
+    },
+    {
+      "number": 2031,
+      "title": "The Shared Prefix Search",
+      "description": "Write a function to find the **longest common prefix** string amongst an array of strings.\r\nIf there is no common prefix, return an empty string.\n\n**Input Format**\n- An integer `n`.\r\n- `n` strings.\n\n**Output Format**\n- A single string.",
+      "difficulty": "Easy",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Adobe",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "fl\r\n\r\nExplanation:\r\n\"fl\" is common to all.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\n3\r\ndog racecar car\r\n\r\nOutput:\r\n(Empty)\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Adobe, Google",
+      "originalNumber": "31"
+    },
+    {
+      "number": 2032,
+      "title": "The Keypad Translator",
+      "description": "Convert a given sentence into its equivalent **mobile numeric keypad sequence**.\r\n\r\nKeypad Mapping:\r\n- 2: ABC\r\n- 3: DEF\r\n- 4: GHI\r\n- 5: JKL\r\n- 6: MNO\r\n- 7: PQRS\r\n- 8: TUV\r\n- 9: WXYZ\r\n- 0: Space\n\n**Input Format**\n- A string `s`.\n\n**Output Format**\n- A numeric string.",
+      "difficulty": "Medium",
+      "topic": "Strings, Mapping",
+      "tags": [
+        "Strings, Mapping",
+        "Adobe",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "4333355777733366677743333557777\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\nHELLO WORLD\r\n\r\nOutput:\r\n4433555555666096667775553\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Adobe, Amazon",
+      "originalNumber": "32"
+    },
+    {
+      "number": 2033,
+      "title": "The Frequency Report",
+      "description": "Print all the duplicates in the input string along with their count.\r\nOutput should be sorted by character.\n\n**Input Format**\n- A string `s`.\n\n**Output Format**\n- Lines of `char count` for duplicates.",
+      "difficulty": "Easy",
+      "topic": "Strings, Hashing",
+      "tags": [
+        "Strings, Hashing",
+        "Ola",
+        "Amdocs"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "s 2\r\nt 3\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\nprogramming\r\n\r\nOutput:\r\ng 2\r\nm 2\r\nr 2\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Ola, Amdocs",
+      "originalNumber": "33"
+    },
+    {
+      "number": 2034,
+      "title": "The Unique Substream",
+      "description": "Given a string `s`, find the length of the **longest substring** without repeating characters.\n\n**Input Format**\n- A string `s`.\n\n**Output Format**\n- An integer length.",
+      "difficulty": "Medium",
+      "topic": "Strings, Sliding Window",
+      "tags": [
+        "Strings, Sliding Window",
+        "Morgan Stanley",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "3\r\n\r\nExplanation:\r\nThe answer is \"abc\", with the length of 3.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\nbbbbb\r\n\r\nOutput:\r\n1\r\n\r\nExplanation:\r\nThe answer is \"b\", with the length of 1.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Morgan Stanley, Amazon",
+      "originalNumber": "34"
+    },
+    {
+      "number": 2035,
+      "title": "The Character Replacement Strategy",
+      "description": "You are given a string `s` and an integer `k`. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most `k` times.\r\n\r\nReturn the length of the longest substring containing the same letter you can get after performing the above operations.\n\n**Input Format**\n- A string `s`.\r\n- An integer `k`.\n\n**Output Format**\n- An integer length.",
+      "difficulty": "Medium",
+      "topic": "Strings, Sliding Window",
+      "tags": [
+        "Strings, Sliding Window",
+        "Amazon",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "4\r\n\r\nExplanation:\r\nReplace the two 'A's with 'B's or vice-versa.\r\n```\r\n\r\n**Example 2:**\r\n```text\r\nInput:\r\nAABABBA\r\n1\r\n\r\nOutput:\r\n4\r\n\r\nExplanation:\r\nReplace the one 'A' in the middle with 'B' and form \"AABBBBA\".\r\nThe substring \"BBBB\" has length 4.\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Google",
+      "originalNumber": "35"
+    },
+    {
+      "number": 2036,
+      "title": "The Anagram Grouping",
+      "description": "Given an array of strings, group the **anagrams** together. You can return the answer in any order.\n\n**Input Format**\n- An integer `n`.\r\n- `n` strings.\n\n**Output Format**\n- Groups of strings.",
+      "difficulty": "Medium",
+      "topic": "Strings, Hashing",
+      "tags": [
+        "Strings, Hashing",
+        "Amazon",
+        "Microsoft",
+        "Goldman Sachs"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "bat\r\nnat tan\r\nate eat tea\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Microsoft, Goldman Sachs",
+      "originalNumber": "36"
+    },
+    {
+      "number": 2037,
+      "title": "The Longest Palindromic Substring",
+      "description": "Given a string `s`, return the **longest palindromic substring** in `s`.\n\n**Input Format**\n- A string `s`.\n\n**Output Format**\n- The substring.",
+      "difficulty": "Medium",
+      "topic": "Strings, DP",
+      "tags": [
+        "Strings, DP",
+        "Amazon",
+        "Microsoft",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "bab\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Microsoft, Google",
+      "originalNumber": "37"
+    },
+    {
+      "number": 2038,
+      "title": "The Palindromic Count",
+      "description": "Given a string `s`, determine the **number of palindromic substrings** in it.\n\n**Input Format**\n- A string `s`.\n\n**Output Format**\n- Integer count.",
+      "difficulty": "Medium",
+      "topic": "Strings, DP",
+      "tags": [
+        "Strings, DP",
+        "Facebook",
+        "LinkedIn"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "3\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Facebook, LinkedIn",
+      "originalNumber": "38"
+    },
+    {
+      "number": 2039,
+      "title": "The Permutation Inclusion",
+      "description": "Given two strings `s1` and `s2`, return `true` if `s2` contains a **permutation** of `s1`.",
+      "difficulty": "Medium",
+      "topic": "Strings, Sliding Window",
+      "tags": [
+        "Strings, Sliding Window",
+        "Microsoft",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "true\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft, Amazon",
+      "originalNumber": "39"
+    },
+    {
+      "number": 2040,
+      "title": "The Distinct Palindromic Sequences",
+      "description": "Given a string `s`, find the number of **different non-empty palindromic subsequences** in `s`, modulo `10^9 + 7`.",
+      "difficulty": "Hard",
+      "topic": "Strings, DP",
+      "tags": [
+        "Strings, DP",
+        "Google",
+        "LinkedIn"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "6\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google, LinkedIn",
+      "originalNumber": "40"
+    },
+    {
+      "number": 2041,
+      "title": "The Smallest Window Cover",
+      "description": "Given two strings `s` and `t`, return the **minimum window substring** of `s` such that every character in `t` (including duplicates) is included in the window.",
+      "difficulty": "Hard",
+      "topic": "Strings, Sliding Window",
+      "tags": [
+        "Strings, Sliding Window",
+        "Google",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "BANC\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google, Amazon",
+      "originalNumber": "41"
+    },
+    {
+      "number": 2042,
+      "title": "The Wildcard Pattern",
+      "description": "Given an input string `s` and a pattern `p`, implement wildcard pattern matching with support for `'?'` and `'*'`.",
+      "difficulty": "Hard",
+      "topic": "Strings, DP",
+      "tags": [
+        "Strings, DP",
+        "Google",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "true\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google, Microsoft",
+      "originalNumber": "42"
+    },
+    {
+      "number": 2043,
+      "title": "The Pattern Search (KMP)",
+      "description": "Implement KMP algorithm to find first occurrence of `pat` in `txt`.",
+      "difficulty": "Medium",
+      "topic": "Strings, KMP",
+      "tags": [
+        "Strings, KMP",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "43"
+    },
+    {
+      "number": 2044,
+      "title": "The Rolling Hash (Rabin-Karp)",
+      "description": "Implement Rabin-Karp to find all occurrences.",
+      "difficulty": "Hard",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "44"
+    },
+    {
+      "number": 2045,
+      "title": "The Minimal Operations Transformation",
+      "description": "Min operations to convert A to B by moving char to front.",
+      "difficulty": "Hard",
+      "topic": "Strings",
+      "tags": [
+        "Strings",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "45"
+    },
+    {
+      "number": 2046,
+      "title": "The Occurrence Finder",
+      "description": "Find first and last position of element in sorted array.",
+      "difficulty": "Medium",
+      "topic": "Searching",
+      "tags": [
+        "Searching",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "3 4\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "46"
+    },
+    {
+      "number": 2047,
+      "title": "The Rotated Search II",
+      "description": "Search in rotated sorted array with duplicates.",
+      "difficulty": "Medium",
+      "topic": "Searching",
+      "tags": [
+        "Searching",
+        "Adobe"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Adobe",
+      "originalNumber": "47"
+    },
+    {
+      "number": 2048,
+      "title": "The Precise Root",
+      "description": "Compute square root of x.",
+      "difficulty": "Easy",
+      "topic": "Searching",
+      "tags": [
+        "Searching",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "48"
+    },
+    {
+      "number": 2049,
+      "title": "The Majority Consensus",
+      "description": "Find majority element (> n/2).",
+      "difficulty": "Easy",
+      "topic": "Arrays, Sorting",
+      "tags": [
+        "Arrays, Sorting",
+        "Amazon",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon, Google",
+      "originalNumber": "49"
+    },
+    {
+      "number": 2050,
+      "title": "The Peak Identification",
+      "description": "Find peak element index.",
+      "difficulty": "Medium",
+      "topic": "Searching",
+      "tags": [
+        "Searching",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "50"
+    },
+    {
+      "number": 2051,
+      "title": "The Inversion Count",
+      "description": "Count inversions in array.",
+      "difficulty": "Hard",
+      "topic": "Sorting",
+      "tags": [
+        "Sorting",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "51"
+    },
+    {
+      "number": 2052,
+      "title": "The Quick Partition",
+      "description": "Implement Quick Sort Partition.",
+      "difficulty": "Medium",
+      "topic": "Sorting",
+      "tags": [
+        "Sorting",
+        "Standard"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Standard",
+      "originalNumber": "52"
+    },
+    {
+      "number": 2053,
+      "title": "The Book Allocator",
+      "description": "Minimize max pages allocated to students.",
+      "difficulty": "Hard",
+      "topic": "Binary Search",
+      "tags": [
+        "Binary Search",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "53"
+    },
+    {
+      "number": 2054,
+      "title": "The Aggressive Herders",
+      "description": "Largest minimum distance between cows.",
+      "difficulty": "Hard",
+      "topic": "Binary Search",
+      "tags": [
+        "Binary Search",
+        "SPOJ"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "SPOJ",
+      "originalNumber": "54"
+    },
+    {
+      "number": 2055,
+      "title": "The Median of Sorted Arrays",
+      "description": "Find median of two sorted arrays.",
+      "difficulty": "Hard",
+      "topic": "Binary Search",
+      "tags": [
+        "Binary Search",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "55"
+    },
+    {
+      "number": 2056,
+      "title": "The Spiral Traversal",
+      "description": "Return all elements of matrix in spiral order.",
+      "difficulty": "Medium",
+      "topic": "Matrix",
+      "tags": [
+        "Matrix",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "1 2 3 6 9 8 7 4 5\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "56"
+    },
+    {
+      "number": 2057,
+      "title": "The Matrix Zero Setter",
+      "description": "Set row and col to 0 if element is 0.",
+      "difficulty": "Medium",
+      "topic": "Matrix",
+      "tags": [
+        "Matrix",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "57"
+    },
+    {
+      "number": 2058,
+      "title": "The Image Rotation",
+      "description": "Rotate image by 90 degrees clockwise.",
+      "difficulty": "Medium",
+      "topic": "Matrix",
+      "tags": [
+        "Matrix",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "58"
+    },
+    {
+      "number": 2059,
+      "title": "The 2D Search",
+      "description": "Search target in sorted matrix.",
+      "difficulty": "Medium",
+      "topic": "Matrix",
+      "tags": [
+        "Matrix",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "59"
+    },
+    {
+      "number": 2060,
+      "title": "The Row with Maximum Ones",
+      "description": "Find row with max 1s.",
+      "difficulty": "Medium",
+      "topic": "Matrix",
+      "tags": [
+        "Matrix",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "60"
+    },
+    {
+      "number": 2061,
+      "title": "The Linked List Reversal",
+      "description": "Reverse a singly linked list.",
+      "difficulty": "Easy",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Adobe"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "3 2 1\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Adobe",
+      "originalNumber": "61"
+    },
+    {
+      "number": 2062,
+      "title": "The Middle Node",
+      "description": "Find middle of linked list.",
+      "difficulty": "Easy",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Flipkart"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Flipkart",
+      "originalNumber": "62"
+    },
+    {
+      "number": 2063,
+      "title": "The Sorted Merger",
+      "description": "Merge two sorted lists.",
+      "difficulty": "Easy",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "63"
+    },
+    {
+      "number": 2064,
+      "title": "The N-th Removal",
+      "description": "Remove nth node from end.",
+      "difficulty": "Medium",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "64"
+    },
+    {
+      "number": 2065,
+      "title": "The Cycle Detector",
+      "description": "Detect cycle in list.",
+      "difficulty": "Easy",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "true\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "65"
+    },
+    {
+      "number": 2066,
+      "title": "The Shared Node Intersection",
+      "description": "Find intersection node.",
+      "difficulty": "Easy",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "66"
+    },
+    {
+      "number": 2067,
+      "title": "The Palindromic List",
+      "description": "Check if list is palindrome.",
+      "difficulty": "Easy",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "67"
+    },
+    {
+      "number": 2068,
+      "title": "The Cycle Start Point",
+      "description": "Return node where cycle begins.",
+      "difficulty": "Medium",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "68"
+    },
+    {
+      "number": 2069,
+      "title": "The K-Group Reversal",
+      "description": "Reverse nodes in k-group.",
+      "difficulty": "Hard",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "69"
+    },
+    {
+      "number": 2070,
+      "title": "The Cloned List",
+      "description": "Clone list with random pointers.",
+      "difficulty": "Medium",
+      "topic": "Linked List",
+      "tags": [
+        "Linked List",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "70"
+    },
+    {
+      "number": 2071,
+      "title": "The Minimum Element Stack",
+      "description": "Stack with getMin().",
+      "difficulty": "Medium",
+      "topic": "Stack",
+      "tags": [
+        "Stack",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "71"
+    },
+    {
+      "number": 2072,
+      "title": "Queue via Stacks",
+      "description": "Implement Queue using Stacks.",
+      "difficulty": "Easy",
+      "topic": "Stack",
+      "tags": [
+        "Stack",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "72"
+    },
+    {
+      "number": 2073,
+      "title": "The Next Greater Element",
+      "description": "Find next greater element.",
+      "difficulty": "Medium",
+      "topic": "Stack",
+      "tags": [
+        "Stack",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "73"
+    },
+    {
+      "number": 2074,
+      "title": "The Histogram Area",
+      "description": "Largest rectangle in histogram.",
+      "difficulty": "Hard",
+      "topic": "Stack",
+      "tags": [
+        "Stack",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "74"
+    },
+    {
+      "number": 2075,
+      "title": "The Sliding Window Maximum",
+      "description": "Max in sliding window.",
+      "difficulty": "Hard",
+      "topic": "Queue",
+      "tags": [
+        "Queue",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "75"
+    },
+    {
+      "number": 2076,
+      "title": "The Well-Formed Parentheses",
+      "description": "Generate valid parentheses.",
+      "difficulty": "Medium",
+      "topic": "Recursion",
+      "tags": [
+        "Recursion",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "((()))\r\n(()())\r\n...\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "76"
+    },
+    {
+      "number": 2077,
+      "title": "The Power Set (Subsets)",
+      "description": "Return all subsets.",
+      "difficulty": "Medium",
+      "topic": "Recursion",
+      "tags": [
+        "Recursion",
+        "Facebook"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Facebook",
+      "originalNumber": "77"
+    },
+    {
+      "number": 2078,
+      "title": "The Combination Sum",
+      "description": "Combination sum to target.",
+      "difficulty": "Medium",
+      "topic": "Recursion",
+      "tags": [
+        "Recursion",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "78"
+    },
+    {
+      "number": 2079,
+      "title": "The Permutations List",
+      "description": "Return all permutations.",
+      "difficulty": "Medium",
+      "topic": "Recursion",
+      "tags": [
+        "Recursion",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "79"
+    },
+    {
+      "number": 2080,
+      "title": "The N-Queens Challenge",
+      "description": "N-Queens solver.",
+      "difficulty": "Hard",
+      "topic": "Recursion",
+      "tags": [
+        "Recursion",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": ".Q..\r\n...\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "80"
+    },
+    {
+      "number": 2081,
+      "title": "The Sudoku Solver",
+      "description": "Solve Sudoku.",
+      "difficulty": "Hard",
+      "topic": "Backtracking",
+      "tags": [
+        "Backtracking",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "81"
+    },
+    {
+      "number": 2082,
+      "title": "The Word Search Grid",
+      "description": "Find word in grid.",
+      "difficulty": "Medium",
+      "topic": "Backtracking",
+      "tags": [
+        "Backtracking",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "82"
+    },
+    {
+      "number": 2083,
+      "title": "The Rat in a Maze",
+      "description": "Rat path from start to end.",
+      "difficulty": "Medium",
+      "topic": "Backtracking",
+      "tags": [
+        "Backtracking",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "83"
+    },
+    {
+      "number": 2084,
+      "title": "The Palindrome Partitioning",
+      "description": "Partition string into palindromes.",
+      "difficulty": "Medium",
+      "topic": "Backtracking",
+      "tags": [
+        "Backtracking",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "84"
+    },
+    {
+      "number": 2085,
+      "title": "The Phone Keypad Combinations",
+      "description": "Letter combinations of number.",
+      "difficulty": "Medium",
+      "topic": "Backtracking",
+      "tags": [
+        "Backtracking",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "85"
+    },
+    {
+      "number": 2086,
+      "title": "The Inorder Traversal",
+      "description": "Inorder traversal.",
+      "difficulty": "Easy",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "1 3 2\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "86"
+    },
+    {
+      "number": 2087,
+      "title": "The Preorder Traversal",
+      "description": "Preorder traversal.",
+      "difficulty": "Easy",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "87"
+    },
+    {
+      "number": 2088,
+      "title": "The Postorder Traversal",
+      "description": "Postorder traversal.",
+      "difficulty": "Easy",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "88"
+    },
+    {
+      "number": 2089,
+      "title": "The Max Depth",
+      "description": "Max depth of tree.",
+      "difficulty": "Easy",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "LinkedIn"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "LinkedIn",
+      "originalNumber": "89"
+    },
+    {
+      "number": 2090,
+      "title": "The Tree Diameter",
+      "description": "Diameter of tree.",
+      "difficulty": "Easy",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "90"
+    },
+    {
+      "number": 2091,
+      "title": "The Balanced Tree Check",
+      "description": "Check specific height balanced.",
+      "difficulty": "Easy",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "91"
+    },
+    {
+      "number": 2092,
+      "title": "The Identical Trees",
+      "description": "Check if two trees are same.",
+      "difficulty": "Easy",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "92"
+    },
+    {
+      "number": 2093,
+      "title": "The Symmetric Symmetry",
+      "description": "Check mirror image.",
+      "difficulty": "Easy",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "93"
+    },
+    {
+      "number": 2094,
+      "title": "The ZigZag Traversal",
+      "description": "ZigZag level order.",
+      "difficulty": "Medium",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "94"
+    },
+    {
+      "number": 2095,
+      "title": "The Lowest Common Ancestor",
+      "description": "LCA of binary tree.",
+      "difficulty": "Medium",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "95"
+    },
+    {
+      "number": 2096,
+      "title": "The BST Validator",
+      "description": "Validate BST.",
+      "difficulty": "Medium",
+      "topic": "BST",
+      "tags": [
+        "BST",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "96"
+    },
+    {
+      "number": 2097,
+      "title": "The LCA in BST",
+      "description": "LCA in BST.",
+      "difficulty": "Easy",
+      "topic": "BST",
+      "tags": [
+        "BST",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "97"
+    },
+    {
+      "number": 2098,
+      "title": "The BST Search",
+      "description": "Search in BST.",
+      "difficulty": "Easy",
+      "topic": "BST",
+      "tags": [
+        "BST",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "98"
+    },
+    {
+      "number": 2099,
+      "title": "The Balanced BST Construction",
+      "description": "Sorted array to BST.",
+      "difficulty": "Easy",
+      "topic": "BST",
+      "tags": [
+        "BST",
+        "Airbnb"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Airbnb",
+      "originalNumber": "99"
+    },
+    {
+      "number": 2100,
+      "title": "The Tree Architect",
+      "description": "Construct tree from preorder and inorder.",
+      "difficulty": "Medium",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "100"
+    },
+    {
+      "number": 2101,
+      "title": "The List Flattener",
+      "description": "Flatten tree to linked list.",
+      "difficulty": "Medium",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "101"
+    },
+    {
+      "number": 2102,
+      "title": "The Tree Serializer",
+      "description": "Serialize and deserialize binary tree.",
+      "difficulty": "Hard",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Uber"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Uber",
+      "originalNumber": "102"
+    },
+    {
+      "number": 2103,
+      "title": "The Maximum Path Sum",
+      "description": "Max path sum in tree.",
+      "difficulty": "Hard",
+      "topic": "Tree",
+      "tags": [
+        "Tree",
+        "Facebook"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Facebook",
+      "originalNumber": "103"
+    },
+    {
+      "number": 2104,
+      "title": "The K-th Smallest Element",
+      "description": "Kth smallest in BST.",
+      "difficulty": "Medium",
+      "topic": "BST",
+      "tags": [
+        "BST",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "104"
+    },
+    {
+      "number": 2105,
+      "title": "The Two Sum Pair (BST)",
+      "description": "Two Sum in BST.",
+      "difficulty": "Easy",
+      "topic": "BST",
+      "tags": [
+        "BST",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "105"
+    },
+    {
+      "number": 2106,
+      "title": "The Province Counter",
+      "description": "Count connected components (cities).",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "106"
+    },
+    {
+      "number": 2107,
+      "title": "The Island Counter",
+      "description": "Count islands in grid.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "107"
+    },
+    {
+      "number": 2108,
+      "title": "The Flood Fill",
+      "description": "Flood fill image.",
+      "difficulty": "Easy",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "108"
+    },
+    {
+      "number": 2109,
+      "title": "The Rotting Oranges",
+      "description": "Time to rot all oranges.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "109"
+    },
+    {
+      "number": 2110,
+      "title": "The Cycle in Undirected Graph",
+      "description": "Detect cycle in undirected graph.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "110"
+    },
+    {
+      "number": 2111,
+      "title": "The Cycle in Directed Graph",
+      "description": "Detect cycle in directed graph.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "111"
+    },
+    {
+      "number": 2112,
+      "title": "The Course Schedule I",
+      "description": "Can finish courses?",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "112"
+    },
+    {
+      "number": 2113,
+      "title": "The Course Schedule II",
+      "description": "Course ordering.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "113"
+    },
+    {
+      "number": 2114,
+      "title": "The Eventual Safe States",
+      "description": "Find safe nodes.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "114"
+    },
+    {
+      "number": 2115,
+      "title": "The Alien Dictionary",
+      "description": "Order of characters in alien language.",
+      "difficulty": "Hard",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "115"
+    },
+    {
+      "number": 2116,
+      "title": "The Unit Weight Shortest Path",
+      "description": "Shortest path in unit weight graph.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "116"
+    },
+    {
+      "number": 2117,
+      "title": "The DAG Shortest Path",
+      "description": "Shortest path in DAG.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "117"
+    },
+    {
+      "number": 2118,
+      "title": "The Network Delay (Dijkstra)",
+      "description": "Time for signal to reach all nodes.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "118"
+    },
+    {
+      "number": 2119,
+      "title": "The Cheapest Flights",
+      "description": "Cheapest flight with k stops.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Airbnb"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Airbnb",
+      "originalNumber": "119"
+    },
+    {
+      "number": 2120,
+      "title": "The All-Pairs Shortest Path",
+      "description": "Floyd Warshall.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Samsung"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Samsung",
+      "originalNumber": "120"
+    },
+    {
+      "number": 2121,
+      "title": "The Minimum Connection Cost",
+      "description": "Min cost to connect points (MST).",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "121"
+    },
+    {
+      "number": 2122,
+      "title": "The Network Reconstruction",
+      "description": "Number of operations to connect network.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "122"
+    },
+    {
+      "number": 2123,
+      "title": "The Stone Removal",
+      "description": "Max stones removed.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "123"
+    },
+    {
+      "number": 2124,
+      "title": "The Account Merge",
+      "description": "Merge accounts with same email.",
+      "difficulty": "Medium",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Facebook"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Facebook",
+      "originalNumber": "124"
+    },
+    {
+      "number": 2125,
+      "title": "The Word Ladder",
+      "description": "Shortest transformation sequence.",
+      "difficulty": "Hard",
+      "topic": "Graph",
+      "tags": [
+        "Graph",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "125"
+    },
+    {
+      "number": 2126,
+      "title": "The Staircase Climb",
+      "description": "Climb stairs ways.",
+      "difficulty": "Easy",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "2\r\n```",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "126"
+    },
+    {
+      "number": 2127,
+      "title": "The Fibonacci Number",
+      "description": "Nth Fibonacci.",
+      "difficulty": "Easy",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Standard"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Standard",
+      "originalNumber": "127"
+    },
+    {
+      "number": 2128,
+      "title": "The House Robber",
+      "description": "Max robbery non-adjacent.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "128"
+    },
+    {
+      "number": 2129,
+      "title": "The Ring Robber",
+      "description": "House robber circular.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "129"
+    },
+    {
+      "number": 2130,
+      "title": "The Longest Increasing Subsequence",
+      "description": "Length of LIS.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "130"
+    },
+    {
+      "number": 2131,
+      "title": "The Coin Change",
+      "description": "Min coins.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "131"
+    },
+    {
+      "number": 2132,
+      "title": "The Coin Combinations",
+      "description": "Ways to make change.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "132"
+    },
+    {
+      "number": 2133,
+      "title": "The Maximum Product Subarray",
+      "description": "Max product contiguous subarray.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "133"
+    },
+    {
+      "number": 2134,
+      "title": "The Subset Partition",
+      "description": "Partition into equal sum subsets.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "134"
+    },
+    {
+      "number": 2135,
+      "title": "The Decode Ways",
+      "description": "Ways to decode string A->1...",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Facebook"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Facebook",
+      "originalNumber": "135"
+    },
+    {
+      "number": 2136,
+      "title": "The Unique Paths",
+      "description": "Paths from top-left to bottom-right.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "136"
+    },
+    {
+      "number": 2137,
+      "title": "The Minimum Path Sum",
+      "description": "Min sum path in grid.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "137"
+    },
+    {
+      "number": 2138,
+      "title": "The Longest Common Subsequence",
+      "description": "LCS length.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "138"
+    },
+    {
+      "number": 2139,
+      "title": "The Longest Palindromic Subsequence",
+      "description": "LPS length.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "139"
+    },
+    {
+      "number": 2140,
+      "title": "The Edit Distance",
+      "description": "Min ops to convert word1 to word2.",
+      "difficulty": "Hard",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "140"
+    },
+    {
+      "number": 2141,
+      "title": "The Maximal Square",
+      "description": "Max area square of 1s.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Apple"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Apple",
+      "originalNumber": "141"
+    },
+    {
+      "number": 2142,
+      "title": "The Distinct Subsequences",
+      "description": "Count distinct subsequences of s equals t.",
+      "difficulty": "Hard",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "142"
+    },
+    {
+      "number": 2143,
+      "title": "The Stock with Cooldown",
+      "description": "Max profit with cooldown.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "143"
+    },
+    {
+      "number": 2144,
+      "title": "The Interleaving String",
+      "description": "Check interleave.",
+      "difficulty": "Medium",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "144"
+    },
+    {
+      "number": 2145,
+      "title": "The Burst Balloons",
+      "description": "Max coins bursting balloons.",
+      "difficulty": "Hard",
+      "topic": "DP",
+      "tags": [
+        "DP",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "145"
+    },
+    {
+      "number": 2146,
+      "title": "Note the Prefix",
+      "description": "Implement Trie.",
+      "difficulty": "Medium",
+      "topic": "Trie",
+      "tags": [
+        "Trie",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "146"
+    },
+    {
+      "number": 2147,
+      "title": "The Word Dictionary",
+      "description": "Design WordDictionary with dot wildcard.",
+      "difficulty": "Medium",
+      "topic": "Trie",
+      "tags": [
+        "Trie",
+        "Facebook"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Facebook",
+      "originalNumber": "147"
+    },
+    {
+      "number": 2148,
+      "title": "The Word Search II",
+      "description": "Find all words in grid.",
+      "difficulty": "Hard",
+      "topic": "Trie",
+      "tags": [
+        "Trie",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "148"
+    },
+    {
+      "number": 2149,
+      "title": "The Maximum XOR Pair",
+      "description": "Max XOR of two numbers.",
+      "difficulty": "Medium",
+      "topic": "Trie",
+      "tags": [
+        "Trie",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "149"
+    },
+    {
+      "number": 2150,
+      "title": "The K-th Largest Element",
+      "description": "Kth largest element in array.",
+      "difficulty": "Medium",
+      "topic": "Heap",
+      "tags": [
+        "Heap",
+        "Facebook"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Facebook",
+      "originalNumber": "150"
+    },
+    {
+      "number": 2151,
+      "title": "The Top K Frequent Elements",
+      "description": "Top k frequent numbers.",
+      "difficulty": "Medium",
+      "topic": "Heap",
+      "tags": [
+        "Heap",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "151"
+    },
+    {
+      "number": 2152,
+      "title": "The Median Stream",
+      "description": "Median from data stream.",
+      "difficulty": "Hard",
+      "topic": "Heap",
+      "tags": [
+        "Heap",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "152"
+    },
+    {
+      "number": 2153,
+      "title": "The Merge K Sorted Lists",
+      "description": "Merge k sorted lists.",
+      "difficulty": "Hard",
+      "topic": "Heap",
+      "tags": [
+        "Heap",
+        "Facebook"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Facebook",
+      "originalNumber": "153"
+    },
+    {
+      "number": 2154,
+      "title": "The Task Scheduler",
+      "description": "Min units to finish tasks with cooldown.",
+      "difficulty": "Medium",
+      "topic": "Greedy",
+      "tags": [
+        "Greedy",
+        "Facebook"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Facebook",
+      "originalNumber": "154"
+    },
+    {
+      "number": 2155,
+      "title": "The String Reorganization",
+      "description": "Rearrange logic no adjacent same.",
+      "difficulty": "Medium",
+      "topic": "Heap",
+      "tags": [
+        "Heap",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "155"
+    },
+    {
+      "number": 2156,
+      "title": "The Single Number",
+      "description": "Find element appearing once.",
+      "difficulty": "Easy",
+      "topic": "Bit Manipulation",
+      "tags": [
+        "Bit Manipulation",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "156"
+    },
+    {
+      "number": 2157,
+      "title": "The Hamming Weight",
+      "description": "Number of 1 bits.",
+      "difficulty": "Easy",
+      "topic": "Bit Manipulation",
+      "tags": [
+        "Bit Manipulation",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "157"
+    },
+    {
+      "number": 2158,
+      "title": "The Bit Counting",
+      "description": "Count bits for range 0 to n.",
+      "difficulty": "Easy",
+      "topic": "Bit Manipulation",
+      "tags": [
+        "Bit Manipulation",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "158"
+    },
+    {
+      "number": 2159,
+      "title": "The Reverse Bits",
+      "description": "Reverse bits.",
+      "difficulty": "Easy",
+      "topic": "Bit Manipulation",
+      "tags": [
+        "Bit Manipulation",
+        "Apple"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Apple",
+      "originalNumber": "159"
+    },
+    {
+      "number": 2160,
+      "title": "The Jump Game",
+      "description": "Can reach end?",
+      "difficulty": "Medium",
+      "topic": "Greedy",
+      "tags": [
+        "Greedy",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "160"
+    },
+    {
+      "number": 2161,
+      "title": "The Minimum Jumps",
+      "description": "Min jumps to reach end.",
+      "difficulty": "Medium",
+      "topic": "Greedy",
+      "tags": [
+        "Greedy",
+        "Amazon"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Amazon",
+      "originalNumber": "161"
+    },
+    {
+      "number": 2162,
+      "title": "The Gas Station",
+      "description": "Circuit completion check.",
+      "difficulty": "Medium",
+      "topic": "Greedy",
+      "tags": [
+        "Greedy",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "162"
+    },
+    {
+      "number": 2163,
+      "title": "The Candy Distribution",
+      "description": "Min candies for ratings.",
+      "difficulty": "Hard",
+      "topic": "Greedy",
+      "tags": [
+        "Greedy",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "163"
+    },
+    {
+      "number": 2164,
+      "title": "The Power Function",
+      "description": "Pow(x, n).",
+      "difficulty": "Medium",
+      "topic": "Math",
+      "tags": [
+        "Math",
+        "Google"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Google",
+      "originalNumber": "164"
+    },
+    {
+      "number": 2165,
+      "title": "The Trailing Zeroes",
+      "description": "Trailing zeroes in factorial.",
+      "difficulty": "Medium",
+      "topic": "Math",
+      "tags": [
+        "Math",
+        "Microsoft"
+      ],
+      "testCases": [],
+      "sampleInput": "",
+      "sampleOutput": "",
+      "explanation": "",
+      "constraints": "",
+      "companies": "Microsoft",
+      "originalNumber": "165"
+    }
+  ]
+}

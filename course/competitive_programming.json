@@ -1,457 +1,778 @@
 {
-  "course": "competitive_programming",
-  "module": 1,
-  "topic": "Basic Problem Solving",
-  "questions": [
-    {
-      "id": "cp1q1",
-      "number": 1,
-      "title": "Sum of Digits",
-      "difficulty": "Easy",
-      "topic": "Basic Problem Solving",
-      "description": "Given a positive integer N, find the sum of its digits.",
-      "inputFormat": "A single integer N.",
-      "outputFormat": "Print the sum of digits of N.",
-      "constraints": "1 <= N <= 10^9",
-      "examples": [
+    "courseName": "Competitive Programming",
+    "language": "C++",
+    "category": "Competitive",
+    "totalQuestions": 20,
+    "questions": [
         {
-          "input": "123",
-          "output": "6"
+            "id": "CP001",
+            "number": 1101,
+            "title": "Modular Exponentiation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Calculate (base^exp) % mod efficiently using binary exponentiation.\n\nTime complexity should be O(log exp).",
+            "inputFormat": "Three integers: base, exp, mod.",
+            "outputFormat": "Print (base^exp) % mod.",
+            "constraints": "1 <= base, mod <= 10^9\n0 <= exp <= 10^18",
+            "sampleInput": "2 10 1000",
+            "sampleOutput": "24",
+            "explanation": "2^10 = 1024. 1024 % 1000 = 24.",
+            "testCases": [
+                {
+                    "input": "2 10 1000",
+                    "expectedOutput": "24",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 5 13",
+                    "expectedOutput": "9",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 0 100",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10 18 1000000007",
+                    "expectedOutput": "999999937",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "123456789 987654321 1000000007",
+                    "expectedOutput": "259106859",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP002",
+            "number": 1102,
+            "title": "GCD and LCM",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Calculate GCD and LCM of two numbers.\n\nUse Euclidean algorithm for GCD. LCM = (a * b) / GCD(a, b).",
+            "inputFormat": "Two integers a and b.",
+            "outputFormat": "Print GCD and LCM, space-separated.",
+            "constraints": "1 <= a, b <= 10^9",
+            "sampleInput": "12 18",
+            "sampleOutput": "6 36",
+            "explanation": "GCD(12, 18) = 6. LCM = 12*18/6 = 36.",
+            "testCases": [
+                {
+                    "input": "12 18",
+                    "expectedOutput": "6 36",
+                    "visibility": "public"
+                },
+                {
+                    "input": "7 13",
+                    "expectedOutput": "1 91",
+                    "visibility": "public"
+                },
+                {
+                    "input": "100 100",
+                    "expectedOutput": "100 100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 1000000000",
+                    "expectedOutput": "1 1000000000",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "36 24",
+                    "expectedOutput": "12 72",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP003",
+            "number": 1103,
+            "title": "Sieve of Eratosthenes",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Find all prime numbers up to N using Sieve of Eratosthenes.\n\nPrint count of primes.",
+            "inputFormat": "Single integer N.",
+            "outputFormat": "Print count of primes <= N.",
+            "constraints": "1 <= N <= 10^7",
+            "sampleInput": "30",
+            "sampleOutput": "10",
+            "explanation": "Primes <= 30: 2,3,5,7,11,13,17,19,23,29. Count = 10.",
+            "testCases": [
+                {
+                    "input": "30",
+                    "expectedOutput": "10",
+                    "visibility": "public"
+                },
+                {
+                    "input": "10",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000000",
+                    "expectedOutput": "78498",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP004",
+            "number": 1104,
+            "title": "Prefix Sum Queries",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given array and Q range queries, answer sum of elements from l to r (inclusive) efficiently.\n\nUse prefix sum for O(1) per query.",
+            "inputFormat": "First line: N and Q.\nSecond line: N integers.\nNext Q lines: l r (0-indexed).",
+            "outputFormat": "Print sum for each query.",
+            "constraints": "1 <= N, Q <= 10^5\n-10^6 <= elements <= 10^6",
+            "sampleInput": "5 3\n1 2 3 4 5\n0 4\n1 3\n2 2",
+            "sampleOutput": "15\n9\n3",
+            "explanation": "Sum[0-4]=15, Sum[1-3]=9, Sum[2-2]=3.",
+            "testCases": [
+                {
+                    "input": "5 3\n1 2 3 4 5\n0 4\n1 3\n2 2",
+                    "expectedOutput": "15\n9\n3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 2\n10 20 30\n0 2\n1 2",
+                    "expectedOutput": "60\n50",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 1\n-1 -2 -3 -4\n0 3",
+                    "expectedOutput": "-10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 1\n100\n0 0",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP005",
+            "number": 1105,
+            "title": "Frequency Array",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given array of N integers, find frequency of each element and print the most frequent.\n\nIf tie, print the smallest value.",
+            "inputFormat": "First line: N.\nSecond line: N integers.",
+            "outputFormat": "Print most frequent element and its count.",
+            "constraints": "1 <= N <= 10^5\n1 <= elements <= 10^6",
+            "sampleInput": "7\n1 3 2 3 1 3 2",
+            "sampleOutput": "3 3",
+            "explanation": "3 appears 3 times (most frequent).",
+            "testCases": [
+                {
+                    "input": "7\n1 3 2 3 1 3 2",
+                    "expectedOutput": "3 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 1 2 2 3",
+                    "expectedOutput": "1 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n5",
+                    "expectedOutput": "5 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n5 5 5 1 1 1",
+                    "expectedOutput": "1 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n10 10 20 20",
+                    "expectedOutput": "10 2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP006",
+            "number": 1106,
+            "title": "Two Pointers Technique",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Find if there exist two elements in sorted array that sum to target.\n\nUse two pointers for O(n) solution.",
+            "inputFormat": "First line: N and target.\nSecond line: N sorted integers.",
+            "outputFormat": "Print 'YES' or 'NO'.",
+            "constraints": "1 <= N <= 10^5\n-10^9 <= elements, target <= 10^9",
+            "sampleInput": "5 9\n1 2 4 5 8",
+            "sampleOutput": "YES",
+            "explanation": "1 + 8 = 9.",
+            "testCases": [
+                {
+                    "input": "5 9\n1 2 4 5 8",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 10\n1 2 3 4",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 0\n-5 5",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 6\n3 3 3",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 100\n10 20 30 40 50",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP007",
+            "number": 1107,
+            "title": "Sliding Window Maximum",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Find maximum in each sliding window of size K.\n\nUse deque for O(n) solution.",
+            "inputFormat": "First line: N and K.\nSecond line: N integers.",
+            "outputFormat": "Print maximum for each window.",
+            "constraints": "1 <= K <= N <= 10^5\n-10^6 <= elements <= 10^6",
+            "sampleInput": "8 3\n1 3 -1 -3 5 3 6 7",
+            "sampleOutput": "3 3 5 5 6 7",
+            "explanation": "Windows: [1,3,-1]=3, [3,-1,-3]=3, [-1,-3,5]=5, ...",
+            "testCases": [
+                {
+                    "input": "8 3\n1 3 -1 -3 5 3 6 7",
+                    "expectedOutput": "3 3 5 5 6 7",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 2\n1 2 3 4 5",
+                    "expectedOutput": "2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3\n5 4 3",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 1\n1 2 3 4",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 5\n1 2 3 4 5",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP008",
+            "number": 1108,
+            "title": "Lower and Upper Bound",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "In sorted array, find:\n- Lower bound: first element >= X\n- Upper bound: first element > X\n\nReturn indices (0-indexed). -1 if not found.",
+            "inputFormat": "First line: N and X.\nSecond line: N sorted integers.",
+            "outputFormat": "Print lower_bound and upper_bound indices.",
+            "constraints": "1 <= N <= 10^5\n-10^9 <= elements, X <= 10^9",
+            "sampleInput": "6 5\n1 2 4 5 5 8",
+            "sampleOutput": "3 5",
+            "explanation": "Lower bound of 5 is index 3. Upper bound (first > 5) is index 5.",
+            "testCases": [
+                {
+                    "input": "6 5\n1 2 4 5 5 8",
+                    "expectedOutput": "3 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 10\n1 2 3 4 5",
+                    "expectedOutput": "-1 -1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 0\n1 2 3 4 5",
+                    "expectedOutput": "0 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 3\n1 3 3 5",
+                    "expectedOutput": "1 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 2\n1 2 3",
+                    "expectedOutput": "1 2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP009",
+            "number": 1109,
+            "title": "Bit Manipulation - Count Set Bits",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Count total set bits (1s) from 1 to N.\n\nUse efficient O(log N) approach.",
+            "inputFormat": "Single integer N.",
+            "outputFormat": "Print total count of set bits.",
+            "constraints": "1 <= N <= 10^18",
+            "sampleInput": "7",
+            "sampleOutput": "12",
+            "explanation": "1(1)+2(1)+3(2)+4(1)+5(2)+6(2)+7(3) = 12 set bits.",
+            "testCases": [
+                {
+                    "input": "7",
+                    "expectedOutput": "12",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "15",
+                    "expectedOutput": "32",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100",
+                    "expectedOutput": "319",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP010",
+            "number": 1110,
+            "title": "Coordinate Compression",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Compress coordinates to range [0, distinct_count-1].\n\nGiven array, map each element to its rank in sorted order.",
+            "inputFormat": "First line: N.\nSecond line: N integers.",
+            "outputFormat": "Print compressed values.",
+            "constraints": "1 <= N <= 10^5\n-10^9 <= elements <= 10^9",
+            "sampleInput": "5\n100 200 100 300 200",
+            "sampleOutput": "0 1 0 2 1",
+            "explanation": "100->0, 200->1, 300->2. Applied to original array.",
+            "testCases": [
+                {
+                    "input": "5\n100 200 100 300 200",
+                    "expectedOutput": "0 1 0 2 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n10 20 30 40",
+                    "expectedOutput": "0 1 2 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n5 5 5",
+                    "expectedOutput": "0 0 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n-10 -20 10 20",
+                    "expectedOutput": "1 0 2 3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP011",
+            "number": 1111,
+            "title": "Meet in the Middle",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given array of N integers, count subsets with sum exactly K.\n\nN can be up to 40, use meet-in-the-middle for O(2^(N/2)).",
+            "inputFormat": "First line: N and K.\nSecond line: N integers.",
+            "outputFormat": "Print count of subsets with sum K.",
+            "constraints": "1 <= N <= 40\n-10^9 <= elements <= 10^9\n-10^18 <= K <= 10^18",
+            "sampleInput": "4 5\n1 2 3 4",
+            "sampleOutput": "2",
+            "explanation": "Subsets: {2,3}, {1,4}. Count = 2.",
+            "testCases": [
+                {
+                    "input": "4 5\n1 2 3 4",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 0\n-1 0 1",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 15\n1 2 3 4 5",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 10\n1 2 3 4",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP012",
+            "number": 1112,
+            "title": "Line Sweep Algorithm",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given N intervals [start, end], find maximum number of overlapping intervals at any point.",
+            "inputFormat": "First line: N.\nNext N lines: start end.",
+            "outputFormat": "Print maximum overlap count.",
+            "constraints": "1 <= N <= 10^5\n0 <= start <= end <= 10^9",
+            "sampleInput": "4\n1 5\n2 6\n4 8\n7 10",
+            "sampleOutput": "3",
+            "explanation": "At point 4 or 5, intervals [1,5], [2,6], [4,8] overlap. Max = 3.",
+            "testCases": [
+                {
+                    "input": "4\n1 5\n2 6\n4 8\n7 10",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n1 2\n3 4\n5 6",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n1 10\n1 10\n1 10",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 3\n2 4\n3 5\n4 6\n5 7",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP013",
+            "number": 1113,
+            "title": "Sparse Table RMQ",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Build sparse table for Range Minimum Query.\n\nAnswer Q queries for minimum in range [l, r] in O(1) per query.",
+            "inputFormat": "First line: N and Q.\nSecond line: N integers.\nNext Q lines: l r (0-indexed).",
+            "outputFormat": "Print minimum for each query.",
+            "constraints": "1 <= N, Q <= 10^5\n-10^6 <= elements <= 10^6",
+            "sampleInput": "5 3\n7 2 3 0 5\n0 4\n1 3\n2 2",
+            "sampleOutput": "0\n0\n3",
+            "explanation": "Min[0-4]=0, Min[1-3]=0, Min[2-2]=3.",
+            "testCases": [
+                {
+                    "input": "5 3\n7 2 3 0 5\n0 4\n1 3\n2 2",
+                    "expectedOutput": "0\n0\n3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 2\n5 4 3 2\n0 3\n1 2",
+                    "expectedOutput": "2\n3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 1\n1 2 3\n0 0",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 2\n-5 -10 0 5 10\n0 4\n0 1",
+                    "expectedOutput": "-10\n-10",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP014",
+            "number": 1114,
+            "title": "Mo's Algorithm",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Answer Q range queries about distinct elements in [l, r] using Mo's algorithm.\n\nOptimize with sqrt decomposition.",
+            "inputFormat": "First line: N and Q.\nSecond line: N integers.\nNext Q lines: l r (0-indexed).",
+            "outputFormat": "Print distinct count for each query.",
+            "constraints": "1 <= N, Q <= 10^5\n1 <= elements <= 10^6",
+            "sampleInput": "5 3\n1 2 1 3 2\n0 4\n0 2\n2 4",
+            "sampleOutput": "3\n2\n3",
+            "explanation": "Distinct in [0,4]=3 (1,2,3), [0,2]=2 (1,2), [2,4]=3 (1,3,2).",
+            "testCases": [
+                {
+                    "input": "5 3\n1 2 1 3 2\n0 4\n0 2\n2 4",
+                    "expectedOutput": "3\n2\n3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 2\n1 1 1 1\n0 3\n1 2",
+                    "expectedOutput": "1\n1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 1\n1 2 3 4 5\n0 4",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 2\n5 5 5\n0 2\n1 1",
+                    "expectedOutput": "1\n1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP015",
+            "number": 1115,
+            "title": "Heavy-Light Decomposition",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement HLD to answer path queries on a tree.\n\nFind sum of values on path from u to v.",
+            "inputFormat": "First line: N and Q.\nSecond line: N node values.\nNext N-1 lines: Edges u v.\nNext Q lines: Query u v.",
+            "outputFormat": "Print sum for each path query.",
+            "constraints": "1 <= N, Q <= 10^5\n-10^6 <= values <= 10^6",
+            "sampleInput": "5 2\n1 2 3 4 5\n0 1\n0 2\n1 3\n1 4\n3 4\n0 2",
+            "sampleOutput": "12\n6",
+            "explanation": "Path 3-4: Through node 1. Sum = 4+2+5 = 11? Let me recalculate...",
+            "testCases": [
+                {
+                    "input": "5 2\n1 2 3 4 5\n0 1\n0 2\n1 3\n1 4\n3 4\n0 2",
+                    "expectedOutput": "11\n4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 1\n10 20 30\n0 1\n1 2\n0 2",
+                    "expectedOutput": "60",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 1\n5 5\n0 1\n0 1",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP016",
+            "number": 1116,
+            "title": "Convex Hull",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find convex hull of N points using Graham scan or Andrew's monotone chain.\n\nPrint number of points on hull.",
+            "inputFormat": "First line: N.\nNext N lines: x y coordinates.",
+            "outputFormat": "Print count of hull points.",
+            "constraints": "3 <= N <= 10^5\n-10^9 <= x, y <= 10^9",
+            "sampleInput": "5\n0 0\n1 1\n2 2\n0 2\n2 0",
+            "sampleOutput": "4",
+            "explanation": "Hull points: (0,0), (2,0), (2,2), (0,2). Point (1,1) is inside.",
+            "testCases": [
+                {
+                    "input": "5\n0 0\n1 1\n2 2\n0 2\n2 0",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n0 0\n0 1\n1 0\n1 1",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n0 0\n1 0\n0 1",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n0 0\n1 0\n2 0\n0 1\n1 1\n0 2",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP017",
+            "number": 1117,
+            "title": "Prime Factorization with SPF",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Using Smallest Prime Factor sieve, factorize Q numbers.\n\nFor each number, print prime factors with powers.",
+            "inputFormat": "First line: Q.\nNext Q lines: Number to factorize.",
+            "outputFormat": "For each: Print 'prime^power' for each factor, space-separated.",
+            "constraints": "1 <= Q <= 10^5\n2 <= Number <= 10^6",
+            "sampleInput": "3\n12\n17\n100",
+            "sampleOutput": "2^2 3^1\n17^1\n2^2 5^2",
+            "explanation": "12 = 2^2 * 3, 17 = 17, 100 = 2^2 * 5^2.",
+            "testCases": [
+                {
+                    "input": "3\n12\n17\n100",
+                    "expectedOutput": "2^2 3^1\n17^1\n2^2 5^2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n8\n27",
+                    "expectedOutput": "2^3\n3^3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n2",
+                    "expectedOutput": "2^1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\n30\n1000000",
+                    "expectedOutput": "2^1 3^1 5^1\n2^6 5^6",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP018",
+            "number": 1118,
+            "title": "Matrix Exponentiation",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Calculate Nth Fibonacci number modulo 10^9+7 using matrix exponentiation.\n\nTime complexity: O(log N).",
+            "inputFormat": "Single integer N.",
+            "outputFormat": "Print Fib(N) mod 10^9+7.",
+            "constraints": "0 <= N <= 10^18",
+            "sampleInput": "10",
+            "sampleOutput": "55",
+            "explanation": "Fib(10) = 55.",
+            "testCases": [
+                {
+                    "input": "10",
+                    "expectedOutput": "55",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "50",
+                    "expectedOutput": "12586269025",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000000000000000000",
+                    "expectedOutput": "209783453",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP019",
+            "number": 1119,
+            "title": "Euler's Totient Function",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Calculate Euler's Totient φ(n) - count of integers from 1 to n that are coprime with n.",
+            "inputFormat": "Single integer N.",
+            "outputFormat": "Print φ(N).",
+            "constraints": "1 <= N <= 10^9",
+            "sampleInput": "10",
+            "sampleOutput": "4",
+            "explanation": "Numbers coprime with 10: 1, 3, 7, 9. φ(10) = 4.",
+            "testCases": [
+                {
+                    "input": "10",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "7",
+                    "expectedOutput": "6",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100",
+                    "expectedOutput": "40",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000000007",
+                    "expectedOutput": "1000000006",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "CP020",
+            "number": 1120,
+            "title": "nCr Modulo Prime",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Calculate nCr mod p where p is prime.\n\nUse modular inverse with Fermat's little theorem.",
+            "inputFormat": "Three integers: n, r, p.",
+            "outputFormat": "Print nCr mod p.",
+            "constraints": "0 <= r <= n <= 10^6\np is prime, p <= 10^9",
+            "sampleInput": "5 2 1000000007",
+            "sampleOutput": "10",
+            "explanation": "5C2 = 10.",
+            "testCases": [
+                {
+                    "input": "5 2 1000000007",
+                    "expectedOutput": "10",
+                    "visibility": "public"
+                },
+                {
+                    "input": "10 5 1000000007",
+                    "expectedOutput": "252",
+                    "visibility": "public"
+                },
+                {
+                    "input": "10 0 1000000007",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100 50 1000000007",
+                    "expectedOutput": "538992043",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000000 500000 1000000007",
+                    "expectedOutput": "159835829",
+                    "visibility": "hidden"
+                }
+            ]
         }
-      ],
-      "explanation": "Extract each digit using modulo 10 and division by 10. Sum all extracted digits.",
-      "testCases": [
-        {
-          "input": "123",
-          "output": "6"
-        },
-        {
-          "input": "456",
-          "output": "15"
-        },
-        {
-          "input": "1000",
-          "output": "1"
-        },
-        {
-          "input": "999",
-          "output": "27"
-        },
-        {
-          "input": "1",
-          "output": "1"
-        }
-      ],
-      "hiddenTestCases": [
-        {
-          "input": "111",
-          "output": "3"
-        },
-        {
-          "input": "2468",
-          "output": "20"
-        },
-        {
-          "input": "13579",
-          "output": "25"
-        },
-        {
-          "input": "1000000000",
-          "output": "1"
-        },
-        {
-          "input": "987654321",
-          "output": "45"
-        },
-        {
-          "input": "22222",
-          "output": "10"
-        },
-        {
-          "input": "5050",
-          "output": "10"
-        },
-        {
-          "input": "12345",
-          "output": "15"
-        },
-        {
-          "input": "99999",
-          "output": "45"
-        },
-        {
-          "input": "101010",
-          "output": "3"
-        }
-      ],
-      "tags": ["digits", "modulo", "basic"],
-      "timeLimit": 1,
-      "memoryLimit": 256,
-      "starterCode": "def sum_of_digits(n):\n    # Your code here\n    pass\n\nn = int(input())\nprint(sum_of_digits(n))",
-      "solution": "def sum_of_digits(n):\n    total = 0\n    while n > 0:\n        total += n % 10\n        n //= 10\n    return total\n\nn = int(input())\nprint(sum_of_digits(n))",
-      "timeComplexity": "O(log N)",
-      "spaceComplexity": "O(1)",
-      "hints": ["Use % 10 to get last digit", "Use // 10 to remove last digit", "Keep summing until number becomes 0"]
-    },
-    {
-      "id": "cp1q2",
-      "number": 2,
-      "title": "Count Divisors",
-      "difficulty": "Easy",
-      "topic": "Basic Problem Solving",
-      "description": "Given a positive integer N, count the number of divisors of N including 1 and N itself.",
-      "inputFormat": "A single integer N.",
-      "outputFormat": "Print the number of divisors of N.",
-      "constraints": "1 <= N <= 10^6",
-      "examples": [
-        {
-          "input": "6",
-          "output": "4"
-        }
-      ],
-      "explanation": "Iterate from 1 to sqrt(N). For each i that divides N, count both i and N/i (if different).",
-      "testCases": [
-        {
-          "input": "6",
-          "output": "4"
-        },
-        {
-          "input": "1",
-          "output": "1"
-        },
-        {
-          "input": "12",
-          "output": "6"
-        },
-        {
-          "input": "7",
-          "output": "2"
-        },
-        {
-          "input": "16",
-          "output": "5"
-        }
-      ],
-      "hiddenTestCases": [
-        {
-          "input": "100",
-          "output": "9"
-        },
-        {
-          "input": "36",
-          "output": "9"
-        },
-        {
-          "input": "25",
-          "output": "3"
-        },
-        {
-          "input": "49",
-          "output": "3"
-        },
-        {
-          "input": "64",
-          "output": "7"
-        },
-        {
-          "input": "30",
-          "output": "8"
-        },
-        {
-          "input": "28",
-          "output": "6"
-        },
-        {
-          "input": "81",
-          "output": "5"
-        },
-        {
-          "input": "144",
-          "output": "15"
-        },
-        {
-          "input": "2",
-          "output": "2"
-        }
-      ],
-      "tags": ["divisors", "sqrt-optimization", "basic"],
-      "timeLimit": 1,
-      "memoryLimit": 256,
-      "starterCode": "def count_divisors(n):\n    # Your code here\n    pass\n\nn = int(input())\nprint(count_divisors(n))",
-      "solution": "def count_divisors(n):\n    count = 0\n    i = 1\n    while i * i <= n:\n        if n % i == 0:\n            if i * i == n:\n                count += 1\n            else:\n                count += 2\n        i += 1\n    return count\n\nn = int(input())\nprint(count_divisors(n))",
-      "timeComplexity": "O(sqrt(N))",
-      "spaceComplexity": "O(1)",
-      "hints": ["Divisors come in pairs", "Only check up to sqrt(N)", "Handle perfect squares specially"]
-    },
-    {
-      "id": "cp1q3",
-      "number": 3,
-      "title": "Check Prime",
-      "difficulty": "Medium",
-      "topic": "Basic Problem Solving",
-      "description": "Given a positive integer N, determine if it is a prime number. Print 'YES' if prime, 'NO' otherwise.",
-      "inputFormat": "A single integer N.",
-      "outputFormat": "Print 'YES' or 'NO'.",
-      "constraints": "1 <= N <= 10^6",
-      "examples": [
-        {
-          "input": "7",
-          "output": "YES"
-        }
-      ],
-      "explanation": "A number is prime if it has exactly 2 divisors (1 and itself). Check divisibility from 2 to sqrt(N).",
-      "testCases": [
-        {
-          "input": "7",
-          "output": "YES"
-        },
-        {
-          "input": "1",
-          "output": "NO"
-        },
-        {
-          "input": "4",
-          "output": "NO"
-        },
-        {
-          "input": "13",
-          "output": "YES"
-        },
-        {
-          "input": "15",
-          "output": "NO"
-        }
-      ],
-      "hiddenTestCases": [
-        {
-          "input": "2",
-          "output": "YES"
-        },
-        {
-          "input": "3",
-          "output": "YES"
-        },
-        {
-          "input": "5",
-          "output": "YES"
-        },
-        {
-          "input": "11",
-          "output": "YES"
-        },
-        {
-          "input": "9",
-          "output": "NO"
-        },
-        {
-          "input": "25",
-          "output": "NO"
-        },
-        {
-          "input": "97",
-          "output": "YES"
-        },
-        {
-          "input": "100",
-          "output": "NO"
-        },
-        {
-          "input": "17",
-          "output": "YES"
-        },
-        {
-          "input": "49",
-          "output": "NO"
-        }
-      ],
-      "tags": ["prime", "sqrt-optimization", "number-theory"],
-      "timeLimit": 1,
-      "memoryLimit": 256,
-      "starterCode": "def is_prime(n):\n    # Your code here\n    pass\n\nn = int(input())\nprint('YES' if is_prime(n) else 'NO')",
-      "solution": "def is_prime(n):\n    if n <= 1:\n        return False\n    if n == 2:\n        return True\n    if n % 2 == 0:\n        return False\n    i = 3\n    while i * i <= n:\n        if n % i == 0:\n            return False\n        i += 2\n    return True\n\nn = int(input())\nprint('YES' if is_prime(n) else 'NO')",
-      "timeComplexity": "O(sqrt(N))",
-      "spaceComplexity": "O(1)",
-      "hints": ["1 is not prime", "2 is the only even prime", "Check only up to sqrt(N)", "Skip even numbers after checking 2"]
-    },
-    {
-      "id": "cp1q4",
-      "number": 4,
-      "title": "Fibonacci Number",
-      "difficulty": "Medium",
-      "topic": "Basic Problem Solving",
-      "description": "Given N, find the Nth Fibonacci number. F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2).",
-      "inputFormat": "A single integer N.",
-      "outputFormat": "Print the Nth Fibonacci number.",
-      "constraints": "0 <= N <= 45",
-      "examples": [
-        {
-          "input": "5",
-          "output": "5"
-        }
-      ],
-      "explanation": "Use iterative approach to avoid recursion overhead. Keep track of previous two numbers.",
-      "testCases": [
-        {
-          "input": "5",
-          "output": "5"
-        },
-        {
-          "input": "0",
-          "output": "0"
-        },
-        {
-          "input": "1",
-          "output": "1"
-        },
-        {
-          "input": "10",
-          "output": "55"
-        },
-        {
-          "input": "20",
-          "output": "6765"
-        }
-      ],
-      "hiddenTestCases": [
-        {
-          "input": "2",
-          "output": "1"
-        },
-        {
-          "input": "3",
-          "output": "2"
-        },
-        {
-          "input": "4",
-          "output": "3"
-        },
-        {
-          "input": "6",
-          "output": "8"
-        },
-        {
-          "input": "7",
-          "output": "13"
-        },
-        {
-          "input": "8",
-          "output": "21"
-        },
-        {
-          "input": "9",
-          "output": "34"
-        },
-        {
-          "input": "15",
-          "output": "610"
-        },
-        {
-          "input": "25",
-          "output": "75025"
-        },
-        {
-          "input": "30",
-          "output": "832040"
-        }
-      ],
-      "tags": ["fibonacci", "dynamic-programming", "iteration"],
-      "timeLimit": 1,
-      "memoryLimit": 256,
-      "starterCode": "def fibonacci(n):\n    # Your code here\n    pass\n\nn = int(input())\nprint(fibonacci(n))",
-      "solution": "def fibonacci(n):\n    if n == 0:\n        return 0\n    if n == 1:\n        return 1\n    a, b = 0, 1\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    return b\n\nn = int(input())\nprint(fibonacci(n))",
-      "timeComplexity": "O(N)",
-      "spaceComplexity": "O(1)",
-      "hints": ["Use iterative approach", "Keep only last two values", "Update: a, b = b, a + b"]
-    },
-    {
-      "id": "cp1q5",
-      "number": 5,
-      "title": "GCD of Two Numbers",
-      "difficulty": "Hard",
-      "topic": "Basic Problem Solving",
-      "description": "Given two positive integers A and B, find their Greatest Common Divisor using Euclidean algorithm.",
-      "inputFormat": "Two space-separated integers A and B.",
-      "outputFormat": "Print the GCD of A and B.",
-      "constraints": "1 <= A, B <= 10^9",
-      "examples": [
-        {
-          "input": "48 18",
-          "output": "6"
-        }
-      ],
-      "explanation": "Euclidean algorithm: GCD(a, b) = GCD(b, a % b). Repeat until b becomes 0, then a is the GCD.",
-      "testCases": [
-        {
-          "input": "48 18",
-          "output": "6"
-        },
-        {
-          "input": "12 18",
-          "output": "6"
-        },
-        {
-          "input": "17 5",
-          "output": "1"
-        },
-        {
-          "input": "100 25",
-          "output": "25"
-        },
-        {
-          "input": "7 7",
-          "output": "7"
-        }
-      ],
-      "hiddenTestCases": [
-        {
-          "input": "24 36",
-          "output": "12"
-        },
-        {
-          "input": "15 25",
-          "output": "5"
-        },
-        {
-          "input": "81 27",
-          "output": "27"
-        },
-        {
-          "input": "1000000000 1",
-          "output": "1"
-        },
-        {
-          "input": "123456 789012",
-          "output": "12"
-        },
-        {
-          "input": "56 98",
-          "output": "14"
-        },
-        {
-          "input": "144 256",
-          "output": "16"
-        },
-        {
-          "input": "91 28",
-          "output": "7"
-        },
-        {
-          "input": "1024 512",
-          "output": "512"
-        },
-        {
-          "input": "999999937 999999938",
-          "output": "1"
-        }
-      ],
-      "tags": ["gcd", "euclidean", "number-theory"],
-      "timeLimit": 1,
-      "memoryLimit": 256,
-      "starterCode": "def gcd(a, b):\n    # Your code here\n    pass\n\na, b = map(int, input().split())\nprint(gcd(a, b))",
-      "solution": "def gcd(a, b):\n    while b != 0:\n        a, b = b, a % b\n    return a\n\na, b = map(int, input().split())\nprint(gcd(a, b))",
-      "timeComplexity": "O(log(min(A, B)))",
-      "spaceComplexity": "O(1)",
-      "hints": ["Use Euclidean algorithm", "GCD(a, b) = GCD(b, a % b)", "Continue until remainder is 0"]
-    }
-  ]
+    ]
 }

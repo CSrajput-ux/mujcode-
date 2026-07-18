@@ -4,7 +4,7 @@ function solvedNumbers(db, userId) {
   return new Set(
     db.problemSubmissions
       .filter(sub => String(sub.userId) === String(userId) && sub.verdict === 'Accepted')
-      .map(sub => Number(sub.problemNumber))
+      .flatMap(sub => [String(sub.problemId), String(sub.problemNumber)].filter(Boolean))
   );
 }
 
@@ -28,7 +28,12 @@ export function registerProblemsRoutes(router) {
   });
 
   router.get('/api/problems/number/:number', (req, res, ctx) => {
-    const problem = ctx.getDb().problems.find(item => Number(item.number) === Number(req.params.number));
+    const param = req.params.number;
+    const db = ctx.getDb();
+    let problem = db.problems.find(item => item._id === param);
+    if (!problem) {
+      problem = db.problems.find(item => Number(item.number) === Number(param));
+    }
     return sendJson(res, problem ? 200 : 404, problem ? { problem } : { error: 'Problem not found' });
   });
 
@@ -37,7 +42,7 @@ export function registerProblemsRoutes(router) {
     const solved = req.query.userId ? solvedNumbers(db, req.query.userId) : new Set();
     let problems = db.problems.map(problem => ({
       ...problem,
-      status: solved.has(Number(problem.number)) ? 'solved' : 'unsolved'
+      status: (solved.has(String(problem._id)) || solved.has(String(problem.number))) ? 'solved' : 'unsolved'
     }));
 
     if (req.query.category) {
@@ -55,3 +60,4 @@ export function registerProblemsRoutes(router) {
     return sendJson(res, 200, { problems });
   });
 }
+

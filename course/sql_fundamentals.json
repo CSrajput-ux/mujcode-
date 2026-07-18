@@ -1,0 +1,608 @@
+{
+    "courseName": "SQL Fundamentals",
+    "language": "SQL",
+    "category": "SQL",
+    "totalQuestions": 20,
+    "questions": [
+        {
+            "id": "SQL001",
+            "number": 501,
+            "title": "Basic SELECT Query",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write a SQL query to select the 'name' and 'age' columns from a table called 'students' where age is greater than 18.\n\nTable: students (id, name, age, grade)",
+            "inputFormat": "Table 'students' with columns: id, name, age, grade",
+            "outputFormat": "name, age columns for students older than 18",
+            "constraints": "Use WHERE clause for filtering",
+            "sampleInput": "students table with sample data",
+            "sampleOutput": "name | age\n---------\nJohn | 20\nJane | 19",
+            "explanation": "SELECT name, age FROM students WHERE age > 18",
+            "testCases": [
+                {
+                    "input": "SELECT name, age FROM students WHERE age > 18",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT NAME, AGE FROM STUDENTS WHERE AGE > 18",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select name, age from students where age > 18;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "SELECT name, age FROM students WHERE age >= 19",
+                    "expectedOutput": "PARTIAL_MATCH",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL002",
+            "number": 502,
+            "title": "ORDER BY Clause",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write a SQL query to select all columns from 'employees' table and order the results by 'salary' in descending order.",
+            "inputFormat": "Table 'employees' with columns: id, name, department, salary",
+            "outputFormat": "All columns sorted by salary (highest first)",
+            "constraints": "Use ORDER BY with DESC",
+            "sampleInput": "employees table with various records",
+            "sampleOutput": "Results ordered by salary descending",
+            "explanation": "SELECT * FROM employees ORDER BY salary DESC",
+            "testCases": [
+                {
+                    "input": "SELECT * FROM employees ORDER BY salary DESC",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT * FROM employees ORDER BY salary DESC;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select * from employees order by salary desc",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL003",
+            "number": 503,
+            "title": "COUNT Aggregate Function",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write a SQL query to count the total number of rows in the 'orders' table.",
+            "inputFormat": "Table 'orders' with columns: order_id, customer_id, amount, order_date",
+            "outputFormat": "Single value: total count of orders",
+            "constraints": "Use COUNT() function",
+            "sampleInput": "orders table with multiple records",
+            "sampleOutput": "count\n-----\n150",
+            "explanation": "SELECT COUNT(*) FROM orders",
+            "testCases": [
+                {
+                    "input": "SELECT COUNT(*) FROM orders",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT COUNT(order_id) FROM orders",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select count(*) from orders;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL004",
+            "number": 504,
+            "title": "DISTINCT Values",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write a SQL query to select all unique/distinct values from the 'category' column in the 'products' table.",
+            "inputFormat": "Table 'products' with columns: product_id, name, category, price",
+            "outputFormat": "List of unique categories",
+            "constraints": "Use DISTINCT keyword",
+            "sampleInput": "products table with repeated categories",
+            "sampleOutput": "category\n--------\nElectronics\nClothing\nBooks",
+            "explanation": "SELECT DISTINCT category FROM products",
+            "testCases": [
+                {
+                    "input": "SELECT DISTINCT category FROM products",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT DISTINCT(category) FROM products",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select distinct category from products;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL005",
+            "number": 505,
+            "title": "LIKE Pattern Matching",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write a SQL query to find all customers whose name starts with 'A' from the 'customers' table.",
+            "inputFormat": "Table 'customers' with columns: customer_id, name, email, city",
+            "outputFormat": "All columns for customers with names starting with 'A'",
+            "constraints": "Use LIKE with wildcard",
+            "sampleInput": "customers table with various names",
+            "sampleOutput": "Customers with names like 'Alice', 'Andrew', etc.",
+            "explanation": "SELECT * FROM customers WHERE name LIKE 'A%'",
+            "testCases": [
+                {
+                    "input": "SELECT * FROM customers WHERE name LIKE 'A%'",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT * FROM customers WHERE name LIKE 'a%'",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select * from customers where name like 'A%';",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL006",
+            "number": 506,
+            "title": "BETWEEN Range Query",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write a SQL query to find all products with price between 100 and 500 (inclusive) from the 'products' table.",
+            "inputFormat": "Table 'products' with columns: product_id, name, category, price",
+            "outputFormat": "Products with price in range [100, 500]",
+            "constraints": "Use BETWEEN keyword",
+            "sampleInput": "products table with various prices",
+            "sampleOutput": "Products priced between 100 and 500",
+            "explanation": "SELECT * FROM products WHERE price BETWEEN 100 AND 500",
+            "testCases": [
+                {
+                    "input": "SELECT * FROM products WHERE price BETWEEN 100 AND 500",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT * FROM products WHERE price >= 100 AND price <= 500",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select * from products where price between 100 and 500;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL007",
+            "number": 507,
+            "title": "SUM Aggregate Function",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write a SQL query to calculate the total sum of 'amount' column from the 'orders' table.",
+            "inputFormat": "Table 'orders' with columns: order_id, customer_id, amount, order_date",
+            "outputFormat": "Single value: total amount",
+            "constraints": "Use SUM() function",
+            "sampleInput": "orders table with amount values",
+            "sampleOutput": "total_amount\n-----------\n25000",
+            "explanation": "SELECT SUM(amount) AS total_amount FROM orders",
+            "testCases": [
+                {
+                    "input": "SELECT SUM(amount) FROM orders",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT SUM(amount) AS total FROM orders",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select sum(amount) from orders;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL008",
+            "number": 508,
+            "title": "IN Operator",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write a SQL query to find all employees who work in 'Sales', 'Marketing', or 'IT' departments.",
+            "inputFormat": "Table 'employees' with columns: id, name, department, salary",
+            "outputFormat": "Employees from specified departments",
+            "constraints": "Use IN operator",
+            "sampleInput": "employees table with various departments",
+            "sampleOutput": "Employees in Sales, Marketing, or IT",
+            "explanation": "SELECT * FROM employees WHERE department IN ('Sales', 'Marketing', 'IT')",
+            "testCases": [
+                {
+                    "input": "SELECT * FROM employees WHERE department IN ('Sales', 'Marketing', 'IT')",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT * FROM employees WHERE department = 'Sales' OR department = 'Marketing' OR department = 'IT'",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select * from employees where department in ('Sales', 'Marketing', 'IT');",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL009",
+            "number": 509,
+            "title": "GROUP BY with COUNT",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Write a SQL query to count the number of employees in each department from the 'employees' table.",
+            "inputFormat": "Table 'employees' with columns: id, name, department, salary",
+            "outputFormat": "department name and count of employees",
+            "constraints": "Use GROUP BY with COUNT",
+            "sampleInput": "employees table with various departments",
+            "sampleOutput": "department | employee_count\n------------|---------------\nSales       | 5\nIT          | 8",
+            "explanation": "SELECT department, COUNT(*) FROM employees GROUP BY department",
+            "testCases": [
+                {
+                    "input": "SELECT department, COUNT(*) FROM employees GROUP BY department",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT department, COUNT(id) AS count FROM employees GROUP BY department",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select department, count(*) from employees group by department;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL010",
+            "number": 510,
+            "title": "INNER JOIN Two Tables",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Write a SQL query to join 'orders' and 'customers' tables to get customer name with their order amount.",
+            "inputFormat": "Table 'orders' (order_id, customer_id, amount)\nTable 'customers' (customer_id, name, email)",
+            "outputFormat": "customer name and order amount",
+            "constraints": "Use INNER JOIN",
+            "sampleInput": "orders and customers tables with matching customer_id",
+            "sampleOutput": "name   | amount\n-------|-------\nJohn   | 100\nJane   | 250",
+            "explanation": "SELECT c.name, o.amount FROM orders o INNER JOIN customers c ON o.customer_id = c.customer_id",
+            "testCases": [
+                {
+                    "input": "SELECT c.name, o.amount FROM orders o INNER JOIN customers c ON o.customer_id = c.customer_id",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT customers.name, orders.amount FROM orders JOIN customers ON orders.customer_id = customers.customer_id",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select c.name, o.amount from orders o inner join customers c on o.customer_id = c.customer_id;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL011",
+            "number": 511,
+            "title": "HAVING Clause",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Write a SQL query to find departments with more than 5 employees from the 'employees' table.",
+            "inputFormat": "Table 'employees' with columns: id, name, department, salary",
+            "outputFormat": "department and count where count > 5",
+            "constraints": "Use GROUP BY with HAVING",
+            "sampleInput": "employees table",
+            "sampleOutput": "department | count\n-----------|------\nIT         | 8\nSales      | 6",
+            "explanation": "SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 5",
+            "testCases": [
+                {
+                    "input": "SELECT department, COUNT(*) FROM employees GROUP BY department HAVING COUNT(*) > 5",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT department, COUNT(*) AS cnt FROM employees GROUP BY department HAVING cnt > 5",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select department, count(*) from employees group by department having count(*) > 5;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL012",
+            "number": 512,
+            "title": "LEFT JOIN",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Write a SQL query to get all customers and their orders (if any). Include customers who haven't placed any orders.",
+            "inputFormat": "Table 'customers' (customer_id, name)\nTable 'orders' (order_id, customer_id, amount)",
+            "outputFormat": "customer name with order amount (NULL if no orders)",
+            "constraints": "Use LEFT JOIN",
+            "sampleInput": "customers and orders tables",
+            "sampleOutput": "name   | amount\n-------|-------\nJohn   | 100\nJane   | NULL",
+            "explanation": "SELECT c.name, o.amount FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id",
+            "testCases": [
+                {
+                    "input": "SELECT c.name, o.amount FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT customers.name, orders.amount FROM customers LEFT OUTER JOIN orders ON customers.customer_id = orders.customer_id",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select c.name, o.amount from customers c left join orders o on c.customer_id = o.customer_id;",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL013",
+            "number": 513,
+            "title": "Subquery in WHERE",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Write a SQL query to find employees who earn more than the average salary.",
+            "inputFormat": "Table 'employees' with columns: id, name, department, salary",
+            "outputFormat": "Employees with above-average salary",
+            "constraints": "Use subquery for AVG calculation",
+            "sampleInput": "employees table with various salaries",
+            "sampleOutput": "Employees earning above average",
+            "explanation": "SELECT * FROM employees WHERE salary > (SELECT AVG(salary) FROM employees)",
+            "testCases": [
+                {
+                    "input": "SELECT * FROM employees WHERE salary > (SELECT AVG(salary) FROM employees)",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT name, salary FROM employees WHERE salary > (SELECT AVG(salary) FROM employees)",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "select * from employees where salary > (select avg(salary) from employees);",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL014",
+            "number": 514,
+            "title": "CASE Statement",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Write a SQL query to categorize employees by salary: 'High' for salary > 50000, 'Medium' for salary > 30000, else 'Low'.",
+            "inputFormat": "Table 'employees' with columns: id, name, salary",
+            "outputFormat": "name and salary_category",
+            "constraints": "Use CASE WHEN",
+            "sampleInput": "employees table",
+            "sampleOutput": "name  | category\n------|--------\nJohn  | High\nJane  | Medium",
+            "explanation": "SELECT name, CASE WHEN salary > 50000 THEN 'High' WHEN salary > 30000 THEN 'Medium' ELSE 'Low' END AS category FROM employees",
+            "testCases": [
+                {
+                    "input": "SELECT name, CASE WHEN salary > 50000 THEN 'High' WHEN salary > 30000 THEN 'Medium' ELSE 'Low' END AS category FROM employees",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT name, CASE WHEN salary > 50000 THEN 'High' WHEN salary > 30000 THEN 'Medium' ELSE 'Low' END FROM employees",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL015",
+            "number": 515,
+            "title": "UPDATE Statement",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Write a SQL query to increase the salary by 10% for all employees in the 'IT' department.",
+            "inputFormat": "Table 'employees' with columns: id, name, department, salary",
+            "outputFormat": "UPDATE statement affecting IT department employees",
+            "constraints": "Use UPDATE with WHERE",
+            "sampleInput": "employees table",
+            "sampleOutput": "Salaries updated for IT department",
+            "explanation": "UPDATE employees SET salary = salary * 1.10 WHERE department = 'IT'",
+            "testCases": [
+                {
+                    "input": "UPDATE employees SET salary = salary * 1.10 WHERE department = 'IT'",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "UPDATE employees SET salary = salary * 1.1 WHERE department = 'IT'",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "update employees set salary = salary * 1.10 where department = 'IT';",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL016",
+            "number": 516,
+            "title": "DELETE with Condition",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Write a SQL query to delete all orders that were placed before '2023-01-01'.",
+            "inputFormat": "Table 'orders' with columns: order_id, order_date, amount",
+            "outputFormat": "DELETE statement removing old orders",
+            "constraints": "Use DELETE with WHERE and date comparison",
+            "sampleInput": "orders table with various dates",
+            "sampleOutput": "Old orders deleted",
+            "explanation": "DELETE FROM orders WHERE order_date < '2023-01-01'",
+            "testCases": [
+                {
+                    "input": "DELETE FROM orders WHERE order_date < '2023-01-01'",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "DELETE FROM orders WHERE order_date < '2023-01-01';",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "delete from orders where order_date < '2023-01-01'",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL017",
+            "number": 517,
+            "title": "Multiple Table JOIN",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Write a SQL query to get product name, category name, and order amount by joining three tables: products, categories, and order_items.",
+            "inputFormat": "Table 'products' (product_id, name, category_id)\nTable 'categories' (category_id, category_name)\nTable 'order_items' (item_id, order_id, product_id, quantity, price)",
+            "outputFormat": "product_name, category_name, total_amount",
+            "constraints": "Join three tables",
+            "sampleInput": "Three related tables",
+            "sampleOutput": "product_name | category | amount\n-------------|----------|-------\nLaptop       | Electronics | 1000",
+            "explanation": "SELECT p.name, c.category_name, oi.quantity * oi.price AS amount FROM order_items oi JOIN products p ON oi.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id",
+            "testCases": [
+                {
+                    "input": "SELECT p.name, c.category_name, oi.quantity * oi.price AS amount FROM order_items oi JOIN products p ON oi.product_id = p.product_id JOIN categories c ON p.category_id = c.category_id",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT products.name, categories.category_name, order_items.quantity * order_items.price FROM order_items INNER JOIN products ON order_items.product_id = products.product_id INNER JOIN categories ON products.category_id = categories.category_id",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL018",
+            "number": 518,
+            "title": "Self JOIN",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Write a SQL query to find employees who have the same manager. Display pairs of employee names and their manager's name.",
+            "inputFormat": "Table 'employees' with columns: id, name, manager_id\nNote: manager_id refers to id in the same table",
+            "outputFormat": "employee1, employee2, manager_name",
+            "constraints": "Use self-join",
+            "sampleInput": "employees table with manager_id references",
+            "sampleOutput": "John, Jane, Bob (both report to Bob)",
+            "explanation": "SELECT e1.name, e2.name, m.name AS manager FROM employees e1 JOIN employees e2 ON e1.manager_id = e2.manager_id AND e1.id < e2.id JOIN employees m ON e1.manager_id = m.id",
+            "testCases": [
+                {
+                    "input": "SELECT e1.name, e2.name, m.name AS manager FROM employees e1 JOIN employees e2 ON e1.manager_id = e2.manager_id AND e1.id < e2.id JOIN employees m ON e1.manager_id = m.id",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT e1.name AS emp1, e2.name AS emp2, m.name AS mgr FROM employees e1, employees e2, employees m WHERE e1.manager_id = e2.manager_id AND e1.id < e2.id AND e1.manager_id = m.id",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL019",
+            "number": 519,
+            "title": "Window Function - RANK",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Write a SQL query to rank employees by salary within each department. Use RANK() window function.",
+            "inputFormat": "Table 'employees' with columns: id, name, department, salary",
+            "outputFormat": "name, department, salary, rank",
+            "constraints": "Use RANK() OVER (PARTITION BY ... ORDER BY ...)",
+            "sampleInput": "employees table",
+            "sampleOutput": "name | dept | salary | rank\n-----|------|--------|-----\nJohn | IT   | 80000  | 1\nJane | IT   | 70000  | 2",
+            "explanation": "SELECT name, department, salary, RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS rank FROM employees",
+            "testCases": [
+                {
+                    "input": "SELECT name, department, salary, RANK() OVER (PARTITION BY department ORDER BY salary DESC) AS rank FROM employees",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "SELECT name, department, salary, RANK() OVER (PARTITION BY department ORDER BY salary DESC) FROM employees",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "SQL020",
+            "number": 520,
+            "title": "CTE (Common Table Expression)",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Write a SQL query using CTE to find the top 3 highest-paid employees in each department.",
+            "inputFormat": "Table 'employees' with columns: id, name, department, salary",
+            "outputFormat": "Top 3 employees per department by salary",
+            "constraints": "Use WITH clause (CTE) and ROW_NUMBER()",
+            "sampleInput": "employees table",
+            "sampleOutput": "Top 3 earners per department",
+            "explanation": "WITH ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) as rn FROM employees) SELECT * FROM ranked WHERE rn <= 3",
+            "testCases": [
+                {
+                    "input": "WITH ranked AS (SELECT *, ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) as rn FROM employees) SELECT * FROM ranked WHERE rn <= 3",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "WITH ranked AS (SELECT name, department, salary, ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) as rank FROM employees) SELECT name, department, salary FROM ranked WHERE rank <= 3",
+                    "expectedOutput": "VALID_QUERY",
+                    "visibility": "hidden"
+                }
+            ]
+        }
+    ]
+}

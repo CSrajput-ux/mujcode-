@@ -1,0 +1,1020 @@
+{
+    "courseName": "DSA for Beginners (C++)",
+    "language": "C++",
+    "category": "DSA",
+    "totalQuestions": 22,
+    "questions": [
+        {
+            "id": "DSA001",
+            "number": 601,
+            "title": "Linear Search Implementation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Implement linear search to find the first occurrence of an element X in an array of N integers.\n\nReturn the 0-indexed position if found, otherwise return -1.",
+            "inputFormat": "First line: Two integers N and X.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the index of X or -1 if not found.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i], X <= 10^6",
+            "sampleInput": "6 4\n1 3 5 4 7 9",
+            "sampleOutput": "3",
+            "explanation": "Element 4 is found at index 3 (0-indexed).",
+            "testCases": [
+                {
+                    "input": "6 4\n1 3 5 4 7 9",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 10\n1 2 3 4 5",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 5\n5",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 1\n1 1 1 1 1",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "8 8\n1 2 3 4 5 6 7 8",
+                    "expectedOutput": "7",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 0\n-1 0 1 2",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA002",
+            "number": 602,
+            "title": "Binary Search Implementation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Implement binary search to find an element X in a sorted array of N integers.\n\nReturn the 0-indexed position if found, otherwise return -1.",
+            "inputFormat": "First line: Two integers N and X.\nSecond line: N sorted space-separated integers.",
+            "outputFormat": "Print the index of X or -1 if not found.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i], X <= 10^6\nArray is sorted in ascending order.",
+            "sampleInput": "7 5\n1 2 3 4 5 6 7",
+            "sampleOutput": "4",
+            "explanation": "Element 5 is at index 4 in the sorted array.",
+            "testCases": [
+                {
+                    "input": "7 5\n1 2 3 4 5 6 7",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 10\n1 2 3 4 5",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 5\n5",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10 1\n1 2 3 4 5 6 7 8 9 10",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10 10\n1 2 3 4 5 6 7 8 9 10",
+                    "expectedOutput": "9",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 4\n2 4 6 8 10 12",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA003",
+            "number": 603,
+            "title": "Bubble Sort Implementation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Implement bubble sort to sort an array of N integers in ascending order.\n\nBubble sort repeatedly swaps adjacent elements if they are in wrong order.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the sorted array, space-separated.",
+            "constraints": "1 <= N <= 1000\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "5\n64 34 25 12 22",
+            "sampleOutput": "12 22 25 34 64",
+            "explanation": "Array sorted in ascending order using bubble sort.",
+            "testCases": [
+                {
+                    "input": "5\n64 34 25 12 22",
+                    "expectedOutput": "12 22 25 34 64",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n4 3 2 1",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\n10",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n5 5 5 5 5 5",
+                    "expectedOutput": "5 5 5 5 5 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n-5 0 -10 5 10",
+                    "expectedOutput": "-10 -5 0 5 10",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA004",
+            "number": 604,
+            "title": "Selection Sort Implementation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Implement selection sort to sort an array of N integers in ascending order.\n\nSelection sort finds the minimum element and places it at the beginning, then repeats for the remaining array.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the sorted array, space-separated.",
+            "constraints": "1 <= N <= 1000\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "5\n64 25 12 22 11",
+            "sampleOutput": "11 12 22 25 64",
+            "explanation": "Array sorted using selection sort algorithm.",
+            "testCases": [
+                {
+                    "input": "5\n64 25 12 22 11",
+                    "expectedOutput": "11 12 22 25 64",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n1 2 3 4",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n5 4 3 2 1",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\n100",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n-2 -5 0 3 1 -1",
+                    "expectedOutput": "-5 -2 -1 0 1 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n10 10 10 10",
+                    "expectedOutput": "10 10 10 10",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA005",
+            "number": 605,
+            "title": "Stack Using Array",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Implement a stack using array. Perform N operations where each operation is either:\n- 'push X': Push X onto stack\n- 'pop': Pop and print top element (print -1 if empty)\n- 'top': Print top element without removing (print -1 if empty)",
+            "inputFormat": "First line: Integer N (number of operations).\nNext N lines: Operations (push X, pop, or top).",
+            "outputFormat": "Print output for each pop and top operation on separate lines.",
+            "constraints": "1 <= N <= 1000\n1 <= X <= 10^6",
+            "sampleInput": "6\npush 5\npush 10\ntop\npop\npop\npop",
+            "sampleOutput": "10\n10\n5\n-1",
+            "explanation": "Push 5, push 10, top returns 10, pop returns 10, pop returns 5, pop on empty returns -1.",
+            "testCases": [
+                {
+                    "input": "6\npush 5\npush 10\ntop\npop\npop\npop",
+                    "expectedOutput": "10\n10\n5\n-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\npop\npush 1\ntop",
+                    "expectedOutput": "-1\n1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\npush 1\npush 2\npush 3\npop\npop",
+                    "expectedOutput": "3\n2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\ntop\npop",
+                    "expectedOutput": "-1\n-1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\npush 100\npop\npush 200\ntop",
+                    "expectedOutput": "100\n200",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\npush 1\npush 2\npush 3\ntop\ntop\ntop",
+                    "expectedOutput": "3\n3\n3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA006",
+            "number": 606,
+            "title": "Queue Using Array",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Implement a queue using array. Perform N operations:\n- 'enqueue X': Add X to rear\n- 'dequeue': Remove and print front element (print -1 if empty)\n- 'front': Print front element without removing (print -1 if empty)",
+            "inputFormat": "First line: Integer N.\nNext N lines: Operations.",
+            "outputFormat": "Print output for each dequeue and front operation.",
+            "constraints": "1 <= N <= 1000\n1 <= X <= 10^6",
+            "sampleInput": "6\nenqueue 5\nenqueue 10\nfront\ndequeue\ndequeue\ndequeue",
+            "sampleOutput": "5\n5\n10\n-1",
+            "explanation": "Enqueue 5, enqueue 10, front is 5, dequeue removes 5, dequeue removes 10, dequeue on empty returns -1.",
+            "testCases": [
+                {
+                    "input": "6\nenqueue 5\nenqueue 10\nfront\ndequeue\ndequeue\ndequeue",
+                    "expectedOutput": "5\n5\n10\n-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\ndequeue\nenqueue 1\nfront",
+                    "expectedOutput": "-1\n1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\nenqueue 1\nenqueue 2\nenqueue 3\ndequeue\ndequeue",
+                    "expectedOutput": "1\n2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\nfront\ndequeue",
+                    "expectedOutput": "-1\n-1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\nenqueue 100\ndequeue\nenqueue 200\nfront",
+                    "expectedOutput": "100\n200",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\nenqueue 1\nenqueue 2\nenqueue 3\nfront\nfront\nfront",
+                    "expectedOutput": "1\n1\n1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA007",
+            "number": 607,
+            "title": "Reverse Array",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Reverse an array of N integers in-place and print the result.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the reversed array, space-separated.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "5\n1 2 3 4 5",
+            "sampleOutput": "5 4 3 2 1",
+            "explanation": "Array [1,2,3,4,5] reversed to [5,4,3,2,1].",
+            "testCases": [
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "5 4 3 2 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n10",
+                    "expectedOutput": "10",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n-1 -2 -3 -4",
+                    "expectedOutput": "-4 -3 -2 -1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n1 1 1 1 1 1",
+                    "expectedOutput": "1 1 1 1 1 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n100 200 300",
+                    "expectedOutput": "300 200 100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\n5 10",
+                    "expectedOutput": "10 5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA008",
+            "number": 608,
+            "title": "Find First and Last Position",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a sorted array with duplicates, find the first and last position of a target element X.\n\nIf X is not found, return -1 -1.",
+            "inputFormat": "First line: Two integers N and X.\nSecond line: N sorted space-separated integers.",
+            "outputFormat": "Print first and last position of X (0-indexed), or -1 -1.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i], X <= 10^6",
+            "sampleInput": "8 8\n5 7 7 8 8 8 10 10",
+            "sampleOutput": "3 5",
+            "explanation": "8 appears at indices 3, 4, 5. First = 3, Last = 5.",
+            "testCases": [
+                {
+                    "input": "8 8\n5 7 7 8 8 8 10 10",
+                    "expectedOutput": "3 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 6\n1 2 3 4 5",
+                    "expectedOutput": "-1 -1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 5\n5",
+                    "expectedOutput": "0 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 1\n1 1 1 1 1",
+                    "expectedOutput": "0 4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 10\n1 2 3 10 10 10",
+                    "expectedOutput": "3 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 5\n5 5 5 5",
+                    "expectedOutput": "0 3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA009",
+            "number": 609,
+            "title": "Merge Sort Implementation",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement merge sort to sort an array of N integers in ascending order.\n\nMerge sort uses divide-and-conquer: divide array into halves, sort each half, then merge.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the sorted array, space-separated.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "6\n12 11 13 5 6 7",
+            "sampleOutput": "5 6 7 11 12 13",
+            "explanation": "Array sorted using merge sort algorithm.",
+            "testCases": [
+                {
+                    "input": "6\n12 11 13 5 6 7",
+                    "expectedOutput": "5 6 7 11 12 13",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n5 4 3 2 1",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n100",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "8\n38 27 43 3 9 82 10 1",
+                    "expectedOutput": "1 3 9 10 27 38 43 82",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n-5 -10 0 5 10",
+                    "expectedOutput": "-10 -5 0 5 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "7\n7 7 7 7 7 7 7",
+                    "expectedOutput": "7 7 7 7 7 7 7",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA010",
+            "number": 610,
+            "title": "Quick Sort Implementation",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement quick sort to sort an array of N integers in ascending order.\n\nQuick sort picks a pivot, partitions array around pivot, then recursively sorts sub-arrays.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the sorted array, space-separated.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "7\n10 7 8 9 1 5 3",
+            "sampleOutput": "1 3 5 7 8 9 10",
+            "explanation": "Array sorted using quick sort algorithm.",
+            "testCases": [
+                {
+                    "input": "7\n10 7 8 9 1 5 3",
+                    "expectedOutput": "1 3 5 7 8 9 10",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n50",
+                    "expectedOutput": "50",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n-3 -1 -4 -1 -5 -9",
+                    "expectedOutput": "-9 -5 -4 -3 -1 -1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "8\n2 8 7 1 3 5 6 4",
+                    "expectedOutput": "1 2 3 4 5 6 7 8",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n100 100 100 100",
+                    "expectedOutput": "100 100 100 100",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA011",
+            "number": 611,
+            "title": "Linked List Insertion",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a series of insert operations on a linked list, perform insertions and print the final list.\n\nOperations:\n- 'insert_front X': Insert X at front\n- 'insert_back X': Insert X at back\n- 'print': Print all elements",
+            "inputFormat": "First line: Integer N (number of operations).\nNext N lines: Operations.",
+            "outputFormat": "Print the linked list elements when 'print' is called.",
+            "constraints": "1 <= N <= 1000\n1 <= X <= 10^6",
+            "sampleInput": "5\ninsert_back 1\ninsert_back 2\ninsert_front 0\ninsert_back 3\nprint",
+            "sampleOutput": "0 1 2 3",
+            "explanation": "List: insert 1 at back -> [1], insert 2 at back -> [1,2], insert 0 at front -> [0,1,2], insert 3 at back -> [0,1,2,3].",
+            "testCases": [
+                {
+                    "input": "5\ninsert_back 1\ninsert_back 2\ninsert_front 0\ninsert_back 3\nprint",
+                    "expectedOutput": "0 1 2 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\ninsert_front 3\ninsert_front 2\ninsert_front 1\nprint",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\ninsert_back 100\ninsert_back 200\nprint",
+                    "expectedOutput": "100 200",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\ninsert_front 5\nprint",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\ninsert_back 1\ninsert_front 2\ninsert_back 3\ninsert_front 4\ninsert_back 5\nprint",
+                    "expectedOutput": "4 2 1 3 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\ninsert_back 10\ninsert_back 20\ninsert_front 5\nprint",
+                    "expectedOutput": "5 10 20",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA012",
+            "number": 612,
+            "title": "Linked List Reverse",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a linked list represented as an array, reverse it and print the result.\n\nImplement iterative or recursive reversal.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers (linked list values).",
+            "outputFormat": "Print the reversed linked list.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= values <= 10^6",
+            "sampleInput": "5\n1 2 3 4 5",
+            "sampleOutput": "5 4 3 2 1",
+            "explanation": "Linked list 1->2->3->4->5 reversed to 5->4->3->2->1.",
+            "testCases": [
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "5 4 3 2 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n10",
+                    "expectedOutput": "10",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n100 200 300",
+                    "expectedOutput": "300 200 100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n-1 -2 -3 -4 -5 -6",
+                    "expectedOutput": "-6 -5 -4 -3 -2 -1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n5 5 5 5",
+                    "expectedOutput": "5 5 5 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\n1 2",
+                    "expectedOutput": "2 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA013",
+            "number": 613,
+            "title": "Detect Cycle in Linked List",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a linked list with potential cycle, detect if a cycle exists.\n\nInput provides the list and the position where the last node connects back (0-indexed, -1 if no cycle).",
+            "inputFormat": "First line: Two integers N and pos (cycle position, -1 if none).\nSecond line: N space-separated integers.",
+            "outputFormat": "Print 'YES' if cycle exists, otherwise 'NO'.",
+            "constraints": "1 <= N <= 10^5\n-1 <= pos < N",
+            "sampleInput": "4 1\n3 2 0 4",
+            "sampleOutput": "YES",
+            "explanation": "Last node (4) connects back to node at position 1 (value 2), forming a cycle.",
+            "testCases": [
+                {
+                    "input": "4 1\n3 2 0 4",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 -1\n1 2 3",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 0\n1",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 4\n1 2 3 4 5",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 -1\n1 2 3 4 5 6",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 0\n1 2",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA014",
+            "number": 614,
+            "title": "Infix to Postfix Conversion",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Convert an infix expression to postfix notation using stack.\n\nSupported operators: +, -, *, /, ^, (, )\nOperands: single lowercase letters",
+            "inputFormat": "A single line containing infix expression.",
+            "outputFormat": "Print the postfix expression.",
+            "constraints": "1 <= length <= 100",
+            "sampleInput": "a+b*c",
+            "sampleOutput": "abc*+",
+            "explanation": "Infix a+b*c converts to postfix abc*+ (multiplication before addition).",
+            "testCases": [
+                {
+                    "input": "a+b*c",
+                    "expectedOutput": "abc*+",
+                    "visibility": "public"
+                },
+                {
+                    "input": "(a+b)*c",
+                    "expectedOutput": "ab+c*",
+                    "visibility": "public"
+                },
+                {
+                    "input": "a+b",
+                    "expectedOutput": "ab+",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "a*b+c*d",
+                    "expectedOutput": "ab*cd*+",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "((a+b)*c-d)/e",
+                    "expectedOutput": "ab+c*d-e/",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "a+b*c-d/e",
+                    "expectedOutput": "abc*+de/-",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA015",
+            "number": 615,
+            "title": "Binary Tree Level Order Traversal",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a binary tree represented as array (level order), print level order traversal.\n\nNull nodes are represented as -1.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers (level order, -1 for null).",
+            "outputFormat": "Print level order traversal (non-null values only), space-separated.",
+            "constraints": "1 <= N <= 1000\n-10^6 <= values <= 10^6, values != 0",
+            "sampleInput": "7\n1 2 3 4 5 -1 6",
+            "sampleOutput": "1 2 3 4 5 6",
+            "explanation": "Level order: Root 1, Level 1: 2 3, Level 2: 4 5 null 6. Output non-null values.",
+            "testCases": [
+                {
+                    "input": "7\n1 2 3 4 5 -1 6",
+                    "expectedOutput": "1 2 3 4 5 6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n1 2 3",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n5",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n10 20 30 -1 -1",
+                    "expectedOutput": "10 20 30",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "7\n1 -1 2 -1 -1 -1 3",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "15\n1 2 3 4 5 6 7 -1 -1 -1 -1 -1 -1 -1 -1",
+                    "expectedOutput": "1 2 3 4 5 6 7",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA016",
+            "number": 616,
+            "title": "Binary Search Tree Insertion",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Build a BST by inserting N elements, then print inorder traversal (sorted order).",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers to insert.",
+            "outputFormat": "Print inorder traversal, space-separated.",
+            "constraints": "1 <= N <= 1000\n-10^6 <= values <= 10^6\nAll values are unique.",
+            "sampleInput": "6\n50 30 70 20 40 60",
+            "sampleOutput": "20 30 40 50 60 70",
+            "explanation": "Insert elements to BST, inorder traversal gives sorted order.",
+            "testCases": [
+                {
+                    "input": "6\n50 30 70 20 40 60",
+                    "expectedOutput": "20 30 40 50 60 70",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n5 3 8 1 4",
+                    "expectedOutput": "1 3 4 5 8",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n10",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "7\n4 2 6 1 3 5 7",
+                    "expectedOutput": "1 2 3 4 5 6 7",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n3 1 2",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA017",
+            "number": 617,
+            "title": "BFS Graph Traversal",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Perform BFS traversal on an undirected graph starting from node 0.\n\nPrint nodes in BFS order.",
+            "inputFormat": "First line: Two integers V and E (vertices and edges).\nNext E lines: Two integers u v (edge between u and v).",
+            "outputFormat": "Print BFS traversal starting from node 0.",
+            "constraints": "1 <= V <= 1000\n0 <= E <= V*(V-1)/2\n0 <= u, v < V",
+            "sampleInput": "4 4\n0 1\n0 2\n1 2\n2 3",
+            "sampleOutput": "0 1 2 3",
+            "explanation": "BFS from 0: Visit 0, then neighbors 1,2, then 2's neighbor 3.",
+            "testCases": [
+                {
+                    "input": "4 4\n0 1\n0 2\n1 2\n2 3",
+                    "expectedOutput": "0 1 2 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 4\n0 1\n0 2\n1 3\n2 4",
+                    "expectedOutput": "0 1 2 3 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 2\n0 1\n1 2",
+                    "expectedOutput": "0 1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 6\n0 1\n0 2\n1 3\n2 3\n3 4\n4 5",
+                    "expectedOutput": "0 1 2 3 4 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 3\n0 1\n1 2\n2 3",
+                    "expectedOutput": "0 1 2 3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA018",
+            "number": 618,
+            "title": "DFS Graph Traversal",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Perform DFS traversal on an undirected graph starting from node 0.\n\nPrint nodes in DFS order.",
+            "inputFormat": "First line: Two integers V and E.\nNext E lines: Two integers u v (edge).",
+            "outputFormat": "Print DFS traversal starting from node 0.",
+            "constraints": "1 <= V <= 1000\n0 <= E <= V*(V-1)/2",
+            "sampleInput": "4 4\n0 1\n0 2\n1 2\n2 3",
+            "sampleOutput": "0 1 2 3",
+            "explanation": "DFS from 0: Visit 0, go deep to 1, then 2, then 3.",
+            "testCases": [
+                {
+                    "input": "4 4\n0 1\n0 2\n1 2\n2 3",
+                    "expectedOutput": "0 1 2 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 4\n0 1\n0 2\n1 3\n2 4",
+                    "expectedOutput": "0 1 3 2 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 2\n0 1\n1 2",
+                    "expectedOutput": "0 1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 3\n0 1\n1 2\n2 3",
+                    "expectedOutput": "0 1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 5\n0 1\n1 2\n2 3\n3 4\n4 5",
+                    "expectedOutput": "0 1 2 3 4 5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA019",
+            "number": 619,
+            "title": "Shortest Path in Unweighted Graph",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find the shortest path from source node to destination node in an unweighted undirected graph.\n\nPrint the path length. If no path exists, print -1.",
+            "inputFormat": "First line: Four integers V, E, src, dest.\nNext E lines: Two integers u v (edge).",
+            "outputFormat": "Print shortest path length or -1.",
+            "constraints": "1 <= V <= 1000\n0 <= E <= V*(V-1)/2\n0 <= src, dest < V",
+            "sampleInput": "6 7 0 5\n0 1\n0 2\n1 3\n2 3\n3 4\n4 5\n2 5",
+            "sampleOutput": "3",
+            "explanation": "Shortest path 0 -> 2 -> 5 has length 2, or 0 -> 1 -> 3 -> 4 -> 5 has length 4. Actually 0->2->5 = 2 edges.",
+            "testCases": [
+                {
+                    "input": "6 7 0 5\n0 1\n0 2\n1 3\n2 3\n3 4\n4 5\n2 5",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 2 0 3\n0 1\n1 2",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 2 0 2\n0 1\n1 2",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 4 0 4\n0 1\n1 2\n2 3\n3 4",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 1 0 1\n0 1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 4 0 0\n0 1\n1 2\n2 3\n3 0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA020",
+            "number": 620,
+            "title": "Heap Sort Implementation",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement heap sort to sort an array in ascending order.\n\nBuild a max-heap, then repeatedly extract maximum and place at end.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the sorted array.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "6\n12 11 13 5 6 7",
+            "sampleOutput": "5 6 7 11 12 13",
+            "explanation": "Array sorted using heap sort algorithm.",
+            "testCases": [
+                {
+                    "input": "6\n12 11 13 5 6 7",
+                    "expectedOutput": "5 6 7 11 12 13",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n5 4 3 2 1",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n100",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "8\n4 10 3 5 1 8 7 9",
+                    "expectedOutput": "1 3 4 5 7 8 9 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n-5 -10 0 5 10",
+                    "expectedOutput": "-10 -5 0 5 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n1 1 1 1 1 1",
+                    "expectedOutput": "1 1 1 1 1 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA021",
+            "number": 621,
+            "title": "Dijkstra's Shortest Path",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement Dijkstra's algorithm to find shortest paths from source to all vertices in a weighted graph.\n\nPrint shortest distance from source to each vertex.",
+            "inputFormat": "First line: Three integers V, E, src.\nNext E lines: Three integers u v w (edge from u to v with weight w).",
+            "outputFormat": "Print V space-separated integers (shortest distances). Use -1 for unreachable.",
+            "constraints": "1 <= V <= 1000\n0 <= E <= V*(V-1)/2\n1 <= w <= 10^4",
+            "sampleInput": "5 6 0\n0 1 4\n0 2 1\n2 1 2\n1 3 1\n2 3 5\n3 4 3",
+            "sampleOutput": "0 3 1 4 7",
+            "explanation": "From 0: 0->0=0, 0->2->1=3, 0->2=1, 0->2->1->3=4, 0->2->1->3->4=7",
+            "testCases": [
+                {
+                    "input": "5 6 0\n0 1 4\n0 2 1\n2 1 2\n1 3 1\n2 3 5\n3 4 3",
+                    "expectedOutput": "0 3 1 4 7",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3 0\n0 1 1\n1 2 2\n0 2 4",
+                    "expectedOutput": "0 1 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 1 0\n0 1 5",
+                    "expectedOutput": "0 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 4 0\n0 1 10\n0 2 5\n2 1 3\n1 3 1",
+                    "expectedOutput": "0 8 5 9",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 2 0\n0 1 1\n0 2 2",
+                    "expectedOutput": "0 1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 3 0\n0 1 1\n1 2 1\n2 3 1",
+                    "expectedOutput": "0 1 2 3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DSA022",
+            "number": 622,
+            "title": "Topological Sort",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Perform topological sort on a Directed Acyclic Graph (DAG).\n\nPrint vertices in topological order. If multiple valid orders exist, print lexicographically smallest.",
+            "inputFormat": "First line: Two integers V and E.\nNext E lines: Two integers u v (directed edge from u to v).",
+            "outputFormat": "Print topological order, space-separated.",
+            "constraints": "1 <= V <= 1000\n0 <= E <= V*(V-1)/2\nGraph is guaranteed to be a DAG.",
+            "sampleInput": "6 6\n5 2\n5 0\n4 0\n4 1\n2 3\n3 1",
+            "sampleOutput": "4 5 0 2 3 1",
+            "explanation": "Valid topological order: 4, 5, 0, 2, 3, 1 (edges go from earlier to later in sequence).",
+            "testCases": [
+                {
+                    "input": "6 6\n5 2\n5 0\n4 0\n4 1\n2 3\n3 1",
+                    "expectedOutput": "4 5 0 2 3 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 3\n0 1\n0 2\n1 3",
+                    "expectedOutput": "0 1 2 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 2\n0 1\n1 2",
+                    "expectedOutput": "0 1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 4\n0 1\n1 2\n2 3\n3 4",
+                    "expectedOutput": "0 1 2 3 4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 4\n0 2\n1 2\n2 3\n0 3",
+                    "expectedOutput": "0 1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 1\n0 1",
+                    "expectedOutput": "0 1",
+                    "visibility": "hidden"
+                }
+            ]
+        }
+    ]
+}
