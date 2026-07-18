@@ -1,0 +1,900 @@
+{
+    "courseName": "Advanced DSA",
+    "language": "C++",
+    "category": "DSA",
+    "totalQuestions": 22,
+    "questions": [
+        {
+            "id": "ADSA001",
+            "number": 901,
+            "title": "Trie Insert and Search",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement a Trie (prefix tree) with insert and search operations.\n\nGiven N words to insert and M words to search, output whether each search word exists.",
+            "inputFormat": "First line: N (words to insert).\nSecond line: N space-separated words.\nThird line: M (words to search).\nFourth line: M space-separated words.",
+            "outputFormat": "For each search word, print 'YES' or 'NO' on separate lines.",
+            "constraints": "1 <= N, M <= 1000\n1 <= word length <= 100\nLowercase letters only.",
+            "sampleInput": "3\napple app application\n4\napp apple apply application",
+            "sampleOutput": "YES\nYES\nNO\nYES",
+            "explanation": "app, apple, application exist. apply doesn't.",
+            "testCases": [
+                {
+                    "input": "3\napple app application\n4\napp apple apply application",
+                    "expectedOutput": "YES\nYES\nNO\nYES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\nhello world\n2\nhell hello",
+                    "expectedOutput": "NO\nYES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\na\n1\na",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\ncat car card\n3\nca cat cart",
+                    "expectedOutput": "NO\nYES\nNO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\nthe their there these this\n3\nthe them this",
+                    "expectedOutput": "YES\nNO\nYES",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA002",
+            "number": 902,
+            "title": "Segment Tree Range Sum",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement a segment tree for range sum queries and point updates.\n\nOperations:\n- 'update i val': Set arr[i] = val\n- 'query l r': Return sum from index l to r (inclusive)",
+            "inputFormat": "First line: N (array size).\nSecond line: N integers.\nThird line: Q (queries).\nNext Q lines: Operations.",
+            "outputFormat": "Print result of each query operation.",
+            "constraints": "1 <= N <= 10^5\n1 <= Q <= 10^5\n-10^6 <= values <= 10^6",
+            "sampleInput": "5\n1 2 3 4 5\n4\nquery 0 4\nupdate 2 10\nquery 0 4\nquery 2 4",
+            "sampleOutput": "15\n22\n19",
+            "explanation": "Initial sum [0,4]=15. After update arr[2]=10, sum [0,4]=22, sum [2,4]=19.",
+            "testCases": [
+                {
+                    "input": "5\n1 2 3 4 5\n4\nquery 0 4\nupdate 2 10\nquery 0 4\nquery 2 4",
+                    "expectedOutput": "15\n22\n19",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n1 2 3\n2\nquery 0 2\nquery 1 1",
+                    "expectedOutput": "6\n2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n5 5 5 5\n3\nquery 0 3\nupdate 0 0\nquery 0 3",
+                    "expectedOutput": "20\n15",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n1 1 1 1 1 1\n2\nquery 0 5\nquery 2 4",
+                    "expectedOutput": "6\n3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n-1 -2 -3 -4 -5\n2\nquery 0 4\nquery 1 3",
+                    "expectedOutput": "-15\n-9",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA003",
+            "number": 903,
+            "title": "Disjoint Set Union (Union-Find)",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement Union-Find with path compression and union by rank.\n\nGiven N elements and M operations:\n- 'union a b': Merge sets containing a and b\n- 'find a b': Check if a and b are in same set",
+            "inputFormat": "First line: N and M.\nNext M lines: Operations.",
+            "outputFormat": "For each 'find' operation, print 'YES' or 'NO'.",
+            "constraints": "1 <= N <= 10^5\n1 <= M <= 10^5",
+            "sampleInput": "5 7\nunion 0 1\nunion 2 3\nfind 0 1\nfind 0 2\nunion 1 3\nfind 0 2\nfind 0 3",
+            "sampleOutput": "YES\nNO\nYES\nYES",
+            "explanation": "After unions, 0,1,2,3 end up in same set.",
+            "testCases": [
+                {
+                    "input": "5 7\nunion 0 1\nunion 2 3\nfind 0 1\nfind 0 2\nunion 1 3\nfind 0 2\nfind 0 3",
+                    "expectedOutput": "YES\nNO\nYES\nYES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3\nfind 0 1\nunion 0 1\nfind 0 1",
+                    "expectedOutput": "NO\nYES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 2\nfind 0 3\nfind 1 2",
+                    "expectedOutput": "NO\nNO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 6\nunion 0 1\nunion 2 3\nunion 4 5\nunion 0 2\nunion 2 4\nfind 0 5",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 2\nunion 0 1\nfind 0 1",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA004",
+            "number": 904,
+            "title": "Kruskal's Minimum Spanning Tree",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find the weight of Minimum Spanning Tree using Kruskal's algorithm.\n\nGiven an undirected weighted graph, find MST weight.",
+            "inputFormat": "First line: V and E.\nNext E lines: u v w (edge from u to v with weight w).",
+            "outputFormat": "Print total weight of MST.",
+            "constraints": "1 <= V <= 1000\n0 <= E <= V*(V-1)/2\n1 <= w <= 10^6",
+            "sampleInput": "4 5\n0 1 10\n0 2 6\n0 3 5\n1 3 15\n2 3 4",
+            "sampleOutput": "19",
+            "explanation": "MST edges: (2,3,4), (0,3,5), (0,1,10). Total = 19.",
+            "testCases": [
+                {
+                    "input": "4 5\n0 1 10\n0 2 6\n0 3 5\n1 3 15\n2 3 4",
+                    "expectedOutput": "19",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3\n0 1 1\n1 2 2\n0 2 3",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 4\n0 1 1\n1 2 1\n2 3 1\n3 0 1",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 7\n0 1 2\n0 3 6\n1 2 3\n1 3 8\n1 4 5\n2 4 7\n3 4 9",
+                    "expectedOutput": "16",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 1\n0 1 100",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA005",
+            "number": 905,
+            "title": "Bellman-Ford Shortest Path",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find shortest distances from source to all vertices using Bellman-Ford algorithm.\n\nDetect negative weight cycle if exists.",
+            "inputFormat": "First line: V, E, src.\nNext E lines: u v w (directed edge u to v with weight w).",
+            "outputFormat": "Print V distances or 'NEGATIVE CYCLE' if detected.",
+            "constraints": "1 <= V <= 500\n0 <= E <= V*(V-1)\n-10^4 <= w <= 10^4",
+            "sampleInput": "5 8 0\n0 1 -1\n0 2 4\n1 2 3\n1 3 2\n1 4 2\n3 2 5\n3 1 1\n4 3 -3",
+            "sampleOutput": "0 -1 2 -2 1",
+            "explanation": "Shortest distances from 0 to all vertices.",
+            "testCases": [
+                {
+                    "input": "5 8 0\n0 1 -1\n0 2 4\n1 2 3\n1 3 2\n1 4 2\n3 2 5\n3 1 1\n4 3 -3",
+                    "expectedOutput": "0 -1 2 -2 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3 0\n0 1 1\n1 2 1\n0 2 3",
+                    "expectedOutput": "0 1 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3 0\n0 1 1\n1 2 -1\n2 0 -1",
+                    "expectedOutput": "NEGATIVE CYCLE",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 4 0\n0 1 5\n1 2 3\n2 3 2\n0 3 10",
+                    "expectedOutput": "0 5 8 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 1 0\n0 1 -5",
+                    "expectedOutput": "0 -5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA006",
+            "number": 906,
+            "title": "Longest Increasing Subsequence",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Find the length of longest strictly increasing subsequence in an array.\n\nUse O(n log n) approach with binary search.",
+            "inputFormat": "First line: Integer N.\nSecond line: N integers.",
+            "outputFormat": "Print length of LIS.",
+            "constraints": "1 <= N <= 10^5\n-10^9 <= arr[i] <= 10^9",
+            "sampleInput": "8\n10 9 2 5 3 7 101 18",
+            "sampleOutput": "4",
+            "explanation": "LIS: [2, 3, 7, 101] or [2, 5, 7, 101]. Length = 4.",
+            "testCases": [
+                {
+                    "input": "8\n10 9 2 5 3 7 101 18",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n0 1 0 3",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "6\n7 7 7 7 7 7",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n5 4 3 2 1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10\n1 3 5 2 4 6 3 5 7 4",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA007",
+            "number": 907,
+            "title": "Edit Distance (Levenshtein)",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Find minimum number of operations to convert string A to string B.\n\nAllowed operations: Insert, Delete, Replace (each costs 1).",
+            "inputFormat": "Two lines containing strings A and B.",
+            "outputFormat": "Print minimum edit distance.",
+            "constraints": "0 <= |A|, |B| <= 1000",
+            "sampleInput": "horse\nros",
+            "sampleOutput": "3",
+            "explanation": "horse -> rorse -> rose -> ros (3 operations).",
+            "testCases": [
+                {
+                    "input": "horse\nros",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "intention\nexecution",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "abc\nabc",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "\nabc",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abc\n",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "kitten\nsitting",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA008",
+            "number": 908,
+            "title": "Matrix Chain Multiplication",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find minimum number of scalar multiplications needed to multiply a chain of matrices.\n\nGiven dimensions array p where matrix i has dimensions p[i-1] x p[i].",
+            "inputFormat": "First line: N (number of matrices).\nSecond line: N+1 dimensions.",
+            "outputFormat": "Print minimum multiplications.",
+            "constraints": "1 <= N <= 100\n1 <= dimensions <= 500",
+            "sampleInput": "4\n10 30 5 60 10",
+            "sampleOutput": "4500",
+            "explanation": "Optimal: ((A(BC))D) = 4500 multiplications.",
+            "testCases": [
+                {
+                    "input": "4\n10 30 5 60 10",
+                    "expectedOutput": "4500",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n10 20 30 40",
+                    "expectedOutput": "18000",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n10 30 5",
+                    "expectedOutput": "1500",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n40 20 30 10 30",
+                    "expectedOutput": "26000",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 2 3 4 5 6",
+                    "expectedOutput": "70",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA009",
+            "number": 909,
+            "title": "Strongly Connected Components",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find the number of Strongly Connected Components in a directed graph using Kosaraju's or Tarjan's algorithm.",
+            "inputFormat": "First line: V and E.\nNext E lines: u v (directed edge from u to v).",
+            "outputFormat": "Print number of SCCs.",
+            "constraints": "1 <= V <= 10^4\n0 <= E <= V*(V-1)",
+            "sampleInput": "5 5\n0 2\n2 1\n1 0\n0 3\n3 4",
+            "sampleOutput": "3",
+            "explanation": "SCCs: {0,1,2}, {3}, {4}. Count = 3.",
+            "testCases": [
+                {
+                    "input": "5 5\n0 2\n2 1\n1 0\n0 3\n3 4",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 4\n0 1\n1 2\n2 0\n2 3",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 0",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 3\n0 1\n1 2\n2 0",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 6\n0 1\n1 2\n2 0\n3 4\n4 3\n2 3",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA010",
+            "number": 910,
+            "title": "Articulation Points",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find all articulation points (cut vertices) in an undirected graph.\n\nAn articulation point is a vertex whose removal disconnects the graph.",
+            "inputFormat": "First line: V and E.\nNext E lines: u v (edge between u and v).",
+            "outputFormat": "Print articulation points in ascending order, or 'NONE'.",
+            "constraints": "1 <= V <= 10^4\n0 <= E <= 10^5",
+            "sampleInput": "5 5\n0 1\n0 2\n1 2\n1 3\n3 4",
+            "sampleOutput": "1 3",
+            "explanation": "Removing 1 disconnects {0,2} from {3,4}. Removing 3 disconnects 4.",
+            "testCases": [
+                {
+                    "input": "5 5\n0 1\n0 2\n1 2\n1 3\n3 4",
+                    "expectedOutput": "1 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 6\n0 1\n0 2\n0 3\n1 2\n1 3\n2 3",
+                    "expectedOutput": "NONE",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 2\n0 1\n1 2",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 3\n0 1\n1 2\n2 3",
+                    "expectedOutput": "1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 4\n0 1\n0 2\n0 3\n0 4",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA011",
+            "number": 911,
+            "title": "LCA in Binary Tree",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Find the Lowest Common Ancestor of two nodes in a binary tree.\n\nTree given in level order format with -1 for null nodes.",
+            "inputFormat": "First line: N.\nSecond line: N values (-1 for null).\nThird line: Two node values p and q.",
+            "outputFormat": "Print LCA value.",
+            "constraints": "1 <= N <= 10^4\nAll node values are unique. p and q exist in tree.",
+            "sampleInput": "7\n3 5 1 6 2 0 8\n5 1",
+            "sampleOutput": "3",
+            "explanation": "LCA of 5 and 1 is root 3.",
+            "testCases": [
+                {
+                    "input": "7\n3 5 1 6 2 0 8\n5 1",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "7\n3 5 1 6 2 0 8\n5 6",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n1 2 3\n2 3",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 2 -1 3 4\n3 4",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "7\n3 5 1 6 2 0 8\n6 2",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA012",
+            "number": 912,
+            "title": "Maximum Flow (Ford-Fulkerson)",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find maximum flow from source to sink in a flow network using Ford-Fulkerson method.",
+            "inputFormat": "First line: V, E, source, sink.\nNext E lines: u v capacity.",
+            "outputFormat": "Print maximum flow value.",
+            "constraints": "2 <= V <= 100\n0 <= E <= V*(V-1)\n1 <= capacity <= 1000",
+            "sampleInput": "6 10 0 5\n0 1 16\n0 2 13\n1 2 10\n2 1 4\n1 3 12\n2 4 14\n3 2 9\n3 5 20\n4 3 7\n4 5 4",
+            "sampleOutput": "23",
+            "explanation": "Maximum flow from 0 to 5 is 23.",
+            "testCases": [
+                {
+                    "input": "6 10 0 5\n0 1 16\n0 2 13\n1 2 10\n2 1 4\n1 3 12\n2 4 14\n3 2 9\n3 5 20\n4 3 7\n4 5 4",
+                    "expectedOutput": "23",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 5 0 3\n0 1 10\n0 2 10\n1 2 2\n1 3 8\n2 3 10",
+                    "expectedOutput": "18",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 1 0 1\n0 1 100",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 2 0 2\n0 1 5\n1 2 10",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 4 0 3\n0 1 10\n0 2 10\n1 3 10\n2 3 10",
+                    "expectedOutput": "20",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA013",
+            "number": 913,
+            "title": "Suffix Array Construction",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Construct the suffix array of a given string.\n\nSuffix array is an array of indices representing suffixes in lexicographical order.",
+            "inputFormat": "A single string.",
+            "outputFormat": "Print suffix array indices, space-separated.",
+            "constraints": "1 <= length <= 1000",
+            "sampleInput": "banana",
+            "sampleOutput": "5 3 1 0 4 2",
+            "explanation": "Sorted suffixes: a, ana, anana, banana, na, nana at positions 5,3,1,0,4,2.",
+            "testCases": [
+                {
+                    "input": "banana",
+                    "expectedOutput": "5 3 1 0 4 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "abc",
+                    "expectedOutput": "0 1 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "aaa",
+                    "expectedOutput": "2 1 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "ab",
+                    "expectedOutput": "0 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abab",
+                    "expectedOutput": "2 0 3 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA014",
+            "number": 914,
+            "title": "KMP Pattern Matching",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement KMP algorithm to find all occurrences of pattern in text.\n\nPrint starting indices of all matches.",
+            "inputFormat": "Two lines: text and pattern.",
+            "outputFormat": "Print all starting indices (0-indexed), space-separated. Print -1 if no match.",
+            "constraints": "1 <= |text|, |pattern| <= 10^5",
+            "sampleInput": "AABAACAADAABAABA\nAABA",
+            "sampleOutput": "0 9 12",
+            "explanation": "Pattern 'AABA' found at positions 0, 9, 12.",
+            "testCases": [
+                {
+                    "input": "AABAACAADAABAABA\nAABA",
+                    "expectedOutput": "0 9 12",
+                    "visibility": "public"
+                },
+                {
+                    "input": "abcdef\nxyz",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "aaaa\naa",
+                    "expectedOutput": "0 1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abababab\nab",
+                    "expectedOutput": "0 2 4 6",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "test\ntest",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA015",
+            "number": 915,
+            "title": "Fenwick Tree (BIT)",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement Binary Indexed Tree for prefix sum queries and point updates.\n\nOperations: 'update i delta' adds delta to arr[i], 'query i' returns sum from 0 to i.",
+            "inputFormat": "First line: N.\nSecond line: N integers.\nThird line: Q queries.\nNext Q lines: Operations.",
+            "outputFormat": "Print result of each query.",
+            "constraints": "1 <= N, Q <= 10^5",
+            "sampleInput": "5\n1 2 3 4 5\n4\nquery 4\nupdate 2 5\nquery 4\nquery 2",
+            "sampleOutput": "15\n20\n11",
+            "explanation": "Initial sum[0-4]=15. After update, arr[2]=8. sum[0-4]=20, sum[0-2]=11.",
+            "testCases": [
+                {
+                    "input": "5\n1 2 3 4 5\n4\nquery 4\nupdate 2 5\nquery 4\nquery 2",
+                    "expectedOutput": "15\n20\n11",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n1 1 1\n2\nquery 2\nquery 0",
+                    "expectedOutput": "3\n1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n0 0 0 0\n3\nupdate 0 5\nquery 0\nquery 3",
+                    "expectedOutput": "5\n5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n5 4 3 2 1\n2\nquery 4\nquery 1",
+                    "expectedOutput": "15\n9",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA016",
+            "number": 916,
+            "title": "Travelling Salesman DP",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find the minimum cost to visit all cities exactly once and return to start using DP with bitmask.\n\nGiven distance matrix between N cities.",
+            "inputFormat": "First line: N.\nNext N lines: N x N distance matrix.",
+            "outputFormat": "Print minimum tour cost.",
+            "constraints": "2 <= N <= 15\n1 <= distance <= 10000",
+            "sampleInput": "4\n0 10 15 20\n10 0 35 25\n15 35 0 30\n20 25 30 0",
+            "sampleOutput": "80",
+            "explanation": "Optimal tour: 0->1->3->2->0 costs 10+25+30+15=80.",
+            "testCases": [
+                {
+                    "input": "4\n0 10 15 20\n10 0 35 25\n15 35 0 30\n20 25 30 0",
+                    "expectedOutput": "80",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n0 10 15\n10 0 20\n15 20 0",
+                    "expectedOutput": "45",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n0 5\n5 0",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n0 1 1 1\n1 0 1 1\n1 1 0 1\n1 1 1 0",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA017",
+            "number": 917,
+            "title": "Rabin-Karp String Matching",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement Rabin-Karp algorithm with rolling hash to find pattern in text.\n\nCount total number of occurrences.",
+            "inputFormat": "Two lines: text and pattern.",
+            "outputFormat": "Print count of occurrences.",
+            "constraints": "1 <= |pattern| <= |text| <= 10^5",
+            "sampleInput": "AABAACAADAABAABA\nAABA",
+            "sampleOutput": "3",
+            "explanation": "Pattern found 3 times at positions 0, 9, 12.",
+            "testCases": [
+                {
+                    "input": "AABAACAADAABAABA\nAABA",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "abcdef\nxyz",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "aaaa\na",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abababab\nab",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abcabcabc\nabc",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA018",
+            "number": 918,
+            "title": "Bridges in Graph",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find all bridges in an undirected graph.\n\nA bridge is an edge whose removal disconnects the graph.",
+            "inputFormat": "First line: V and E.\nNext E lines: u v (edge).",
+            "outputFormat": "Print number of bridges.",
+            "constraints": "1 <= V <= 10^4\n0 <= E <= 10^5",
+            "sampleInput": "5 5\n0 1\n0 2\n1 2\n1 3\n3 4",
+            "sampleOutput": "2",
+            "explanation": "Bridges: (1,3) and (3,4). Removing either disconnects graph.",
+            "testCases": [
+                {
+                    "input": "5 5\n0 1\n0 2\n1 2\n1 3\n3 4",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 6\n0 1\n0 2\n0 3\n1 2\n1 3\n2 3",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 3\n0 1\n1 2\n2 3",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 3\n0 1\n1 2\n2 0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA019",
+            "number": 919,
+            "title": "Floyd-Warshall All Pairs Shortest",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Find shortest distances between all pairs of vertices using Floyd-Warshall algorithm.",
+            "inputFormat": "First line: V, E.\nNext E lines: u v w (directed edge).",
+            "outputFormat": "Print V x V matrix. Use 'INF' for unreachable pairs.",
+            "constraints": "1 <= V <= 100\n0 <= E <= V*(V-1)\n-1000 <= w <= 1000",
+            "sampleInput": "4 5\n0 1 3\n0 3 5\n1 3 2\n2 3 4\n3 2 2",
+            "sampleOutput": "0 3 7 5\nINF 0 4 2\nINF INF 0 4\nINF INF 2 0",
+            "explanation": "Shortest path matrix between all vertex pairs.",
+            "testCases": [
+                {
+                    "input": "4 5\n0 1 3\n0 3 5\n1 3 2\n2 3 4\n3 2 2",
+                    "expectedOutput": "0 3 7 5\nINF 0 4 2\nINF INF 0 4\nINF INF 2 0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 2\n0 1 1\n1 0 1",
+                    "expectedOutput": "0 1\n1 0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3\n0 1 1\n1 2 1\n2 0 1",
+                    "expectedOutput": "0 1 2\n2 0 1\n1 2 0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA020",
+            "number": 920,
+            "title": "Longest Common Subsequence",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Find the length of Longest Common Subsequence of two strings.",
+            "inputFormat": "Two lines containing strings A and B.",
+            "outputFormat": "Print LCS length.",
+            "constraints": "1 <= |A|, |B| <= 1000",
+            "sampleInput": "ABCDGH\nAEDFHR",
+            "sampleOutput": "3",
+            "explanation": "LCS is 'ADH' with length 3.",
+            "testCases": [
+                {
+                    "input": "ABCDGH\nAEDFHR",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "AGGTAB\nGXTXAYB",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "ABC\nABC",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "ABC\nDEF",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "AAAA\nAAAA",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "ABCDE\nACE",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA021",
+            "number": 921,
+            "title": "Coin Change Ways",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Count the number of ways to make amount using given coin denominations.\n\nUnlimited supply of each coin type.",
+            "inputFormat": "First line: N and amount.\nSecond line: N coin denominations.",
+            "outputFormat": "Print number of ways.",
+            "constraints": "1 <= N <= 50\n1 <= amount <= 10^4\n1 <= coin <= 10^4",
+            "sampleInput": "3 5\n1 2 5",
+            "sampleOutput": "4",
+            "explanation": "Ways: [1,1,1,1,1], [1,1,1,2], [1,2,2], [5] = 4 ways.",
+            "testCases": [
+                {
+                    "input": "3 5\n1 2 5",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 3\n1 2",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 5\n2",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 10\n1 5 10",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 4\n1 2 3 4",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "ADSA022",
+            "number": 922,
+            "title": "A* Pathfinding",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement A* algorithm to find shortest path in a grid with obstacles.\n\nGrid cells: 0 = free, 1 = obstacle. Find path from top-left to bottom-right.",
+            "inputFormat": "First line: N and M (grid dimensions).\nNext N lines: M integers each (grid).",
+            "outputFormat": "Print length of shortest path or -1 if impossible.",
+            "constraints": "1 <= N, M <= 50\nTop-left and bottom-right are always free.",
+            "sampleInput": "3 3\n0 0 0\n1 1 0\n0 0 0",
+            "sampleOutput": "4",
+            "explanation": "Path: (0,0)->(0,1)->(0,2)->(1,2)->(2,2). Length = 4.",
+            "testCases": [
+                {
+                    "input": "3 3\n0 0 0\n1 1 0\n0 0 0",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3\n0 1 1\n0 1 1\n0 0 0",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 2\n0 0\n0 0",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 3\n0 1 0\n1 1 0\n0 1 0",
+                    "expectedOutput": "-1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 1\n0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                }
+            ]
+        }
+    ]
+}

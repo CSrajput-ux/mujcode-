@@ -1,0 +1,1020 @@
+{
+    "courseName": "JavaScript Essentials",
+    "language": "JavaScript",
+    "category": "JavaScript",
+    "totalQuestions": 22,
+    "questions": [
+        {
+            "id": "JSE001",
+            "number": 401,
+            "title": "Array Element Sum",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an array of numbers, calculate and return the sum of all elements using reduce function.",
+            "inputFormat": "First line: Integer N (array size).\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the sum of all array elements.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "5\n1 2 3 4 5",
+            "sampleOutput": "15",
+            "explanation": "Sum = 1 + 2 + 3 + 4 + 5 = 15",
+            "testCases": [
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "15",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n-1 0 1",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n100",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n-5 -10 -15 -20",
+                    "expectedOutput": "-50",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n0 0 0 0 0 0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1000000 1000000 1000000 1000000 1000000",
+                    "expectedOutput": "5000000",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE002",
+            "number": 402,
+            "title": "Even Odd Counter",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an array of integers, count how many even and odd numbers are in the array.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print two space-separated integers: even_count and odd_count.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "6\n1 2 3 4 5 6",
+            "sampleOutput": "3 3",
+            "explanation": "Even: 2, 4, 6 (count=3). Odd: 1, 3, 5 (count=3).",
+            "testCases": [
+                {
+                    "input": "6\n1 2 3 4 5 6",
+                    "expectedOutput": "3 3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n2 4 6 8 10",
+                    "expectedOutput": "5 0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 3 5 7 9",
+                    "expectedOutput": "0 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\n0",
+                    "expectedOutput": "1 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n-2 -3 -4 -5",
+                    "expectedOutput": "2 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n0 0 0",
+                    "expectedOutput": "3 0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE003",
+            "number": 403,
+            "title": "String Reversal",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a string, reverse it and print the result.\n\nUse JavaScript string methods or array methods.",
+            "inputFormat": "A single line string.",
+            "outputFormat": "Print the reversed string.",
+            "constraints": "1 <= length <= 1000",
+            "sampleInput": "hello",
+            "sampleOutput": "olleh",
+            "explanation": "Reverse of 'hello' is 'olleh'.",
+            "testCases": [
+                {
+                    "input": "hello",
+                    "expectedOutput": "olleh",
+                    "visibility": "public"
+                },
+                {
+                    "input": "JavaScript",
+                    "expectedOutput": "tpircSavaJ",
+                    "visibility": "public"
+                },
+                {
+                    "input": "a",
+                    "expectedOutput": "a",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "12345",
+                    "expectedOutput": "54321",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "racecar",
+                    "expectedOutput": "racecar",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "Hello World",
+                    "expectedOutput": "dlroW olleH",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE004",
+            "number": 404,
+            "title": "Find Maximum Element",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an array of numbers, find and return the maximum element using JavaScript's Math.max or reduce.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the maximum element.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "5\n3 7 2 9 1",
+            "sampleOutput": "9",
+            "explanation": "Maximum element in the array is 9.",
+            "testCases": [
+                {
+                    "input": "5\n3 7 2 9 1",
+                    "expectedOutput": "9",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n-1 -5 -2 -10",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n100",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n5 5 5 5 5",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n-100 0 100 50 -50 25",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n1000000 -1000000 0",
+                    "expectedOutput": "1000000",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE005",
+            "number": 405,
+            "title": "Factorial Calculator",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a non-negative integer N, calculate its factorial.\n\nFactorial of N (N!) = N × (N-1) × (N-2) × ... × 1. Factorial of 0 is 1.",
+            "inputFormat": "A single non-negative integer N.",
+            "outputFormat": "Print the factorial of N.",
+            "constraints": "0 <= N <= 20",
+            "sampleInput": "5",
+            "sampleOutput": "120",
+            "explanation": "5! = 5 × 4 × 3 × 2 × 1 = 120",
+            "testCases": [
+                {
+                    "input": "5",
+                    "expectedOutput": "120",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10",
+                    "expectedOutput": "3628800",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3",
+                    "expectedOutput": "6",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "7",
+                    "expectedOutput": "5040",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE006",
+            "number": 406,
+            "title": "Check Palindrome String",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a string, check if it is a palindrome.\n\nA palindrome reads the same forwards and backwards.",
+            "inputFormat": "A single line string (lowercase letters only).",
+            "outputFormat": "Print 'YES' if palindrome, otherwise 'NO'.",
+            "constraints": "1 <= length <= 1000",
+            "sampleInput": "racecar",
+            "sampleOutput": "YES",
+            "explanation": "'racecar' reversed is 'racecar'. Same, so palindrome.",
+            "testCases": [
+                {
+                    "input": "racecar",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "hello",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "a",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abba",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abcd",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "level",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE007",
+            "number": 407,
+            "title": "Filter Array Elements",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an array of integers and a threshold value T, filter and print all elements greater than T.",
+            "inputFormat": "First line: Two integers N and T.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print filtered elements space-separated. If none, print 'NONE'.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i], T <= 10^6",
+            "sampleInput": "6 5\n1 10 3 8 2 7",
+            "sampleOutput": "10 8 7",
+            "explanation": "Elements greater than 5: 10, 8, 7",
+            "testCases": [
+                {
+                    "input": "6 5\n1 10 3 8 2 7",
+                    "expectedOutput": "10 8 7",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 100\n1 2 3 4 5",
+                    "expectedOutput": "NONE",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 0\n1 2 3 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 -10\n-5 -15 -8 -20",
+                    "expectedOutput": "-5 -8",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 5\n5 5 5",
+                    "expectedOutput": "NONE",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 0\n1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE008",
+            "number": 408,
+            "title": "Count Character Occurrences",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a string and a character, count how many times the character appears in the string.\n\nCase-sensitive comparison.",
+            "inputFormat": "Two lines: First line is the string, second line is the character.",
+            "outputFormat": "Print the count.",
+            "constraints": "1 <= string length <= 1000",
+            "sampleInput": "javascript\na",
+            "sampleOutput": "2",
+            "explanation": "'a' appears twice in 'javascript'.",
+            "testCases": [
+                {
+                    "input": "javascript\na",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "hello\nz",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "aaaaaa\na",
+                    "expectedOutput": "6",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "AbAbAb\nA",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "12345\n5",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "      \n ",
+                    "expectedOutput": "6",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE009",
+            "number": 409,
+            "title": "Object Property Counter",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array of objects, count objects that have a specific property value.\n\nInput is provided as JSON-like format.",
+            "inputFormat": "First line: Number of objects N.\nNext N lines: Each object as 'key1:value1,key2:value2,...'.\nLast line: Property name and value to search, separated by space.",
+            "outputFormat": "Print the count of matching objects.",
+            "constraints": "1 <= N <= 100",
+            "sampleInput": "3\nname:John,age:25\nname:Jane,age:30\nname:Bob,age:25\nage 25",
+            "sampleOutput": "2",
+            "explanation": "Two objects have age = 25 (John and Bob).",
+            "testCases": [
+                {
+                    "input": "3\nname:John,age:25\nname:Jane,age:30\nname:Bob,age:25\nage 25",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\ncolor:red\ncolor:blue\ncolor red",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\na:1\nb:2\nc 3",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\ntest:value\ntest value",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\nstatus:active\nstatus:inactive\nstatus:active\nstatus:pending\nstatus active",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\nx:1,y:2\nx:1,y:3\nx:2,y:2\nx 1",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE010",
+            "number": 410,
+            "title": "Array Map Double",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array of numbers, use the map function to double each element and return the new array.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the doubled array, space-separated.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "5\n1 2 3 4 5",
+            "sampleOutput": "2 4 6 8 10",
+            "explanation": "Each element doubled: [1,2,3,4,5] → [2,4,6,8,10]",
+            "testCases": [
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "2 4 6 8 10",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n-1 0 1",
+                    "expectedOutput": "-2 0 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n100",
+                    "expectedOutput": "200",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n0 0 0 0",
+                    "expectedOutput": "0 0 0 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n-5 -10 -15",
+                    "expectedOutput": "-10 -20 -30",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n1 1 1 1 1 1",
+                    "expectedOutput": "2 2 2 2 2 2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE011",
+            "number": 411,
+            "title": "Find Unique Elements",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array with duplicate elements, return only unique elements using Set or filter.\n\nMaintain original order.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print unique elements in original order, space-separated.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "7\n1 2 2 3 3 3 4",
+            "sampleOutput": "1 2 3 4",
+            "explanation": "Remove duplicates, keep first occurrences: [1,2,3,4]",
+            "testCases": [
+                {
+                    "input": "7\n1 2 2 3 3 3 4",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 1 1 1 1",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\n10",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "8\n5 1 5 2 1 2 3 3",
+                    "expectedOutput": "5 1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n-1 -1 0 0 1 1",
+                    "expectedOutput": "-1 0 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE012",
+            "number": 412,
+            "title": "Sort Array of Objects",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array of objects with a numeric property, sort them by that property in ascending order.\n\nPrint the sorted values of the specified property.",
+            "inputFormat": "First line: N (number of objects) and property name.\nNext N lines: Object as 'key:value,key:value,...'.",
+            "outputFormat": "Print sorted values of the property, space-separated.",
+            "constraints": "1 <= N <= 100",
+            "sampleInput": "3 age\nname:John,age:30\nname:Alice,age:25\nname:Bob,age:35",
+            "sampleOutput": "25 30 35",
+            "explanation": "Sort by age: Alice(25), John(30), Bob(35)",
+            "testCases": [
+                {
+                    "input": "3 age\nname:John,age:30\nname:Alice,age:25\nname:Bob,age:35",
+                    "expectedOutput": "25 30 35",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 score\nscore:100\nscore:50\nscore:75\nscore:25",
+                    "expectedOutput": "25 50 75 100",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 value\nvalue:10\nvalue:5",
+                    "expectedOutput": "5 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 num\nnum:42",
+                    "expectedOutput": "42",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 x\nx:3\nx:1\nx:2",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 priority\npriority:5\npriority:3\npriority:1\npriority:4\npriority:2",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE013",
+            "number": 413,
+            "title": "Async Promise Simulation",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given N numbers, simulate async operations by checking if each is prime. Count total primes.\n\nThis tests understanding of asynchronous patterns.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated positive integers.",
+            "outputFormat": "Print the count of prime numbers.",
+            "constraints": "1 <= N <= 1000\n2 <= arr[i] <= 10^6",
+            "sampleInput": "5\n2 3 4 5 6",
+            "sampleOutput": "3",
+            "explanation": "Prime numbers: 2, 3, 5. Count = 3",
+            "testCases": [
+                {
+                    "input": "5\n2 3 4 5 6",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n4 6 8 10",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n2 3 5 7 11",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\n2",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n10 20 30 40 50 60",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "8\n17 19 23 24 25 26 27 29",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE014",
+            "number": 414,
+            "title": "Flatten Deep Array",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a nested array structure (as string), flatten it completely to a single-level array.\n\nUse Array.flat(Infinity) or recursive approach.",
+            "inputFormat": "A single line representing nested array (e.g., '[1,[2,[3,4]],5]').",
+            "outputFormat": "Print flattened elements, space-separated.",
+            "constraints": "1 <= total elements <= 100",
+            "sampleInput": "[1,[2,[3,4]],5]",
+            "sampleOutput": "1 2 3 4 5",
+            "explanation": "Flatten all nesting levels: [1,2,3,4,5]",
+            "testCases": [
+                {
+                    "input": "[1,[2,[3,4]],5]",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "[[1,2],[3,4]]",
+                    "expectedOutput": "1 2 3 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "[[[1]]]",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "[1,2,3]",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "[1,[2,[3,[4,[5]]]]]",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "[[],[1],[2,3]]",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE015",
+            "number": 415,
+            "title": "Deep Object Clone",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an object represented as key-value pairs, create a deep clone and modify a specified key, then print both original and cloned values.\n\nThis tests understanding of deep vs shallow copy.",
+            "inputFormat": "First line: N (number of properties).\nNext N lines: 'key:value' pairs.\nLast line: 'key newValue' to modify in clone.",
+            "outputFormat": "Print original value and cloned value for the modified key, space-separated.",
+            "constraints": "1 <= N <= 50",
+            "sampleInput": "3\nname:John\nage:25\ncity:NYC\nage 30",
+            "sampleOutput": "25 30",
+            "explanation": "Original age stays 25, cloned age becomes 30.",
+            "testCases": [
+                {
+                    "input": "3\nname:John\nage:25\ncity:NYC\nage 30",
+                    "expectedOutput": "25 30",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\na:1\nb:2\na 100",
+                    "expectedOutput": "1 100",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\ntest:hello\ntest world",
+                    "expectedOutput": "hello world",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\nx:5\ny:10\ny 20",
+                    "expectedOutput": "10 20",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\nfirst:A\nsecond:B\nthird:C\nthird D",
+                    "expectedOutput": "C D",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\ncount:0\nmax:100\ncount 50",
+                    "expectedOutput": "0 50",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE016",
+            "number": 416,
+            "title": "Debounce Counter",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a sequence of events with timestamps, count how many would actually fire with a debounce delay of D milliseconds.\n\nAn event fires only if no other event occurs within D ms after it.",
+            "inputFormat": "First line: N and D (number of events, debounce delay).\nSecond line: N timestamps in ascending order.",
+            "outputFormat": "Print the count of events that would fire.",
+            "constraints": "1 <= N <= 1000\n1 <= D <= 10000\n0 <= timestamp <= 10^6",
+            "sampleInput": "5 100\n0 50 200 250 500",
+            "sampleOutput": "3",
+            "explanation": "Event at 0 is debounced by 50. Event at 50 fires (gap > 100 to 200). Event at 200 debounced by 250. Event at 250 fires. Event at 500 fires.",
+            "testCases": [
+                {
+                    "input": "5 100\n0 50 200 250 500",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 10\n0 100 200",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 1000\n0 500",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 100\n0",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 50\n0 30 60 90 120 200",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 100\n0 100 200 300",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE017",
+            "number": 417,
+            "title": "Implement Curry Function",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a function that adds three numbers, demonstrate currying by providing partial arguments.\n\nInput provides three numbers; output should show result of curried addition.",
+            "inputFormat": "Three space-separated integers A, B, C.",
+            "outputFormat": "Print A + B + C using currying concept.",
+            "constraints": "-10^6 <= A, B, C <= 10^6",
+            "sampleInput": "1 2 3",
+            "sampleOutput": "6",
+            "explanation": "curry(1)(2)(3) = 1 + 2 + 3 = 6",
+            "testCases": [
+                {
+                    "input": "1 2 3",
+                    "expectedOutput": "6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0 0 0",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "-1 -2 -3",
+                    "expectedOutput": "-6",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100 200 300",
+                    "expectedOutput": "600",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 -1 0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000000 1000000 1000000",
+                    "expectedOutput": "3000000",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE018",
+            "number": 418,
+            "title": "Event Emitter Pattern",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Simulate an event emitter. Given a sequence of emit and on operations, track how many times each event listener is called.\n\nOperations: 'on eventName' (register listener), 'emit eventName' (trigger event).",
+            "inputFormat": "First line: N (number of operations).\nNext N lines: Each operation ('on eventName' or 'emit eventName').",
+            "outputFormat": "For each unique event, print 'eventName count' sorted alphabetically.",
+            "constraints": "1 <= N <= 100",
+            "sampleInput": "5\non click\non click\nemit click\nemit click\nemit hover",
+            "sampleOutput": "click 4",
+            "explanation": "2 listeners for click. Each emit calls both = 2 calls per emit. 2 emits = 4 total. hover has no listener.",
+            "testCases": [
+                {
+                    "input": "5\non click\non click\nemit click\nemit click\nemit hover",
+                    "expectedOutput": "click 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\non test\nemit test\nemit test",
+                    "expectedOutput": "test 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\nemit nothing\nemit nothing",
+                    "expectedOutput": "",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\non a\non b\nemit a\nemit b",
+                    "expectedOutput": "a 1\nb 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\non x\non x\non x\nemit x\nemit x\nemit x",
+                    "expectedOutput": "x 9",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\non solo",
+                    "expectedOutput": "",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE019",
+            "number": 419,
+            "title": "Promise.all Simulation",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given N async operations with their durations, calculate the total time if they run in parallel (Promise.all) vs sequential.\n\nPrint both times.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated durations in ms.",
+            "outputFormat": "Print two integers: parallel_time and sequential_time.",
+            "constraints": "1 <= N <= 100\n1 <= duration <= 10000",
+            "sampleInput": "3\n100 200 300",
+            "sampleOutput": "300 600",
+            "explanation": "Parallel: max(100,200,300) = 300ms. Sequential: 100+200+300 = 600ms.",
+            "testCases": [
+                {
+                    "input": "3\n100 200 300",
+                    "expectedOutput": "300 600",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n50 50 50 50",
+                    "expectedOutput": "50 200",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n100",
+                    "expectedOutput": "100 100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n10 20 30 40 50",
+                    "expectedOutput": "50 150",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n1000 1 1",
+                    "expectedOutput": "1000 1002",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\n500 500",
+                    "expectedOutput": "500 1000",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE020",
+            "number": 420,
+            "title": "Memoization Fibonacci",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Calculate the Nth Fibonacci number using memoization technique.\n\nCount and print the number of function calls with and without memoization for comparison.",
+            "inputFormat": "A single integer N.",
+            "outputFormat": "Print: fibonacci_value calls_without_memo calls_with_memo",
+            "constraints": "0 <= N <= 40",
+            "sampleInput": "10",
+            "sampleOutput": "55 177 19",
+            "explanation": "fib(10)=55. Without memo: 177 calls (exponential). With memo: 19 calls (linear).",
+            "testCases": [
+                {
+                    "input": "10",
+                    "expectedOutput": "55 177 19",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0",
+                    "expectedOutput": "0 1 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "1 1 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5",
+                    "expectedOutput": "5 15 9",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "20",
+                    "expectedOutput": "6765 21891 39",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "15",
+                    "expectedOutput": "610 1973 29",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE021",
+            "number": 421,
+            "title": "Throttle Function Simulation",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given call timestamps and a throttle limit T, determine how many calls actually execute.\n\nA throttled function only executes once every T milliseconds.",
+            "inputFormat": "First line: N and T.\nSecond line: N timestamps in ascending order.",
+            "outputFormat": "Print the count of executed calls.",
+            "constraints": "1 <= N <= 1000\n1 <= T <= 10000",
+            "sampleInput": "6 100\n0 50 100 150 200 250",
+            "sampleOutput": "3",
+            "explanation": "Executes at 0, 100 (0+100), 200 (100+100). Calls at 50, 150, 250 are throttled.",
+            "testCases": [
+                {
+                    "input": "6 100\n0 50 100 150 200 250",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 50\n0 100 200 300",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 1000\n0 100 200 300 400",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 100\n500",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "8 25\n0 10 25 35 50 60 75 100",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 10\n0 10 20",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JSE022",
+            "number": 422,
+            "title": "Proxy Object Tracker",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Simulate a Proxy that tracks get and set operations on an object.\n\nGiven a sequence of operations, count total gets and sets.",
+            "inputFormat": "First line: N (number of operations).\nNext N lines: Each operation ('get key' or 'set key value').",
+            "outputFormat": "Print two integers: get_count and set_count.",
+            "constraints": "1 <= N <= 100",
+            "sampleInput": "5\nset name John\nget name\nset age 25\nget age\nget name",
+            "sampleOutput": "3 2",
+            "explanation": "3 get operations, 2 set operations.",
+            "testCases": [
+                {
+                    "input": "5\nset name John\nget name\nset age 25\nget age\nget name",
+                    "expectedOutput": "3 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\nget a\nget b\nget c",
+                    "expectedOutput": "3 0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\nset x 1\nset y 2\nset z 3",
+                    "expectedOutput": "0 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\nget test",
+                    "expectedOutput": "1 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\nset a 1\nget a\nset a 2\nget a\nset a 3\nget a",
+                    "expectedOutput": "3 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\nset foo bar\nset foo baz\nget foo\nget foo",
+                    "expectedOutput": "2 2",
+                    "visibility": "hidden"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,1020 @@
+{
+    "courseName": "Interview Preparation (C++)",
+    "language": "C++",
+    "category": "Interview",
+    "totalQuestions": 22,
+    "questions": [
+        {
+            "id": "INT001",
+            "number": 701,
+            "title": "Two Sum Problem",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an array of integers and a target sum, find two distinct indices such that their elements add up to the target.\n\nReturn indices (0-indexed). If multiple solutions exist, return any one. If no solution, print -1.",
+            "inputFormat": "First line: Two integers N and target.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print two space-separated indices or -1.",
+            "constraints": "2 <= N <= 10^5\n-10^9 <= elements, target <= 10^9",
+            "sampleInput": "4 9\n2 7 11 15",
+            "sampleOutput": "0 1",
+            "explanation": "nums[0] + nums[1] = 2 + 7 = 9.",
+            "testCases": [
+                {
+                    "input": "4 9\n2 7 11 15",
+                    "expectedOutput": "0 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 6\n3 2 4",
+                    "expectedOutput": "1 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 10\n5 5",
+                    "expectedOutput": "0 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 100\n1 2 3 4",
+                    "expectedOutput": "-1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 0\n-1 0 1 2 -2",
+                    "expectedOutput": "0 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 -5\n-3 -2 1 5 -1 0",
+                    "expectedOutput": "0 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT002",
+            "number": 702,
+            "title": "Best Time to Buy and Sell Stock",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an array where prices[i] is the stock price on day i, find the maximum profit from one transaction (buy once, sell once).\n\nIf no profit possible, return 0.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated prices.",
+            "outputFormat": "Print maximum profit.",
+            "constraints": "1 <= N <= 10^5\n0 <= prices[i] <= 10^4",
+            "sampleInput": "6\n7 1 5 3 6 4",
+            "sampleOutput": "5",
+            "explanation": "Buy on day 2 (price=1), sell on day 5 (price=6). Profit = 6-1 = 5.",
+            "testCases": [
+                {
+                    "input": "6\n7 1 5 3 6 4",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n7 6 4 3 1",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n1 2",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\n5",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n3 3 5 0 0 3",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n1 4 2 5",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT003",
+            "number": 703,
+            "title": "Valid Anagram",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given two strings S and T, determine if T is an anagram of S.\n\nAn anagram uses all characters from original string exactly once.",
+            "inputFormat": "Two lines, each containing a string.",
+            "outputFormat": "Print 'YES' if anagram, otherwise 'NO'.",
+            "constraints": "1 <= length <= 10^5\nStrings contain only lowercase letters.",
+            "sampleInput": "anagram\nnagaram",
+            "sampleOutput": "YES",
+            "explanation": "Both contain: a(3), n(1), g(1), r(1), m(1).",
+            "testCases": [
+                {
+                    "input": "anagram\nnagaram",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "rat\ncar",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "a\na",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "ab\nba",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abc\nabd",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "listen\nsilent",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT004",
+            "number": 704,
+            "title": "Contains Duplicate",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an array of integers, determine if any value appears at least twice.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print 'YES' if duplicates exist, otherwise 'NO'.",
+            "constraints": "1 <= N <= 10^5\n-10^9 <= arr[i] <= 10^9",
+            "sampleInput": "4\n1 2 3 1",
+            "sampleOutput": "YES",
+            "explanation": "1 appears twice.",
+            "testCases": [
+                {
+                    "input": "4\n1 2 3 1",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n1 2 3 4",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n5",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 1 1 1 1",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n-1 -2 -3 -1 -4 -5",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10\n1 2 3 4 5 6 7 8 9 10",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT005",
+            "number": 705,
+            "title": "Maximum Subarray Sum (Kadane's)",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Find the contiguous subarray with the largest sum.\n\nThis is the classic Kadane's algorithm problem.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the maximum subarray sum.",
+            "constraints": "1 <= N <= 10^5\n-10^4 <= arr[i] <= 10^4",
+            "sampleInput": "9\n-2 1 -3 4 -1 2 1 -5 4",
+            "sampleOutput": "6",
+            "explanation": "Subarray [4,-1,2,1] has maximum sum 6.",
+            "testCases": [
+                {
+                    "input": "9\n-2 1 -3 4 -1 2 1 -5 4",
+                    "expectedOutput": "6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n-1",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "15",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n-1 -2 -3",
+                    "expectedOutput": "-1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n5 4 -1 7 8 -10",
+                    "expectedOutput": "23",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n-2 -3 4 -1",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT006",
+            "number": 706,
+            "title": "Merge Two Sorted Lists",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Merge two sorted arrays into one sorted array.",
+            "inputFormat": "First line: Two integers N and M.\nSecond line: N sorted integers.\nThird line: M sorted integers.",
+            "outputFormat": "Print merged sorted array.",
+            "constraints": "1 <= N, M <= 10^4\n-10^6 <= elements <= 10^6",
+            "sampleInput": "3 3\n1 2 4\n1 3 4",
+            "sampleOutput": "1 1 2 3 4 4",
+            "explanation": "Merge [1,2,4] and [1,3,4] to get [1,1,2,3,4,4].",
+            "testCases": [
+                {
+                    "input": "3 3\n1 2 4\n1 3 4",
+                    "expectedOutput": "1 1 2 3 4 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 3\n1 2\n3 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 1\n1\n2",
+                    "expectedOutput": "1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 2\n1 2 3 4\n0 5",
+                    "expectedOutput": "0 1 2 3 4 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 3\n-3 -2 -1\n1 2 3",
+                    "expectedOutput": "-3 -2 -1 1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 1\n1 2 3 4 5\n3",
+                    "expectedOutput": "1 2 3 3 4 5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT007",
+            "number": 707,
+            "title": "Reverse Linked List",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Reverse a singly linked list represented as an array.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the reversed list.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= values <= 10^6",
+            "sampleInput": "5\n1 2 3 4 5",
+            "sampleOutput": "5 4 3 2 1",
+            "explanation": "Reverse 1->2->3->4->5 to get 5->4->3->2->1.",
+            "testCases": [
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "5 4 3 2 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n1 2",
+                    "expectedOutput": "2 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n10",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n-1 -2 -3 -4",
+                    "expectedOutput": "-4 -3 -2 -1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n1 1 1 1 1 1",
+                    "expectedOutput": "1 1 1 1 1 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n100 200 300",
+                    "expectedOutput": "300 200 100",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT008",
+            "number": 708,
+            "title": "Valid Parentheses",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a string containing only '(', ')', '{', '}', '[', ']', determine if brackets are balanced.",
+            "inputFormat": "A single string of brackets.",
+            "outputFormat": "Print 'VALID' or 'INVALID'.",
+            "constraints": "0 <= length <= 10^4",
+            "sampleInput": "()[]{}",
+            "sampleOutput": "VALID",
+            "explanation": "All brackets are properly matched.",
+            "testCases": [
+                {
+                    "input": "()[]{}",
+                    "expectedOutput": "VALID",
+                    "visibility": "public"
+                },
+                {
+                    "input": "([)]",
+                    "expectedOutput": "INVALID",
+                    "visibility": "public"
+                },
+                {
+                    "input": "{[]}",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "(",
+                    "expectedOutput": "INVALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "((()))",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT009",
+            "number": 709,
+            "title": "3Sum Problem",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array, find all unique triplets that sum to zero.\n\nReturn triplets sorted, with each triplet in ascending order.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print each unique triplet on new line, or 'NONE' if no triplets.",
+            "constraints": "3 <= N <= 1000\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "6\n-1 0 1 2 -1 -4",
+            "sampleOutput": "-1 -1 2\n-1 0 1",
+            "explanation": "Two triplets sum to 0: [-1,-1,2] and [-1,0,1].",
+            "testCases": [
+                {
+                    "input": "6\n-1 0 1 2 -1 -4",
+                    "expectedOutput": "-1 -1 2\n-1 0 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n0 0 0",
+                    "expectedOutput": "0 0 0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n1 2 3 4",
+                    "expectedOutput": "NONE",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n-2 0 1 1 2",
+                    "expectedOutput": "-2 0 2\n-2 1 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n0 0 0 0 0 0",
+                    "expectedOutput": "0 0 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n-1 0 1 0",
+                    "expectedOutput": "-1 0 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT010",
+            "number": 710,
+            "title": "Container With Most Water",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given heights of N lines, find two lines that together with x-axis form a container with maximum water.\n\nWater = min(height[i], height[j]) * (j - i)",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated heights.",
+            "outputFormat": "Print maximum water amount.",
+            "constraints": "2 <= N <= 10^5\n0 <= height[i] <= 10^4",
+            "sampleInput": "9\n1 8 6 2 5 4 8 3 7",
+            "sampleOutput": "49",
+            "explanation": "Lines at index 1 and 8 (heights 8 and 7): min(8,7) * (8-1) = 7 * 7 = 49.",
+            "testCases": [
+                {
+                    "input": "9\n1 8 6 2 5 4 8 3 7",
+                    "expectedOutput": "49",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n1 1",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n1 2 1 2",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n5 5 5 5 5",
+                    "expectedOutput": "20",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n1 2 3 4 5 6",
+                    "expectedOutput": "9",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n1 2 1",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT011",
+            "number": 711,
+            "title": "Longest Substring Without Repeating",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Find the length of the longest substring without repeating characters.",
+            "inputFormat": "A single string.",
+            "outputFormat": "Print the length.",
+            "constraints": "0 <= length <= 5*10^4\nString contains ASCII characters.",
+            "sampleInput": "abcabcbb",
+            "sampleOutput": "3",
+            "explanation": "Longest substring without repeat is 'abc' with length 3.",
+            "testCases": [
+                {
+                    "input": "abcabcbb",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "bbbbb",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "pwwkew",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abcdefg",
+                    "expectedOutput": "7",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "dvdf",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT012",
+            "number": 712,
+            "title": "Search in Rotated Sorted Array",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "A sorted array is rotated at some pivot. Search for target element and return its index.\n\nReturn -1 if not found. Expected O(log n) solution.",
+            "inputFormat": "First line: Two integers N and target.\nSecond line: N space-separated integers (rotated sorted).",
+            "outputFormat": "Print index of target or -1.",
+            "constraints": "1 <= N <= 5000\n-10^4 <= elements, target <= 10^4",
+            "sampleInput": "7 0\n4 5 6 7 0 1 2",
+            "sampleOutput": "4",
+            "explanation": "0 is at index 4 in the rotated array.",
+            "testCases": [
+                {
+                    "input": "7 0\n4 5 6 7 0 1 2",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "7 3\n4 5 6 7 0 1 2",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 5\n5 1 2 3 4",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 0\n1",
+                    "expectedOutput": "-1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6 4\n1 2 3 4 5 6",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 2\n2 3 4 1",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT013",
+            "number": 713,
+            "title": "Merge Intervals",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a collection of intervals, merge all overlapping intervals.",
+            "inputFormat": "First line: Integer N.\nNext N lines: Two integers (start, end) for each interval.",
+            "outputFormat": "Print merged intervals, one per line.",
+            "constraints": "1 <= N <= 10^4\n0 <= start <= end <= 10^4",
+            "sampleInput": "4\n1 3\n2 6\n8 10\n15 18",
+            "sampleOutput": "1 6\n8 10\n15 18",
+            "explanation": "[1,3] and [2,6] overlap, merged to [1,6].",
+            "testCases": [
+                {
+                    "input": "4\n1 3\n2 6\n8 10\n15 18",
+                    "expectedOutput": "1 6\n8 10\n15 18",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n1 4\n4 5",
+                    "expectedOutput": "1 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n1 10",
+                    "expectedOutput": "1 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 2\n3 4\n5 6\n7 8\n9 10",
+                    "expectedOutput": "1 2\n3 4\n5 6\n7 8\n9 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n1 10\n2 3\n4 5\n6 7",
+                    "expectedOutput": "1 10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n1 4\n0 4\n3 5",
+                    "expectedOutput": "0 5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT014",
+            "number": 714,
+            "title": "Coin Change Problem",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given coins of different denominations and a total amount, find the minimum number of coins needed.\n\nReturn -1 if amount cannot be made.",
+            "inputFormat": "First line: Two integers N and amount.\nSecond line: N coin denominations.",
+            "outputFormat": "Print minimum coins or -1.",
+            "constraints": "1 <= N <= 12\n1 <= coins[i] <= 2^31-1\n0 <= amount <= 10^4",
+            "sampleInput": "3 11\n1 2 5",
+            "sampleOutput": "3",
+            "explanation": "11 = 5 + 5 + 1 = 3 coins.",
+            "testCases": [
+                {
+                    "input": "3 11\n1 2 5",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 3\n2",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 0\n1",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 6\n1 3 4",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 3\n1 2",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 23\n1 5 10 25",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT015",
+            "number": 715,
+            "title": "LRU Cache Implementation",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement an LRU (Least Recently Used) cache. Perform get and put operations.\n\nOperations: 'get key' returns value or -1, 'put key value' inserts/updates.",
+            "inputFormat": "First line: Two integers capacity and N (operations).\nNext N lines: Operations.",
+            "outputFormat": "Print result of each get operation.",
+            "constraints": "1 <= capacity <= 3000\n1 <= N <= 10^4",
+            "sampleInput": "2 7\nput 1 1\nput 2 2\nget 1\nput 3 3\nget 2\nput 4 4\nget 1",
+            "sampleOutput": "1\n-1\n-1",
+            "explanation": "After put(1,1), put(2,2), get(1)=1. put(3,3) evicts 2. get(2)=-1. put(4,4) evicts 1. get(1)=-1.",
+            "testCases": [
+                {
+                    "input": "2 7\nput 1 1\nput 2 2\nget 1\nput 3 3\nget 2\nput 4 4\nget 1",
+                    "expectedOutput": "1\n-1\n-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 4\nput 1 1\nget 1\nput 2 2\nget 1",
+                    "expectedOutput": "1\n-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 5\nput 1 10\nput 2 20\nget 1\nget 2\nget 3",
+                    "expectedOutput": "10\n20\n-1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 6\nput 1 1\nput 2 2\nput 3 3\nput 4 4\nget 1\nget 4",
+                    "expectedOutput": "-1\n4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 6\nput 2 1\nput 1 1\nput 2 3\nput 4 1\nget 1\nget 2",
+                    "expectedOutput": "-1\n3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 3\nput 1 1\nget 1\nget 2",
+                    "expectedOutput": "1\n-1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT016",
+            "number": 716,
+            "title": "Word Break Problem",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a string and a dictionary, determine if string can be segmented into dictionary words.",
+            "inputFormat": "First line: The string.\nSecond line: Integer N (dictionary size).\nThird line: N dictionary words.",
+            "outputFormat": "Print 'YES' or 'NO'.",
+            "constraints": "1 <= string length <= 300\n1 <= N <= 1000",
+            "sampleInput": "leetcode\n2\nleet code",
+            "sampleOutput": "YES",
+            "explanation": "'leetcode' = 'leet' + 'code'.",
+            "testCases": [
+                {
+                    "input": "leetcode\n2\nleet code",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "catsandog\n5\ncats dog sand and cat",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "applepenapple\n2\napple pen",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "a\n1\na",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "ab\n2\na b",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "cars\n2\ncar ca",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT017",
+            "number": 717,
+            "title": "Trapping Rain Water",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given N bars of heights, compute how much water can be trapped after rain.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated heights.",
+            "outputFormat": "Print total water units.",
+            "constraints": "1 <= N <= 2*10^4\n0 <= height[i] <= 10^5",
+            "sampleInput": "12\n0 1 0 2 1 0 1 3 2 1 2 1",
+            "sampleOutput": "6",
+            "explanation": "Water trapped in valleys: total 6 units.",
+            "testCases": [
+                {
+                    "input": "12\n0 1 0 2 1 0 1 3 2 1 2 1",
+                    "expectedOutput": "6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "6\n4 2 0 3 2 5",
+                    "expectedOutput": "9",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n1 0 1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n5 4 3 2 1",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n3 0 2 0 4 0",
+                    "expectedOutput": "7",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT018",
+            "number": 718,
+            "title": "Median of Two Sorted Arrays",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Find the median of two sorted arrays. Overall complexity should be O(log(m+n)).",
+            "inputFormat": "First line: Two integers N and M.\nSecond line: N sorted integers.\nThird line: M sorted integers.",
+            "outputFormat": "Print median (up to 5 decimal places).",
+            "constraints": "0 <= N, M <= 1000\n1 <= N + M\n-10^6 <= elements <= 10^6",
+            "sampleInput": "2 2\n1 3\n2 4",
+            "sampleOutput": "2.50000",
+            "explanation": "Merged: [1,2,3,4]. Median = (2+3)/2 = 2.5.",
+            "testCases": [
+                {
+                    "input": "2 2\n1 3\n2 4",
+                    "expectedOutput": "2.50000",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 1\n1 2\n3",
+                    "expectedOutput": "2.00000",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 1\n1\n2",
+                    "expectedOutput": "1.50000",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 3\n1 2 3\n4 5 6",
+                    "expectedOutput": "3.50000",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "0 5\n\n1 2 3 4 5",
+                    "expectedOutput": "3.00000",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 4\n1 3 5 7\n2 4 6 8",
+                    "expectedOutput": "4.50000",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT019",
+            "number": 719,
+            "title": "Longest Palindromic Substring",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a string, find the longest palindromic substring.\n\nIf multiple exist with same length, return the first one.",
+            "inputFormat": "A single string.",
+            "outputFormat": "Print the longest palindromic substring.",
+            "constraints": "1 <= length <= 1000",
+            "sampleInput": "babad",
+            "sampleOutput": "bab",
+            "explanation": "'bab' is a palindrome of length 3. 'aba' is also valid.",
+            "testCases": [
+                {
+                    "input": "babad",
+                    "expectedOutput": "bab",
+                    "visibility": "public"
+                },
+                {
+                    "input": "cbbd",
+                    "expectedOutput": "bb",
+                    "visibility": "public"
+                },
+                {
+                    "input": "a",
+                    "expectedOutput": "a",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "racecar",
+                    "expectedOutput": "racecar",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "abcde",
+                    "expectedOutput": "a",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "aacabdkacaa",
+                    "expectedOutput": "aca",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT020",
+            "number": 720,
+            "title": "Serialize and Deserialize Binary Tree",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Serialize a binary tree to a string and deserialize it back.\n\nInput tree is in level order format. Output the level order after deserialize.",
+            "inputFormat": "First line: Integer N (including nulls).\nSecond line: N values (-1 represents null).",
+            "outputFormat": "Print the level order traversal after serialize and deserialize (non-null only).",
+            "constraints": "0 <= N <= 1000",
+            "sampleInput": "7\n1 2 3 -1 -1 4 5",
+            "sampleOutput": "1 2 3 4 5",
+            "explanation": "Tree reconstructed correctly from serialization.",
+            "testCases": [
+                {
+                    "input": "7\n1 2 3 -1 -1 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n1",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0\n",
+                    "expectedOutput": "",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n1 2 3",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 -1 2 -1 3",
+                    "expectedOutput": "1 2 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "7\n1 2 3 4 5 6 7",
+                    "expectedOutput": "1 2 3 4 5 6 7",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT021",
+            "number": 721,
+            "title": "Regular Expression Matching",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement regular expression matching with '.' and '*'.\n\n'.' matches any single character.\n'*' matches zero or more of the preceding element.",
+            "inputFormat": "Two lines: string S and pattern P.",
+            "outputFormat": "Print 'YES' if pattern matches entire string, otherwise 'NO'.",
+            "constraints": "0 <= |S| <= 20\n0 <= |P| <= 30",
+            "sampleInput": "aa\na*",
+            "sampleOutput": "YES",
+            "explanation": "'a*' means zero or more 'a's. 'aa' matches.",
+            "testCases": [
+                {
+                    "input": "aa\na*",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "aa\na",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "ab\n.*",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "aab\nc*a*b",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "mississippi\nmis*is*p*.",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "a\nab*",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "INT022",
+            "number": 722,
+            "title": "N-Queens Problem",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Place N queens on an N×N chessboard so that no two queens attack each other.\n\nPrint the number of valid configurations.",
+            "inputFormat": "A single integer N.",
+            "outputFormat": "Print the count of valid configurations.",
+            "constraints": "1 <= N <= 10",
+            "sampleInput": "4",
+            "sampleOutput": "2",
+            "explanation": "4-Queens has 2 distinct solutions.",
+            "testCases": [
+                {
+                    "input": "4",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "8",
+                    "expectedOutput": "92",
+                    "visibility": "hidden"
+                }
+            ]
+        }
+    ]
+}

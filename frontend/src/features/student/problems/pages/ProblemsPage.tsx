@@ -18,7 +18,7 @@ export default function Problems() {
   const [selectedDifficulty, setSelectedDifficulty] = useState('All');
   const [selectedTopic, setSelectedTopic] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [solvedProblemIds, setSolvedProblemIds] = useState<number[]>([]);
+  const [solvedProblemIds, setSolvedProblemIds] = useState<any[]>([]);
 
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function Problems() {
         // Extract solved problem IDs for backward compatibility
         const solved = data.problems
           .filter((p: any) => p.status === 'solved')
-          .map((p: any) => p.number);
+          .map((p: any) => p._id);
         setSolvedProblemIds(solved);
 
         console.log('🎯 Solved problemIds array:', solved);
@@ -223,10 +223,10 @@ export default function Problems() {
                       <tr
                         key={problem._id}
                         className="hover:bg-gray-50 cursor-pointer transition-colors"
-                        onClick={() => window.location.href = `/student/problems/${problem.number}`}
+                        onClick={() => window.location.href = `/student/problems/${problem._id}`}
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
-                          {solvedProblemIds.includes(problem.number) ? (
+                          {solvedProblemIds.includes(problem._id) ? (
                             <CheckCircle2 className="w-5 h-5 text-green-500" />
                           ) : (
                             <div className="w-5 h-5 rounded-full border-2 border-gray-300" />

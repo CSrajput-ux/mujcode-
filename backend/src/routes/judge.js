@@ -58,7 +58,8 @@ export function registerJudgeRoutes(router) {
     const submission = {
       _id: submissionId,
       userId: req.body.userId || 'stu_1',
-      problemNumber: Number(req.body.problemId),
+      problemId: req.body.problemId,
+      problemNumber: isNaN(Number(req.body.problemId)) ? req.body.problemId : Number(req.body.problemId),
       code: req.body.code || '',
       language: req.body.language || 'python',
       verdict: result.verdict,
@@ -78,9 +79,10 @@ export function registerJudgeRoutes(router) {
   });
 
   router.get('/api/judge/submissions/:userId/:problemNumber', (req, res, ctx) => {
+    const param = req.params.problemNumber;
     const submissions = ctx.getDb().problemSubmissions.filter(sub =>
       String(sub.userId) === String(req.params.userId) &&
-      Number(sub.problemNumber) === Number(req.params.problemNumber)
+      (String(sub.problemId) === String(param) || String(sub.problemNumber) === String(param))
     );
     return sendJson(res, 200, { submissions });
   });

@@ -1,0 +1,1020 @@
+{
+    "courseName": "Java Fundamentals",
+    "language": "Java",
+    "category": "Java",
+    "totalQuestions": 22,
+    "questions": [
+        {
+            "id": "JAVF001",
+            "number": 201,
+            "title": "Count Vowels and Consonants",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a string containing only alphabetic characters, count the number of vowels and consonants separately.\n\nVowels are: a, e, i, o, u (case-insensitive).\nAll other alphabetic characters are consonants.",
+            "inputFormat": "A single line string (alphabets only, may have spaces).",
+            "outputFormat": "Print two space-separated integers: vowel_count and consonant_count.",
+            "constraints": "1 <= length <= 1000\nString contains only alphabets and spaces.",
+            "sampleInput": "Hello World",
+            "sampleOutput": "3 7",
+            "explanation": "Vowels: e, o, o = 3. Consonants: H, l, l, W, r, l, d = 7. Spaces are ignored.",
+            "testCases": [
+                {
+                    "input": "Hello World",
+                    "expectedOutput": "3 7",
+                    "visibility": "public"
+                },
+                {
+                    "input": "AEIOU",
+                    "expectedOutput": "5 0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "bcdfg",
+                    "expectedOutput": "0 5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "Programming",
+                    "expectedOutput": "3 8",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "a",
+                    "expectedOutput": "1 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "xyz",
+                    "expectedOutput": "0 3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF002",
+            "number": 202,
+            "title": "Sum of Odd Positioned Digits",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a positive integer N, find the sum of digits at odd positions (1-indexed from right).\n\nFor example, for N = 12345, positions from right: 5(1), 4(2), 3(3), 2(4), 1(5). Odd positions: 5, 3, 1. Sum = 5+3+1 = 9.",
+            "inputFormat": "A single positive integer N.",
+            "outputFormat": "Print the sum of digits at odd positions.",
+            "constraints": "1 <= N <= 10^9",
+            "sampleInput": "12345",
+            "sampleOutput": "9",
+            "explanation": "Digits at odd positions (1st, 3rd, 5th from right): 5, 3, 1. Sum = 9.",
+            "testCases": [
+                {
+                    "input": "12345",
+                    "expectedOutput": "9",
+                    "visibility": "public"
+                },
+                {
+                    "input": "9876",
+                    "expectedOutput": "13",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "11111",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000000000",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "99",
+                    "expectedOutput": "9",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF003",
+            "number": 203,
+            "title": "Check Automorphic Number",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a positive integer N, check if it is an Automorphic number.\n\nA number is Automorphic if its square ends with the number itself.\nExamples: 5 (5² = 25), 6 (6² = 36), 25 (25² = 625)",
+            "inputFormat": "A single positive integer N.",
+            "outputFormat": "Print 'YES' if automorphic, otherwise 'NO'.",
+            "constraints": "1 <= N <= 10^6",
+            "sampleInput": "25",
+            "sampleOutput": "YES",
+            "explanation": "25² = 625. 625 ends with 25. Hence automorphic.",
+            "testCases": [
+                {
+                    "input": "25",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "7",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "76",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF004",
+            "number": 204,
+            "title": "Pascal Triangle Row",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an integer N, print the Nth row (0-indexed) of Pascal's Triangle.\n\nPascal's Triangle:\nRow 0: 1\nRow 1: 1 1\nRow 2: 1 2 1\nRow 3: 1 3 3 1\n...",
+            "inputFormat": "A single integer N.",
+            "outputFormat": "Print the Nth row of Pascal's Triangle, space-separated.",
+            "constraints": "0 <= N <= 20",
+            "sampleInput": "4",
+            "sampleOutput": "1 4 6 4 1",
+            "explanation": "Row 4 of Pascal's Triangle: 1 4 6 4 1",
+            "testCases": [
+                {
+                    "input": "4",
+                    "expectedOutput": "1 4 6 4 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "1 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5",
+                    "expectedOutput": "1 5 10 10 5 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10",
+                    "expectedOutput": "1 10 45 120 210 252 210 120 45 10 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2",
+                    "expectedOutput": "1 2 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF005",
+            "number": 205,
+            "title": "Check Happy Number",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a number N, determine if it is a Happy Number.\n\nA happy number eventually reaches 1 when replaced by the sum of squares of its digits repeatedly. If it loops endlessly without reaching 1, it's not happy.\n\nExample: 19 → 1²+9² = 82 → 8²+2² = 68 → 6²+8² = 100 → 1²+0²+0² = 1 (Happy!)",
+            "inputFormat": "A single positive integer N.",
+            "outputFormat": "Print 'YES' if happy number, otherwise 'NO'.",
+            "constraints": "1 <= N <= 10^6",
+            "sampleInput": "19",
+            "sampleOutput": "YES",
+            "explanation": "19 → 82 → 68 → 100 → 1. Reaches 1, so happy!",
+            "testCases": [
+                {
+                    "input": "19",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "7",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "20",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF006",
+            "number": 206,
+            "title": "Reverse Each Word",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a sentence, reverse each word individually while maintaining word order.\n\nFor example: 'Hello World' becomes 'olleH dlroW'",
+            "inputFormat": "A single line sentence.",
+            "outputFormat": "Print the sentence with each word reversed.",
+            "constraints": "1 <= length <= 1000\nWords are separated by single spaces.",
+            "sampleInput": "Hello World",
+            "sampleOutput": "olleH dlroW",
+            "explanation": "Hello reversed is olleH, World reversed is dlroW.",
+            "testCases": [
+                {
+                    "input": "Hello World",
+                    "expectedOutput": "olleH dlroW",
+                    "visibility": "public"
+                },
+                {
+                    "input": "Java Programming",
+                    "expectedOutput": "avaJ gnimmargorP",
+                    "visibility": "public"
+                },
+                {
+                    "input": "a",
+                    "expectedOutput": "a",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "ab cd ef",
+                    "expectedOutput": "ba dc fe",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "12345 67890",
+                    "expectedOutput": "54321 09876",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "MujCode",
+                    "expectedOutput": "edoCjuM",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF007",
+            "number": 207,
+            "title": "Sum of Prime Factors",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a positive integer N, find the sum of all distinct prime factors of N.\n\nFor example, for N = 12, prime factors are 2 and 3. Sum = 2 + 3 = 5.",
+            "inputFormat": "A single positive integer N.",
+            "outputFormat": "Print the sum of distinct prime factors.",
+            "constraints": "2 <= N <= 10^6",
+            "sampleInput": "12",
+            "sampleOutput": "5",
+            "explanation": "12 = 2² × 3. Distinct prime factors: 2, 3. Sum = 5.",
+            "testCases": [
+                {
+                    "input": "12",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "17",
+                    "expectedOutput": "17",
+                    "visibility": "public"
+                },
+                {
+                    "input": "30",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100",
+                    "expectedOutput": "7",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000000",
+                    "expectedOutput": "7",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF008",
+            "number": 208,
+            "title": "Array Peaks Counter",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an array of N integers, count the number of peak elements.\n\nA peak element is an element that is strictly greater than both its neighbors. First and last elements are not considered peaks.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the count of peak elements.",
+            "constraints": "3 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "7\n1 3 2 4 1 6 2",
+            "sampleOutput": "3",
+            "explanation": "Peaks: 3 (greater than 1,2), 4 (greater than 2,1), 6 (greater than 1,2). Count = 3.",
+            "testCases": [
+                {
+                    "input": "7\n1 3 2 4 1 6 2",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n1 5 1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n5 4 3 2 1 0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n1 3 1 3 1",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n1 1 1 1",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF009",
+            "number": 209,
+            "title": "Merge Two Sorted Arrays",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given two sorted arrays A and B of sizes N and M respectively, merge them into a single sorted array.\n\nDo not use extra space proportional to N+M (in-place modification preferred but print merged result).",
+            "inputFormat": "First line: Two integers N and M.\nSecond line: N space-separated integers (sorted array A).\nThird line: M space-separated integers (sorted array B).",
+            "outputFormat": "Print the merged sorted array.",
+            "constraints": "1 <= N, M <= 10^4\n-10^6 <= elements <= 10^6",
+            "sampleInput": "4 3\n1 3 5 7\n2 4 6",
+            "sampleOutput": "1 2 3 4 5 6 7",
+            "explanation": "Merge [1,3,5,7] and [2,4,6] to get [1,2,3,4,5,6,7].",
+            "testCases": [
+                {
+                    "input": "4 3\n1 3 5 7\n2 4 6",
+                    "expectedOutput": "1 2 3 4 5 6 7",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 3\n1 2\n3 4 5",
+                    "expectedOutput": "1 2 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 1\n1\n2",
+                    "expectedOutput": "1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 3\n1 1 1\n2 2 2",
+                    "expectedOutput": "1 1 1 2 2 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 2\n10 20 30 40\n5 15",
+                    "expectedOutput": "5 10 15 20 30 40",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 2\n-5 -1\n-3 0",
+                    "expectedOutput": "-5 -3 -1 0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF010",
+            "number": 210,
+            "title": "First Non-Repeating Character",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a string, find the first character that does not repeat anywhere in the string.\n\nIf all characters repeat or string is empty, print '#'.",
+            "inputFormat": "A single line string (lowercase letters only).",
+            "outputFormat": "Print the first non-repeating character or '#'.",
+            "constraints": "1 <= length <= 10^5",
+            "sampleInput": "geeksforgeeks",
+            "sampleOutput": "f",
+            "explanation": "g, e, k, s repeat. 'f' is the first character that appears only once.",
+            "testCases": [
+                {
+                    "input": "geeksforgeeks",
+                    "expectedOutput": "f",
+                    "visibility": "public"
+                },
+                {
+                    "input": "aabbcc",
+                    "expectedOutput": "#",
+                    "visibility": "public"
+                },
+                {
+                    "input": "abcd",
+                    "expectedOutput": "a",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "aabbc",
+                    "expectedOutput": "c",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "a",
+                    "expectedOutput": "a",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "aabbccddeeffg",
+                    "expectedOutput": "g",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF011",
+            "number": 211,
+            "title": "Leaders in Array",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array, find all leaders in the array. An element is a leader if it is greater than or equal to all elements to its right.\n\nThe rightmost element is always a leader.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print all leaders in their original order, space-separated.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "6\n16 17 4 3 5 2",
+            "sampleOutput": "17 5 2",
+            "explanation": "17 is greater than all to its right. 5 is greater than 2. 2 is rightmost (always leader).",
+            "testCases": [
+                {
+                    "input": "6\n16 17 4 3 5 2",
+                    "expectedOutput": "17 5 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n5 4 3 2 1",
+                    "expectedOutput": "5 4 3 2 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\n10",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n10 22 12 3",
+                    "expectedOutput": "22 12 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n1 1 1",
+                    "expectedOutput": "1 1 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF012",
+            "number": 212,
+            "title": "Smallest Window Containing All Characters",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given two strings S and P, find the length of the smallest window in S that contains all characters of P.\n\nIf no such window exists, print -1.",
+            "inputFormat": "Two lines containing strings S and P.",
+            "outputFormat": "Print the length of smallest window or -1.",
+            "constraints": "1 <= |S|, |P| <= 10^5",
+            "sampleInput": "timetopractice\ntoc",
+            "sampleOutput": "6",
+            "explanation": "Smallest window containing 't', 'o', 'c' is 'toprac' with length 6.",
+            "testCases": [
+                {
+                    "input": "timetopractice\ntoc",
+                    "expectedOutput": "6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "abcdef\nxyz",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "aaab\nab",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "a\na",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "ADOBECODEBANC\nABC",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "aa\naa",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF013",
+            "number": 213,
+            "title": "Count Inversions",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array, count the number of inversions. An inversion occurs when i < j but arr[i] > arr[j].\n\nFor example, in [2, 4, 1, 3, 5], inversions are: (2,1), (4,1), (4,3) = 3 inversions.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the number of inversions.",
+            "constraints": "1 <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "5\n2 4 1 3 5",
+            "sampleOutput": "3",
+            "explanation": "Inversions: (2,1), (4,1), (4,3). Total = 3.",
+            "testCases": [
+                {
+                    "input": "5\n2 4 1 3 5",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 2 3 4 5",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n5 4 3 2 1",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n1 1 1",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n8 4 2 1",
+                    "expectedOutput": "6",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n3 1 2 5 4 6",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF014",
+            "number": 214,
+            "title": "Equilibrium Point",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array, find the equilibrium point. An equilibrium point is an index where sum of elements before it equals sum of elements after it.\n\nIf no equilibrium point exists, print -1. If multiple exist, return the first one (1-indexed).",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the 1-indexed equilibrium point or -1.",
+            "constraints": "1 <= N <= 10^5\n1 <= arr[i] <= 10^6",
+            "sampleInput": "5\n1 3 5 2 2",
+            "sampleOutput": "3",
+            "explanation": "At index 3, left sum = 1+3 = 4, right sum = 2+2 = 4. Equal!",
+            "testCases": [
+                {
+                    "input": "5\n1 3 5 2 2",
+                    "expectedOutput": "3",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\n1 2 3 4",
+                    "expectedOutput": "-1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n10",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n1 2 1",
+                    "expectedOutput": "2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "6\n2 4 6 3 5 2",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5\n5 5 5 5 5",
+                    "expectedOutput": "3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF015",
+            "number": 215,
+            "title": "Product of Array Except Self",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array of N integers, return an array where each element is the product of all elements except the element at that index.\n\nDo not use division operation.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print N space-separated integers representing the result array.",
+            "constraints": "2 <= N <= 10^5\n-100 <= arr[i] <= 100\nProduct will fit in 64-bit integer.",
+            "sampleInput": "4\n1 2 3 4",
+            "sampleOutput": "24 12 8 6",
+            "explanation": "result[0] = 2*3*4 = 24, result[1] = 1*3*4 = 12, result[2] = 1*2*4 = 8, result[3] = 1*2*3 = 6",
+            "testCases": [
+                {
+                    "input": "4\n1 2 3 4",
+                    "expectedOutput": "24 12 8 6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n2 3 4",
+                    "expectedOutput": "12 8 6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n1 1 1 1 1",
+                    "expectedOutput": "1 1 1 1 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n0 1 2 3",
+                    "expectedOutput": "6 0 0 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n-1 2 -3",
+                    "expectedOutput": "-6 3 -2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\n5 10",
+                    "expectedOutput": "10 5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF016",
+            "number": 216,
+            "title": "Sort Array of 0s 1s 2s",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an array containing only 0s, 1s, and 2s, sort the array in a single pass without using any sorting algorithm.\n\nThis is also known as the Dutch National Flag problem.",
+            "inputFormat": "First line: Integer N.\nSecond line: N space-separated integers (only 0, 1, or 2).",
+            "outputFormat": "Print the sorted array.",
+            "constraints": "1 <= N <= 10^5",
+            "sampleInput": "8\n0 2 1 2 0 0 1 2",
+            "sampleOutput": "0 0 0 1 1 2 2 2",
+            "explanation": "Sort all 0s first, then 1s, then 2s.",
+            "testCases": [
+                {
+                    "input": "8\n0 2 1 2 0 0 1 2",
+                    "expectedOutput": "0 0 0 1 1 2 2 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5\n2 2 2 2 2",
+                    "expectedOutput": "2 2 2 2 2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "6\n0 0 0 0 0 0",
+                    "expectedOutput": "0 0 0 0 0 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n2 1 0",
+                    "expectedOutput": "0 1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n1 0 2 1",
+                    "expectedOutput": "0 1 1 2",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\n1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF017",
+            "number": 217,
+            "title": "Flood Fill Algorithm",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a 2D grid, a starting cell (sr, sc), and a new color, perform flood fill. Starting from (sr, sc), replace all connected cells (4-directionally) that have the same color as the starting cell with the new color.",
+            "inputFormat": "First line: Two integers N and M (grid dimensions).\nNext N lines: M space-separated integers (grid).\nLast line: Three integers sr, sc, newColor.",
+            "outputFormat": "Print the modified grid (N lines, each with M space-separated integers).",
+            "constraints": "1 <= N, M <= 50\n0 <= grid[i][j] <= 10\n0 <= sr < N, 0 <= sc < M",
+            "sampleInput": "3 3\n1 1 1\n1 1 0\n1 0 1\n1 1 2",
+            "sampleOutput": "2 2 2\n2 2 0\n2 0 1",
+            "explanation": "Starting from (1,1), all connected 1s are replaced with 2.",
+            "testCases": [
+                {
+                    "input": "3 3\n1 1 1\n1 1 0\n1 0 1\n1 1 2",
+                    "expectedOutput": "2 2 2\n2 2 0\n2 0 1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 1\n0\n0 0 2",
+                    "expectedOutput": "2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2 2\n0 0\n0 0\n0 0 1",
+                    "expectedOutput": "1 1\n1 1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 3\n0 1 0\n1 1 1\n0 1 0\n1 1 5",
+                    "expectedOutput": "0 5 0\n5 5 5\n0 5 0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 3\n1 2 1\n2 2 2\n1 1 3",
+                    "expectedOutput": "1 3 1\n3 3 3",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 3\n1 1 1\n1 1 1\n1 1 1\n0 0 1",
+                    "expectedOutput": "1 1 1\n1 1 1\n1 1 1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF018",
+            "number": 218,
+            "title": "Word Search in Grid",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a 2D grid of characters and a word, check if the word exists in the grid. The word can be constructed from sequentially adjacent cells (horizontally or vertically). Each cell may only be used once.",
+            "inputFormat": "First line: Two integers N and M.\nNext N lines: M characters each (grid).\nLast line: The word to search.",
+            "outputFormat": "Print 'YES' if word exists, otherwise 'NO'.",
+            "constraints": "1 <= N, M <= 10\n1 <= word length <= 20",
+            "sampleInput": "3 4\nABCE\nSFCS\nADEE\nABCCED",
+            "sampleOutput": "YES",
+            "explanation": "The word ABCCED can be traced in the grid.",
+            "testCases": [
+                {
+                    "input": "3 4\nABCE\nSFCS\nADEE\nABCCED",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 4\nABCE\nSFCS\nADEE\nABCB",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 1\nA\nA",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 2\nAB\nCD\nABCD",
+                    "expectedOutput": "NO",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3 3\nAAA\nAAA\nAAA\nAAAAAAAAA",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2 3\nCAT\nDOG\nCAD",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF019",
+            "number": 219,
+            "title": "Kth Largest Element",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given an array of integers and an integer K, find the Kth largest element in the array.\n\nNote: It is the Kth largest in sorted order, not the Kth distinct element.",
+            "inputFormat": "First line: Two integers N and K.\nSecond line: N space-separated integers.",
+            "outputFormat": "Print the Kth largest element.",
+            "constraints": "1 <= K <= N <= 10^5\n-10^6 <= arr[i] <= 10^6",
+            "sampleInput": "6 2\n3 2 1 5 6 4",
+            "sampleOutput": "5",
+            "explanation": "Sorted: [6,5,4,3,2,1]. 2nd largest is 5.",
+            "testCases": [
+                {
+                    "input": "6 2\n3 2 1 5 6 4",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "9 4\n3 2 3 1 2 4 5 5 6",
+                    "expectedOutput": "4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 1\n10",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "5 5\n1 2 3 4 5",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4 1\n-1 -2 -3 -4",
+                    "expectedOutput": "-1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "7 3\n5 5 5 5 5 5 5",
+                    "expectedOutput": "5",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF020",
+            "number": 220,
+            "title": "Sudoku Validator",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a 9x9 Sudoku board, determine if it is valid. A valid Sudoku has:\n1. Each row contains digits 1-9 without repetition.\n2. Each column contains digits 1-9 without repetition.\n3. Each 3x3 sub-box contains digits 1-9 without repetition.\n\nEmpty cells are represented by 0.",
+            "inputFormat": "9 lines, each containing 9 space-separated integers (0-9).",
+            "outputFormat": "Print 'VALID' or 'INVALID'.",
+            "constraints": "Grid is 9x9.\n0 <= cell value <= 9 (0 means empty).",
+            "sampleInput": "5 3 0 0 7 0 0 0 0\n6 0 0 1 9 5 0 0 0\n0 9 8 0 0 0 0 6 0\n8 0 0 0 6 0 0 0 3\n4 0 0 8 0 3 0 0 1\n7 0 0 0 2 0 0 0 6\n0 6 0 0 0 0 2 8 0\n0 0 0 4 1 9 0 0 5\n0 0 0 0 8 0 0 7 9",
+            "sampleOutput": "VALID",
+            "explanation": "The given Sudoku configuration follows all rules.",
+            "testCases": [
+                {
+                    "input": "5 3 0 0 7 0 0 0 0\n6 0 0 1 9 5 0 0 0\n0 9 8 0 0 0 0 6 0\n8 0 0 0 6 0 0 0 3\n4 0 0 8 0 3 0 0 1\n7 0 0 0 2 0 0 0 6\n0 6 0 0 0 0 2 8 0\n0 0 0 4 1 9 0 0 5\n0 0 0 0 8 0 0 7 9",
+                    "expectedOutput": "VALID",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 3 0 0 7 0 0 0 0\n6 0 0 1 9 5 0 0 0\n0 9 8 0 0 0 0 6 0\n8 0 0 0 6 0 0 0 3\n4 0 0 8 0 3 0 0 1\n7 0 0 0 2 0 0 0 6\n0 6 0 0 0 0 2 8 0\n0 0 0 4 1 9 0 0 5\n0 0 0 0 8 0 0 7 7",
+                    "expectedOutput": "INVALID",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 2 3 4 5 6 7 8 9\n4 5 6 7 8 9 1 2 3\n7 8 9 1 2 3 4 5 6\n2 3 4 5 6 7 8 9 1\n5 6 7 8 9 1 2 3 4\n8 9 1 2 3 4 5 6 7\n3 4 5 6 7 8 9 1 2\n6 7 8 9 1 2 3 4 5\n9 1 2 3 4 5 6 7 8",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1\n1 1 1 1 1 1 1 1 1",
+                    "expectedOutput": "INVALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1 0 0 0 0 0 0 0 1\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0\n0 0 0 0 0 0 0 0 0",
+                    "expectedOutput": "INVALID",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF021",
+            "number": 221,
+            "title": "Maximum Path Sum Triangle",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a triangle of numbers, find the maximum path sum from top to bottom. At each step, you can move to adjacent numbers on the row below (directly below or diagonally below-right).",
+            "inputFormat": "First line: Integer N (number of rows).\nNext N lines: i-th line contains i space-separated integers.",
+            "outputFormat": "Print the maximum path sum.",
+            "constraints": "1 <= N <= 100\n-1000 <= element <= 1000",
+            "sampleInput": "4\n2\n3 4\n6 5 7\n4 1 8 3",
+            "sampleOutput": "18",
+            "explanation": "Path: 2 -> 3 -> 7 -> 8 = 2+3+7+8 = 20. Wait, 2->4->7->8 = 21. Hmm, let me recalculate. 2->4->5->8 = 19, 2->4->7->8 = 21.",
+            "testCases": [
+                {
+                    "input": "4\n2\n3 4\n6 5 7\n4 1 8 3",
+                    "expectedOutput": "21",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n5",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n1\n2 3\n4 5 6",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\n-1\n2 3\n1 -1 -3",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\n1\n2 3",
+                    "expectedOutput": "4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\n10\n1 1\n1 1 1\n1 1 1 1",
+                    "expectedOutput": "13",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "JAVF022",
+            "number": 222,
+            "title": "Word Break Problem",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a string S and a dictionary of words, determine if S can be segmented into space-separated sequence of dictionary words.",
+            "inputFormat": "First line: The string S.\nSecond line: Integer N (dictionary size).\nThird line: N space-separated dictionary words.",
+            "outputFormat": "Print 'YES' if string can be segmented, otherwise 'NO'.",
+            "constraints": "1 <= |S| <= 300\n1 <= N <= 1000\n1 <= |word| <= 20",
+            "sampleInput": "applepenapple\n2\napple pen",
+            "sampleOutput": "YES",
+            "explanation": "'applepenapple' can be segmented as 'apple pen apple'.",
+            "testCases": [
+                {
+                    "input": "applepenapple\n2\napple pen",
+                    "expectedOutput": "YES",
+                    "visibility": "public"
+                },
+                {
+                    "input": "catsandog\n5\ncats dog sand and cat",
+                    "expectedOutput": "NO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "a\n1\na",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "ab\n2\na b",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "leetcode\n2\nleet code",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "aaaaaaa\n3\naaa aaaa",
+                    "expectedOutput": "YES",
+                    "visibility": "hidden"
+                }
+            ]
+        }
+    ]
+}

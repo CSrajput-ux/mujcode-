@@ -81,8 +81,8 @@ export default function CourseDetail() {
     };
 
     const handleProblemClick = (problem: Problem) => {
-        // Navigate to problem solver with the problem number
-        navigate(`/student/problems/${problem.number}`);
+        // Navigate to problem solver with the problem ID
+        navigate(`/student/problems/${problem._id}`);
     };
 
     if (loading) {

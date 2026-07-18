@@ -1,0 +1,663 @@
+{
+    "courseName": "Database Management",
+    "language": "SQL",
+    "category": "Database",
+    "totalQuestions": 20,
+    "questions": [
+        {
+            "id": "DB001",
+            "number": 1201,
+            "title": "Create Table with Constraints",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write SQL to create an 'Employees' table with:\n- emp_id INT PRIMARY KEY\n- name VARCHAR(100) NOT NULL\n- email VARCHAR(150) UNIQUE\n- dept_id INT (foreign key to Departments)\n- salary DECIMAL(10,2) CHECK (salary > 0)\n- hired_date DATE DEFAULT CURRENT_DATE",
+            "inputFormat": "N/A - Write CREATE TABLE statement.",
+            "outputFormat": "Valid SQL CREATE TABLE statement.",
+            "constraints": "Use appropriate constraints as specified.",
+            "sampleInput": "N/A",
+            "sampleOutput": "CREATE TABLE Employees (...);",
+            "explanation": "Table with all specified columns and constraints.",
+            "testCases": [
+                {
+                    "input": "check_primary_key",
+                    "expectedOutput": "emp_id PRIMARY KEY",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_not_null",
+                    "expectedOutput": "name NOT NULL",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_unique",
+                    "expectedOutput": "email UNIQUE",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "check_foreign_key",
+                    "expectedOutput": "REFERENCES Departments",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "check_constraint",
+                    "expectedOutput": "salary > 0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB002",
+            "number": 1202,
+            "title": "Index Creation for Performance",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create indexes for the Orders table to optimize these queries:\n1. Search by customer_id\n2. Search by order_date range\n3. Search by customer_id AND status together\n\nWrite appropriate CREATE INDEX statements.",
+            "inputFormat": "N/A",
+            "outputFormat": "CREATE INDEX statements.",
+            "constraints": "Use single and composite indexes appropriately.",
+            "sampleInput": "N/A",
+            "sampleOutput": "CREATE INDEX idx_customer ON Orders(customer_id);",
+            "explanation": "Indexes for query optimization.",
+            "testCases": [
+                {
+                    "input": "check_customer_index",
+                    "expectedOutput": "index on customer_id",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_date_index",
+                    "expectedOutput": "index on order_date",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_composite",
+                    "expectedOutput": "composite index",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB003",
+            "number": 1203,
+            "title": "Normalization to 3NF",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a denormalized table with: student_id, student_name, course_id, course_name, instructor_name, grade\n\nDesign normalized tables in 3NF and show the schema.",
+            "inputFormat": "N/A",
+            "outputFormat": "CREATE TABLE statements for normalized schema.",
+            "constraints": "Eliminate all transitive dependencies.",
+            "sampleInput": "N/A",
+            "sampleOutput": "Students, Courses, Instructors, Enrollments tables",
+            "explanation": "Separate tables for each entity with proper relationships.",
+            "testCases": [
+                {
+                    "input": "check_students_table",
+                    "expectedOutput": "Students with id, name",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_courses_table",
+                    "expectedOutput": "Courses with id, name",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_enrollments",
+                    "expectedOutput": "junction table",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "check_no_redundancy",
+                    "expectedOutput": "3NF compliant",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB004",
+            "number": 1204,
+            "title": "Transaction with Rollback",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Write a transaction that:\n1. Deducts 500 from account A\n2. Adds 500 to account B\n3. Rolls back if account A balance goes below 0\n4. Commits otherwise",
+            "inputFormat": "Account A balance, Account B balance",
+            "outputFormat": "Final balances or 'ROLLBACK'",
+            "constraints": "Use proper transaction control.",
+            "sampleInput": "1000 500",
+            "sampleOutput": "500 1000",
+            "explanation": "A: 1000-500=500, B: 500+500=1000.",
+            "testCases": [
+                {
+                    "input": "1000 500",
+                    "expectedOutput": "500 1000",
+                    "visibility": "public"
+                },
+                {
+                    "input": "300 500",
+                    "expectedOutput": "ROLLBACK",
+                    "visibility": "public"
+                },
+                {
+                    "input": "500 0",
+                    "expectedOutput": "0 500",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "499 1000",
+                    "expectedOutput": "ROLLBACK",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB005",
+            "number": 1205,
+            "title": "View Creation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create a view 'HighValueCustomers' that shows:\n- customer_id, customer_name, total_orders, total_spent\n- Only customers with total_spent > 10000\n\nUse Orders and Customers tables.",
+            "inputFormat": "N/A",
+            "outputFormat": "CREATE VIEW statement.",
+            "constraints": "Use JOIN and HAVING appropriately.",
+            "sampleInput": "N/A",
+            "sampleOutput": "CREATE VIEW HighValueCustomers AS SELECT ...",
+            "explanation": "View with aggregation and filtering.",
+            "testCases": [
+                {
+                    "input": "check_view_created",
+                    "expectedOutput": "HighValueCustomers exists",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_columns",
+                    "expectedOutput": "4 columns present",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_filter",
+                    "expectedOutput": "total_spent > 10000",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "check_aggregation",
+                    "expectedOutput": "SUM and COUNT used",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB006",
+            "number": 1206,
+            "title": "Stored Procedure with Parameters",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Create a stored procedure 'GetEmployeesByDept' that:\n- Takes dept_id as input parameter\n- Returns all employees in that department\n- Includes employee count as output parameter\n\nHandle case when department has no employees.",
+            "inputFormat": "dept_id",
+            "outputFormat": "Employee list and count",
+            "constraints": "Use IN and OUT parameters.",
+            "sampleInput": "CALL GetEmployeesByDept(101, @count)",
+            "sampleOutput": "Employees list, @count = N",
+            "explanation": "Procedure with input/output parameters.",
+            "testCases": [
+                {
+                    "input": "valid_dept",
+                    "expectedOutput": "employees returned",
+                    "visibility": "public"
+                },
+                {
+                    "input": "empty_dept",
+                    "expectedOutput": "count = 0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "invalid_dept",
+                    "expectedOutput": "handled gracefully",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB007",
+            "number": 1207,
+            "title": "Trigger for Audit Log",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Create a trigger that:\n- Fires AFTER UPDATE on Products table\n- Logs old_price, new_price, changed_by, changed_at to PriceHistory table\n- Only fires when price actually changes",
+            "inputFormat": "N/A",
+            "outputFormat": "CREATE TRIGGER statement.",
+            "constraints": "Use OLD and NEW references.",
+            "sampleInput": "UPDATE Products SET price = 100 WHERE id = 1",
+            "sampleOutput": "PriceHistory row inserted",
+            "explanation": "Audit trigger for price changes.",
+            "testCases": [
+                {
+                    "input": "price_changed",
+                    "expectedOutput": "log created",
+                    "visibility": "public"
+                },
+                {
+                    "input": "same_price",
+                    "expectedOutput": "no log",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_old_new",
+                    "expectedOutput": "correct values",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB008",
+            "number": 1208,
+            "title": "Complex JOIN Query",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Write a query to find:\n- Products that have never been ordered\n- Include product_id, name, category_name, stock_quantity\n\nTables: Products, Categories, OrderItems",
+            "inputFormat": "N/A",
+            "outputFormat": "Query returning unordered products.",
+            "constraints": "Use LEFT JOIN with NULL check or NOT EXISTS.",
+            "sampleInput": "N/A",
+            "sampleOutput": "List of products never ordered",
+            "explanation": "Find records with no matching entries.",
+            "testCases": [
+                {
+                    "input": "check_join",
+                    "expectedOutput": "correct join used",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_result",
+                    "expectedOutput": "only unordered products",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_columns",
+                    "expectedOutput": "4 columns",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB009",
+            "number": 1209,
+            "title": "Recursive CTE - Hierarchy",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given an Employees table with emp_id and manager_id, write a recursive CTE to find all subordinates of a given manager at all levels.\n\nInclude emp_id, name, and level (depth from manager).",
+            "inputFormat": "manager_id to search",
+            "outputFormat": "All subordinates with their level",
+            "constraints": "Use WITH RECURSIVE.",
+            "sampleInput": "manager_id = 1",
+            "sampleOutput": "Hierarchy of all subordinates",
+            "explanation": "Recursive query for org hierarchy.",
+            "testCases": [
+                {
+                    "input": "top_manager",
+                    "expectedOutput": "all employees",
+                    "visibility": "public"
+                },
+                {
+                    "input": "mid_manager",
+                    "expectedOutput": "subset",
+                    "visibility": "public"
+                },
+                {
+                    "input": "no_subordinates",
+                    "expectedOutput": "empty result",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "check_levels",
+                    "expectedOutput": "correct depth",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB010",
+            "number": 1210,
+            "title": "Pivot Table Query",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Transform sales data from rows to columns:\n- Rows: product_id, month, sales_amount\n- Output: product_id, Jan, Feb, Mar, ... Dec (column per month)\n\nUse CASE or PIVOT syntax.",
+            "inputFormat": "N/A",
+            "outputFormat": "Pivoted sales data",
+            "constraints": "Handle missing months as 0.",
+            "sampleInput": "Sales data",
+            "sampleOutput": "12 month columns per product",
+            "explanation": "Row to column transformation.",
+            "testCases": [
+                {
+                    "input": "valid_data",
+                    "expectedOutput": "pivoted correctly",
+                    "visibility": "public"
+                },
+                {
+                    "input": "missing_months",
+                    "expectedOutput": "nulls handled",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_aggregation",
+                    "expectedOutput": "SUM used",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB011",
+            "number": 1211,
+            "title": "Query Optimization Analysis",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Given a slow query, identify issues and rewrite for optimization:\n\nSELECT * FROM Orders o, Customers c, Products p\nWHERE o.customer_id = c.id AND o.product_id = p.id\nAND YEAR(o.order_date) = 2024\nAND c.country = 'USA'\n\nExplain problems and provide optimized version.",
+            "inputFormat": "N/A",
+            "outputFormat": "Optimized query with explanation",
+            "constraints": "Address function on column, SELECT *, implicit joins.",
+            "sampleInput": "Slow query",
+            "sampleOutput": "Fast query with proper joins",
+            "explanation": "Query optimization techniques.",
+            "testCases": [
+                {
+                    "input": "check_explicit_joins",
+                    "expectedOutput": "JOIN syntax used",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_select_columns",
+                    "expectedOutput": "specific columns",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_sargable",
+                    "expectedOutput": "no function on column",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB012",
+            "number": 1212,
+            "title": "Partitioning Strategy",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Design a partitioning strategy for an Orders table with 100M+ rows:\n- Frequently queried by order_date and customer_id\n- Need to archive data older than 2 years\n\nProvide partition scheme and maintenance queries.",
+            "inputFormat": "N/A",
+            "outputFormat": "Partitioning DDL and maintenance plan",
+            "constraints": "Consider both range and list partitioning.",
+            "sampleInput": "Table requirements",
+            "sampleOutput": "Partition by range on order_date",
+            "explanation": "Table partitioning for large datasets.",
+            "testCases": [
+                {
+                    "input": "check_partition_type",
+                    "expectedOutput": "RANGE partitioning",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_archive_strategy",
+                    "expectedOutput": "DROP PARTITION",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_maintenance",
+                    "expectedOutput": "ADD PARTITION script",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB013",
+            "number": 1213,
+            "title": "Deadlock Prevention",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Two transactions are causing deadlock:\nT1: UPDATE A; UPDATE B;\nT2: UPDATE B; UPDATE A;\n\nDesign solution to prevent deadlock and explain approach.",
+            "inputFormat": "Deadlock scenario",
+            "outputFormat": "Fixed transaction design",
+            "constraints": "Maintain data integrity.",
+            "sampleInput": "Deadlock scenario",
+            "sampleOutput": "Ordered locking solution",
+            "explanation": "Consistent lock ordering prevents deadlocks.",
+            "testCases": [
+                {
+                    "input": "check_solution",
+                    "expectedOutput": "no deadlock",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_ordering",
+                    "expectedOutput": "consistent order",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_integrity",
+                    "expectedOutput": "data correct",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB014",
+            "number": 1214,
+            "title": "Sharding Design",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Design a sharding strategy for a Users table:\n- 500M users globally\n- Queries mostly by user_id or country\n- Need to scale writes\n\nProvide shard key selection and routing logic.",
+            "inputFormat": "Scalability requirements",
+            "outputFormat": "Sharding design document",
+            "constraints": "Minimize cross-shard queries.",
+            "sampleInput": "Requirements",
+            "sampleOutput": "Hash-based sharding by user_id",
+            "explanation": "Horizontal partitioning across servers.",
+            "testCases": [
+                {
+                    "input": "check_shard_key",
+                    "expectedOutput": "user_id based",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_distribution",
+                    "expectedOutput": "even distribution",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_routing",
+                    "expectedOutput": "routing logic",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB015",
+            "number": 1215,
+            "title": "Materialized View with Refresh",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Create a materialized view for sales dashboard:\n- Shows daily_sales, total_orders, avg_order_value by region\n- Refreshes incrementally\n\nInclude refresh strategy.",
+            "inputFormat": "N/A",
+            "outputFormat": "CREATE MATERIALIZED VIEW with refresh",
+            "constraints": "Use incremental refresh where possible.",
+            "sampleInput": "N/A",
+            "sampleOutput": "Materialized view with FAST REFRESH",
+            "explanation": "Precomputed view for performance.",
+            "testCases": [
+                {
+                    "input": "check_view_created",
+                    "expectedOutput": "MV exists",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_aggregations",
+                    "expectedOutput": "correct aggregates",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_refresh",
+                    "expectedOutput": "refresh configured",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB016",
+            "number": 1216,
+            "title": "JSON Data Handling",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Table has a JSON column 'attributes'. Write queries to:\n1. Extract nested value $.address.city\n2. Filter where $.tags contains 'premium'\n3. Update $.settings.theme to 'dark'",
+            "inputFormat": "N/A",
+            "outputFormat": "JSON manipulation queries",
+            "constraints": "Use JSON functions appropriate to SQL flavor.",
+            "sampleInput": "JSON column data",
+            "sampleOutput": "Extracted/filtered/updated data",
+            "explanation": "Working with JSON in SQL databases.",
+            "testCases": [
+                {
+                    "input": "extract_value",
+                    "expectedOutput": "city value",
+                    "visibility": "public"
+                },
+                {
+                    "input": "filter_json",
+                    "expectedOutput": "premium users",
+                    "visibility": "public"
+                },
+                {
+                    "input": "update_json",
+                    "expectedOutput": "theme updated",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB017",
+            "number": 1217,
+            "title": "Full-Text Search Setup",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Set up full-text search for a Products table:\n- Search across name and description columns\n- Support phrase search and relevance ranking\n- Handle stop words appropriately\n\nProvide setup and search queries.",
+            "inputFormat": "N/A",
+            "outputFormat": "Full-text index and search queries",
+            "constraints": "Use database-specific FTS features.",
+            "sampleInput": "Search: 'wireless bluetooth'",
+            "sampleOutput": "Ranked product results",
+            "explanation": "Full-text search implementation.",
+            "testCases": [
+                {
+                    "input": "check_index",
+                    "expectedOutput": "FT index created",
+                    "visibility": "public"
+                },
+                {
+                    "input": "phrase_search",
+                    "expectedOutput": "phrase matched",
+                    "visibility": "public"
+                },
+                {
+                    "input": "relevance_ranking",
+                    "expectedOutput": "ranked results",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB018",
+            "number": 1218,
+            "title": "Database Backup Strategy",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Design backup strategy for production database:\n- RPO: 1 hour, RTO: 4 hours\n- 500GB database size\n- 24/7 availability required\n\nProvide backup schedule, types, and recovery plan.",
+            "inputFormat": "Requirements",
+            "outputFormat": "Backup strategy document",
+            "constraints": "Balance between backup overhead and recovery needs.",
+            "sampleInput": "RTO/RPO requirements",
+            "sampleOutput": "Full + incremental backup plan",
+            "explanation": "Enterprise backup strategy design.",
+            "testCases": [
+                {
+                    "input": "check_rpo",
+                    "expectedOutput": "meets 1 hour RPO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_rto",
+                    "expectedOutput": "meets 4 hour RTO",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_schedule",
+                    "expectedOutput": "valid schedule",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB019",
+            "number": 1219,
+            "title": "Replication Configuration",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Set up master-slave replication for read scaling:\n- One master for writes\n- Two read replicas for read queries\n- Handle replication lag monitoring\n\nProvide configuration and failover strategy.",
+            "inputFormat": "N/A",
+            "outputFormat": "Replication setup and monitoring",
+            "constraints": "Ensure data consistency.",
+            "sampleInput": "Replica requirements",
+            "sampleOutput": "Replication configuration",
+            "explanation": "Database replication for scaling.",
+            "testCases": [
+                {
+                    "input": "check_replication",
+                    "expectedOutput": "replicas synced",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_lag_monitoring",
+                    "expectedOutput": "lag tracked",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_failover",
+                    "expectedOutput": "promotion works",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "DB020",
+            "number": 1220,
+            "title": "Query Performance Tuning",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Analyze and optimize this slow query using EXPLAIN:\n\nSELECT c.name, COUNT(*) as order_count, SUM(o.total) as total_value\nFROM customers c\nLEFT JOIN orders o ON c.id = o.customer_id\nWHERE o.status = 'completed' AND o.created_at > DATE_SUB(NOW(), INTERVAL 1 YEAR)\nGROUP BY c.id\nORDER BY total_value DESC\nLIMIT 100\n\nIdentify issues and provide optimized version with indexes.",
+            "inputFormat": "Slow query",
+            "outputFormat": "Optimized query + index recommendations",
+            "constraints": "Explain changes with reasoning.",
+            "sampleInput": "Query taking 30+ seconds",
+            "sampleOutput": "Query < 1 second",
+            "explanation": "Comprehensive query optimization.",
+            "testCases": [
+                {
+                    "input": "check_indexes",
+                    "expectedOutput": "proper indexes",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_join",
+                    "expectedOutput": "correct join",
+                    "visibility": "public"
+                },
+                {
+                    "input": "check_execution_plan",
+                    "expectedOutput": "improved plan",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "check_performance",
+                    "expectedOutput": "faster execution",
+                    "visibility": "hidden"
+                }
+            ]
+        }
+    ]
+}

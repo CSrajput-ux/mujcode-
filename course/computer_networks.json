@@ -1,0 +1,504 @@
+{
+    "courseName": "Computer Networks",
+    "language": "C/Python",
+    "category": "Networks",
+    "totalQuestions": 16,
+    "questions": [
+        {
+            "id": "NET001",
+            "number": 1501,
+            "title": "IP Address Validation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Validate if a given string is a valid IPv4 address.\n\nAn IPv4 address has 4 octets (0-255) separated by dots.",
+            "inputFormat": "A string.",
+            "outputFormat": "'VALID' or 'INVALID'.",
+            "constraints": "String length <= 20",
+            "sampleInput": "192.168.1.1",
+            "sampleOutput": "VALID",
+            "explanation": "All octets are in valid range 0-255.",
+            "testCases": [
+                {
+                    "input": "192.168.1.1",
+                    "expectedOutput": "VALID",
+                    "visibility": "public"
+                },
+                {
+                    "input": "256.1.1.1",
+                    "expectedOutput": "INVALID",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0.0.0.0",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "192.168.1",
+                    "expectedOutput": "INVALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "192.168.01.1",
+                    "expectedOutput": "INVALID",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "255.255.255.255",
+                    "expectedOutput": "VALID",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET002",
+            "number": 1502,
+            "title": "Subnet Calculation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given an IP address and CIDR notation, calculate:\n- Network address\n- Broadcast address\n- Number of usable hosts",
+            "inputFormat": "IP/CIDR (e.g., 192.168.1.100/24)",
+            "outputFormat": "Network address, broadcast address, host count.",
+            "constraints": "Valid IPv4 with CIDR 1-32",
+            "sampleInput": "192.168.1.100/24",
+            "sampleOutput": "192.168.1.0\n192.168.1.255\n254",
+            "explanation": "/24 = 256 addresses, 254 usable hosts.",
+            "testCases": [
+                {
+                    "input": "192.168.1.100/24",
+                    "expectedOutput": "192.168.1.0\n192.168.1.255\n254",
+                    "visibility": "public"
+                },
+                {
+                    "input": "10.0.0.50/8",
+                    "expectedOutput": "10.0.0.0\n10.255.255.255\n16777214",
+                    "visibility": "public"
+                },
+                {
+                    "input": "172.16.5.10/16",
+                    "expectedOutput": "172.16.0.0\n172.16.255.255\n65534",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "192.168.1.1/30",
+                    "expectedOutput": "192.168.1.0\n192.168.1.3\n2",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET003",
+            "number": 1503,
+            "title": "MAC Address Format",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Convert MAC address between different formats:\n- Colon-separated: AA:BB:CC:DD:EE:FF\n- Hyphen-separated: AA-BB-CC-DD-EE-FF\n- Cisco format: AABB.CCDD.EEFF",
+            "inputFormat": "First line: Input format ('colon', 'hyphen', 'cisco').\nSecond line: MAC address.\nThird line: Output format.",
+            "outputFormat": "MAC in requested format.",
+            "constraints": "Valid MAC address input.",
+            "sampleInput": "colon\nAA:BB:CC:DD:EE:FF\ncisco",
+            "sampleOutput": "AABB.CCDD.EEFF",
+            "explanation": "Converted from colon to Cisco format.",
+            "testCases": [
+                {
+                    "input": "colon\nAA:BB:CC:DD:EE:FF\ncisco",
+                    "expectedOutput": "AABB.CCDD.EEFF",
+                    "visibility": "public"
+                },
+                {
+                    "input": "hyphen\n01-23-45-67-89-AB\ncolon",
+                    "expectedOutput": "01:23:45:67:89:AB",
+                    "visibility": "public"
+                },
+                {
+                    "input": "cisco\n0123.4567.89AB\nhyphen",
+                    "expectedOutput": "01-23-45-67-89-AB",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET004",
+            "number": 1504,
+            "title": "Binary to Dotted Decimal",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Convert 32-bit binary IP to dotted decimal notation and vice versa.",
+            "inputFormat": "First line: 'to_decimal' or 'to_binary'.\nSecond line: IP address (binary or decimal).",
+            "outputFormat": "Converted IP address.",
+            "constraints": "Valid IP format.",
+            "sampleInput": "to_decimal\n11000000101010000000000100000001",
+            "sampleOutput": "192.168.1.1",
+            "explanation": "Binary 11000000 = 192, 10101000 = 168, etc.",
+            "testCases": [
+                {
+                    "input": "to_decimal\n11000000101010000000000100000001",
+                    "expectedOutput": "192.168.1.1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "to_binary\n10.0.0.1",
+                    "expectedOutput": "00001010000000000000000000000001",
+                    "visibility": "public"
+                },
+                {
+                    "input": "to_decimal\n00000000000000000000000000000000",
+                    "expectedOutput": "0.0.0.0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET005",
+            "number": 1505,
+            "title": "Checksum Calculation",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Calculate Internet checksum for a given data.\n\n1. Sum all 16-bit words\n2. Add carry to result\n3. Take one's complement",
+            "inputFormat": "First line: N (number of 16-bit words in hex).\nSecond line: N hex values.",
+            "outputFormat": "Checksum in hex.",
+            "constraints": "1 <= N <= 100",
+            "sampleInput": "4\n4500 0073 0000 4000",
+            "sampleOutput": "B15C",
+            "explanation": "Sum with carry handling and complement.",
+            "testCases": [
+                {
+                    "input": "4\n4500 0073 0000 4000",
+                    "expectedOutput": "B15C",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\nFFFF FFFF",
+                    "expectedOutput": "0000",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\n0001 0002 0003",
+                    "expectedOutput": "FFF9",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET006",
+            "number": 1506,
+            "title": "CRC Calculation",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Calculate CRC (Cyclic Redundancy Check) for given data and generator polynomial.\n\nUse polynomial division (XOR operation).",
+            "inputFormat": "First line: Data bits.\nSecond line: Generator polynomial bits.",
+            "outputFormat": "CRC remainder bits.",
+            "constraints": "1 <= length <= 32",
+            "sampleInput": "1101011011\n10011",
+            "sampleOutput": "1110",
+            "explanation": "Polynomial division gives remainder 1110.",
+            "testCases": [
+                {
+                    "input": "1101011011\n10011",
+                    "expectedOutput": "1110",
+                    "visibility": "public"
+                },
+                {
+                    "input": "11010011101100\n1011",
+                    "expectedOutput": "100",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1010\n11",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET007",
+            "number": 1507,
+            "title": "Sliding Window Protocol",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Simulate Go-Back-N sliding window protocol.\n\nGiven window size and frame sequence, output transmission sequence with retransmissions.",
+            "inputFormat": "First line: N (frames), W (window size).\nSecond line: N frame statuses ('S' = success, 'L' = lost).",
+            "outputFormat": "Transmission sequence.",
+            "constraints": "1 <= W <= N <= 20",
+            "sampleInput": "5 3\nS S L S S",
+            "sampleOutput": "1 2 3 - 3 4 5",
+            "explanation": "Frame 3 lost, retransmit from 3.",
+            "testCases": [
+                {
+                    "input": "5 3\nS S L S S",
+                    "expectedOutput": "1 2 3 - 3 4 5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 2\nS S S S",
+                    "expectedOutput": "1 2 - 3 4",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 3\nL L S",
+                    "expectedOutput": "1 2 3 - 1 2 3",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET008",
+            "number": 1508,
+            "title": "Routing Table Lookup",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Perform longest prefix match for IP routing.\n\nGiven routing table and destination IP, find next hop.",
+            "inputFormat": "First line: N entries.\nNext N lines: network/prefix next_hop.\nLast line: Destination IP.",
+            "outputFormat": "Next hop or 'NO ROUTE'.",
+            "constraints": "1 <= N <= 100",
+            "sampleInput": "3\n192.168.0.0/16 Router1\n192.168.1.0/24 Router2\n0.0.0.0/0 Gateway\n192.168.1.100",
+            "sampleOutput": "Router2",
+            "explanation": "/24 is longer match than /16.",
+            "testCases": [
+                {
+                    "input": "3\n192.168.0.0/16 Router1\n192.168.1.0/24 Router2\n0.0.0.0/0 Gateway\n192.168.1.100",
+                    "expectedOutput": "Router2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n10.0.0.0/8 Local\n0.0.0.0/0 Internet\n8.8.8.8",
+                    "expectedOutput": "Internet",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\n192.168.0.0/24 LAN\n10.0.0.1",
+                    "expectedOutput": "NO ROUTE",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET009",
+            "number": 1509,
+            "title": "Port Number Classification",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Given a port number, identify the well-known service and port range classification.\n\nRanges: 0-1023 Well Known, 1024-49151 Registered, 49152-65535 Dynamic",
+            "inputFormat": "Port number.",
+            "outputFormat": "Service name (if well-known) and range type.",
+            "constraints": "0 <= port <= 65535",
+            "sampleInput": "80",
+            "sampleOutput": "HTTP\nWell Known",
+            "explanation": "Port 80 is HTTP, in well-known range.",
+            "testCases": [
+                {
+                    "input": "80",
+                    "expectedOutput": "HTTP\nWell Known",
+                    "visibility": "public"
+                },
+                {
+                    "input": "443",
+                    "expectedOutput": "HTTPS\nWell Known",
+                    "visibility": "public"
+                },
+                {
+                    "input": "22",
+                    "expectedOutput": "SSH\nWell Known",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3306",
+                    "expectedOutput": "MySQL\nRegistered",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "50000",
+                    "expectedOutput": "Unknown\nDynamic",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET010",
+            "number": 1510,
+            "title": "DNS Query Simulation",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Simulate recursive DNS resolution.\n\nGiven DNS cache and query hierarchy, show resolution steps.",
+            "inputFormat": "First line: N cache entries.\nNext N lines: domain IP.\nQuery domain.",
+            "outputFormat": "Resolution path or 'NOT FOUND'.",
+            "constraints": "Valid domain names.",
+            "sampleInput": "3\nwww.example.com 93.184.216.34\nns.example.com 192.0.2.1\nexample.com 93.184.216.34\nwww.example.com",
+            "sampleOutput": "Cache hit: 93.184.216.34",
+            "explanation": "Found in cache directly.",
+            "testCases": [
+                {
+                    "input": "3\nwww.example.com 93.184.216.34\nns.example.com 192.0.2.1\nexample.com 93.184.216.34\nwww.example.com",
+                    "expectedOutput": "Cache hit: 93.184.216.34",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\ngoogle.com 142.250.72.14\nyoutube.com",
+                    "expectedOutput": "NOT FOUND",
+                    "visibility": "public"
+                }
+            ]
+        },
+        {
+            "id": "NET011",
+            "number": 1511,
+            "title": "CIDR Supernetting",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Given a list of contiguous subnets, combine them into minimum number of supernets.",
+            "inputFormat": "First line: N subnets.\nNext N lines: Network/CIDR.",
+            "outputFormat": "Aggregated supernets.",
+            "constraints": "Networks must be contiguous and power-of-2 aligned.",
+            "sampleInput": "4\n192.168.0.0/24\n192.168.1.0/24\n192.168.2.0/24\n192.168.3.0/24",
+            "sampleOutput": "192.168.0.0/22",
+            "explanation": "4 /24 networks combine to 1 /22.",
+            "testCases": [
+                {
+                    "input": "4\n192.168.0.0/24\n192.168.1.0/24\n192.168.2.0/24\n192.168.3.0/24",
+                    "expectedOutput": "192.168.0.0/22",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n10.0.0.0/24\n10.0.1.0/24",
+                    "expectedOutput": "10.0.0.0/23",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\n192.168.0.0/24\n192.168.2.0/24",
+                    "expectedOutput": "192.168.0.0/24\n192.168.2.0/24",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "NET012",
+            "number": 1512,
+            "title": "Dijkstra's Routing",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement Dijkstra's algorithm for finding shortest path in a network.\n\nOutput routing table from source router.",
+            "inputFormat": "First line: N routers, source router.\nNext lines: RouterA RouterB cost (until 'END').",
+            "outputFormat": "Destination NextHop Cost for each router.",
+            "constraints": "1 <= N <= 20",
+            "sampleInput": "5 A\nA B 2\nA C 5\nB C 1\nB D 3\nC D 2\nC E 4\nD E 1\nEND",
+            "sampleOutput": "A - 0\nB A 2\nC B 3\nD C 5\nE D 6",
+            "explanation": "Shortest paths from A to all others.",
+            "testCases": [
+                {
+                    "input": "5 A\nA B 2\nA C 5\nB C 1\nB D 3\nC D 2\nC E 4\nD E 1\nEND",
+                    "expectedOutput": "A - 0\nB A 2\nC B 3\nD C 5\nE D 6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3 A\nA B 1\nB C 1\nA C 3\nEND",
+                    "expectedOutput": "A - 0\nB A 1\nC B 2",
+                    "visibility": "public"
+                }
+            ]
+        },
+        {
+            "id": "NET013",
+            "number": 1513,
+            "title": "Token Bucket Rate Limiter",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement token bucket algorithm for rate limiting.\n\nSimulate packet arrivals and determine which are allowed/dropped.",
+            "inputFormat": "First line: Bucket size, refill rate (tokens/sec).\nSecond line: N packets.\nNext N lines: arrival_time packet_size.",
+            "outputFormat": "For each packet: 'ALLOWED' or 'DROPPED'.",
+            "constraints": "Tokens are integers.",
+            "sampleInput": "10 5\n4\n0 5\n1 5\n1 3\n2 5",
+            "sampleOutput": "ALLOWED\nALLOWED\nDROPPED\nALLOWED",
+            "explanation": "Token refill and consumption simulated.",
+            "testCases": [
+                {
+                    "input": "10 5\n4\n0 5\n1 5\n1 3\n2 5",
+                    "expectedOutput": "ALLOWED\nALLOWED\nDROPPED\nALLOWED",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 1\n3\n0 3\n1 3\n5 3",
+                    "expectedOutput": "ALLOWED\nDROPPED\nALLOWED",
+                    "visibility": "public"
+                }
+            ]
+        },
+        {
+            "id": "NET014",
+            "number": 1514,
+            "title": "HTTP Request Parsing",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Parse an HTTP request and extract method, path, headers, and body.",
+            "inputFormat": "Complete HTTP request string.",
+            "outputFormat": "Method, Path, Headers (key: value), Body.",
+            "constraints": "Valid HTTP/1.1 request.",
+            "sampleInput": "GET /api/users HTTP/1.1\nHost: example.com\nContent-Type: application/json\n\n{\"id\": 1}",
+            "sampleOutput": "Method: GET\nPath: /api/users\nHost: example.com\nContent-Type: application/json\nBody: {\"id\": 1}",
+            "explanation": "Parse HTTP request components.",
+            "testCases": [
+                {
+                    "input": "GET /api/users HTTP/1.1\nHost: example.com\nContent-Type: application/json\n\n{\"id\": 1}",
+                    "expectedOutput": "Method: GET\nPath: /api/users\nHost: example.com\nContent-Type: application/json\nBody: {\"id\": 1}",
+                    "visibility": "public"
+                },
+                {
+                    "input": "POST /login HTTP/1.1\nHost: auth.com\n\nuser=admin",
+                    "expectedOutput": "Method: POST\nPath: /login\nHost: auth.com\nBody: user=admin",
+                    "visibility": "public"
+                }
+            ]
+        },
+        {
+            "id": "NET015",
+            "number": 1515,
+            "title": "TCP Congestion Window",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Simulate TCP AIMD congestion control.\n\nGiven sequence of ACKs and timeouts, track cwnd changes.",
+            "inputFormat": "First line: Initial cwnd, ssthresh.\nSecond line: N events.\nNext N lines: 'ACK' or 'TIMEOUT'.",
+            "outputFormat": "cwnd after each event.",
+            "constraints": "cwnd >= 1",
+            "sampleInput": "1 16\n8\nACK\nACK\nACK\nACK\nACK\nTIMEOUT\nACK\nACK",
+            "sampleOutput": "2 4 8 16 17 8 9 10",
+            "explanation": "Slow start until ssthresh, then linear. Timeout halves.",
+            "testCases": [
+                {
+                    "input": "1 16\n8\nACK\nACK\nACK\nACK\nACK\nTIMEOUT\nACK\nACK",
+                    "expectedOutput": "2 4 8 16 17 8 9 10",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4 8\n4\nACK\nACK\nTIMEOUT\nACK",
+                    "expectedOutput": "8 9 4 5",
+                    "visibility": "public"
+                }
+            ]
+        },
+        {
+            "id": "NET016",
+            "number": 1516,
+            "title": "VLAN Trunking",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Simulate 802.1Q VLAN tagging.\n\nGiven frame and VLAN ID, add/remove VLAN tag.",
+            "inputFormat": "First line: 'tag' or 'untag'.\nSecond line: Frame (hex bytes space separated).\nThird line: VLAN ID (for tag) or expected VLAN (for untag).",
+            "outputFormat": "Modified frame or extracted VLAN ID.",
+            "constraints": "1 <= VLAN ID <= 4095",
+            "sampleInput": "tag\nAA BB CC DD EE FF 11 22 33 44 55 66 08 00\n100",
+            "sampleOutput": "AA BB CC DD EE FF 11 22 33 44 55 66 81 00 00 64 08 00",
+            "explanation": "Added 802.1Q tag with VLAN 100 (0x64).",
+            "testCases": [
+                {
+                    "input": "tag\nAA BB CC DD EE FF 11 22 33 44 55 66 08 00\n100",
+                    "expectedOutput": "AA BB CC DD EE FF 11 22 33 44 55 66 81 00 00 64 08 00",
+                    "visibility": "public"
+                },
+                {
+                    "input": "untag\nAA BB CC DD EE FF 11 22 33 44 55 66 81 00 00 64 08 00\n100",
+                    "expectedOutput": "AA BB CC DD EE FF 11 22 33 44 55 66 08 00",
+                    "visibility": "public"
+                }
+            ]
+        }
+    ]
+}

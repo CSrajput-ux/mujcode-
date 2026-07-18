@@ -1,0 +1,713 @@
+{
+    "courseName": "Object Oriented Programming",
+    "language": "Java",
+    "category": "OOP",
+    "totalQuestions": 20,
+    "questions": [
+        {
+            "id": "OOP001",
+            "number": 1001,
+            "title": "Class Constructor Basics",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create a class 'Rectangle' with:\n- Private fields: length and width (int)\n- Parameterized constructor\n- Method 'area()' returns length * width\n- Method 'perimeter()' returns 2*(length+width)\n\nGiven length and width, print area and perimeter.",
+            "inputFormat": "Two integers: length and width.",
+            "outputFormat": "Print area and perimeter on separate lines.",
+            "constraints": "1 <= length, width <= 1000",
+            "sampleInput": "5 3",
+            "sampleOutput": "15\n16",
+            "explanation": "Area = 5*3 = 15. Perimeter = 2*(5+3) = 16.",
+            "testCases": [
+                {
+                    "input": "5 3",
+                    "expectedOutput": "15\n16",
+                    "visibility": "public"
+                },
+                {
+                    "input": "10 10",
+                    "expectedOutput": "100\n40",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1 1",
+                    "expectedOutput": "1\n4",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100 50",
+                    "expectedOutput": "5000\n300",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "7 4",
+                    "expectedOutput": "28\n22",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP002",
+            "number": 1002,
+            "title": "Encapsulation with Getters/Setters",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create a class 'BankAccount' with:\n- Private field: balance (double)\n- Getter getBalance()\n- Method deposit(amount): adds to balance if amount > 0\n- Method withdraw(amount): subtracts if amount > 0 and balance >= amount\n\nGiven initial balance and operations, print final balance.",
+            "inputFormat": "First line: Initial balance.\nSecond line: N operations.\nNext N lines: 'deposit amt' or 'withdraw amt'.",
+            "outputFormat": "Print final balance (2 decimal places).",
+            "constraints": "0 <= balance <= 10^6\n1 <= N <= 100",
+            "sampleInput": "1000.00\n3\ndeposit 500.50\nwithdraw 200.00\nwithdraw 2000.00",
+            "sampleOutput": "1300.50",
+            "explanation": "1000 + 500.50 = 1500.50. 1500.50 - 200 = 1300.50. Withdraw 2000 fails (insufficient).",
+            "testCases": [
+                {
+                    "input": "1000.00\n3\ndeposit 500.50\nwithdraw 200.00\nwithdraw 2000.00",
+                    "expectedOutput": "1300.50",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0.00\n2\ndeposit 100.00\nwithdraw 50.00",
+                    "expectedOutput": "50.00",
+                    "visibility": "public"
+                },
+                {
+                    "input": "500.00\n2\nwithdraw 500.00\ndeposit 100.00",
+                    "expectedOutput": "100.00",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100.00\n1\nwithdraw 150.00",
+                    "expectedOutput": "100.00",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000.00\n3\ndeposit -50.00\nwithdraw -30.00\ndeposit 100.00",
+                    "expectedOutput": "1100.00",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP003",
+            "number": 1003,
+            "title": "Simple Inheritance",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create:\n- Base class 'Animal' with method speak() returns 'Some sound'\n- Derived class 'Dog' overrides speak() returns 'Bark'\n- Derived class 'Cat' overrides speak() returns 'Meow'\n\nGiven animal type, print what it speaks.",
+            "inputFormat": "Single word: 'Dog' or 'Cat' or 'Animal'",
+            "outputFormat": "Print the sound.",
+            "constraints": "Input is always valid.",
+            "sampleInput": "Dog",
+            "sampleOutput": "Bark",
+            "explanation": "Dog's speak() returns 'Bark'.",
+            "testCases": [
+                {
+                    "input": "Dog",
+                    "expectedOutput": "Bark",
+                    "visibility": "public"
+                },
+                {
+                    "input": "Cat",
+                    "expectedOutput": "Meow",
+                    "visibility": "public"
+                },
+                {
+                    "input": "Animal",
+                    "expectedOutput": "Some sound",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP004",
+            "number": 1004,
+            "title": "Method Overloading",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create a class 'Calculator' with overloaded 'add' methods:\n- add(int a, int b) returns a + b\n- add(int a, int b, int c) returns a + b + c\n- add(double a, double b) returns a + b\n\nGiven operation type and values, compute result.",
+            "inputFormat": "First line: Type ('int2', 'int3', or 'double2').\nSecond line: Values.",
+            "outputFormat": "Print result.",
+            "constraints": "-10^6 <= values <= 10^6",
+            "sampleInput": "int3\n1 2 3",
+            "sampleOutput": "6",
+            "explanation": "add(1, 2, 3) = 6.",
+            "testCases": [
+                {
+                    "input": "int3\n1 2 3",
+                    "expectedOutput": "6",
+                    "visibility": "public"
+                },
+                {
+                    "input": "int2\n5 10",
+                    "expectedOutput": "15",
+                    "visibility": "public"
+                },
+                {
+                    "input": "double2\n3.5 2.5",
+                    "expectedOutput": "6.0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "int2\n-5 -10",
+                    "expectedOutput": "-15",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "int3\n0 0 0",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP005",
+            "number": 1005,
+            "title": "Static Members",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create a class 'Counter' with:\n- Static field 'count' initialized to 0\n- Constructor increments count\n- Static method getCount() returns current count\n\nGiven N objects to create, print final count.",
+            "inputFormat": "Single integer N.",
+            "outputFormat": "Print count after creating N objects.",
+            "constraints": "0 <= N <= 10^6",
+            "sampleInput": "5",
+            "sampleOutput": "5",
+            "explanation": "Creating 5 objects increments count to 5.",
+            "testCases": [
+                {
+                    "input": "5",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0",
+                    "expectedOutput": "0",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "1",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1000000",
+                    "expectedOutput": "1000000",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP006",
+            "number": 1006,
+            "title": "Abstract Class Implementation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create:\n- Abstract class 'Shape' with abstract method area()\n- Class 'Circle' extends Shape, constructor takes radius, area() = π*r²\n- Class 'Square' extends Shape, constructor takes side, area() = side²\n\nGiven shape type and dimension, print area (2 decimal places).",
+            "inputFormat": "First line: Shape type ('Circle' or 'Square').\nSecond line: Dimension (radius or side).",
+            "outputFormat": "Print area rounded to 2 decimal places.",
+            "constraints": "1 <= dimension <= 100",
+            "sampleInput": "Circle\n5",
+            "sampleOutput": "78.54",
+            "explanation": "Area = π * 5² ≈ 78.54",
+            "testCases": [
+                {
+                    "input": "Circle\n5",
+                    "expectedOutput": "78.54",
+                    "visibility": "public"
+                },
+                {
+                    "input": "Square\n4",
+                    "expectedOutput": "16.00",
+                    "visibility": "public"
+                },
+                {
+                    "input": "Circle\n1",
+                    "expectedOutput": "3.14",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "Square\n10",
+                    "expectedOutput": "100.00",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "Circle\n10",
+                    "expectedOutput": "314.16",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP007",
+            "number": 1007,
+            "title": "Interface Implementation",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create:\n- Interface 'Drawable' with method draw() returns String\n- Class 'Line' implements Drawable, draw() returns 'Drawing Line'\n- Class 'Rectangle' implements Drawable, draw() returns 'Drawing Rectangle'\n\nGiven shape name, print draw result.",
+            "inputFormat": "Single word: 'Line' or 'Rectangle'",
+            "outputFormat": "Print the draw output.",
+            "constraints": "Input is always valid.",
+            "sampleInput": "Line",
+            "sampleOutput": "Drawing Line",
+            "explanation": "Line.draw() returns 'Drawing Line'.",
+            "testCases": [
+                {
+                    "input": "Line",
+                    "expectedOutput": "Drawing Line",
+                    "visibility": "public"
+                },
+                {
+                    "input": "Rectangle",
+                    "expectedOutput": "Drawing Rectangle",
+                    "visibility": "public"
+                }
+            ]
+        },
+        {
+            "id": "OOP008",
+            "number": 1008,
+            "title": "Constructor Chaining",
+            "difficulty": "Easy",
+            "points": 10,
+            "description": "Create a class 'Person' with:\n- Fields: name, age, city\n- Constructor(name): sets name, age=0, city='Unknown'\n- Constructor(name, age): sets name, age, city='Unknown'\n- Constructor(name, age, city): sets all\n\nGiven input format, create Person and print all fields.",
+            "inputFormat": "First line: Number of args (1, 2, or 3).\nFollowing line(s): Values.",
+            "outputFormat": "Print 'name age city'.",
+            "constraints": "name length <= 50, 0 <= age <= 150",
+            "sampleInput": "2\nJohn 25",
+            "sampleOutput": "John 25 Unknown",
+            "explanation": "Constructor with 2 args sets city to 'Unknown'.",
+            "testCases": [
+                {
+                    "input": "2\nJohn 25",
+                    "expectedOutput": "John 25 Unknown",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\nAlice 30 NYC",
+                    "expectedOutput": "Alice 30 NYC",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\nBob",
+                    "expectedOutput": "Bob 0 Unknown",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "3\nTom 0 LA",
+                    "expectedOutput": "Tom 0 LA",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP009",
+            "number": 1009,
+            "title": "Polymorphism with Method Override",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Create:\n- Class 'Vehicle' with method info() returns 'Generic Vehicle'\n- Class 'Car' extends Vehicle, overrides info() returns 'Car: 4 wheels'\n- Class 'Bike' extends Vehicle, overrides info() returns 'Bike: 2 wheels'\n- Class 'Truck' extends Vehicle, overrides info() returns 'Truck: 6 wheels'\n\nGiven list of vehicle types, print info for each using polymorphism.",
+            "inputFormat": "First line: N.\nNext N lines: Vehicle type.",
+            "outputFormat": "Print info for each vehicle.",
+            "constraints": "1 <= N <= 100",
+            "sampleInput": "3\nCar\nBike\nVehicle",
+            "sampleOutput": "Car: 4 wheels\nBike: 2 wheels\nGeneric Vehicle",
+            "explanation": "Polymorphic call to info() based on actual type.",
+            "testCases": [
+                {
+                    "input": "3\nCar\nBike\nVehicle",
+                    "expectedOutput": "Car: 4 wheels\nBike: 2 wheels\nGeneric Vehicle",
+                    "visibility": "public"
+                },
+                {
+                    "input": "2\nTruck\nCar",
+                    "expectedOutput": "Truck: 6 wheels\nCar: 4 wheels",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1\nBike",
+                    "expectedOutput": "Bike: 2 wheels",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "4\nVehicle\nCar\nBike\nTruck",
+                    "expectedOutput": "Generic Vehicle\nCar: 4 wheels\nBike: 2 wheels\nTruck: 6 wheels",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP010",
+            "number": 1010,
+            "title": "Multiple Interface Implementation",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Create:\n- Interface 'Flyable' with fly() returns 'Flying'\n- Interface 'Swimmable' with swim() returns 'Swimming'\n- Class 'Duck' implements both interfaces\n\nGiven action ('fly' or 'swim'), perform and print result.",
+            "inputFormat": "Single word: 'fly' or 'swim'.",
+            "outputFormat": "Print action result.",
+            "constraints": "Input is always valid.",
+            "sampleInput": "fly",
+            "sampleOutput": "Flying",
+            "explanation": "Duck.fly() returns 'Flying'.",
+            "testCases": [
+                {
+                    "input": "fly",
+                    "expectedOutput": "Flying",
+                    "visibility": "public"
+                },
+                {
+                    "input": "swim",
+                    "expectedOutput": "Swimming",
+                    "visibility": "public"
+                }
+            ]
+        },
+        {
+            "id": "OOP011",
+            "number": 1011,
+            "title": "Composition Over Inheritance",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement composition:\n- Class 'Engine' with start() returns 'Engine started'\n- Class 'Car' has an Engine (composition), method startCar() calls engine.start()\n\nCreate Car, call startCar(), print output.",
+            "inputFormat": "No input.",
+            "outputFormat": "Print 'Engine started'.",
+            "constraints": "None.",
+            "sampleInput": "",
+            "sampleOutput": "Engine started",
+            "explanation": "Car delegates to Engine.",
+            "testCases": [
+                {
+                    "input": "",
+                    "expectedOutput": "Engine started",
+                    "visibility": "public"
+                }
+            ]
+        },
+        {
+            "id": "OOP012",
+            "number": 1012,
+            "title": "Exception Handling in OOP",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Create class 'Divider' with method divide(a, b):\n- Throws ArithmeticException if b is 0\n- Otherwise returns a / b\n\nGiven two numbers, print result or 'Error: Division by zero'.",
+            "inputFormat": "Two integers a and b.",
+            "outputFormat": "Print result or error message.",
+            "constraints": "-10^6 <= a, b <= 10^6",
+            "sampleInput": "10 2",
+            "sampleOutput": "5",
+            "explanation": "10 / 2 = 5.",
+            "testCases": [
+                {
+                    "input": "10 2",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "5 0",
+                    "expectedOutput": "Error: Division by zero",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0 5",
+                    "expectedOutput": "0",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "-10 2",
+                    "expectedOutput": "-5",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "100 0",
+                    "expectedOutput": "Error: Division by zero",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP013",
+            "number": 1013,
+            "title": "Generic Class Implementation",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Create a generic class 'Box<T>' with:\n- Private field 'item' of type T\n- Method setItem(T item)\n- Method getItem() returns T\n\nGiven type and value, store and retrieve.",
+            "inputFormat": "First line: Type ('int', 'string', 'double').\nSecond line: Value.",
+            "outputFormat": "Print retrieved value.",
+            "constraints": "Value matches type.",
+            "sampleInput": "string\nHello",
+            "sampleOutput": "Hello",
+            "explanation": "Box<String> stores and returns 'Hello'.",
+            "testCases": [
+                {
+                    "input": "string\nHello",
+                    "expectedOutput": "Hello",
+                    "visibility": "public"
+                },
+                {
+                    "input": "int\n42",
+                    "expectedOutput": "42",
+                    "visibility": "public"
+                },
+                {
+                    "input": "double\n3.14",
+                    "expectedOutput": "3.14",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "string\nWorld",
+                    "expectedOutput": "World",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP014",
+            "number": 1014,
+            "title": "Singleton Pattern",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement Singleton pattern for class 'Database':\n- Private constructor\n- Static getInstance() method\n- Field 'connectionCount' incremented each call\n\nGiven N getInstance calls, print final connectionCount.",
+            "inputFormat": "Single integer N.",
+            "outputFormat": "Print connectionCount.",
+            "constraints": "1 <= N <= 1000",
+            "sampleInput": "5",
+            "sampleOutput": "5",
+            "explanation": "5 getInstance calls increment count to 5.",
+            "testCases": [
+                {
+                    "input": "5",
+                    "expectedOutput": "5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "1",
+                    "expectedOutput": "1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "100",
+                    "expectedOutput": "100",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "10",
+                    "expectedOutput": "10",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP015",
+            "number": 1015,
+            "title": "Factory Pattern",
+            "difficulty": "Medium",
+            "points": 20,
+            "description": "Implement Factory pattern:\n- Interface 'Notification' with send() method\n- Classes: EmailNotification, SMSNotification, PushNotification\n- Factory class creates notification based on type\n\nGiven type, create and send notification.",
+            "inputFormat": "Single word: 'email', 'sms', or 'push'.",
+            "outputFormat": "Print 'Sending [Type] Notification'.",
+            "constraints": "Input is always valid.",
+            "sampleInput": "email",
+            "sampleOutput": "Sending Email Notification",
+            "explanation": "Factory creates EmailNotification.",
+            "testCases": [
+                {
+                    "input": "email",
+                    "expectedOutput": "Sending Email Notification",
+                    "visibility": "public"
+                },
+                {
+                    "input": "sms",
+                    "expectedOutput": "Sending SMS Notification",
+                    "visibility": "public"
+                },
+                {
+                    "input": "push",
+                    "expectedOutput": "Sending Push Notification",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP016",
+            "number": 1016,
+            "title": "Observer Pattern",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement Observer pattern:\n- Subject class with subscribe, unsubscribe, notify methods\n- Observer interface with update method\n- Multiple observers get notified on state change\n\nGiven operations, print observer notifications.",
+            "inputFormat": "First line: N operations.\nNext N lines: 'subscribe name', 'unsubscribe name', or 'notify message'.",
+            "outputFormat": "On notify, print 'name received: message' for each subscribed observer.",
+            "constraints": "1 <= N <= 100",
+            "sampleInput": "5\nsubscribe user1\nsubscribe user2\nnotify Hello\nunsubscribe user1\nnotify World",
+            "sampleOutput": "user1 received: Hello\nuser2 received: Hello\nuser2 received: World",
+            "explanation": "Both get Hello. After unsubscribe, only user2 gets World.",
+            "testCases": [
+                {
+                    "input": "5\nsubscribe user1\nsubscribe user2\nnotify Hello\nunsubscribe user1\nnotify World",
+                    "expectedOutput": "user1 received: Hello\nuser2 received: Hello\nuser2 received: World",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\nsubscribe a\nnotify test\nnotify test2",
+                    "expectedOutput": "a received: test\na received: test2",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\nsubscribe x\nunsubscribe x\nsubscribe y\nnotify hi",
+                    "expectedOutput": "y received: hi",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\nnotify empty\nsubscribe z",
+                    "expectedOutput": "",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP017",
+            "number": 1017,
+            "title": "Builder Pattern",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement Builder pattern for 'Pizza' class:\n- Fields: size, cheese, pepperoni, mushrooms (all optional except size)\n- Builder class with fluent interface\n- build() creates Pizza\n\nGiven configuration, print Pizza details.",
+            "inputFormat": "First line: size (small/medium/large).\nFollowing lines: 'cheese', 'pepperoni', or 'mushrooms' (one per line, 'done' to finish).",
+            "outputFormat": "Print 'Pizza: [size], toppings: [comma-separated toppings]' or 'no toppings'.",
+            "constraints": "At least size is provided.",
+            "sampleInput": "large\ncheese\npepperoni\ndone",
+            "sampleOutput": "Pizza: large, toppings: cheese, pepperoni",
+            "explanation": "Large pizza with cheese and pepperoni.",
+            "testCases": [
+                {
+                    "input": "large\ncheese\npepperoni\ndone",
+                    "expectedOutput": "Pizza: large, toppings: cheese, pepperoni",
+                    "visibility": "public"
+                },
+                {
+                    "input": "small\ndone",
+                    "expectedOutput": "Pizza: small, toppings: no toppings",
+                    "visibility": "public"
+                },
+                {
+                    "input": "medium\ncheese\nmushrooms\npepperoni\ndone",
+                    "expectedOutput": "Pizza: medium, toppings: cheese, mushrooms, pepperoni",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "large\nmushrooms\ndone",
+                    "expectedOutput": "Pizza: large, toppings: mushrooms",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP018",
+            "number": 1018,
+            "title": "Strategy Pattern",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement Strategy pattern for payment:\n- Interface PaymentStrategy with pay(amount)\n- Strategies: CreditCard, PayPal, Cash\n- Context class uses strategy\n\nGiven payment method and amount, process payment.",
+            "inputFormat": "First line: Payment method ('credit', 'paypal', 'cash').\nSecond line: Amount.",
+            "outputFormat": "Print 'Paid [amount] using [method]'.",
+            "constraints": "amount > 0",
+            "sampleInput": "credit\n100.50",
+            "sampleOutput": "Paid 100.50 using Credit Card",
+            "explanation": "Credit card strategy processes payment.",
+            "testCases": [
+                {
+                    "input": "credit\n100.50",
+                    "expectedOutput": "Paid 100.50 using Credit Card",
+                    "visibility": "public"
+                },
+                {
+                    "input": "paypal\n50.00",
+                    "expectedOutput": "Paid 50.00 using PayPal",
+                    "visibility": "public"
+                },
+                {
+                    "input": "cash\n25.75",
+                    "expectedOutput": "Paid 25.75 using Cash",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "credit\n1000.00",
+                    "expectedOutput": "Paid 1000.00 using Credit Card",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP019",
+            "number": 1019,
+            "title": "Decorator Pattern",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Implement Decorator pattern for coffee:\n- Interface Coffee with cost() and description()\n- SimpleCoffee: cost=5, description='Simple Coffee'\n- Decorators: Milk (+2), Sugar (+1), Vanilla (+3)\n\nGiven add-ons, calculate total cost and description.",
+            "inputFormat": "First line: N add-ons.\nNext N lines: Add-on name.",
+            "outputFormat": "Print description and total cost.",
+            "constraints": "0 <= N <= 10",
+            "sampleInput": "2\nmilk\nsugar",
+            "sampleOutput": "Simple Coffee, Milk, Sugar\n8",
+            "explanation": "5 + 2 + 1 = 8 with Milk and Sugar.",
+            "testCases": [
+                {
+                    "input": "2\nmilk\nsugar",
+                    "expectedOutput": "Simple Coffee, Milk, Sugar\n8",
+                    "visibility": "public"
+                },
+                {
+                    "input": "0",
+                    "expectedOutput": "Simple Coffee\n5",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\nmilk\nvanilla\nsugar",
+                    "expectedOutput": "Simple Coffee, Milk, Vanilla, Sugar\n11",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "1\nvanilla",
+                    "expectedOutput": "Simple Coffee, Vanilla\n8",
+                    "visibility": "hidden"
+                }
+            ]
+        },
+        {
+            "id": "OOP020",
+            "number": 1020,
+            "title": "Complete Class Design",
+            "difficulty": "Hard",
+            "points": 30,
+            "description": "Design a 'Library' system:\n- Book class with id, title, available status\n- Library class with addBook, borrowBook, returnBook, listAvailable\n\nProcess operations and output results.",
+            "inputFormat": "First line: N operations.\nNext N lines: 'add id title', 'borrow id', 'return id', or 'list'.",
+            "outputFormat": "For 'list': print available book titles. For 'borrow'/'return': print success/failure.",
+            "constraints": "1 <= N <= 100",
+            "sampleInput": "6\nadd 1 Java\nadd 2 Python\nlist\nborrow 1\nlist\nreturn 1",
+            "sampleOutput": "Java, Python\nBorrowed: Java\nPython\nReturned: Java",
+            "explanation": "Add books, list shows both, borrow Java, list shows Python only, return Java.",
+            "testCases": [
+                {
+                    "input": "6\nadd 1 Java\nadd 2 Python\nlist\nborrow 1\nlist\nreturn 1",
+                    "expectedOutput": "Java, Python\nBorrowed: Java\nPython\nReturned: Java",
+                    "visibility": "public"
+                },
+                {
+                    "input": "3\nadd 1 Book1\nborrow 2\nlist",
+                    "expectedOutput": "Not found\nBook1",
+                    "visibility": "public"
+                },
+                {
+                    "input": "4\nadd 1 Test\nborrow 1\nborrow 1\nreturn 1",
+                    "expectedOutput": "Borrowed: Test\nNot available\nReturned: Test",
+                    "visibility": "hidden"
+                },
+                {
+                    "input": "2\nlist\nadd 1 Solo",
+                    "expectedOutput": "No books",
+                    "visibility": "hidden"
+                }
+            ]
+        }
+    ]
+}

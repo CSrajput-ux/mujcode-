@@ -2,6 +2,7 @@ import { DashboardController } from './controllers/DashboardController.js';
 import { DriveController } from './controllers/DriveController.js';
 import { ApplicationController } from './controllers/ApplicationController.js';
 import { Drive } from './models/Drive.js';
+import { Application } from './models/Application.js';
 import { parseBody, sendJson } from '../../lib/http.js';
 
 export function registerAtsRoutes(router) {
@@ -26,9 +27,17 @@ export function registerAtsRoutes(router) {
   // Student Facing Routes
   router.get('/api/v1/student/ats/drives', async (req, res) => {
     try {
-      const drives = await Drive.find({ status: 'Active' }).populate('companyId', 'name');
-      return sendJson(res, 200, { drives });
+      const studentId = req.query?.studentId;
+      const drives = await Drive.find({ status: 'Active' }).populate('companyId', ['name', 'logo', 'industry']);
+      
+      let applications = [];
+      if (studentId) {
+        applications = await Application.find({ studentId });
+      }
+      
+      return sendJson(res, 200, { drives, applications });
     } catch (e) {
+      console.error('[StudentDrives]', e);
       return sendJson(res, 500, { error: 'Failed to load' });
     }
   });

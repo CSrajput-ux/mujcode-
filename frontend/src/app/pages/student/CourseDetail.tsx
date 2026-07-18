@@ -110,7 +110,7 @@ export default function CourseDetail() {
     };
 
     const handleProblemClick = (problem: Problem) => {
-        navigate(`/student/problems/${problem.number}`);
+        navigate(`/student/problems/${problem._id}`);
     };
 
     const renderContentList = (type: 'module' | 'ppt' | 'pyq', emptyMsg: string) => {
