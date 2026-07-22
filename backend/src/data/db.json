@@ -48738,11 +48738,82 @@
     }
   ],
   "badges": [],
-  "tests": [],
-  "mcqQuestions": [],
+  "tests": [
+    {
+      "_id": "test_mrw34rua_19a7kc",
+      "title": "test 1 ",
+      "description": "",
+      "type": "Quiz",
+      "testType": "MCQ",
+      "status": "Upcoming",
+      "startTime": "2026-07-22T18:27",
+      "endTime": "",
+      "duration": 60,
+      "proctored": false,
+      "totalMarks": 100,
+      "branch": "CSE",
+      "section": "E",
+      "semester": 5,
+      "isPublished": true
+    }
+  ],
+  "mcqQuestions": [
+    {
+      "multipleCorrect": false,
+      "marks": 10,
+      "order": 1,
+      "_id": "mcq_mrw35lbs_z3o3ye",
+      "testId": "test_mrw34rua_19a7kc",
+      "questionText": "2+2",
+      "options": [
+        "4",
+        "5",
+        "9",
+        "97"
+      ],
+      "correctAnswers": [
+        0
+      ],
+      "explanation": "",
+      "text": "2+2"
+    },
+    {
+      "multipleCorrect": false,
+      "marks": 10,
+      "order": 2,
+      "_id": "mcq_mrw374zf_4abhyj",
+      "testId": "test_mrw34rua_19a7kc",
+      "questionText": "what is the ml",
+      "options": [
+        "bbb",
+        "machine learning",
+        "bg",
+        "nv"
+      ],
+      "correctAnswers": [
+        1
+      ],
+      "explanation": "",
+      "text": "what is the ml"
+    }
+  ],
   "codingQuestions": [],
   "theoryQuestions": [],
-  "testSubmissions": [],
+  "testSubmissions": [
+    {
+      "_id": "test_sub_mrw39z0b_hxmlun",
+      "testId": "test_mrw34rua_19a7kc",
+      "studentId": "stu_mrvx5eri_alsgkj",
+      "studentName": "CHHOTU",
+      "rollNumber": "2427030521",
+      "section": "E",
+      "score": 20,
+      "totalMaxScore": 20,
+      "status": "Pass",
+      "submitTime": "2026-07-22T12:59:14.940Z",
+      "warningsIssued": 0
+    }
+  ],
   "assignments": [],
   "assignmentSubmissions": [],
   "placementDrives": [
@@ -48816,16 +48887,16 @@
   ],
   "content": [
     {
-      "_id": "content_mrvvf31b_m65lwh",
-      "title": "unit 1 : intro ",
-      "description": "intro ",
+      "_id": "content_mrw25ol8_4e8f6q",
+      "title": "Unit 1 ",
+      "description": "",
       "type": "module",
-      "subject": "Algorithms",
+      "subject": "CSE3101 : COMPUTER NETWORKS",
       "section": "E",
-      "fileUrl": "/uploads/content_mrvvf31b_m65lwh-Complete-System-Architecture.pdf",
+      "fileUrl": "/uploads/content_mrw25ol8_4e8f6q-AI-Multi-Agent-Workflow.pdf",
       "fileType": "application/pdf",
-      "uploadedBy": "aditya.sinha@jaipur.manipal.edu",
-      "createdAt": "2026-07-22T09:19:16.515Z"
+      "uploadedBy": "dr.rishigupta@jaipur.manipal.edu",
+      "createdAt": "2026-07-22T12:27:55.204Z"
     }
   ],
   "permissions": [],

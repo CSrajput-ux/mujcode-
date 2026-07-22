@@ -14,9 +14,9 @@ function courseResponse(db, student, branchCode = 'CSE', semester = 4) {
   let courses = coursesFor(db, branchCode, semester);
 
   if (student && student.subjects && student.subjects.length > 0) {
-    const existingTitles = new Set(courses.map(c => c.courseName.toLowerCase()));
+    const existingTitles = new Set(courses.map(c => (c.courseName || c.title || '').toLowerCase()));
     const customCourses = student.subjects
-      .filter(sub => !existingTitles.has(sub.toLowerCase()))
+      .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
       .map((sub, i) => ({
         courseCode: `SUB-${i + 100}`,
         courseName: sub,

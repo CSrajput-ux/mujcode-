@@ -161,19 +161,40 @@ export default function CreateTestModal({ open, onOpenChange }: CreateTestModalP
                     <div className="grid grid-cols-3 gap-4">
                         <div className="grid gap-2">
                             <Label>Branch *</Label>
-                            <Input
-                                placeholder="e.g. CSE"
+                            <Select
                                 value={formData.branch}
-                                onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
-                            />
+                                onValueChange={(value) => setFormData({ ...formData, branch: value })}
+                            >
+                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="All">All Branches</SelectItem>
+                                    <SelectItem value="CSE">CSE</SelectItem>
+                                    <SelectItem value="IT">IT</SelectItem>
+                                    <SelectItem value="ECE">ECE</SelectItem>
+                                    <SelectItem value="CCE">CCE</SelectItem>
+                                    <SelectItem value="ME">ME</SelectItem>
+                                    <SelectItem value="CE">CE</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div className="grid gap-2">
                             <Label>Section *</Label>
-                            <Input
-                                placeholder="e.g. A"
+                            <Select
                                 value={formData.section}
-                                onChange={(e) => setFormData({ ...formData, section: e.target.value })}
-                            />
+                                onValueChange={(value) => setFormData({ ...formData, section: value })}
+                            >
+                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="All">All Sections</SelectItem>
+                                    <SelectItem value="A">A</SelectItem>
+                                    <SelectItem value="B">B</SelectItem>
+                                    <SelectItem value="C">C</SelectItem>
+                                    <SelectItem value="D">D</SelectItem>
+                                    <SelectItem value="E">E</SelectItem>
+                                    <SelectItem value="F">F</SelectItem>
+                                    <SelectItem value="G">G</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div className="grid gap-2">
                             <Label>Semester *</Label>

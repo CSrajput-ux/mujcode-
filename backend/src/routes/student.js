@@ -80,9 +80,30 @@ export function registerStudentRoutes(router) {
   router.get('/api/student/courses/:studentId', (req, res, ctx) => {
     const db = ctx.getDb();
     const { student } = userAndStudent(db, req.params.studentId);
-    const courses = db.courses
+    let courses = db.courses
       .filter(course => !student || !course.branch || course.branch === student.branch)
       .map(publicCourse);
+
+    if (student && student.subjects && student.subjects.length > 0) {
+      const existingTitles = new Set(courses.map(c => (c.courseName || c.title || '').toLowerCase()));
+      const customCourses = student.subjects
+        .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
+        .map((sub, i) => ({
+          _id: `custom_sub_${student.id}_${i}`,
+          title: sub,
+          courseName: sub,
+          category: 'General',
+          difficulty: 'Medium',
+          icon: 'book',
+          status: 'ongoing',
+          progress: 0,
+          totalProblems: 0,
+          problemsSolved: 0,
+          courseCode: `SUB-${i + 100}`,
+          enrolled: true
+        }));
+      courses = [...customCourses, ...courses];
+    }
 
     return sendJson(res, 200, { courses });
   });
