@@ -1,16 +1,32 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import StudentLayout from '../../components/StudentLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import {
   BookOpen, FileText, Download, Play, AlertCircle, GraduationCap,
   Brain, Code2, Calculator, Cpu, FlaskConical, Database,
-  Network, Waves, Cog, Lightbulb, Palette, Languages
+  Network, Waves, Cog, Lightbulb, Palette, Languages,
+  Presentation, FolderOpen
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
+import { Badge } from '../../components/ui/badge';
 import { getMyCoursesAPI, type StudentCoursesResponse } from '../../services/academicService';
 import { Alert, AlertDescription } from '../../components/ui/alert';
 import LiveClassesTab from './LiveClassesTab';
+
+interface ContentItem {
+  _id: string;
+  title: string;
+  description: string;
+  type: 'module' | 'ppt' | 'pyq';
+  subject: string;
+  section: string;
+  fileUrl: string;
+  fileType: string;
+  uploadedBy: string;
+  createdAt: string;
+}
 
 // Smart icon mapping function
 const getSubjectIcon = (courseName: string, courseType: string) => {
@@ -101,6 +117,7 @@ export default function Learning() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
   useEffect(() => {
     fetchMyCourses();
 
@@ -130,6 +147,7 @@ export default function Learning() {
       setLoading(false);
     }
   };
+
 
   const programmingMaterials = [
     { title: 'C Programming - Complete Guide', type: 'PDF', size: '5.2 MB', lessons: 45 },
@@ -209,7 +227,6 @@ export default function Learning() {
             </TabsTrigger>
           </TabsList>
 
-          {/* My Semester Courses */}
           <TabsContent value="semester">
             {loading && (
               <div className="text-center py-12">

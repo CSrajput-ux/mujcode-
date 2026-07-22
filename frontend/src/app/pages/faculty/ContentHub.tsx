@@ -46,8 +46,12 @@ export default function ContentHub() {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     // Mock Data for Dropdowns (Replace with API fetch if needed)
-    const sections = ['A', 'B', 'C', 'D', 'E', 'F'];
-    const subjects = ['Data Structures', 'Algorithms', 'Operating Systems', 'DBMS', 'Computer Networks', 'Web Technologies'];
+    // Dynamic Data
+    const [sections, setSections] = useState<string[]>(['A', 'B', 'C', 'D', 'E', 'F']);
+    const [sectionSubjects, setSectionSubjects] = useState<Record<string, string[]>>({});
+    const [availableSubjects, setAvailableSubjects] = useState<string[]>([]);
+    const [availableSubjectsForFilter, setAvailableSubjectsForFilter] = useState<string[]>([]);
+
     const contentTypes = [
         { value: 'module', label: 'Learning Module', icon: BookOpen },
         { value: 'ppt', label: 'Presentation (PPT)', icon: Presentation },
@@ -57,6 +61,51 @@ export default function ContentHub() {
     useEffect(() => {
         fetchContent();
     }, [filterVerify]);
+
+    useEffect(() => {
+        const fetchSubjectsMap = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/$/, '') + '/api/faculty/subjects-by-section', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setSectionSubjects(response.data);
+                
+                // Set default available sections based on fetched data
+                const fetchedSections = Object.keys(response.data);
+                if (fetchedSections.length > 0) {
+                    setSections(fetchedSections);
+                }
+            } catch (error) {
+                console.error('Error fetching subjects map:', error);
+            }
+        };
+        fetchSubjectsMap();
+    }, []);
+
+    // Update subjects dropdown when section changes in upload form
+    useEffect(() => {
+        if (formData.section && sectionSubjects[formData.section]) {
+            setAvailableSubjects(sectionSubjects[formData.section]);
+            if (!sectionSubjects[formData.section].includes(formData.subject)) {
+                setFormData(prev => ({ ...prev, subject: '' })); // Reset if subject invalid for section
+            }
+        } else {
+            setAvailableSubjects([]);
+        }
+    }, [formData.section, sectionSubjects]);
+
+    // Update subjects dropdown when section changes in filter
+    useEffect(() => {
+        if (filterVerify.section !== 'All' && sectionSubjects[filterVerify.section]) {
+            setAvailableSubjectsForFilter(sectionSubjects[filterVerify.section]);
+        } else {
+            // Aggregate all subjects for 'All' sections
+            const allSubs = new Set<string>();
+            Object.values(sectionSubjects).forEach(subs => subs.forEach(s => allSubs.add(s)));
+            setAvailableSubjectsForFilter(Array.from(allSubs));
+        }
+    }, [filterVerify.section, sectionSubjects]);
 
     const fetchContent = async () => {
         setLoading(true);
@@ -206,7 +255,11 @@ export default function ContentHub() {
                                         <SelectValue placeholder="Select Subject" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {subjects.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                                        {availableSubjects.length > 0 ? (
+                                            availableSubjects.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)
+                                        ) : (
+                                            <SelectItem value="none" disabled>No subjects for this section</SelectItem>
+                                        )}
                                     </SelectContent>
                                 </Select>
                             </div>

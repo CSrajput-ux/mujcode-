@@ -9634,575 +9634,6 @@
       "designation": "Assistant Professor"
     },
     {
-      "id": "stu_mrj6pzo8_chp7yh",
-      "name": "PARNIKA JOSHI",
-      "email": "parnika.2427030021@muj.manipal.edu",
-      "password": "2427030021",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030021",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzo8_vrjr8s",
-      "name": "ISHIT KAUSHIK",
-      "email": "ishit.2427030038@muj.manipal.edu",
-      "password": "2427030038",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030038",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzo9_sdirvi",
-      "name": "VARDAAN THAKUR",
-      "email": "vardaan.2427030052@muj.manipal.edu",
-      "password": "2427030052",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030052",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzo9_srnwu6",
-      "name": "HARDIK TOMAR",
-      "email": "hardik.2427030069@muj.manipal.edu",
-      "password": "2427030069",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030069",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzo9_fubu5o",
-      "name": "NIPUN TYAGI",
-      "email": "nipun.2427030073@muj.manipal.edu",
-      "password": "2427030073",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030073",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzo9_a30gmf",
-      "name": "KUSHAGRA SINGH",
-      "email": "kushagra.2427030078@muj.manipal.edu",
-      "password": "2427030078",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030078",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_emdma9",
-      "name": "VOBILISETTI AKHILESH",
-      "email": "vobilisetti.2427030119@muj.manipal.edu",
-      "password": "2427030119",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030119",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_bbodsu",
-      "name": "KIRTAN KUMAR SANGHI",
-      "email": "kirtan.2427030122@muj.manipal.edu",
-      "password": "2427030122",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030122",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_cz8s2f",
-      "name": "ABISHRI V K",
-      "email": "abi.2427030128@muj.manipal.edu",
-      "password": "2427030128",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030128",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_1knaep",
-      "name": "JASMAN SINGH",
-      "email": "jasman.2427030131@muj.manipal.edu",
-      "password": "2427030131",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030131",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_s1qa2a",
-      "name": "TAPISH THAKUR",
-      "email": "tapish.2427030132@muj.manipal.edu",
-      "password": "2427030132",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030132",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_fr035f",
-      "name": "SWOYAM KUMAR BEHERA",
-      "email": "swoyam.2427030137@muj.manipal.edu",
-      "password": "2427030137",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030137",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_37bkal",
-      "name": "SARTHAK ROUTRAY",
-      "email": "sarthak.2427030149@muj.manipal.edu",
-      "password": "2427030149",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030149",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_tfwyg9",
-      "name": "OM WATTAMWAR",
-      "email": "om.2427030153@muj.manipal.edu",
-      "password": "2427030153",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030153",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_z0uoo7",
-      "name": "SHRIYA DESAI",
-      "email": "shriya.2427030171@muj.manipal.edu",
-      "password": "2427030171",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030171",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoa_csw1dw",
-      "name": "Siddhesh Singh Parmar",
-      "email": "siddhesh.2427030221@muj.manipal.edu",
-      "password": "2427030221",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030221",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_esp47u",
-      "name": "RIYANSH MONAL SHAH",
-      "email": "riyansh.2427030271@muj.manipal.edu",
-      "password": "2427030271",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030271",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_x27cxb",
-      "name": "ANSHUMAN SINGH",
-      "email": "anshuman.2427030275@muj.manipal.edu",
-      "password": "2427030275",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030275",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_8vhicl",
-      "name": "TIRTH KAMLESHSINH CHAUHAN",
-      "email": "tirth.2427030288@muj.manipal.edu",
-      "password": "2427030288",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030288",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_m906ic",
-      "name": "ARCHIT SINGH",
-      "email": "archit.2427030301@muj.manipal.edu",
-      "password": "2427030301",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030301",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_axa597",
-      "name": "SYED SANAULLA BASHA",
-      "email": "syed.2427030324@muj.manipal.edu",
-      "password": "2427030324",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030324",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_oq1jwc",
-      "name": "VINAYAK",
-      "email": "vinayak.2427030354@muj.manipal.edu",
-      "password": "2427030354",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030354",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_0sagxn",
-      "name": "SAMKIT JAIN",
-      "email": "samkit.2427030362@muj.manipal.edu",
-      "password": "2427030362",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030362",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_isyid7",
-      "name": "JINAY TUSHAR SHAH",
-      "email": "jinay.2427030414@muj.manipal.edu",
-      "password": "2427030414",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030414",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_av043m",
-      "name": "UTKARSH SINGH",
-      "email": "utkarsh.2427030432@muj.manipal.edu",
-      "password": "2427030432",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030432",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_y0fw1n",
-      "name": "BHAVYA YADAV",
-      "email": "bhavya.2427030455@muj.manipal.edu",
-      "password": "2427030455",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030455",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzob_wpq36g",
-      "name": "AKSHIT RAJ",
-      "email": "akshit.2427030465@muj.manipal.edu",
-      "password": "2427030465",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030465",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_ogq0pv",
-      "name": "KAVYA MITTAL",
-      "email": "kavya.2427030467@muj.manipal.edu",
-      "password": "2427030467",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030467",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_rlay1i",
-      "name": "SHORYA GOYAL",
-      "email": "shorya.2427030473@muj.manipal.edu",
-      "password": "2427030473",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030473",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_u8f1bj",
-      "name": "AANYA SINGH SAINI",
-      "email": "aanya.2427030485@muj.manipal.edu",
-      "password": "2427030485",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030485",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_64v93d",
-      "name": "BHANI KAUR",
-      "email": "bhani.2427030487@muj.manipal.edu",
-      "password": "2427030487",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030487",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_6jkbp3",
-      "name": "SHARANYA KUMAR",
-      "email": "sharanya.2427030506@muj.manipal.edu",
-      "password": "2427030506",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030506",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_9le3pw",
-      "name": "GAUTAM GIRIRAJ SHUKLA",
-      "email": "gautam.2427030515@muj.manipal.edu",
-      "password": "2427030515",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030515",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_zvatg3",
-      "name": "MUKESH KUMAR CHOWDHARY",
-      "email": "mukesh.2427030520@muj.manipal.edu",
-      "password": "2427030520",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030520",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_4kam2q",
-      "name": "CHHOTU",
-      "email": "chhotu.2427030521@muj.manipal.edu",
-      "password": "2427030521",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030521",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": "5",
-      "departmentId": "1",
-      "department": "Computer Science and Engineering",
-      "course": "B.Tech",
-      "StudentProfile": {
-        "branch": "CSE",
-        "section": "E",
-        "year": "3th Year",
-        "semester": 5
-      }
-    },
-    {
-      "id": "stu_mrj6pzod_ck6yad",
-      "name": "ATHARV SHARMA",
-      "email": "atharv.2427030527@muj.manipal.edu",
-      "password": "2427030527",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030527",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_ay8lwt",
-      "name": "PAWNI SUNEJA",
-      "email": "pawni.2427030560@muj.manipal.edu",
-      "password": "2427030560",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030560",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_795057",
-      "name": "LUVYA TIWARI",
-      "email": "luvya.2427030572@muj.manipal.edu",
-      "password": "2427030572",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030572",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzod_wiktl5",
-      "name": "SHEERSHA SAINI",
-      "email": "sheersha.2427030582@muj.manipal.edu",
-      "password": "2427030582",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030582",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
-      "id": "stu_mrj6pzoe_itv244",
-      "name": "TANISHA PANKAJKUMAR HIRPARA",
-      "email": "tanisha.2427030586@muj.manipal.edu",
-      "password": "2427030586",
-      "role": "student",
-      "isPasswordChanged": false,
-      "isActive": true,
-      "college_id": "2427030586",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5
-    },
-    {
       "id": "stu_mrj6pzoe_ln2wlm",
       "name": "SOURITRA MUKHERJEE",
       "email": "souritra.2427030587@muj.manipal.edu",
@@ -10217,7 +9648,576 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_0hv4c5",
+      "id": 100,
+      "name": "Tech Corp Admin",
+      "email": "admin@techcorp.com",
+      "password": "password",
+      "role": "company",
+      "isActive": true,
+      "isPasswordChanged": true
+    },
+    {
+      "id": "stu_mrvx5er2_1s02f6",
+      "name": "PARNIKA JOSHI",
+      "email": "parnika.2427030021@muj.manipal.edu",
+      "password": "2427030021",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030021",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er3_hhgynp",
+      "name": "ISHIT KAUSHIK",
+      "email": "ishit.2427030038@muj.manipal.edu",
+      "password": "2427030038",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030038",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er3_kylx0g",
+      "name": "VARDAAN THAKUR",
+      "email": "vardaan.2427030052@muj.manipal.edu",
+      "password": "2427030052",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030052",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er4_9d7luf",
+      "name": "HARDIK TOMAR",
+      "email": "hardik.2427030069@muj.manipal.edu",
+      "password": "2427030069",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030069",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er4_cfygax",
+      "name": "NIPUN TYAGI",
+      "email": "nipun.2427030073@muj.manipal.edu",
+      "password": "2427030073",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030073",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er5_5dp1dl",
+      "name": "KUSHAGRA SINGH",
+      "email": "kushagra.2427030078@muj.manipal.edu",
+      "password": "2427030078",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030078",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er6_ny9nrn",
+      "name": "VOBILISETTI AKHILESH",
+      "email": "vobilisetti.2427030119@muj.manipal.edu",
+      "password": "2427030119",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030119",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er6_tawv9o",
+      "name": "KIRTAN KUMAR SANGHI",
+      "email": "kirtan.2427030122@muj.manipal.edu",
+      "password": "2427030122",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030122",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er7_cttuhs",
+      "name": "ABISHRI V K",
+      "email": "abi.2427030128@muj.manipal.edu",
+      "password": "2427030128",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030128",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er7_0wbd5a",
+      "name": "JASMAN SINGH",
+      "email": "jasman.2427030131@muj.manipal.edu",
+      "password": "2427030131",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030131",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er9_01rr27",
+      "name": "TAPISH THAKUR",
+      "email": "tapish.2427030132@muj.manipal.edu",
+      "password": "2427030132",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030132",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5er9_ooa85u",
+      "name": "SWOYAM KUMAR BEHERA",
+      "email": "swoyam.2427030137@muj.manipal.edu",
+      "password": "2427030137",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030137",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5era_vg5gzi",
+      "name": "SARTHAK ROUTRAY",
+      "email": "sarthak.2427030149@muj.manipal.edu",
+      "password": "2427030149",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030149",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5era_5oj6n2",
+      "name": "OM WATTAMWAR",
+      "email": "om.2427030153@muj.manipal.edu",
+      "password": "2427030153",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030153",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5era_3rwwnk",
+      "name": "SHRIYA DESAI",
+      "email": "shriya.2427030171@muj.manipal.edu",
+      "password": "2427030171",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030171",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erb_u7vlcy",
+      "name": "Siddhesh Singh Parmar",
+      "email": "siddhesh.2427030221@muj.manipal.edu",
+      "password": "2427030221",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030221",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erb_pbiha1",
+      "name": "RIYANSH MONAL SHAH",
+      "email": "riyansh.2427030271@muj.manipal.edu",
+      "password": "2427030271",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030271",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erb_klolq6",
+      "name": "ANSHUMAN SINGH",
+      "email": "anshuman.2427030275@muj.manipal.edu",
+      "password": "2427030275",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030275",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erc_0wkvnc",
+      "name": "TIRTH KAMLESHSINH CHAUHAN",
+      "email": "tirth.2427030288@muj.manipal.edu",
+      "password": "2427030288",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030288",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erc_cscwoh",
+      "name": "ARCHIT SINGH",
+      "email": "archit.2427030301@muj.manipal.edu",
+      "password": "2427030301",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030301",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erc_3yblhi",
+      "name": "SYED SANAULLA BASHA",
+      "email": "syed.2427030324@muj.manipal.edu",
+      "password": "2427030324",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030324",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erd_97d0d6",
+      "name": "VINAYAK",
+      "email": "vinayak.2427030354@muj.manipal.edu",
+      "password": "2427030354",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030354",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erd_qtldtb",
+      "name": "SAMKIT JAIN",
+      "email": "samkit.2427030362@muj.manipal.edu",
+      "password": "2427030362",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030362",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erf_mliht6",
+      "name": "JINAY TUSHAR SHAH",
+      "email": "jinay.2427030414@muj.manipal.edu",
+      "password": "2427030414",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030414",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erf_ib1v9y",
+      "name": "UTKARSH SINGH",
+      "email": "utkarsh.2427030432@muj.manipal.edu",
+      "password": "2427030432",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030432",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erg_hle0x1",
+      "name": "BHAVYA YADAV",
+      "email": "bhavya.2427030455@muj.manipal.edu",
+      "password": "2427030455",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030455",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erg_ov63cu",
+      "name": "AKSHIT RAJ",
+      "email": "akshit.2427030465@muj.manipal.edu",
+      "password": "2427030465",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030465",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erg_y3gfuw",
+      "name": "KAVYA MITTAL",
+      "email": "kavya.2427030467@muj.manipal.edu",
+      "password": "2427030467",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030467",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erg_y6px47",
+      "name": "SHORYA GOYAL",
+      "email": "shorya.2427030473@muj.manipal.edu",
+      "password": "2427030473",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030473",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erh_sduw8h",
+      "name": "AANYA SINGH SAINI",
+      "email": "aanya.2427030485@muj.manipal.edu",
+      "password": "2427030485",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030485",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erh_7pekwe",
+      "name": "BHANI KAUR",
+      "email": "bhani.2427030487@muj.manipal.edu",
+      "password": "2427030487",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030487",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erh_7oj2ro",
+      "name": "SHARANYA KUMAR",
+      "email": "sharanya.2427030506@muj.manipal.edu",
+      "password": "2427030506",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030506",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5eri_sul3ow",
+      "name": "GAUTAM GIRIRAJ SHUKLA",
+      "email": "gautam.2427030515@muj.manipal.edu",
+      "password": "2427030515",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030515",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5eri_zlbvd0",
+      "name": "MUKESH KUMAR CHOWDHARY",
+      "email": "mukesh.2427030520@muj.manipal.edu",
+      "password": "2427030520",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030520",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5eri_alsgkj",
+      "name": "CHHOTU",
+      "email": "chhotu.2427030521@muj.manipal.edu",
+      "password": "2427030521",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030521",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5eri_mlasua",
+      "name": "ATHARV SHARMA",
+      "email": "atharv.2427030527@muj.manipal.edu",
+      "password": "2427030527",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030527",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erj_ktn69w",
+      "name": "PAWNI SUNEJA",
+      "email": "pawni.2427030560@muj.manipal.edu",
+      "password": "2427030560",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030560",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erj_c0kiz5",
+      "name": "LUVYA TIWARI",
+      "email": "luvya.2427030572@muj.manipal.edu",
+      "password": "2427030572",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030572",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erj_tup1q9",
+      "name": "SHEERSHA SAINI",
+      "email": "sheersha.2427030582@muj.manipal.edu",
+      "password": "2427030582",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030582",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erj_4xmlkj",
+      "name": "TANISHA PANKAJKUMAR HIRPARA",
+      "email": "tanisha.2427030586@muj.manipal.edu",
+      "password": "2427030586",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030586",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_mrvx5erk_c9vlmp",
       "name": "ARYAN RAJ",
       "email": "aryan.2427030590@muj.manipal.edu",
       "password": "2427030590",
@@ -10231,7 +10231,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_74k5co",
+      "id": "stu_mrvx5erk_nioy77",
       "name": "AJAY CHOUDHARY",
       "email": "ajay.2427030616@muj.manipal.edu",
       "password": "2427030616",
@@ -10245,7 +10245,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_n2lc7u",
+      "id": "stu_mrvx5erk_r89obq",
       "name": "REHAN KHAN",
       "email": "rehan.2427030623@muj.manipal.edu",
       "password": "2427030623",
@@ -10259,7 +10259,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_fkozry",
+      "id": "stu_mrvx5erk_x6wmc4",
       "name": "SHOUMIK KUMAR",
       "email": "shoumik.2427030625@muj.manipal.edu",
       "password": "2427030625",
@@ -10273,7 +10273,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_7sf9i2",
+      "id": "stu_mrvx5erl_r6f5kj",
       "name": "SUBHROJIT MOHANTY",
       "email": "subhrojit.2427030637@muj.manipal.edu",
       "password": "2427030637",
@@ -10287,7 +10287,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_rti5g6",
+      "id": "stu_mrvx5erl_aidpdc",
       "name": "HARSHIT ARYA",
       "email": "harshit.2427030665@muj.manipal.edu",
       "password": "2427030665",
@@ -10301,7 +10301,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_o3next",
+      "id": "stu_mrvx5erl_75h6i8",
       "name": "AMRITANSH SRIVASTAVA",
       "email": "amritansh.2427030667@muj.manipal.edu",
       "password": "2427030667",
@@ -10315,7 +10315,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_h36513",
+      "id": "stu_mrvx5erl_dh3fpi",
       "name": "ANGAD TYAGI",
       "email": "angad.2427030688@muj.manipal.edu",
       "password": "2427030688",
@@ -10329,7 +10329,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_l3w90j",
+      "id": "stu_mrvx5erm_01kfz6",
       "name": "PRATHAM JAIN",
       "email": "pratham.2427030705@muj.manipal.edu",
       "password": "2427030705",
@@ -10343,7 +10343,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_5na83o",
+      "id": "stu_mrvx5erm_b8rlgz",
       "name": "MANAS SRIVASTAVA",
       "email": "manas.2427030707@muj.manipal.edu",
       "password": "2427030707",
@@ -10357,7 +10357,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzoe_h0eu4v",
+      "id": "stu_mrvx5erm_fzbalm",
       "name": "SAKSHAM JAIN",
       "email": "saksham.2427030737@muj.manipal.edu",
       "password": "2427030737",
@@ -10371,7 +10371,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzof_z14s5z",
+      "id": "stu_mrvx5erm_04x81m",
       "name": "PRIYANSHI SHARMA",
       "email": "priyanshi.2427030746@muj.manipal.edu",
       "password": "2427030746",
@@ -10385,7 +10385,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzof_w2hm89",
+      "id": "stu_mrvx5ern_xprqq6",
       "name": "YASHVARDHAN SINGH SHEKHAWAT",
       "email": "yashvardhan.2427030753@muj.manipal.edu",
       "password": "2427030753",
@@ -10399,7 +10399,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzof_zw4q4d",
+      "id": "stu_mrvx5ern_f0jbtm",
       "name": "ARNAV GARG",
       "email": "arnav.2427030761@muj.manipal.edu",
       "password": "2427030761",
@@ -10413,7 +10413,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzof_ir0qf4",
+      "id": "stu_mrvx5ern_7ulvmv",
       "name": "KRITIN SINGH",
       "email": "kritin.2427030788@muj.manipal.edu",
       "password": "2427030788",
@@ -10427,7 +10427,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzof_h02a9t",
+      "id": "stu_mrvx5ero_5sj7pk",
       "name": "DEEP MUNDRA",
       "email": "deep.2427030793@muj.manipal.edu",
       "password": "2427030793",
@@ -10441,7 +10441,7 @@
       "semester": 5
     },
     {
-      "id": "stu_mrj6pzof_k603ib",
+      "id": "stu_mrvx5ero_ikhqvj",
       "name": "MOHAK TANDON",
       "email": "mohak.2427030795@muj.manipal.edu",
       "password": "2427030795",
@@ -10453,21 +10453,12 @@
       "section": "E",
       "year": "3",
       "semester": 5
-    },
-    {
-      "id": 100,
-      "name": "Tech Corp Admin",
-      "email": "admin@techcorp.com",
-      "password": "password",
-      "role": "company",
-      "isActive": true,
-      "isPasswordChanged": true
     }
   ],
   "students": [
     {
-      "id": "stu_mrj6pzo8_chp7yh",
-      "_id": "stu_mrj6pzo8_chp7yh",
+      "id": "stu_mrvx5er2_1s02f6",
+      "_id": "stu_mrvx5er2_1s02f6",
       "fullName": "PARNIKA JOSHI",
       "college_id": "2427030021",
       "rollNumber": "2427030021",
@@ -10477,8 +10468,18 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
+      ],
+      "subjects": [
+        "CSE3101 : COMPUTER NETWORKS",
+        "CSE3102 : SOFTWARE ENGINEERING",
+        "CSE3121 : ARTIFICIAL INTELLIGENCE & SOFT COMPUTING",
+        "CSE3131 : COMPUTER NETWORKS LAB",
+        "CSE3132 : SOFTWARE ENGINEERING LAB",
+        "CSE3141 : PREDICTIVE",
+        "ANALYTICS",
+        "CSE3144 : ADVANCED DATA STRUCTURES",
+        "CSE3170 : PROJECT-BASED LEARNING 3"
       ],
       "User": {
         "name": "PARNIKA JOSHI",
@@ -10487,8 +10488,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzo8_vrjr8s",
-      "_id": "stu_mrj6pzo8_vrjr8s",
+      "id": "stu_mrvx5er3_hhgynp",
+      "_id": "stu_mrvx5er3_hhgynp",
       "fullName": "ISHIT KAUSHIK",
       "college_id": "2427030038",
       "rollNumber": "2427030038",
@@ -10498,9 +10499,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "ISHIT KAUSHIK",
         "email": "ishit.2427030038@muj.manipal.edu",
@@ -10508,8 +10509,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzo9_sdirvi",
-      "_id": "stu_mrj6pzo9_sdirvi",
+      "id": "stu_mrvx5er3_kylx0g",
+      "_id": "stu_mrvx5er3_kylx0g",
       "fullName": "VARDAAN THAKUR",
       "college_id": "2427030052",
       "rollNumber": "2427030052",
@@ -10519,9 +10520,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "VARDAAN THAKUR",
         "email": "vardaan.2427030052@muj.manipal.edu",
@@ -10529,8 +10530,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzo9_srnwu6",
-      "_id": "stu_mrj6pzo9_srnwu6",
+      "id": "stu_mrvx5er4_9d7luf",
+      "_id": "stu_mrvx5er4_9d7luf",
       "fullName": "HARDIK TOMAR",
       "college_id": "2427030069",
       "rollNumber": "2427030069",
@@ -10540,9 +10541,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "HARDIK TOMAR",
         "email": "hardik.2427030069@muj.manipal.edu",
@@ -10550,8 +10551,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzo9_fubu5o",
-      "_id": "stu_mrj6pzo9_fubu5o",
+      "id": "stu_mrvx5er4_cfygax",
+      "_id": "stu_mrvx5er4_cfygax",
       "fullName": "NIPUN TYAGI",
       "college_id": "2427030073",
       "rollNumber": "2427030073",
@@ -10561,9 +10562,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "NIPUN TYAGI",
         "email": "nipun.2427030073@muj.manipal.edu",
@@ -10571,8 +10572,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzo9_a30gmf",
-      "_id": "stu_mrj6pzo9_a30gmf",
+      "id": "stu_mrvx5er5_5dp1dl",
+      "_id": "stu_mrvx5er5_5dp1dl",
       "fullName": "KUSHAGRA SINGH",
       "college_id": "2427030078",
       "rollNumber": "2427030078",
@@ -10582,9 +10583,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "KUSHAGRA SINGH",
         "email": "kushagra.2427030078@muj.manipal.edu",
@@ -10592,8 +10593,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_emdma9",
-      "_id": "stu_mrj6pzoa_emdma9",
+      "id": "stu_mrvx5er6_ny9nrn",
+      "_id": "stu_mrvx5er6_ny9nrn",
       "fullName": "VOBILISETTI AKHILESH",
       "college_id": "2427030119",
       "rollNumber": "2427030119",
@@ -10603,9 +10604,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "VOBILISETTI AKHILESH",
         "email": "vobilisetti.2427030119@muj.manipal.edu",
@@ -10613,8 +10614,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_bbodsu",
-      "_id": "stu_mrj6pzoa_bbodsu",
+      "id": "stu_mrvx5er6_tawv9o",
+      "_id": "stu_mrvx5er6_tawv9o",
       "fullName": "KIRTAN KUMAR SANGHI",
       "college_id": "2427030122",
       "rollNumber": "2427030122",
@@ -10624,9 +10625,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "KIRTAN KUMAR SANGHI",
         "email": "kirtan.2427030122@muj.manipal.edu",
@@ -10634,8 +10635,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_cz8s2f",
-      "_id": "stu_mrj6pzoa_cz8s2f",
+      "id": "stu_mrvx5er7_cttuhs",
+      "_id": "stu_mrvx5er7_cttuhs",
       "fullName": "ABISHRI V K",
       "college_id": "2427030128",
       "rollNumber": "2427030128",
@@ -10645,9 +10646,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "ABISHRI V K",
         "email": "abi.2427030128@muj.manipal.edu",
@@ -10655,8 +10656,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_1knaep",
-      "_id": "stu_mrj6pzoa_1knaep",
+      "id": "stu_mrvx5er7_0wbd5a",
+      "_id": "stu_mrvx5er7_0wbd5a",
       "fullName": "JASMAN SINGH",
       "college_id": "2427030131",
       "rollNumber": "2427030131",
@@ -10666,9 +10667,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "JASMAN SINGH",
         "email": "jasman.2427030131@muj.manipal.edu",
@@ -10676,8 +10677,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_s1qa2a",
-      "_id": "stu_mrj6pzoa_s1qa2a",
+      "id": "stu_mrvx5er9_01rr27",
+      "_id": "stu_mrvx5er9_01rr27",
       "fullName": "TAPISH THAKUR",
       "college_id": "2427030132",
       "rollNumber": "2427030132",
@@ -10687,9 +10688,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "TAPISH THAKUR",
         "email": "tapish.2427030132@muj.manipal.edu",
@@ -10697,8 +10698,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_fr035f",
-      "_id": "stu_mrj6pzoa_fr035f",
+      "id": "stu_mrvx5er9_ooa85u",
+      "_id": "stu_mrvx5er9_ooa85u",
       "fullName": "SWOYAM KUMAR BEHERA",
       "college_id": "2427030137",
       "rollNumber": "2427030137",
@@ -10708,9 +10709,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SWOYAM KUMAR BEHERA",
         "email": "swoyam.2427030137@muj.manipal.edu",
@@ -10718,8 +10719,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_37bkal",
-      "_id": "stu_mrj6pzoa_37bkal",
+      "id": "stu_mrvx5era_vg5gzi",
+      "_id": "stu_mrvx5era_vg5gzi",
       "fullName": "SARTHAK ROUTRAY",
       "college_id": "2427030149",
       "rollNumber": "2427030149",
@@ -10729,9 +10730,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SARTHAK ROUTRAY",
         "email": "sarthak.2427030149@muj.manipal.edu",
@@ -10739,8 +10740,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_tfwyg9",
-      "_id": "stu_mrj6pzoa_tfwyg9",
+      "id": "stu_mrvx5era_5oj6n2",
+      "_id": "stu_mrvx5era_5oj6n2",
       "fullName": "OM WATTAMWAR",
       "college_id": "2427030153",
       "rollNumber": "2427030153",
@@ -10750,9 +10751,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "OM WATTAMWAR",
         "email": "om.2427030153@muj.manipal.edu",
@@ -10760,8 +10761,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_z0uoo7",
-      "_id": "stu_mrj6pzoa_z0uoo7",
+      "id": "stu_mrvx5era_3rwwnk",
+      "_id": "stu_mrvx5era_3rwwnk",
       "fullName": "SHRIYA DESAI",
       "college_id": "2427030171",
       "rollNumber": "2427030171",
@@ -10771,9 +10772,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SHRIYA DESAI",
         "email": "shriya.2427030171@muj.manipal.edu",
@@ -10781,8 +10782,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoa_csw1dw",
-      "_id": "stu_mrj6pzoa_csw1dw",
+      "id": "stu_mrvx5erb_u7vlcy",
+      "_id": "stu_mrvx5erb_u7vlcy",
       "fullName": "Siddhesh Singh Parmar",
       "college_id": "2427030221",
       "rollNumber": "2427030221",
@@ -10792,9 +10793,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "Siddhesh Singh Parmar",
         "email": "siddhesh.2427030221@muj.manipal.edu",
@@ -10802,8 +10803,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_esp47u",
-      "_id": "stu_mrj6pzob_esp47u",
+      "id": "stu_mrvx5erb_pbiha1",
+      "_id": "stu_mrvx5erb_pbiha1",
       "fullName": "RIYANSH MONAL SHAH",
       "college_id": "2427030271",
       "rollNumber": "2427030271",
@@ -10813,9 +10814,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "RIYANSH MONAL SHAH",
         "email": "riyansh.2427030271@muj.manipal.edu",
@@ -10823,8 +10824,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_x27cxb",
-      "_id": "stu_mrj6pzob_x27cxb",
+      "id": "stu_mrvx5erb_klolq6",
+      "_id": "stu_mrvx5erb_klolq6",
       "fullName": "ANSHUMAN SINGH",
       "college_id": "2427030275",
       "rollNumber": "2427030275",
@@ -10834,9 +10835,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "ANSHUMAN SINGH",
         "email": "anshuman.2427030275@muj.manipal.edu",
@@ -10844,8 +10845,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_8vhicl",
-      "_id": "stu_mrj6pzob_8vhicl",
+      "id": "stu_mrvx5erc_0wkvnc",
+      "_id": "stu_mrvx5erc_0wkvnc",
       "fullName": "TIRTH KAMLESHSINH CHAUHAN",
       "college_id": "2427030288",
       "rollNumber": "2427030288",
@@ -10855,9 +10856,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "TIRTH KAMLESHSINH CHAUHAN",
         "email": "tirth.2427030288@muj.manipal.edu",
@@ -10865,8 +10866,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_m906ic",
-      "_id": "stu_mrj6pzob_m906ic",
+      "id": "stu_mrvx5erc_cscwoh",
+      "_id": "stu_mrvx5erc_cscwoh",
       "fullName": "ARCHIT SINGH",
       "college_id": "2427030301",
       "rollNumber": "2427030301",
@@ -10876,9 +10877,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "ARCHIT SINGH",
         "email": "archit.2427030301@muj.manipal.edu",
@@ -10886,8 +10887,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_axa597",
-      "_id": "stu_mrj6pzob_axa597",
+      "id": "stu_mrvx5erc_3yblhi",
+      "_id": "stu_mrvx5erc_3yblhi",
       "fullName": "SYED SANAULLA BASHA",
       "college_id": "2427030324",
       "rollNumber": "2427030324",
@@ -10897,9 +10898,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SYED SANAULLA BASHA",
         "email": "syed.2427030324@muj.manipal.edu",
@@ -10907,8 +10908,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_oq1jwc",
-      "_id": "stu_mrj6pzob_oq1jwc",
+      "id": "stu_mrvx5erd_97d0d6",
+      "_id": "stu_mrvx5erd_97d0d6",
       "fullName": "VINAYAK",
       "college_id": "2427030354",
       "rollNumber": "2427030354",
@@ -10918,9 +10919,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "VINAYAK",
         "email": "vinayak.2427030354@muj.manipal.edu",
@@ -10928,8 +10929,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_0sagxn",
-      "_id": "stu_mrj6pzob_0sagxn",
+      "id": "stu_mrvx5erd_qtldtb",
+      "_id": "stu_mrvx5erd_qtldtb",
       "fullName": "SAMKIT JAIN",
       "college_id": "2427030362",
       "rollNumber": "2427030362",
@@ -10939,9 +10940,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SAMKIT JAIN",
         "email": "samkit.2427030362@muj.manipal.edu",
@@ -10949,8 +10950,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_isyid7",
-      "_id": "stu_mrj6pzob_isyid7",
+      "id": "stu_mrvx5erf_mliht6",
+      "_id": "stu_mrvx5erf_mliht6",
       "fullName": "JINAY TUSHAR SHAH",
       "college_id": "2427030414",
       "rollNumber": "2427030414",
@@ -10960,9 +10961,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "JINAY TUSHAR SHAH",
         "email": "jinay.2427030414@muj.manipal.edu",
@@ -10970,8 +10971,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_av043m",
-      "_id": "stu_mrj6pzob_av043m",
+      "id": "stu_mrvx5erf_ib1v9y",
+      "_id": "stu_mrvx5erf_ib1v9y",
       "fullName": "UTKARSH SINGH",
       "college_id": "2427030432",
       "rollNumber": "2427030432",
@@ -10981,9 +10982,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "UTKARSH SINGH",
         "email": "utkarsh.2427030432@muj.manipal.edu",
@@ -10991,8 +10992,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_y0fw1n",
-      "_id": "stu_mrj6pzob_y0fw1n",
+      "id": "stu_mrvx5erg_hle0x1",
+      "_id": "stu_mrvx5erg_hle0x1",
       "fullName": "BHAVYA YADAV",
       "college_id": "2427030455",
       "rollNumber": "2427030455",
@@ -11002,9 +11003,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "BHAVYA YADAV",
         "email": "bhavya.2427030455@muj.manipal.edu",
@@ -11012,8 +11013,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzob_wpq36g",
-      "_id": "stu_mrj6pzob_wpq36g",
+      "id": "stu_mrvx5erg_ov63cu",
+      "_id": "stu_mrvx5erg_ov63cu",
       "fullName": "AKSHIT RAJ",
       "college_id": "2427030465",
       "rollNumber": "2427030465",
@@ -11023,9 +11024,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "AKSHIT RAJ",
         "email": "akshit.2427030465@muj.manipal.edu",
@@ -11033,8 +11034,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_ogq0pv",
-      "_id": "stu_mrj6pzod_ogq0pv",
+      "id": "stu_mrvx5erg_y3gfuw",
+      "_id": "stu_mrvx5erg_y3gfuw",
       "fullName": "KAVYA MITTAL",
       "college_id": "2427030467",
       "rollNumber": "2427030467",
@@ -11044,9 +11045,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "KAVYA MITTAL",
         "email": "kavya.2427030467@muj.manipal.edu",
@@ -11054,8 +11055,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_rlay1i",
-      "_id": "stu_mrj6pzod_rlay1i",
+      "id": "stu_mrvx5erg_y6px47",
+      "_id": "stu_mrvx5erg_y6px47",
       "fullName": "SHORYA GOYAL",
       "college_id": "2427030473",
       "rollNumber": "2427030473",
@@ -11065,9 +11066,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SHORYA GOYAL",
         "email": "shorya.2427030473@muj.manipal.edu",
@@ -11075,8 +11076,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_u8f1bj",
-      "_id": "stu_mrj6pzod_u8f1bj",
+      "id": "stu_mrvx5erh_sduw8h",
+      "_id": "stu_mrvx5erh_sduw8h",
       "fullName": "AANYA SINGH SAINI",
       "college_id": "2427030485",
       "rollNumber": "2427030485",
@@ -11086,9 +11087,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "AANYA SINGH SAINI",
         "email": "aanya.2427030485@muj.manipal.edu",
@@ -11096,8 +11097,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_64v93d",
-      "_id": "stu_mrj6pzod_64v93d",
+      "id": "stu_mrvx5erh_7pekwe",
+      "_id": "stu_mrvx5erh_7pekwe",
       "fullName": "BHANI KAUR",
       "college_id": "2427030487",
       "rollNumber": "2427030487",
@@ -11107,9 +11108,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "BHANI KAUR",
         "email": "bhani.2427030487@muj.manipal.edu",
@@ -11117,8 +11118,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_6jkbp3",
-      "_id": "stu_mrj6pzod_6jkbp3",
+      "id": "stu_mrvx5erh_7oj2ro",
+      "_id": "stu_mrvx5erh_7oj2ro",
       "fullName": "SHARANYA KUMAR",
       "college_id": "2427030506",
       "rollNumber": "2427030506",
@@ -11128,9 +11129,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SHARANYA KUMAR",
         "email": "sharanya.2427030506@muj.manipal.edu",
@@ -11138,8 +11139,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_9le3pw",
-      "_id": "stu_mrj6pzod_9le3pw",
+      "id": "stu_mrvx5eri_sul3ow",
+      "_id": "stu_mrvx5eri_sul3ow",
       "fullName": "GAUTAM GIRIRAJ SHUKLA",
       "college_id": "2427030515",
       "rollNumber": "2427030515",
@@ -11149,9 +11150,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "GAUTAM GIRIRAJ SHUKLA",
         "email": "gautam.2427030515@muj.manipal.edu",
@@ -11159,8 +11160,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_zvatg3",
-      "_id": "stu_mrj6pzod_zvatg3",
+      "id": "stu_mrvx5eri_zlbvd0",
+      "_id": "stu_mrvx5eri_zlbvd0",
       "fullName": "MUKESH KUMAR CHOWDHARY",
       "college_id": "2427030520",
       "rollNumber": "2427030520",
@@ -11170,9 +11171,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "MUKESH KUMAR CHOWDHARY",
         "email": "mukesh.2427030520@muj.manipal.edu",
@@ -11180,8 +11181,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_4kam2q",
-      "_id": "stu_mrj6pzod_4kam2q",
+      "id": "stu_mrvx5eri_alsgkj",
+      "_id": "stu_mrvx5eri_alsgkj",
       "fullName": "CHHOTU",
       "college_id": "2427030521",
       "rollNumber": "2427030521",
@@ -11191,9 +11192,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "CHHOTU",
         "email": "chhotu.2427030521@muj.manipal.edu",
@@ -11201,8 +11202,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_ck6yad",
-      "_id": "stu_mrj6pzod_ck6yad",
+      "id": "stu_mrvx5eri_mlasua",
+      "_id": "stu_mrvx5eri_mlasua",
       "fullName": "ATHARV SHARMA",
       "college_id": "2427030527",
       "rollNumber": "2427030527",
@@ -11212,9 +11213,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "ATHARV SHARMA",
         "email": "atharv.2427030527@muj.manipal.edu",
@@ -11222,8 +11223,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_ay8lwt",
-      "_id": "stu_mrj6pzod_ay8lwt",
+      "id": "stu_mrvx5erj_ktn69w",
+      "_id": "stu_mrvx5erj_ktn69w",
       "fullName": "PAWNI SUNEJA",
       "college_id": "2427030560",
       "rollNumber": "2427030560",
@@ -11233,9 +11234,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "PAWNI SUNEJA",
         "email": "pawni.2427030560@muj.manipal.edu",
@@ -11243,8 +11244,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_795057",
-      "_id": "stu_mrj6pzod_795057",
+      "id": "stu_mrvx5erj_c0kiz5",
+      "_id": "stu_mrvx5erj_c0kiz5",
       "fullName": "LUVYA TIWARI",
       "college_id": "2427030572",
       "rollNumber": "2427030572",
@@ -11254,9 +11255,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "LUVYA TIWARI",
         "email": "luvya.2427030572@muj.manipal.edu",
@@ -11264,8 +11265,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzod_wiktl5",
-      "_id": "stu_mrj6pzod_wiktl5",
+      "id": "stu_mrvx5erj_tup1q9",
+      "_id": "stu_mrvx5erj_tup1q9",
       "fullName": "SHEERSHA SAINI",
       "college_id": "2427030582",
       "rollNumber": "2427030582",
@@ -11275,9 +11276,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SHEERSHA SAINI",
         "email": "sheersha.2427030582@muj.manipal.edu",
@@ -11285,8 +11286,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_itv244",
-      "_id": "stu_mrj6pzoe_itv244",
+      "id": "stu_mrvx5erj_4xmlkj",
+      "_id": "stu_mrvx5erj_4xmlkj",
       "fullName": "TANISHA PANKAJKUMAR HIRPARA",
       "college_id": "2427030586",
       "rollNumber": "2427030586",
@@ -11296,9 +11297,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "TANISHA PANKAJKUMAR HIRPARA",
         "email": "tanisha.2427030586@muj.manipal.edu",
@@ -11306,29 +11307,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_ln2wlm",
-      "_id": "stu_mrj6pzoe_ln2wlm",
-      "fullName": "SOURITRA MUKHERJEE",
-      "college_id": "2427030587",
-      "rollNumber": "2427030587",
-      "branch": "CSE",
-      "section": "E",
-      "year": "3",
-      "semester": 5,
-      "facultyMentors": [
-        "fac_1",
-        "fac_545",
-        "fac_112"
-      ],
-      "User": {
-        "name": "SOURITRA MUKHERJEE",
-        "email": "souritra.2427030587@muj.manipal.edu",
-        "isActive": true
-      }
-    },
-    {
-      "id": "stu_mrj6pzoe_0hv4c5",
-      "_id": "stu_mrj6pzoe_0hv4c5",
+      "id": "stu_mrvx5erk_c9vlmp",
+      "_id": "stu_mrvx5erk_c9vlmp",
       "fullName": "ARYAN RAJ",
       "college_id": "2427030590",
       "rollNumber": "2427030590",
@@ -11338,9 +11318,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "ARYAN RAJ",
         "email": "aryan.2427030590@muj.manipal.edu",
@@ -11348,8 +11328,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_74k5co",
-      "_id": "stu_mrj6pzoe_74k5co",
+      "id": "stu_mrvx5erk_nioy77",
+      "_id": "stu_mrvx5erk_nioy77",
       "fullName": "AJAY CHOUDHARY",
       "college_id": "2427030616",
       "rollNumber": "2427030616",
@@ -11359,9 +11339,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "AJAY CHOUDHARY",
         "email": "ajay.2427030616@muj.manipal.edu",
@@ -11369,8 +11349,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_n2lc7u",
-      "_id": "stu_mrj6pzoe_n2lc7u",
+      "id": "stu_mrvx5erk_r89obq",
+      "_id": "stu_mrvx5erk_r89obq",
       "fullName": "REHAN KHAN",
       "college_id": "2427030623",
       "rollNumber": "2427030623",
@@ -11380,9 +11360,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "REHAN KHAN",
         "email": "rehan.2427030623@muj.manipal.edu",
@@ -11390,8 +11370,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_fkozry",
-      "_id": "stu_mrj6pzoe_fkozry",
+      "id": "stu_mrvx5erk_x6wmc4",
+      "_id": "stu_mrvx5erk_x6wmc4",
       "fullName": "SHOUMIK KUMAR",
       "college_id": "2427030625",
       "rollNumber": "2427030625",
@@ -11401,9 +11381,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SHOUMIK KUMAR",
         "email": "shoumik.2427030625@muj.manipal.edu",
@@ -11411,8 +11391,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_7sf9i2",
-      "_id": "stu_mrj6pzoe_7sf9i2",
+      "id": "stu_mrvx5erl_r6f5kj",
+      "_id": "stu_mrvx5erl_r6f5kj",
       "fullName": "SUBHROJIT MOHANTY",
       "college_id": "2427030637",
       "rollNumber": "2427030637",
@@ -11422,9 +11402,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SUBHROJIT MOHANTY",
         "email": "subhrojit.2427030637@muj.manipal.edu",
@@ -11432,8 +11412,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_rti5g6",
-      "_id": "stu_mrj6pzoe_rti5g6",
+      "id": "stu_mrvx5erl_aidpdc",
+      "_id": "stu_mrvx5erl_aidpdc",
       "fullName": "HARSHIT ARYA",
       "college_id": "2427030665",
       "rollNumber": "2427030665",
@@ -11443,9 +11423,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "HARSHIT ARYA",
         "email": "harshit.2427030665@muj.manipal.edu",
@@ -11453,8 +11433,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_o3next",
-      "_id": "stu_mrj6pzoe_o3next",
+      "id": "stu_mrvx5erl_75h6i8",
+      "_id": "stu_mrvx5erl_75h6i8",
       "fullName": "AMRITANSH SRIVASTAVA",
       "college_id": "2427030667",
       "rollNumber": "2427030667",
@@ -11464,9 +11444,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "AMRITANSH SRIVASTAVA",
         "email": "amritansh.2427030667@muj.manipal.edu",
@@ -11474,8 +11454,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_h36513",
-      "_id": "stu_mrj6pzoe_h36513",
+      "id": "stu_mrvx5erl_dh3fpi",
+      "_id": "stu_mrvx5erl_dh3fpi",
       "fullName": "ANGAD TYAGI",
       "college_id": "2427030688",
       "rollNumber": "2427030688",
@@ -11485,9 +11465,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "ANGAD TYAGI",
         "email": "angad.2427030688@muj.manipal.edu",
@@ -11495,8 +11475,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_l3w90j",
-      "_id": "stu_mrj6pzoe_l3w90j",
+      "id": "stu_mrvx5erm_01kfz6",
+      "_id": "stu_mrvx5erm_01kfz6",
       "fullName": "PRATHAM JAIN",
       "college_id": "2427030705",
       "rollNumber": "2427030705",
@@ -11506,9 +11486,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "PRATHAM JAIN",
         "email": "pratham.2427030705@muj.manipal.edu",
@@ -11516,8 +11496,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_5na83o",
-      "_id": "stu_mrj6pzoe_5na83o",
+      "id": "stu_mrvx5erm_b8rlgz",
+      "_id": "stu_mrvx5erm_b8rlgz",
       "fullName": "MANAS SRIVASTAVA",
       "college_id": "2427030707",
       "rollNumber": "2427030707",
@@ -11527,9 +11507,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "MANAS SRIVASTAVA",
         "email": "manas.2427030707@muj.manipal.edu",
@@ -11537,8 +11517,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzoe_h0eu4v",
-      "_id": "stu_mrj6pzoe_h0eu4v",
+      "id": "stu_mrvx5erm_fzbalm",
+      "_id": "stu_mrvx5erm_fzbalm",
       "fullName": "SAKSHAM JAIN",
       "college_id": "2427030737",
       "rollNumber": "2427030737",
@@ -11548,9 +11528,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "SAKSHAM JAIN",
         "email": "saksham.2427030737@muj.manipal.edu",
@@ -11558,8 +11538,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzof_z14s5z",
-      "_id": "stu_mrj6pzof_z14s5z",
+      "id": "stu_mrvx5erm_04x81m",
+      "_id": "stu_mrvx5erm_04x81m",
       "fullName": "PRIYANSHI SHARMA",
       "college_id": "2427030746",
       "rollNumber": "2427030746",
@@ -11569,9 +11549,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "PRIYANSHI SHARMA",
         "email": "priyanshi.2427030746@muj.manipal.edu",
@@ -11579,8 +11559,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzof_w2hm89",
-      "_id": "stu_mrj6pzof_w2hm89",
+      "id": "stu_mrvx5ern_xprqq6",
+      "_id": "stu_mrvx5ern_xprqq6",
       "fullName": "YASHVARDHAN SINGH SHEKHAWAT",
       "college_id": "2427030753",
       "rollNumber": "2427030753",
@@ -11590,9 +11570,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "YASHVARDHAN SINGH SHEKHAWAT",
         "email": "yashvardhan.2427030753@muj.manipal.edu",
@@ -11600,8 +11580,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzof_zw4q4d",
-      "_id": "stu_mrj6pzof_zw4q4d",
+      "id": "stu_mrvx5ern_f0jbtm",
+      "_id": "stu_mrvx5ern_f0jbtm",
       "fullName": "ARNAV GARG",
       "college_id": "2427030761",
       "rollNumber": "2427030761",
@@ -11611,9 +11591,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "ARNAV GARG",
         "email": "arnav.2427030761@muj.manipal.edu",
@@ -11621,8 +11601,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzof_ir0qf4",
-      "_id": "stu_mrj6pzof_ir0qf4",
+      "id": "stu_mrvx5ern_7ulvmv",
+      "_id": "stu_mrvx5ern_7ulvmv",
       "fullName": "KRITIN SINGH",
       "college_id": "2427030788",
       "rollNumber": "2427030788",
@@ -11632,9 +11612,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "KRITIN SINGH",
         "email": "kritin.2427030788@muj.manipal.edu",
@@ -11642,8 +11622,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzof_h02a9t",
-      "_id": "stu_mrj6pzof_h02a9t",
+      "id": "stu_mrvx5ero_5sj7pk",
+      "_id": "stu_mrvx5ero_5sj7pk",
       "fullName": "DEEP MUNDRA",
       "college_id": "2427030793",
       "rollNumber": "2427030793",
@@ -11653,9 +11633,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "DEEP MUNDRA",
         "email": "deep.2427030793@muj.manipal.edu",
@@ -11663,8 +11643,8 @@
       }
     },
     {
-      "id": "stu_mrj6pzof_k603ib",
-      "_id": "stu_mrj6pzof_k603ib",
+      "id": "stu_mrvx5ero_ikhqvj",
+      "_id": "stu_mrvx5ero_ikhqvj",
       "fullName": "MOHAK TANDON",
       "college_id": "2427030795",
       "rollNumber": "2427030795",
@@ -11674,9 +11654,9 @@
       "semester": 5,
       "facultyMentors": [
         "fac_1",
-        "fac_545",
-        "fac_112"
+        "fac_702"
       ],
+      "subjects": [],
       "User": {
         "name": "MOHAK TANDON",
         "email": "mohak.2427030795@muj.manipal.edu",
@@ -48834,7 +48814,20 @@
       "appliedAt": "2026-05-20T11:00:00.000Z"
     }
   ],
-  "content": [],
+  "content": [
+    {
+      "_id": "content_mrvvf31b_m65lwh",
+      "title": "unit 1 : intro ",
+      "description": "intro ",
+      "type": "module",
+      "subject": "Algorithms",
+      "section": "E",
+      "fileUrl": "/uploads/content_mrvvf31b_m65lwh-Complete-System-Architecture.pdf",
+      "fileType": "application/pdf",
+      "uploadedBy": "aditya.sinha@jaipur.manipal.edu",
+      "createdAt": "2026-07-22T09:19:16.515Z"
+    }
+  ],
   "permissions": [],
   "mockTests": [
     {

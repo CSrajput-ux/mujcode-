@@ -54,8 +54,8 @@ export default function BulkUpload() {
     };
 
     const downloadSample = () => {
-        const headers = ["Name", "Email", "RollNumber", "Branch", "Section", "Year", "Semester"];
-        const sampleRow = ["John Doe", "john.doe@example.com", "2427030001", "CSE", "A", "1", "1"];
+        const headers = ["Name", "Email", "RollNumber", "Branch", "Section", "Year", "Semester", "Subjects"];
+        const sampleRow = ["John Doe", "john.doe@example.com", "2427030001", "CSE", "A", "1", "1", "Algorithms; Data Structures; Operating Systems"];
         const csvContent = "data:text/csv;charset=utf-8," 
             + headers.join(",") + "\n" 
             + sampleRow.join(",");

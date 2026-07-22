@@ -3,6 +3,23 @@ import { nextId } from '../lib/ids.js';
 import { currentUser } from './helpers.js';
 
 export function registerFacultyRoutes(router) {
+  router.get('/api/faculty/subjects-by-section', (req, res, ctx) => {
+    const db = ctx.getDb();
+    const result = {};
+    db.students.forEach(student => {
+      const sec = student.section || 'A';
+      if (!result[sec]) result[sec] = new Set();
+      if (student.subjects) {
+        student.subjects.forEach(sub => result[sec].add(sub));
+      }
+    });
+    const formatted = Object.keys(result).reduce((acc, sec) => {
+      acc[sec] = Array.from(result[sec]);
+      return acc;
+    }, {});
+    return sendJson(res, 200, formatted);
+  });
+
   router.get('/api/faculty/teaching-map', (req, res, ctx) => {
     const db = ctx.getDb();
     const year = req.query.year;

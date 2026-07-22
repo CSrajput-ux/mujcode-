@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
-import { getStudents, deleteStudent } from '../../services/adminService';
+import { getStudents, deleteStudent, bulkDeleteStudents } from '../../services/adminService';
 import { toast } from 'sonner';
 import { Search, Plus, Upload, Edit, Trash2, ArrowLeft } from 'lucide-react';
 
@@ -20,6 +20,7 @@ export default function Students() {
         total: 0,
         pages: 0
     });
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
     useEffect(() => {
         fetchStudents();
@@ -67,6 +68,34 @@ export default function Students() {
         setPagination({ ...pagination, page: newPage });
     };
 
+    const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.checked) {
+            setSelectedIds(students.map(s => s.id || s._id));
+        } else {
+            setSelectedIds([]);
+        }
+    };
+
+    const toggleSelect = (id: string) => {
+        setSelectedIds(prev => 
+            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+        );
+    };
+
+    const handleBulkDelete = async () => {
+        if (!confirm(`Are you sure you want to delete ${selectedIds.length} students?`)) return;
+
+        try {
+            await bulkDeleteStudents(selectedIds);
+            toast.success(`${selectedIds.length} students deleted successfully`);
+            setSelectedIds([]);
+            fetchStudents();
+        } catch (error) {
+            console.error('Error deleting students:', error);
+            toast.error('Failed to delete students in bulk');
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
             <div className="max-w-7xl mx-auto">
@@ -86,6 +115,16 @@ export default function Students() {
                             <p className="text-gray-600 mt-1">View and manage all student accounts</p>
                         </div>
                         <div className="flex gap-3">
+                            {selectedIds.length > 0 && (
+                                <Button 
+                                    onClick={handleBulkDelete}
+                                    variant="destructive"
+                                    className="bg-red-600 hover:bg-red-700"
+                                >
+                                    <Trash2 className="w-4 h-4 mr-2" />
+                                    Delete Selected ({selectedIds.length})
+                                </Button>
+                            )}
                             <Button
                                 onClick={() => navigate('/admin/students/bulk-upload')}
                                 variant="outline"
@@ -176,6 +215,14 @@ export default function Students() {
                                     <table className="w-full">
                                         <thead className="bg-gray-50">
                                             <tr>
+                                                <th className="px-4 py-3 text-left">
+                                                    <input 
+                                                        type="checkbox" 
+                                                        className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                        checked={students.length > 0 && selectedIds.length === students.length}
+                                                        onChange={handleSelectAll}
+                                                    />
+                                                </th>
                                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
                                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
                                                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Roll Number</th>
@@ -186,8 +233,18 @@ export default function Students() {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-gray-200">
-                                            {students.map((student) => (
-                                                <tr key={student.id} className="hover:bg-gray-50">
+                                            {students.map((student) => {
+                                                const id = student.id || student._id;
+                                                return (
+                                                <tr key={id} className={`hover:bg-gray-50 ${selectedIds.includes(id) ? 'bg-indigo-50' : ''}`}>
+                                                    <td className="px-4 py-4">
+                                                        <input 
+                                                            type="checkbox"
+                                                            className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
+                                                            checked={selectedIds.includes(id)}
+                                                            onChange={() => toggleSelect(id)}
+                                                        />
+                                                    </td>
                                                     <td className="px-4 py-4 text-sm font-medium text-gray-900">
                                                         {student.User?.name || 'N/A'}
                                                     </td>
@@ -231,7 +288,7 @@ export default function Students() {
                                                         </div>
                                                     </td>
                                                 </tr>
-                                            ))}
+                                            )})}
                                         </tbody>
                                     </table>
                                 </div>

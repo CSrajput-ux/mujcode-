@@ -189,6 +189,7 @@ export function registerAdminRoutes(router) {
         year: String(user.year),
         semester: user.semester,
         facultyMentors: facultyIds,
+        subjects: row.Subjects ? row.Subjects.split(';').map(s => s.trim()).filter(Boolean) : [],
         User: {
           name: user.name,
           email: user.email,
@@ -291,8 +292,23 @@ export function registerAdminRoutes(router) {
   router.delete('/api/admin/students/:id', (req, res, ctx) => {
     const db = ctx.getDb();
     db.students = db.students.filter(student => student.id !== req.params.id && student._id !== req.params.id);
+    db.users = db.users.filter(user => user.id !== req.params.id && user.role === 'student');
     ctx.saveDb(db);
     return ok(res, { message: 'Student deleted' });
+  });
+
+  router.post('/api/admin/students/bulk-delete', (req, res, ctx) => {
+    const db = ctx.getDb();
+    const ids = req.body.ids;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return sendJson(res, 400, { error: 'No student IDs provided' });
+    }
+    
+    db.students = db.students.filter(student => !ids.includes(student.id) && !ids.includes(student._id));
+    db.users = db.users.filter(user => !ids.includes(user.id));
+    
+    ctx.saveDb(db);
+    return ok(res, { message: `${ids.length} students deleted successfully` });
   });
 
   router.get('/api/admin/faculty', (req, res, ctx) => {

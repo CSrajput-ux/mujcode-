@@ -11,7 +11,24 @@ function coursesFor(db, branchCode = 'CSE', semester = 4) {
 }
 
 function courseResponse(db, student, branchCode = 'CSE', semester = 4) {
-  const courses = coursesFor(db, branchCode, semester);
+  let courses = coursesFor(db, branchCode, semester);
+
+  if (student && student.subjects && student.subjects.length > 0) {
+    const existingTitles = new Set(courses.map(c => c.courseName.toLowerCase()));
+    const customCourses = student.subjects
+      .filter(sub => !existingTitles.has(sub.toLowerCase()))
+      .map((sub, i) => ({
+        courseCode: `SUB-${i + 100}`,
+        courseName: sub,
+        credits: 3,
+        courseType: 'Theory',
+        isElective: false,
+        prerequisites: [],
+        syllabusOverview: ''
+      }));
+    courses = [...customCourses, ...courses];
+  }
+
   const totalCredits = courses.reduce((sum, course) => sum + Number(course.credits || 0), 0);
 
   return {

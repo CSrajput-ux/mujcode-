@@ -43,6 +43,11 @@ export const updateStudent = async (id: string, data: any) => {
     return response.data;
 };
 
+export const bulkDeleteStudents = async (ids: string[]) => {
+    const response = await axios.post(`${API_URL}/students/bulk-delete`, { ids });
+    return response.data;
+};
+
 export const deleteStudent = async (id: string) => {
     const response = await axios.delete(`${API_URL}/students/${id}`);
     return response.data;
