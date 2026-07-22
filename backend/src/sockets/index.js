@@ -67,8 +67,22 @@ export function setupSockets(server) {
       socket.to(socket.roomId).emit('whiteboard-draw', payload);
     });
     
-    socket.on('whiteboard-clear', () => {
-      socket.to(socket.roomId).emit('whiteboard-clear');
+    socket.on('whiteboard-clear', (payload) => {
+      socket.to(socket.roomId).emit('whiteboard-clear', payload);
+    });
+
+    // Multi-page whiteboard events
+    socket.on('whiteboard-page-change', (payload) => {
+      socket.to(socket.roomId).emit('whiteboard-page-change', payload);
+    });
+
+    socket.on('whiteboard-add-page', (payload) => {
+      socket.to(socket.roomId).emit('whiteboard-add-page', payload);
+    });
+
+    // Faculty screen share notification
+    socket.on('faculty-screen-share', (payload) => {
+      socket.to(socket.roomId).emit('faculty-screen-share', payload);
     });
 
     // Disconnect handling

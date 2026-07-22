@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
-import { Video, Clock, Calendar, Download, Users, GraduationCap, Building2 } from 'lucide-react';
+import { Video, Clock, Calendar, Download, Users, GraduationCap, Building2, ExternalLink } from 'lucide-react';
 import { getLiveClasses, joinLiveClass, leaveLiveClass, type LiveClass } from '../../services/liveClassService';
 import { toast } from 'sonner';
 
@@ -10,6 +11,7 @@ export default function LiveClassesTab() {
   const [classes, setClasses] = useState<LiveClass[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeClassId, setActiveClassId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchClasses();
@@ -31,11 +33,13 @@ export default function LiveClassesTab() {
   const handleJoin = async (id: string) => {
     try {
       const res = await joinLiveClass(id);
-      if (res.meetingLink) {
+      setActiveClassId(id);
+      toast.success('Joined successfully! Redirecting to live class...');
+      
+      if (res.meetingLink && (res.meetingLink.startsWith('http://') || res.meetingLink.startsWith('https://'))) {
         window.open(res.meetingLink, '_blank');
       }
-      setActiveClassId(id);
-      toast.success('Joined successfully! Attendance tracking started.');
+      navigate(`/live-class/${id}`);
     } catch (error: any) {
       toast.error(error.response?.data?.error || 'Failed to join class');
     }
@@ -69,12 +73,19 @@ export default function LiveClassesTab() {
   return (
     <div className="space-y-6">
       {activeClassId && (
-        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl flex justify-between items-center">
+        <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-xl flex justify-between items-center gap-4 flex-wrap">
           <div>
             <p className="font-bold">You are currently tracking attendance for a live class.</p>
             <p className="text-sm">Don't forget to click "Leave Class" to finalize your 20-min minimum attendance!</p>
           </div>
-          <Button variant="destructive" onClick={handleLeave}>Leave Class</Button>
+          <div className="flex gap-2">
+            <Button className="bg-red-600 hover:bg-red-700 text-white" onClick={() => navigate(`/live-class/${activeClassId}`)}>
+              Enter Classroom
+            </Button>
+            <Button variant="outline" className="border-red-300 text-red-700 hover:bg-red-100" onClick={handleLeave}>
+              Leave Class
+            </Button>
+          </div>
         </div>
       )}
 
@@ -128,10 +139,9 @@ export default function LiveClassesTab() {
                     <Button 
                       className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold"
                       onClick={() => handleJoin(c._id)}
-                      disabled={activeClassId === c._id}
                     >
                       <Video className="w-4 h-4 mr-2" />
-                      {activeClassId === c._id ? 'Joined' : 'Join Live Class'}
+                      {activeClassId === c._id ? 'Enter Live Class' : 'Join Live Class'}
                     </Button>
                   ) : c.status === 'Completed' ? (
                     <>
@@ -158,3 +168,4 @@ export default function LiveClassesTab() {
     </div>
   );
 }
+

@@ -49028,9 +49028,47 @@
       "status": "Completed",
       "recordingUrl": null,
       "createdAt": "2026-07-13T19:25:21.850Z"
+    },
+    {
+      "_id": "lc_mrvrf4cj_w1a8vn",
+      "facultyId": "fac_1",
+      "facultyName": "Unknown Faculty",
+      "subject": "dsa",
+      "courseName": "",
+      "branch": "",
+      "section": "",
+      "topic": "intro ",
+      "date": "2026-07-22",
+      "time": "12:59",
+      "duration": 10,
+      "meetingLink": "",
+      "status": "Completed",
+      "recordingUrl": null,
+      "createdAt": "2026-07-22T07:27:19.748Z"
     }
   ],
-  "classAttendance": [],
+  "classAttendance": [
+    {
+      "_id": "att_mrvrhjl7_3y9dkq",
+      "classId": "lc_mrvrf4cj_w1a8vn",
+      "studentId": "stu_mrj6pzod_ogq0pv",
+      "studentName": "Student",
+      "status": "Present",
+      "joinTime": "2026-07-22T07:29:12.811Z",
+      "leaveTime": "2026-07-22T07:55:59.912Z",
+      "totalDurationMinutes": 26
+    },
+    {
+      "_id": "att_mrvs39l5_pmaj6y",
+      "classId": "lc_mrvrf4cj_w1a8vn",
+      "studentId": "stu_mrj6pzod_4kam2q",
+      "studentName": "Student",
+      "status": "Partial",
+      "joinTime": "2026-07-22T07:46:06.281Z",
+      "leaveTime": "2026-07-22T07:56:21.743Z",
+      "totalDurationMinutes": 10
+    }
+  ],
   "lectureNotes": [],
   "studentQuestions": []
 }
