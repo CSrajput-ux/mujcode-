@@ -6,7 +6,7 @@ import { Badge } from '../../components/ui/badge';
 import { Code2, FileText, Zap, Building2, Video, Calendar, Clock, Play } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import SecureExamGuard from '../../components/SecureExamGuard';
-import { getTests, getTestById, submitTest, Test } from '../../services/testService';
+import { getTests, getTestById, submitTest, getStudentSubmissions, Test } from '../../services/testService';
 import { toast } from 'sonner';
 import MockTestsList from './mock-tests/MockTestsList';
 import MockTestRunner from './mock-tests/MockTestRunner';
@@ -16,6 +16,7 @@ export default function Tests() {
   const [activeTest, setActiveTest] = useState<Test | null>(null);
   const [loading, setLoading] = useState(true);
   const [tests, setTests] = useState<Test[]>([]);
+  const [submissions, setSubmissions] = useState<any[]>([]);
   const [studentProfile] = useState(() => {
     try {
       return JSON.parse(localStorage.getItem('user') || '{}');
@@ -44,15 +45,21 @@ export default function Tests() {
   const fetchTests = async () => {
     try {
       const user = studentProfile as any;
-      const params: { branch?: string; section?: string; semester?: string } = {};
+      const params: { branch?: string; section?: string; semester?: string; studentId?: string } = {};
       if (user.branch) params.branch = user.branch;
       if (user.section) params.section = user.section;
       if (user.semester !== undefined && user.semester !== null) {
         params.semester = String(user.semester);
       }
+      const id = user.id || studentId;
+      if (id) params.studentId = id;
 
-      const data = await getTests(params);
+      const [data, subsData] = await Promise.all([
+        getTests(params),
+        id ? getStudentSubmissions(id).catch(() => []) : Promise.resolve([])
+      ]);
       setTests(data);
+      setSubmissions(subsData || []);
     } catch (error) {
       console.error("Failed to fetch tests", error);
       toast.error("Failed to load tests");
@@ -205,13 +212,44 @@ export default function Tests() {
     }
   };
 
-  // Helper to filter tests by status only (branch/section/semester already filtered on backend)
-  // Treat published DRAFT tests as Upcoming so they appear for students.
-  const upcomingTests = tests.filter(t =>
-    t.status === 'Upcoming' || t.status === 'Draft'
-  );
-  const liveTests = tests.filter(t => t.status === 'Live');
-  const completedTests = tests.filter(t => t.status === 'Completed'); // Backend handles completed status logic or we check submissions
+  // Helper to determine effective status based on student submissions & date/time
+  const getEffectiveStatus = (test: Test) => {
+    if (submissions.some(sub => sub.testId === test._id)) {
+      return 'Completed';
+    }
+
+    if (test.startTime) {
+      const startMs = new Date(test.startTime).getTime();
+      if (!isNaN(startMs)) {
+        const durationMinutes = Number(test.duration) || 60;
+        let endMs = startMs + durationMinutes * 60 * 1000;
+        if (test.endTime) {
+          const parsedEnd = new Date(test.endTime).getTime();
+          if (!isNaN(parsedEnd)) endMs = parsedEnd;
+        }
+
+        const now = Date.now();
+        if (now > endMs) {
+          return 'Completed';
+        }
+        if (now >= startMs && now <= endMs) {
+          return 'Live';
+        }
+        if (now < startMs) {
+          return 'Upcoming';
+        }
+      }
+    }
+
+    return test.status || 'Upcoming';
+  };
+
+  const upcomingTests = tests.filter(t => {
+    const status = getEffectiveStatus(t);
+    return status === 'Upcoming' || status === 'Draft';
+  });
+  const liveTests = tests.filter(t => getEffectiveStatus(t) === 'Live');
+  const completedTests = tests.filter(t => getEffectiveStatus(t) === 'Completed');
 
   // --- ACTIVE TEST RENDER ---
   if (activeTest) {
@@ -415,13 +453,66 @@ export default function Tests() {
 
             {/* Completed Tests */}
             <TabsContent value="completed" className="space-y-4">
-              {completedTests.map((test) => (
-                <Card key={test._id} className="shadow-md">
-                  <CardContent className="p-6">
-                    <p>{test.title}</p>
-                  </CardContent>
-                </Card>
-              ))}
+              {completedTests.length === 0 && <p className="text-gray-500">No completed tests.</p>}
+              {completedTests.map((test) => {
+                const sub = submissions.find(s => s.testId === test._id);
+                return (
+                  <Card key={test._id} className="shadow-md">
+                    <CardContent className="p-6">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-start space-x-4 flex-1">
+                          <div className="bg-gray-600 p-3 rounded-lg text-white">
+                            {getTypeIcon(test.type)}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-2 mb-2">
+                              <h3 className="text-xl font-semibold text-gray-900">{test.title}</h3>
+                              {sub ? (
+                                <Badge className="bg-green-600 text-white">
+                                  Completed
+                                </Badge>
+                              ) : (
+                                <Badge className="bg-gray-500 text-white">
+                                  Expired
+                                </Badge>
+                              )}
+                              {sub && (
+                                <Badge variant="outline" className="text-gray-700 border-gray-300">
+                                  Score: {sub.score}/{sub.totalMaxScore}
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                              {test.startTime && (
+                                <span className="flex items-center">
+                                  <Calendar className="w-4 h-4 mr-1 text-[#FF7A00]" />
+                                  {new Date(test.startTime).toLocaleDateString()}
+                                </span>
+                              )}
+                              <span className="flex items-center">
+                                <Clock className="w-4 h-4 mr-1 text-[#FF7A00]" />
+                                {test.duration} min
+                              </span>
+                              {sub && sub.submitTime && (
+                                <span className="text-xs text-gray-400 flex items-center">
+                                  Submitted on {new Date(sub.submitTime).toLocaleDateString()}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                        <Button
+                          disabled
+                          variant="secondary"
+                          className="cursor-not-allowed bg-gray-200 text-gray-600"
+                        >
+                          {sub ? "Already Submitted" : "Expired"}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </TabsContent>
 
             {/* Mock Tests */}

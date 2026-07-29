@@ -189,7 +189,11 @@ export function registerAdminRoutes(router) {
         year: String(user.year),
         semester: user.semester,
         facultyMentors: facultyIds,
+        // Legacy single subjects list (backward compatible)
         subjects: row.Subjects ? row.Subjects.split(';').map(s => s.trim()).filter(Boolean) : [],
+        // New: separate theory and lab subjects
+        theorySubjects: row.TheorySubjects ? row.TheorySubjects.split(';').map(s => s.trim()).filter(Boolean) : [],
+        labSubjects: row.LabSubjects ? row.LabSubjects.split(';').map(s => s.trim()).filter(Boolean) : [],
         User: {
           name: user.name,
           email: user.email,

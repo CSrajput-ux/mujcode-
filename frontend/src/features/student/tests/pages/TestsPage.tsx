@@ -105,10 +105,39 @@ export default function Tests() {
     }
   };
 
-  // Helper to filter tests
-  const upcomingTests = tests.filter(t => t.status === 'Upcoming');
-  const liveTests = tests.filter(t => t.status === 'Live');
-  const completedTests = tests.filter(t => t.status === 'Completed'); // Backend handles completed status logic or we check submissions
+  // Helper to determine effective status
+  const getEffectiveStatus = (test: Test) => {
+    if (test.startTime) {
+      const startMs = new Date(test.startTime).getTime();
+      if (!isNaN(startMs)) {
+        const durationMinutes = Number(test.duration) || 60;
+        let endMs = startMs + durationMinutes * 60 * 1000;
+        if (test.endTime) {
+          const parsedEnd = new Date(test.endTime).getTime();
+          if (!isNaN(parsedEnd)) endMs = parsedEnd;
+        }
+
+        const now = Date.now();
+        if (now > endMs) {
+          return 'Completed';
+        }
+        if (now >= startMs && now <= endMs) {
+          return 'Live';
+        }
+        if (now < startMs) {
+          return 'Upcoming';
+        }
+      }
+    }
+    return test.status || 'Upcoming';
+  };
+
+  const upcomingTests = tests.filter(t => {
+    const s = getEffectiveStatus(t);
+    return s === 'Upcoming' || s === 'Draft';
+  });
+  const liveTests = tests.filter(t => getEffectiveStatus(t) === 'Live');
+  const completedTests = tests.filter(t => getEffectiveStatus(t) === 'Completed');
 
   // --- ACTIVE TEST RENDER ---
   if (activeTest) {

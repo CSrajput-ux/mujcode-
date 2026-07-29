@@ -5,9 +5,9 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
-    "check": "node --check src/server.js"
+    "start": "tsx src/server.js",
+    "dev": "tsx watch src/server.js",
+    "check": "tsx --check src/server.js"
   },
   "engines": {
     "node": ">=20"
@@ -16,5 +16,10 @@
   "dependencies": {
     "mongoose": "^9.7.4",
     "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsx": "^4.23.1",
+    "typescript": "^7.0.2"
   }
 }

@@ -54,8 +54,8 @@ export default function BulkUpload() {
     };
 
     const downloadSample = () => {
-        const headers = ["Name", "Email", "RollNumber", "Branch", "Section", "Year", "Semester", "Subjects"];
-        const sampleRow = ["John Doe", "john.doe@example.com", "2427030001", "CSE", "A", "1", "1", "Algorithms; Data Structures; Operating Systems"];
+        const headers = ["Name", "Email", "RollNumber", "Branch", "Section", "Year", "Semester", "TheorySubjects", "LabSubjects"];
+        const sampleRow = ["John Doe", "john.doe@example.com", "2427030001", "CSE", "A", "1", "1", "Data Structures; Algorithms; Operating Systems", "DS Lab; OS Lab"];
         const csvContent = "data:text/csv;charset=utf-8," 
             + headers.join(",") + "\n" 
             + sampleRow.join(",");
@@ -104,6 +104,35 @@ export default function BulkUpload() {
                     </div>
                 </CardHeader>
                 <CardContent className="space-y-6">
+
+                    {/* CSV Format Guide */}
+                    <div className="rounded-lg border border-blue-200 bg-blue-50 dark:bg-blue-950/20 dark:border-blue-900 p-4">
+                        <h3 className="text-sm font-semibold text-blue-800 dark:text-blue-300 mb-2">📋 CSV Format Guide</h3>
+                        <p className="text-xs text-blue-700 dark:text-blue-400 mb-3">
+                            Required columns: <strong>Name, Email, RollNumber, Branch, Section, Year, Semester</strong><br />
+                            Subject columns (separate multiple with <code className="bg-blue-100 dark:bg-blue-900 px-1 rounded">;</code> semicolon):
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div className="rounded-md bg-white dark:bg-gray-900 border border-blue-200 dark:border-blue-800 p-3">
+                                <div className="flex items-center space-x-2 mb-1">
+                                    <span className="w-3 h-3 rounded-full bg-blue-500 inline-block"></span>
+                                    <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">TheorySubjects</span>
+                                    <span className="text-xs text-gray-400">(column header)</span>
+                                </div>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Shows as <strong>Theory</strong> (blue) in student's Learning section</p>
+                                <code className="text-xs text-blue-600 dark:text-blue-400 mt-1 block">Data Structures; Algorithms; DBMS</code>
+                            </div>
+                            <div className="rounded-md bg-white dark:bg-gray-900 border border-green-200 dark:border-green-800 p-3">
+                                <div className="flex items-center space-x-2 mb-1">
+                                    <span className="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+                                    <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">LabSubjects</span>
+                                    <span className="text-xs text-gray-400">(column header)</span>
+                                </div>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">Shows as <strong>Lab</strong> (green) in student's Learning section</p>
+                                <code className="text-xs text-green-600 dark:text-green-400 mt-1 block">DS Lab; OS Lab; DBMS Lab</code>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div className="space-y-3">
                         <label className="text-sm font-medium text-gray-700 dark:text-gray-300">

@@ -1,5 +1,6 @@
 import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
+import { CompilerFactory } from '../../compiler/CompilerFactory.js';
 
 function judgeCode(code, mode) {
   const text = String(code || '').trim().toLowerCase();
@@ -51,10 +52,32 @@ function compileResult(testCases = []) {
 }
 
 export function registerJudgeRoutes(router) {
-  router.post('/api/judge/submit', (req, res, ctx) => {
+  router.post('/api/judge/submit', async (req, res, ctx) => {
     const db = ctx.getDb();
     const submissionId = nextId('judge');
-    const result = judgeCode(req.body.code, req.body.mode);
+    
+    // Fetch test cases from the database
+    let testCases = [];
+    if (req.body.problemId) {
+      const problem = db.codingQuestions.find(item => String(item._id) === String(req.body.problemId));
+      if (problem && problem.testCases) {
+        testCases = problem.testCases;
+      }
+    }
+
+    // Execute the code using Docker execution engine
+    let result;
+    try {
+      result = await CompilerFactory.execute(
+        req.body.code || '',
+        req.body.language || 'c',
+        testCases,
+        req.body.mode || 'submit'
+      );
+    } catch (e) {
+      result = { verdict: 'System Error', output: e.message || String(e) };
+    }
+
     const submission = {
       _id: submissionId,
       userId: req.body.userId || 'stu_1',

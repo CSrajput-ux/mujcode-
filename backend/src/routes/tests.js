@@ -1,8 +1,8 @@
 import { badRequest, ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
-import { getQuestionsForTest, studentSafeTest } from './helpers.js';
+import { computeTestStatus, currentStudent, getQuestionsForTest, studentSafeTest } from './helpers.js';
 
-function testWithQuestions(db, test) {
+function testWithQuestions(db, test, studentId = null) {
   const questions = getQuestionsForTest(db, test._id);
   const genericQuestions = questions.mcq.map(question => ({
     _id: question._id,
@@ -13,8 +13,11 @@ function testWithQuestions(db, test) {
     explanation: question.explanation
   }));
 
+  const status = computeTestStatus(db, test, studentId);
+
   return {
     ...test,
+    status,
     questions: genericQuestions,
     codingQuestions: questions.coding,
     theoryQuestions: questions.theory
@@ -35,7 +38,7 @@ function facultyTestStats(db, test) {
     duration: test.duration,
     totalAppeared: submissions.length,
     avgScore,
-    status: test.status,
+    status: test.isPublished ? computeTestStatus(db, test) : test.status,
     isPublished: Boolean(test.isPublished)
   };
 }
@@ -297,13 +300,20 @@ export function registerTestsRoutes(router) {
 
   router.get('/api/tests/:testId', (req, res, ctx) => {
     const db = ctx.getDb();
+    const student = currentStudent(db, req);
+    const studentId = req.query.studentId || student?.id || student?.college_id;
     const test = db.tests.find(item => item._id === req.params.testId);
-    return sendJson(res, test ? 200 : 404, test ? testWithQuestions(db, test) : { error: 'Test not found' });
+    return sendJson(res, test ? 200 : 404, test ? testWithQuestions(db, test, studentId) : { error: 'Test not found' });
   });
 
   router.get('/api/tests', (req, res, ctx) => {
     const db = ctx.getDb();
-    let tests = db.tests.filter(test => test.isPublished !== false);
+    const student = currentStudent(db, req);
+    const studentId = req.query.studentId || student?.id || student?.college_id;
+
+    let tests = db.tests
+      .filter(test => test.isPublished !== false)
+      .map(test => studentSafeTest(db, test, studentId));
 
     if (req.query.type) tests = tests.filter(test => test.type === req.query.type || test.testType === req.query.type);
     if (req.query.status) tests = tests.filter(test => test.status === req.query.status);
@@ -311,6 +321,6 @@ export function registerTestsRoutes(router) {
     if (req.query.section) tests = tests.filter(test => !test.section || test.section === req.query.section);
     if (req.query.semester) tests = tests.filter(test => !test.semester || Number(test.semester) === Number(req.query.semester));
 
-    return sendJson(res, 200, tests.map(test => studentSafeTest(db, test)));
+    return sendJson(res, 200, tests);
   });
 }

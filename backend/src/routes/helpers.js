@@ -40,7 +40,42 @@ export function publicCourse(course) {
   };
 }
 
-export function studentSafeTest(db, test) {
+export function computeTestStatus(db, test, studentId = null) {
+  if (studentId && db.testSubmissions && db.testSubmissions.some(
+    sub => sub.testId === test._id && String(sub.studentId) === String(studentId)
+  )) {
+    return 'Completed';
+  }
+
+  if (test.startTime) {
+    const startMs = new Date(test.startTime).getTime();
+    if (!isNaN(startMs)) {
+      const durationMinutes = Number(test.duration) || 60;
+      let endMs = startMs + durationMinutes * 60 * 1000;
+      if (test.endTime) {
+        const parsedEnd = new Date(test.endTime).getTime();
+        if (!isNaN(parsedEnd)) {
+          endMs = parsedEnd;
+        }
+      }
+
+      const now = Date.now();
+      if (now > endMs) {
+        return 'Completed';
+      }
+      if (now >= startMs && now <= endMs) {
+        return 'Live';
+      }
+      if (now < startMs) {
+        return 'Upcoming';
+      }
+    }
+  }
+
+  return test.status || 'Upcoming';
+}
+
+export function studentSafeTest(db, test, studentId = null) {
   const questions = getQuestionsForTest(db, test._id).mcq.map(question => ({
     _id: question._id,
     text: question.text || question.questionText,
@@ -50,7 +85,9 @@ export function studentSafeTest(db, test) {
     explanation: question.explanation
   }));
 
-  return { ...test, questions };
+  const status = computeTestStatus(db, test, studentId);
+
+  return { ...test, status, questions };
 }
 
 export function getQuestionsForTest(db, testId) {

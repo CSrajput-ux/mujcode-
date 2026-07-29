@@ -13,19 +13,56 @@ function coursesFor(db, branchCode = 'CSE', semester = 4) {
 function courseResponse(db, student, branchCode = 'CSE', semester = 4) {
   let courses = coursesFor(db, branchCode, semester);
 
-  if (student && student.subjects && student.subjects.length > 0) {
+  // Merge student's custom subjects into courses list
+  if (student) {
     const existingTitles = new Set(courses.map(c => (c.courseName || c.title || '').toLowerCase()));
-    const customCourses = student.subjects
-      .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
-      .map((sub, i) => ({
-        courseCode: `SUB-${i + 100}`,
-        courseName: sub,
-        credits: 3,
-        courseType: 'Theory',
-        isElective: false,
-        prerequisites: [],
-        syllabusOverview: ''
-      }));
+
+    // New: separate theorySubjects (blue) and labSubjects (green)
+    const theorySubjects = (student.theorySubjects || []);
+    const labSubjects = (student.labSubjects || []);
+
+    // Legacy: old 'subjects' field — treat as Theory if not already covered
+    const legacySubjects = (student.subjects || []).filter(
+      sub => !theorySubjects.map(s => s.toLowerCase()).includes((sub || '').toLowerCase()) &&
+             !labSubjects.map(s => s.toLowerCase()).includes((sub || '').toLowerCase())
+    );
+
+    const customCourses = [
+      ...theorySubjects
+        .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
+        .map((sub, i) => ({
+          courseCode: `TH-${i + 100}`,
+          courseName: sub,
+          credits: 3,
+          courseType: 'Theory',
+          isElective: false,
+          prerequisites: [],
+          syllabusOverview: ''
+        })),
+      ...labSubjects
+        .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
+        .map((sub, i) => ({
+          courseCode: `LAB-${i + 100}`,
+          courseName: sub,
+          credits: 2,
+          courseType: 'Lab',
+          isElective: false,
+          prerequisites: [],
+          syllabusOverview: ''
+        })),
+      ...legacySubjects
+        .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
+        .map((sub, i) => ({
+          courseCode: `SUB-${i + 100}`,
+          courseName: sub,
+          credits: 3,
+          courseType: 'Theory',
+          isElective: false,
+          prerequisites: [],
+          syllabusOverview: ''
+        }))
+    ];
+
     courses = [...customCourses, ...courses];
   }
 

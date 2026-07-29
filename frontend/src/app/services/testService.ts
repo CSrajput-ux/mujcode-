@@ -35,7 +35,7 @@ export interface TestSubmission {
     warningsIssued: number;
 }
 
-export const getTests = async (params?: { type?: string; status?: string; branch?: string; section?: string; semester?: string }) => {
+export const getTests = async (params?: { type?: string; status?: string; branch?: string; section?: string; semester?: string; studentId?: string }) => {
     const response = await axios.get(API_URL, { params });
     return response.data;
 };
