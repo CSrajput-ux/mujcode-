@@ -27,6 +27,11 @@ function setCors(res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-auth-token');
   res.setHeader('Access-Control-Max-Age', '86400');
+  // Online Examination Security Headers (Phase 6)
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('Permissions-Policy', 'screen-wake-lock=*, camera=*, microphone=*');
 }
 
 function serveUpload(req, res) {
@@ -97,10 +102,11 @@ export async function createApp() {
 
       return sendJson(res, 404, { error: 'Route not found', path: url.pathname });
     } catch (error) {
-      console.error(error);
-      return sendJson(res, 500, {
-        error: 'Internal server error',
-        detail: process.env.NODE_ENV === 'production' ? undefined : error.message
+      const status = error.status || 500;
+      if (status >= 500) console.error('[AppError]', error);
+      return sendJson(res, status, {
+        error: error.message || 'Internal server error',
+        detail: process.env.NODE_ENV === 'production' ? undefined : error.stack
       });
     }
   };

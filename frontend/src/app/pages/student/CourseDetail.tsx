@@ -67,8 +67,9 @@ export default function CourseDetail() {
                 setSolvedCount(data.solvedCount || 0);
 
                 // Fetch associated content using the course title as subject
-                if (data.course && data.course.title) {
-                    fetchContent(data.course.title);
+                const subjectName = data.course?.title || data.course?.courseName || decodeURIComponent(courseId || '');
+                if (subjectName) {
+                    fetchContent(subjectName);
                 }
             } else {
                 console.error('API error:', data);
@@ -230,7 +231,7 @@ export default function CourseDetail() {
                 </Card>
 
                 {/* Content Tabs */}
-                <Tabs defaultValue="problems" className="w-full">
+                <Tabs defaultValue={new URLSearchParams(window.location.search).get('tab') || 'modules'} className="w-full">
                     <TabsList className="grid w-full grid-cols-4 mb-6">
                         <TabsTrigger value="problems" className="gap-2">
                             <Code2 className="w-4 h-4" /> Problems

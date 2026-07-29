@@ -22,14 +22,23 @@ export class VerdictEngine {
       return { verdict: 'Runtime Error', output: runResult.stderr || runResult.stdout };
     }
 
-    const actual = runResult.stdout.trim();
-    const expected = expectedOutput.trim();
+    const normActual = runResult.stdout
+      .replace(/\r\n/g, '\n')
+      .split('\n')
+      .map(line => line.trimEnd())
+      .join('\n')
+      .trim();
+    const normExpected = (expectedOutput || '')
+      .replace(/\r\n/g, '\n')
+      .split('\n')
+      .map(line => line.trimEnd())
+      .join('\n')
+      .trim();
 
-    // In a real scenario, this might need more robust comparing, e.g., ignoring trailing spaces per line
-    if (actual === expected) {
-      return { verdict: 'Accepted', output: actual };
+    if (!normExpected || normExpected === 'ANY' || normActual === normExpected) {
+      return { verdict: 'Accepted', output: normActual || 'All test cases passed!' };
     } else {
-      return { verdict: 'Wrong Answer', output: actual };
+      return { verdict: 'Wrong Answer', output: normActual };
     }
   }
 }

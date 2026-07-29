@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import { setupExamProctorSockets } from './examProctor.js';
 
 export function setupSockets(server) {
   const io = new Server(server, {
@@ -7,6 +8,9 @@ export function setupSockets(server) {
       methods: ['GET', 'POST']
     }
   });
+
+  // Setup Secure Exam Mode real-time proctoring sockets
+  setupExamProctorSockets(io);
 
   const liveNamespace = io.of('/live');
 

@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
+import { currentStudent } from './helpers.js';
 
 function safeFilename(name) {
   return String(name || 'upload.bin')
@@ -11,10 +12,26 @@ function safeFilename(name) {
 
 export function registerContentRoutes(router) {
   router.get('/api/content', (req, res, ctx) => {
-    let content = ctx.getDb().content;
+    const db = ctx.getDb();
+    let content = db.content;
+
+    const student = currentStudent(db, req);
+    if (student && req.user?.role === 'student') {
+      const sec = (student.section || 'A').replace(/^Section\s+/i, '').trim().toUpperCase();
+      content = content.filter(item => {
+        if (!item.section || item.section === 'All') return true;
+        const itemSec = String(item.section).replace(/^Section\s+/i, '').trim().toUpperCase();
+        return itemSec === sec;
+      });
+    }
+
     for (const key of ['section', 'subject', 'type']) {
       if (req.query[key]) {
-        content = content.filter(item => item[key] === req.query[key]);
+        if (key === 'subject') {
+          content = content.filter(item => (item.subject || '').trim().toLowerCase() === String(req.query.subject || '').trim().toLowerCase());
+        } else {
+          content = content.filter(item => String(item[key]) === String(req.query[key]));
+        }
       }
     }
 

@@ -110,7 +110,22 @@ export function registerStudentRoutes(router) {
 
   router.get('/api/student/course/:courseId/details', (req, res, ctx) => {
     const db = ctx.getDb();
-    const course = db.courses.find(item => item._id === req.params.courseId);
+    let course = db.courses.find(item => item._id === req.params.courseId || item.courseCode === req.params.courseId || (item.courseName || item.title || '').toLowerCase() === decodeURIComponent(req.params.courseId).toLowerCase());
+    if (!course) {
+      const decodedTitle = decodeURIComponent(req.params.courseId);
+      course = {
+        _id: decodedTitle,
+        id: decodedTitle,
+        title: decodedTitle,
+        courseName: decodedTitle,
+        courseCode: 'CUSTOM',
+        credits: 3,
+        courseType: 'Theory',
+        category: 'General',
+        difficulty: 'Medium',
+        description: 'Uploaded Semester Course'
+      };
+    }
     const solved = solvedSet(db, req.query.studentId || currentStudent(db, req)?.id);
     const problems = db.problems
       .filter(problem => problem.courseId === req.params.courseId)

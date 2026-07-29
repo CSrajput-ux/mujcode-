@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { SecureExamOverlay } from '../../../components/exam';
 import { Card, CardContent } from '../../../components/ui/card';
 import { Button } from '../../../components/ui/button';
 import { Badge } from '../../../components/ui/badge';
@@ -139,7 +140,16 @@ export default function MockTestRunner({ attemptId, questions, duration, onSubmi
     const isLastQuestion = currentQuestionIndex === questions.length - 1;
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <SecureExamOverlay
+            isExamActive={true}
+            examTitle="Proctored Mock Test"
+            maxFullscreenExits={3}
+            onAutoSubmit={() => {
+                toast.error('Mock Test Auto-Submitted due to multiple security violations');
+                handleSubmit(true);
+            }}
+        >
+            <div className="min-h-screen bg-gray-50">
             {/* Header */}
             <div className="bg-white border-b sticky top-0 z-10 shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -344,5 +354,6 @@ export default function MockTestRunner({ attemptId, questions, duration, onSubmi
                 </div>
             </div>
         </div>
+        </SecureExamOverlay>
     );
 }

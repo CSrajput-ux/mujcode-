@@ -135,7 +135,8 @@ export default function Dashboard() {
                   ))}
                 </div>
               ) : mentors.length > 0 ? (
-                mentors.map((mentor, index) => (
+                <div className="space-y-3 max-h-72 overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin' }}>
+                {mentors.map((mentor, index) => (
                   <div key={index} className="flex items-center space-x-3 p-3 bg-purple-50/50 rounded-lg border border-purple-100/50 hover:bg-purple-100 transition-colors group">
                     <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold shadow-sm transition-transform group-hover:scale-110">
                       {mentor.avatar}
@@ -145,7 +146,9 @@ export default function Dashboard() {
                       <p className="text-[11px] text-purple-600 font-semibold truncate uppercase">{mentor.subject}</p>
                     </div>
                   </div>
-                ))
+                ))}
+                </div>
+
               ) : (
                 <div className="text-center py-8 text-gray-400 italic text-sm border-2 border-dashed border-gray-100 rounded-xl">
                   No faculty assigned for your section yet.

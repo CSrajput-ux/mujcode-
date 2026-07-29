@@ -180,8 +180,10 @@ export default function Analytics() {
             </CardHeader>
             <CardContent>
               {improvementAreas.length > 0 ? (
-                <div className="space-y-4">
-                  {improvementAreas.map((area, idx) => (
+                <div className="space-y-4 max-h-72 overflow-y-auto pr-2" style={{ scrollbarWidth: 'thin' }}>
+                  {[...improvementAreas]
+                    .sort((a, b) => b.percentage - a.percentage)
+                    .map((area, idx) => (
                     <div key={idx}>
                       <div className="flex items-center justify-between mb-2">
                         <div>

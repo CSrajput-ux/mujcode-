@@ -51,15 +51,28 @@ export class CompilerFactory {
 
       // If no test cases are provided, create a dummy one for simple testing
       if (!testCases || testCases.length === 0) {
-        testCases = [{ input: '', expectedOutput: 'ok' }];
+        testCases = [{ input: '', expectedOutput: '' }];
       }
 
+      let lastStdout = '';
       // Run step for each test case
       for (let i = 0; i < testCases.length; i++) {
         const testCase = testCases[i];
         await workspace.writeInput(testCase.input || '');
 
         const runResult = await executor.run(config.runCmd);
+        lastStdout = runResult.stdout;
+
+        // In 'run' mode, only report runtime/timeout errors, don't fail on output mismatch
+        if (mode === 'run') {
+          if (runResult.isTimeout) {
+            return { verdict: 'Time Limit Exceeded', output: 'Execution timed out.' };
+          }
+          if (runResult.exitCode !== 0) {
+            return { verdict: 'Runtime Error', output: runResult.stderr || runResult.stdout };
+          }
+          continue;
+        }
 
         // Normalize expected output from DB
         const expected = testCase.expectedOutput || testCase.output || '';
@@ -76,7 +89,7 @@ export class CompilerFactory {
       return {
         verdict: mode === 'run' ? 'Successful' : 'Accepted',
         output: mode === 'run'
-          ? 'Sample test cases passed.'
+          ? (lastStdout.trim() || 'Sample test cases executed successfully.')
           : 'All hidden and sample test cases passed.'
       };
 

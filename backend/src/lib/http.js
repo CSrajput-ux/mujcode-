@@ -22,8 +22,17 @@ export async function parseBody(req) {
     return {};
   }
 
+  const MAX_PAYLOAD_BYTES = 10 * 1024 * 1024; // 10 MB limit
+  let totalBytes = 0;
   const chunks = [];
+
   for await (const chunk of req) {
+    totalBytes += chunk.length;
+    if (totalBytes > MAX_PAYLOAD_BYTES) {
+      const err = new Error('Payload Too Large (exceeded 10MB limit)');
+      err.status = 413;
+      throw err;
+    }
     chunks.push(chunk);
   }
 

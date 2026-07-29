@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { SecureTestEnvironment } from '../../components/SecureTestEnvironment';
+import { SecureExamOverlay } from '../../components/exam';
 import { Card } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
@@ -246,10 +246,14 @@ export default function CodingTestRunner() {
     const currentQuestion = questions[currentQuestionIndex];
 
     return (
-        <SecureTestEnvironment
-            isTestActive={!submitted && !loading}
-            onViolation={handleSecurityViolation}
-            maxViolations={MAX_VIOLATIONS}
+        <SecureExamOverlay
+            isExamActive={!submitted && !loading}
+            examTitle={test?.title || 'Proctored Coding Test'}
+            maxFullscreenExits={MAX_VIOLATIONS}
+            onAutoSubmit={() => {
+                toast.error('Exam Auto-Submitted due to multiple violations');
+                handleSubmit();
+            }}
         >
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}
@@ -431,6 +435,6 @@ export default function CodingTestRunner() {
                     </div>
                 </div>
             </div>
-        </SecureTestEnvironment>
+        </SecureExamOverlay>
     );
 }

@@ -9655,9 +9655,2890 @@
       "role": "company",
       "isActive": true,
       "isPasswordChanged": true
+    },
+    {
+      "id": "stu_ms1ekbqs_o95s87",
+      "name": "PARNIKA JOSHI",
+      "email": "parnika.2427030021@muj.manipal.edu",
+      "password": "2427030021",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030021",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqt_7lyj51",
+      "name": "ISHIT KAUSHIK",
+      "email": "ishit.2427030038@muj.manipal.edu",
+      "password": "2427030038",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030038",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqt_ofxigo",
+      "name": "VARDAAN THAKUR",
+      "email": "vardaan.2427030052@muj.manipal.edu",
+      "password": "2427030052",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030052",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqt_a0g51t",
+      "name": "HARDIK TOMAR",
+      "email": "hardik.2427030069@muj.manipal.edu",
+      "password": "2427030069",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030069",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqt_ksi7lu",
+      "name": "NIPUN TYAGI",
+      "email": "nipun.2427030073@muj.manipal.edu",
+      "password": "2427030073",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030073",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqt_jcgqwz",
+      "name": "KUSHAGRA SINGH",
+      "email": "kushagra.2427030078@muj.manipal.edu",
+      "password": "2427030078",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030078",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqt_2ikr7g",
+      "name": "VOBILISETTI AKHILESH",
+      "email": "vobilisetti.2427030119@muj.manipal.edu",
+      "password": "2427030119",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030119",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqt_q9nfb7",
+      "name": "KIRTAN KUMAR SANGHI",
+      "email": "kirtan.2427030122@muj.manipal.edu",
+      "password": "2427030122",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030122",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqu_uchw14",
+      "name": "ABISHRI V K",
+      "email": "abi.2427030128@muj.manipal.edu",
+      "password": "2427030128",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030128",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqu_musvh3",
+      "name": "JASMAN SINGH",
+      "email": "jasman.2427030131@muj.manipal.edu",
+      "password": "2427030131",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030131",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqu_btjj1x",
+      "name": "TAPISH THAKUR",
+      "email": "tapish.2427030132@muj.manipal.edu",
+      "password": "2427030132",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030132",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqu_iqd5tv",
+      "name": "SWOYAM KUMAR BEHERA",
+      "email": "swoyam.2427030137@muj.manipal.edu",
+      "password": "2427030137",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030137",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqu_3sxi42",
+      "name": "SARTHAK ROUTRAY",
+      "email": "sarthak.2427030149@muj.manipal.edu",
+      "password": "2427030149",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030149",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqu_szw159",
+      "name": "OM WATTAMWAR",
+      "email": "om.2427030153@muj.manipal.edu",
+      "password": "2427030153",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030153",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqu_pzpzuv",
+      "name": "SHRIYA DESAI",
+      "email": "shriya.2427030171@muj.manipal.edu",
+      "password": "2427030171",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030171",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqv_zm3hzj",
+      "name": "Siddhesh Singh Parmar",
+      "email": "siddhesh.2427030221@muj.manipal.edu",
+      "password": "2427030221",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030221",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqv_8l7yho",
+      "name": "RIYANSH MONAL SHAH",
+      "email": "riyansh.2427030271@muj.manipal.edu",
+      "password": "2427030271",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030271",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqv_6uo1qz",
+      "name": "ANSHUMAN SINGH",
+      "email": "anshuman.2427030275@muj.manipal.edu",
+      "password": "2427030275",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030275",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqv_vjl3ay",
+      "name": "TIRTH KAMLESHSINH CHAUHAN",
+      "email": "tirth.2427030288@muj.manipal.edu",
+      "password": "2427030288",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030288",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqv_8baj9o",
+      "name": "ARCHIT SINGH",
+      "email": "archit.2427030301@muj.manipal.edu",
+      "password": "2427030301",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030301",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqw_z8ap4r",
+      "name": "SYED SANAULLA BASHA",
+      "email": "syed.2427030324@muj.manipal.edu",
+      "password": "2427030324",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030324",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqw_kp83zc",
+      "name": "VINAYAK",
+      "email": "vinayak.2427030354@muj.manipal.edu",
+      "password": "2427030354",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030354",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqw_o0kz4y",
+      "name": "SAMKIT JAIN",
+      "email": "samkit.2427030362@muj.manipal.edu",
+      "password": "2427030362",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030362",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqw_2m9qty",
+      "name": "JINAY TUSHAR SHAH",
+      "email": "jinay.2427030414@muj.manipal.edu",
+      "password": "2427030414",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030414",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqw_licvxc",
+      "name": "UTKARSH SINGH",
+      "email": "utkarsh.2427030432@muj.manipal.edu",
+      "password": "2427030432",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030432",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqx_3xa5tv",
+      "name": "BHAVYA YADAV",
+      "email": "bhavya.2427030455@muj.manipal.edu",
+      "password": "2427030455",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030455",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqx_w59avm",
+      "name": "AKSHIT RAJ",
+      "email": "akshit.2427030465@muj.manipal.edu",
+      "password": "2427030465",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030465",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqx_dnw3qh",
+      "name": "KAVYA MITTAL",
+      "email": "kavya.2427030467@muj.manipal.edu",
+      "password": "2427030467",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030467",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqx_76p9w7",
+      "name": "SHORYA GOYAL",
+      "email": "shorya.2427030473@muj.manipal.edu",
+      "password": "2427030473",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030473",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqx_q0p0rz",
+      "name": "AANYA SINGH SAINI",
+      "email": "aanya.2427030485@muj.manipal.edu",
+      "password": "2427030485",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030485",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqy_hgozde",
+      "name": "BHANI KAUR",
+      "email": "bhani.2427030487@muj.manipal.edu",
+      "password": "2427030487",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030487",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqz_ek735s",
+      "name": "SHARANYA KUMAR",
+      "email": "sharanya.2427030506@muj.manipal.edu",
+      "password": "2427030506",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030506",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqz_n57s32",
+      "name": "GAUTAM GIRIRAJ SHUKLA",
+      "email": "gautam.2427030515@muj.manipal.edu",
+      "password": "2427030515",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030515",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqz_k5zqgp",
+      "name": "MUKESH KUMAR CHOWDHARY",
+      "email": "mukesh.2427030520@muj.manipal.edu",
+      "password": "2427030520",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030520",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqz_z39zxl",
+      "name": "CHHOTU",
+      "email": "chhotu.2427030521@muj.manipal.edu",
+      "password": "2427030521",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030521",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbqz_hp1v06",
+      "name": "ATHARV SHARMA",
+      "email": "atharv.2427030527@muj.manipal.edu",
+      "password": "2427030527",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030527",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr0_2mllea",
+      "name": "PAWNI SUNEJA",
+      "email": "pawni.2427030560@muj.manipal.edu",
+      "password": "2427030560",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030560",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr0_936doj",
+      "name": "LUVYA TIWARI",
+      "email": "luvya.2427030572@muj.manipal.edu",
+      "password": "2427030572",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030572",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr0_942ld7",
+      "name": "SHEERSHA SAINI",
+      "email": "sheersha.2427030582@muj.manipal.edu",
+      "password": "2427030582",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030582",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr0_c7xf4f",
+      "name": "TANISHA PANKAJKUMAR HIRPARA",
+      "email": "tanisha.2427030586@muj.manipal.edu",
+      "password": "2427030586",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030586",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr1_mdx85b",
+      "name": "ARYAN RAJ",
+      "email": "aryan.2427030590@muj.manipal.edu",
+      "password": "2427030590",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030590",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr1_glh5p5",
+      "name": "AJAY CHOUDHARY",
+      "email": "ajay.2427030616@muj.manipal.edu",
+      "password": "2427030616",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030616",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr2_o1i5du",
+      "name": "REHAN KHAN",
+      "email": "rehan.2427030623@muj.manipal.edu",
+      "password": "2427030623",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030623",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr2_znbkoz",
+      "name": "SHOUMIK KUMAR",
+      "email": "shoumik.2427030625@muj.manipal.edu",
+      "password": "2427030625",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030625",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr3_xztjtn",
+      "name": "SUBHROJIT MOHANTY",
+      "email": "subhrojit.2427030637@muj.manipal.edu",
+      "password": "2427030637",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030637",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr3_tier4l",
+      "name": "HARSHIT ARYA",
+      "email": "harshit.2427030665@muj.manipal.edu",
+      "password": "2427030665",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030665",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr3_ccbbk6",
+      "name": "AMRITANSH SRIVASTAVA",
+      "email": "amritansh.2427030667@muj.manipal.edu",
+      "password": "2427030667",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030667",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr3_zlekk8",
+      "name": "ANGAD TYAGI",
+      "email": "angad.2427030688@muj.manipal.edu",
+      "password": "2427030688",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030688",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr3_5rkjpq",
+      "name": "PRATHAM JAIN",
+      "email": "pratham.2427030705@muj.manipal.edu",
+      "password": "2427030705",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030705",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr4_9pzkp8",
+      "name": "MANAS SRIVASTAVA",
+      "email": "manas.2427030707@muj.manipal.edu",
+      "password": "2427030707",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030707",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr4_7m3rc4",
+      "name": "SAKSHAM JAIN",
+      "email": "saksham.2427030737@muj.manipal.edu",
+      "password": "2427030737",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030737",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr4_ehtql0",
+      "name": "PRIYANSHI SHARMA",
+      "email": "priyanshi.2427030746@muj.manipal.edu",
+      "password": "2427030746",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030746",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr5_ng5dpk",
+      "name": "YASHVARDHAN SINGH SHEKHAWAT",
+      "email": "yashvardhan.2427030753@muj.manipal.edu",
+      "password": "2427030753",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030753",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr5_dmbugc",
+      "name": "ARNAV GARG",
+      "email": "arnav.2427030761@muj.manipal.edu",
+      "password": "2427030761",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030761",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr6_nobyri",
+      "name": "KRITIN SINGH",
+      "email": "kritin.2427030788@muj.manipal.edu",
+      "password": "2427030788",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030788",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr6_v485hf",
+      "name": "DEEP MUNDRA",
+      "email": "deep.2427030793@muj.manipal.edu",
+      "password": "2427030793",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030793",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr6_pu5pla",
+      "name": "MOHAK TANDON",
+      "email": "mohak.2427030795@muj.manipal.edu",
+      "password": "2427030795",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030795",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr6_h766o9",
+      "name": "KARAN SINGH",
+      "email": "karan.2427030358@muj.manipal.edu",
+      "password": "2427030358",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030358",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr6_2uvdc8",
+      "name": "NAVYANSH KESARWANI",
+      "email": "navyansh.2427030652@muj.manipal.edu",
+      "password": "2427030652",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030652",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
+    },
+    {
+      "id": "stu_ms1ekbr6_yp6dod",
+      "name": "ADITYA HANS",
+      "email": "aditya.2427030829@muj.manipal.edu",
+      "password": "2427030829",
+      "role": "student",
+      "isPasswordChanged": false,
+      "isActive": true,
+      "college_id": "2427030829",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5
     }
   ],
-  "students": [],
+  "students": [
+    {
+      "id": "stu_ms1ekbqs_o95s87",
+      "_id": "stu_ms1ekbqs_o95s87",
+      "fullName": "PARNIKA JOSHI",
+      "college_id": "2427030021",
+      "rollNumber": "2427030021",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "PARNIKA JOSHI",
+        "email": "parnika.2427030021@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqt_7lyj51",
+      "_id": "stu_ms1ekbqt_7lyj51",
+      "fullName": "ISHIT KAUSHIK",
+      "college_id": "2427030038",
+      "rollNumber": "2427030038",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "ISHIT KAUSHIK",
+        "email": "ishit.2427030038@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqt_ofxigo",
+      "_id": "stu_ms1ekbqt_ofxigo",
+      "fullName": "VARDAAN THAKUR",
+      "college_id": "2427030052",
+      "rollNumber": "2427030052",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "VARDAAN THAKUR",
+        "email": "vardaan.2427030052@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqt_a0g51t",
+      "_id": "stu_ms1ekbqt_a0g51t",
+      "fullName": "HARDIK TOMAR",
+      "college_id": "2427030069",
+      "rollNumber": "2427030069",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "HARDIK TOMAR",
+        "email": "hardik.2427030069@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqt_ksi7lu",
+      "_id": "stu_ms1ekbqt_ksi7lu",
+      "fullName": "NIPUN TYAGI",
+      "college_id": "2427030073",
+      "rollNumber": "2427030073",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "NIPUN TYAGI",
+        "email": "nipun.2427030073@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqt_jcgqwz",
+      "_id": "stu_ms1ekbqt_jcgqwz",
+      "fullName": "KUSHAGRA SINGH",
+      "college_id": "2427030078",
+      "rollNumber": "2427030078",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "KUSHAGRA SINGH",
+        "email": "kushagra.2427030078@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqt_2ikr7g",
+      "_id": "stu_ms1ekbqt_2ikr7g",
+      "fullName": "VOBILISETTI AKHILESH",
+      "college_id": "2427030119",
+      "rollNumber": "2427030119",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "VOBILISETTI AKHILESH",
+        "email": "vobilisetti.2427030119@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqt_q9nfb7",
+      "_id": "stu_ms1ekbqt_q9nfb7",
+      "fullName": "KIRTAN KUMAR SANGHI",
+      "college_id": "2427030122",
+      "rollNumber": "2427030122",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "KIRTAN KUMAR SANGHI",
+        "email": "kirtan.2427030122@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqu_uchw14",
+      "_id": "stu_ms1ekbqu_uchw14",
+      "fullName": "ABISHRI V K",
+      "college_id": "2427030128",
+      "rollNumber": "2427030128",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "ABISHRI V K",
+        "email": "abi.2427030128@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqu_musvh3",
+      "_id": "stu_ms1ekbqu_musvh3",
+      "fullName": "JASMAN SINGH",
+      "college_id": "2427030131",
+      "rollNumber": "2427030131",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "JASMAN SINGH",
+        "email": "jasman.2427030131@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqu_btjj1x",
+      "_id": "stu_ms1ekbqu_btjj1x",
+      "fullName": "TAPISH THAKUR",
+      "college_id": "2427030132",
+      "rollNumber": "2427030132",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "TAPISH THAKUR",
+        "email": "tapish.2427030132@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqu_iqd5tv",
+      "_id": "stu_ms1ekbqu_iqd5tv",
+      "fullName": "SWOYAM KUMAR BEHERA",
+      "college_id": "2427030137",
+      "rollNumber": "2427030137",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SWOYAM KUMAR BEHERA",
+        "email": "swoyam.2427030137@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqu_3sxi42",
+      "_id": "stu_ms1ekbqu_3sxi42",
+      "fullName": "SARTHAK ROUTRAY",
+      "college_id": "2427030149",
+      "rollNumber": "2427030149",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SARTHAK ROUTRAY",
+        "email": "sarthak.2427030149@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqu_szw159",
+      "_id": "stu_ms1ekbqu_szw159",
+      "fullName": "OM WATTAMWAR",
+      "college_id": "2427030153",
+      "rollNumber": "2427030153",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "OM WATTAMWAR",
+        "email": "om.2427030153@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqu_pzpzuv",
+      "_id": "stu_ms1ekbqu_pzpzuv",
+      "fullName": "SHRIYA DESAI",
+      "college_id": "2427030171",
+      "rollNumber": "2427030171",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SHRIYA DESAI",
+        "email": "shriya.2427030171@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqv_zm3hzj",
+      "_id": "stu_ms1ekbqv_zm3hzj",
+      "fullName": "Siddhesh Singh Parmar",
+      "college_id": "2427030221",
+      "rollNumber": "2427030221",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "Siddhesh Singh Parmar",
+        "email": "siddhesh.2427030221@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqv_8l7yho",
+      "_id": "stu_ms1ekbqv_8l7yho",
+      "fullName": "RIYANSH MONAL SHAH",
+      "college_id": "2427030271",
+      "rollNumber": "2427030271",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "RIYANSH MONAL SHAH",
+        "email": "riyansh.2427030271@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqv_6uo1qz",
+      "_id": "stu_ms1ekbqv_6uo1qz",
+      "fullName": "ANSHUMAN SINGH",
+      "college_id": "2427030275",
+      "rollNumber": "2427030275",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "ANSHUMAN SINGH",
+        "email": "anshuman.2427030275@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqv_vjl3ay",
+      "_id": "stu_ms1ekbqv_vjl3ay",
+      "fullName": "TIRTH KAMLESHSINH CHAUHAN",
+      "college_id": "2427030288",
+      "rollNumber": "2427030288",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "TIRTH KAMLESHSINH CHAUHAN",
+        "email": "tirth.2427030288@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqv_8baj9o",
+      "_id": "stu_ms1ekbqv_8baj9o",
+      "fullName": "ARCHIT SINGH",
+      "college_id": "2427030301",
+      "rollNumber": "2427030301",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "ARCHIT SINGH",
+        "email": "archit.2427030301@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqw_z8ap4r",
+      "_id": "stu_ms1ekbqw_z8ap4r",
+      "fullName": "SYED SANAULLA BASHA",
+      "college_id": "2427030324",
+      "rollNumber": "2427030324",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SYED SANAULLA BASHA",
+        "email": "syed.2427030324@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqw_kp83zc",
+      "_id": "stu_ms1ekbqw_kp83zc",
+      "fullName": "VINAYAK",
+      "college_id": "2427030354",
+      "rollNumber": "2427030354",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "VINAYAK",
+        "email": "vinayak.2427030354@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqw_o0kz4y",
+      "_id": "stu_ms1ekbqw_o0kz4y",
+      "fullName": "SAMKIT JAIN",
+      "college_id": "2427030362",
+      "rollNumber": "2427030362",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SAMKIT JAIN",
+        "email": "samkit.2427030362@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqw_2m9qty",
+      "_id": "stu_ms1ekbqw_2m9qty",
+      "fullName": "JINAY TUSHAR SHAH",
+      "college_id": "2427030414",
+      "rollNumber": "2427030414",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "JINAY TUSHAR SHAH",
+        "email": "jinay.2427030414@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqw_licvxc",
+      "_id": "stu_ms1ekbqw_licvxc",
+      "fullName": "UTKARSH SINGH",
+      "college_id": "2427030432",
+      "rollNumber": "2427030432",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "UTKARSH SINGH",
+        "email": "utkarsh.2427030432@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqx_3xa5tv",
+      "_id": "stu_ms1ekbqx_3xa5tv",
+      "fullName": "BHAVYA YADAV",
+      "college_id": "2427030455",
+      "rollNumber": "2427030455",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "BHAVYA YADAV",
+        "email": "bhavya.2427030455@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqx_w59avm",
+      "_id": "stu_ms1ekbqx_w59avm",
+      "fullName": "AKSHIT RAJ",
+      "college_id": "2427030465",
+      "rollNumber": "2427030465",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "AKSHIT RAJ",
+        "email": "akshit.2427030465@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqx_dnw3qh",
+      "_id": "stu_ms1ekbqx_dnw3qh",
+      "fullName": "KAVYA MITTAL",
+      "college_id": "2427030467",
+      "rollNumber": "2427030467",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "KAVYA MITTAL",
+        "email": "kavya.2427030467@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqx_76p9w7",
+      "_id": "stu_ms1ekbqx_76p9w7",
+      "fullName": "SHORYA GOYAL",
+      "college_id": "2427030473",
+      "rollNumber": "2427030473",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SHORYA GOYAL",
+        "email": "shorya.2427030473@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqx_q0p0rz",
+      "_id": "stu_ms1ekbqx_q0p0rz",
+      "fullName": "AANYA SINGH SAINI",
+      "college_id": "2427030485",
+      "rollNumber": "2427030485",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "AANYA SINGH SAINI",
+        "email": "aanya.2427030485@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqy_hgozde",
+      "_id": "stu_ms1ekbqy_hgozde",
+      "fullName": "BHANI KAUR",
+      "college_id": "2427030487",
+      "rollNumber": "2427030487",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "BHANI KAUR",
+        "email": "bhani.2427030487@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqz_ek735s",
+      "_id": "stu_ms1ekbqz_ek735s",
+      "fullName": "SHARANYA KUMAR",
+      "college_id": "2427030506",
+      "rollNumber": "2427030506",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SHARANYA KUMAR",
+        "email": "sharanya.2427030506@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqz_n57s32",
+      "_id": "stu_ms1ekbqz_n57s32",
+      "fullName": "GAUTAM GIRIRAJ SHUKLA",
+      "college_id": "2427030515",
+      "rollNumber": "2427030515",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "GAUTAM GIRIRAJ SHUKLA",
+        "email": "gautam.2427030515@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqz_k5zqgp",
+      "_id": "stu_ms1ekbqz_k5zqgp",
+      "fullName": "MUKESH KUMAR CHOWDHARY",
+      "college_id": "2427030520",
+      "rollNumber": "2427030520",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "MUKESH KUMAR CHOWDHARY",
+        "email": "mukesh.2427030520@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqz_z39zxl",
+      "_id": "stu_ms1ekbqz_z39zxl",
+      "fullName": "CHHOTU",
+      "college_id": "2427030521",
+      "rollNumber": "2427030521",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "CHHOTU",
+        "email": "chhotu.2427030521@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbqz_hp1v06",
+      "_id": "stu_ms1ekbqz_hp1v06",
+      "fullName": "ATHARV SHARMA",
+      "college_id": "2427030527",
+      "rollNumber": "2427030527",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "ATHARV SHARMA",
+        "email": "atharv.2427030527@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr0_2mllea",
+      "_id": "stu_ms1ekbr0_2mllea",
+      "fullName": "PAWNI SUNEJA",
+      "college_id": "2427030560",
+      "rollNumber": "2427030560",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "PAWNI SUNEJA",
+        "email": "pawni.2427030560@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr0_936doj",
+      "_id": "stu_ms1ekbr0_936doj",
+      "fullName": "LUVYA TIWARI",
+      "college_id": "2427030572",
+      "rollNumber": "2427030572",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "LUVYA TIWARI",
+        "email": "luvya.2427030572@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr0_942ld7",
+      "_id": "stu_ms1ekbr0_942ld7",
+      "fullName": "SHEERSHA SAINI",
+      "college_id": "2427030582",
+      "rollNumber": "2427030582",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SHEERSHA SAINI",
+        "email": "sheersha.2427030582@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr0_c7xf4f",
+      "_id": "stu_ms1ekbr0_c7xf4f",
+      "fullName": "TANISHA PANKAJKUMAR HIRPARA",
+      "college_id": "2427030586",
+      "rollNumber": "2427030586",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "TANISHA PANKAJKUMAR HIRPARA",
+        "email": "tanisha.2427030586@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr1_mdx85b",
+      "_id": "stu_ms1ekbr1_mdx85b",
+      "fullName": "ARYAN RAJ",
+      "college_id": "2427030590",
+      "rollNumber": "2427030590",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "ARYAN RAJ",
+        "email": "aryan.2427030590@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr1_glh5p5",
+      "_id": "stu_ms1ekbr1_glh5p5",
+      "fullName": "AJAY CHOUDHARY",
+      "college_id": "2427030616",
+      "rollNumber": "2427030616",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "AJAY CHOUDHARY",
+        "email": "ajay.2427030616@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr2_o1i5du",
+      "_id": "stu_ms1ekbr2_o1i5du",
+      "fullName": "REHAN KHAN",
+      "college_id": "2427030623",
+      "rollNumber": "2427030623",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "REHAN KHAN",
+        "email": "rehan.2427030623@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr2_znbkoz",
+      "_id": "stu_ms1ekbr2_znbkoz",
+      "fullName": "SHOUMIK KUMAR",
+      "college_id": "2427030625",
+      "rollNumber": "2427030625",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SHOUMIK KUMAR",
+        "email": "shoumik.2427030625@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr3_xztjtn",
+      "_id": "stu_ms1ekbr3_xztjtn",
+      "fullName": "SUBHROJIT MOHANTY",
+      "college_id": "2427030637",
+      "rollNumber": "2427030637",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SUBHROJIT MOHANTY",
+        "email": "subhrojit.2427030637@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr3_tier4l",
+      "_id": "stu_ms1ekbr3_tier4l",
+      "fullName": "HARSHIT ARYA",
+      "college_id": "2427030665",
+      "rollNumber": "2427030665",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "HARSHIT ARYA",
+        "email": "harshit.2427030665@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr3_ccbbk6",
+      "_id": "stu_ms1ekbr3_ccbbk6",
+      "fullName": "AMRITANSH SRIVASTAVA",
+      "college_id": "2427030667",
+      "rollNumber": "2427030667",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "AMRITANSH SRIVASTAVA",
+        "email": "amritansh.2427030667@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr3_zlekk8",
+      "_id": "stu_ms1ekbr3_zlekk8",
+      "fullName": "ANGAD TYAGI",
+      "college_id": "2427030688",
+      "rollNumber": "2427030688",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "ANGAD TYAGI",
+        "email": "angad.2427030688@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr3_5rkjpq",
+      "_id": "stu_ms1ekbr3_5rkjpq",
+      "fullName": "PRATHAM JAIN",
+      "college_id": "2427030705",
+      "rollNumber": "2427030705",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "PRATHAM JAIN",
+        "email": "pratham.2427030705@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr4_9pzkp8",
+      "_id": "stu_ms1ekbr4_9pzkp8",
+      "fullName": "MANAS SRIVASTAVA",
+      "college_id": "2427030707",
+      "rollNumber": "2427030707",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "MANAS SRIVASTAVA",
+        "email": "manas.2427030707@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr4_7m3rc4",
+      "_id": "stu_ms1ekbr4_7m3rc4",
+      "fullName": "SAKSHAM JAIN",
+      "college_id": "2427030737",
+      "rollNumber": "2427030737",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "SAKSHAM JAIN",
+        "email": "saksham.2427030737@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr4_ehtql0",
+      "_id": "stu_ms1ekbr4_ehtql0",
+      "fullName": "PRIYANSHI SHARMA",
+      "college_id": "2427030746",
+      "rollNumber": "2427030746",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "PRIYANSHI SHARMA",
+        "email": "priyanshi.2427030746@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr5_ng5dpk",
+      "_id": "stu_ms1ekbr5_ng5dpk",
+      "fullName": "YASHVARDHAN SINGH SHEKHAWAT",
+      "college_id": "2427030753",
+      "rollNumber": "2427030753",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "YASHVARDHAN SINGH SHEKHAWAT",
+        "email": "yashvardhan.2427030753@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr5_dmbugc",
+      "_id": "stu_ms1ekbr5_dmbugc",
+      "fullName": "ARNAV GARG",
+      "college_id": "2427030761",
+      "rollNumber": "2427030761",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "ARNAV GARG",
+        "email": "arnav.2427030761@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr6_nobyri",
+      "_id": "stu_ms1ekbr6_nobyri",
+      "fullName": "KRITIN SINGH",
+      "college_id": "2427030788",
+      "rollNumber": "2427030788",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "KRITIN SINGH",
+        "email": "kritin.2427030788@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr6_v485hf",
+      "_id": "stu_ms1ekbr6_v485hf",
+      "fullName": "DEEP MUNDRA",
+      "college_id": "2427030793",
+      "rollNumber": "2427030793",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "DEEP MUNDRA",
+        "email": "deep.2427030793@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr6_pu5pla",
+      "_id": "stu_ms1ekbr6_pu5pla",
+      "fullName": "MOHAK TANDON",
+      "college_id": "2427030795",
+      "rollNumber": "2427030795",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "MOHAK TANDON",
+        "email": "mohak.2427030795@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr6_h766o9",
+      "_id": "stu_ms1ekbr6_h766o9",
+      "fullName": "KARAN SINGH",
+      "college_id": "2427030358",
+      "rollNumber": "2427030358",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "KARAN SINGH",
+        "email": "karan.2427030358@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr6_2uvdc8",
+      "_id": "stu_ms1ekbr6_2uvdc8",
+      "fullName": "NAVYANSH KESARWANI",
+      "college_id": "2427030652",
+      "rollNumber": "2427030652",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "NAVYANSH KESARWANI",
+        "email": "navyansh.2427030652@muj.manipal.edu",
+        "isActive": true
+      }
+    },
+    {
+      "id": "stu_ms1ekbr6_yp6dod",
+      "_id": "stu_ms1ekbr6_yp6dod",
+      "fullName": "ADITYA HANS",
+      "college_id": "2427030829",
+      "rollNumber": "2427030829",
+      "branch": "CSE",
+      "section": "E",
+      "year": "3",
+      "semester": 5,
+      "facultyMentors": [
+        "fac_112",
+        "fac_795",
+        "fac_597",
+        "fac_558"
+      ],
+      "subjects": [],
+      "theorySubjects": [
+        "Artificial Intelligence & Soft Computing",
+        "Software Engineering",
+        "Computer networks",
+        "Pridictive  analysis",
+        "Advanced data structure"
+      ],
+      "labSubjects": [
+        "Computer Networks lab",
+        "Software engineering lab"
+      ],
+      "User": {
+        "name": "ADITYA HANS",
+        "email": "aditya.2427030829@muj.manipal.edu",
+        "isActive": true
+      }
+    }
+  ],
   "faculty": [
     {
       "_id": "fac_1",
@@ -11259,7 +14140,50 @@
       "phone": "8050318934",
       "linkedin": "https://www.google.com/url?q=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fdr-aditya-sinha-13261416%2F&sa=D&sntz=1&usg=AOvVaw2JwAY19oHHoFwVMZIdxhLR",
       "teachingCourses": [],
-      "teachingAssignments": []
+      "teachingAssignments": [
+        {
+          "year": "3 Year",
+          "section": "E",
+          "branch": "CSE",
+          "subject": "Artificial Intelligence & Soft Computing"
+        },
+        {
+          "year": "3 Year",
+          "section": "E",
+          "branch": "CSE",
+          "subject": "Software Engineering"
+        },
+        {
+          "year": "3 Year",
+          "section": "E",
+          "branch": "CSE",
+          "subject": "Computer networks"
+        },
+        {
+          "year": "3 Year",
+          "section": "E",
+          "branch": "CSE",
+          "subject": "Pridictive  analysis"
+        },
+        {
+          "year": "3 Year",
+          "section": "E",
+          "branch": "CSE",
+          "subject": "Advanced data structure"
+        },
+        {
+          "year": "3 Year",
+          "section": "E",
+          "branch": "CSE",
+          "subject": "Computer Networks lab"
+        },
+        {
+          "year": "3 Year",
+          "section": "E",
+          "branch": "CSE",
+          "subject": "Software engineering lab"
+        }
+      ]
     },
     {
       "_id": "fac_113",
@@ -45665,6 +48589,186 @@
   ],
   "problemSubmissions": [
     {
+      "_id": "judge_ms6bif41_ngn9kf",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3096",
+      "problemNumber": "c_fundamentals_questions_q3096",
+      "code": "#include <stdio.h>\n\nint main() {\n    int N;\n    scanf(\"%d\", &N);\n\n    int arr[N];\n\n    for (int i = 0; i < N; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n\n    int largest = arr[0];\n    int secondLargest = arr[1];\n\n    if (secondLargest > largest) {\n        int temp = largest;\n        largest = secondLargest;\n        secondLargest = temp;\n    }\n\n    for (int i = 2; i < N; i++) {\n        if (arr[i] > largest) {\n            secondLargest = largest;\n            largest = arr[i];\n        } else if (arr[i] > secondLargest) {\n            secondLargest = arr[i];\n        }\n    }\n\n    printf(\"%d\", secondLargest);\n\n    return 0;\n}",
+      "language": "c",
+      "verdict": "Wrong Answer",
+      "output": "Test case 1 failed.\nOutput:\n0",
+      "createdAt": "2026-07-29T16:47:27.745Z",
+      "judgedAt": "2026-07-29T16:47:28.831Z"
+    },
+    {
+      "_id": "judge_ms6bi9hh_aprp89",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3096",
+      "problemNumber": "c_fundamentals_questions_q3096",
+      "code": "#include <stdio.h>\n\nint main() {\n    int N;\n    scanf(\"%d\", &N);\n\n    int arr[N];\n\n    for (int i = 0; i < N; i++) {\n        scanf(\"%d\", &arr[i]);\n    }\n\n    int largest = arr[0];\n    int secondLargest = arr[1];\n\n    if (secondLargest > largest) {\n        int temp = largest;\n        largest = secondLargest;\n        secondLargest = temp;\n    }\n\n    for (int i = 2; i < N; i++) {\n        if (arr[i] > largest) {\n            secondLargest = largest;\n            largest = arr[i];\n        } else if (arr[i] > secondLargest) {\n            secondLargest = arr[i];\n        }\n    }\n\n    printf(\"%d\", secondLargest);\n\n    return 0;\n}",
+      "language": "c",
+      "verdict": "Successful",
+      "output": "29897",
+      "createdAt": "2026-07-29T16:47:20.453Z",
+      "judgedAt": "2026-07-29T16:47:23.949Z"
+    },
+    {
+      "_id": "judge_ms6bfxb1_8gfmai",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3096",
+      "problemNumber": "c_fundamentals_questions_q3096",
+      "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    int N;\n    cin >> N;\n\n    vector<int> arr(N);\n\n    for (int i = 0; i < N; i++)\n        cin >> arr[i];\n\n    int largest = INT_MIN;\n    int secondLargest = INT_MIN;\n\n    for (int x : arr) {\n        if (x > largest) {\n            secondLargest = largest;\n            largest = x;\n        } else if (x > secondLargest && x < largest) {\n            secondLargest = x;\n        }\n    }\n\n    cout << secondLargest << endl;\n\n    return 0;\n}",
+      "language": "cpp",
+      "verdict": "Wrong Answer",
+      "output": "Test case 1 failed.\nOutput:\n-2147483648",
+      "createdAt": "2026-07-29T16:45:31.357Z",
+      "judgedAt": "2026-07-29T16:45:32.651Z"
+    },
+    {
+      "_id": "judge_ms6bfqry_hxl64d",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3096",
+      "problemNumber": "c_fundamentals_questions_q3096",
+      "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    int N;\n    cin >> N;\n\n    vector<int> arr(N);\n\n    for (int i = 0; i < N; i++)\n        cin >> arr[i];\n\n    int largest = INT_MIN;\n    int secondLargest = INT_MIN;\n\n    for (int x : arr) {\n        if (x > largest) {\n            secondLargest = largest;\n            largest = x;\n        } else if (x > secondLargest && x < largest) {\n            secondLargest = x;\n        }\n    }\n\n    cout << secondLargest << endl;\n\n    return 0;\n}",
+      "language": "cpp",
+      "verdict": "Successful",
+      "output": "-2147483648",
+      "createdAt": "2026-07-29T16:45:22.894Z",
+      "judgedAt": "2026-07-29T16:45:26.627Z"
+    },
+    {
+      "_id": "judge_ms6bdty0_inxnmz",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3096",
+      "problemNumber": "c_fundamentals_questions_q3096",
+      "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    int N;\n    cin >> N;\n\n    vector<int> arr(N);\n\n    for (int i = 0; i < N; i++)\n        cin >> arr[i];\n\n    int largest = INT_MIN;\n    int secondLargest = INT_MIN;\n\n    for (int x : arr) {\n        if (x > largest) {\n            secondLargest = largest;\n            largest = x;\n        } else if (x > secondLargest && x < largest) {\n            secondLargest=x;\n        }\n    }\n\n    cout << secondLargest << endl;\n\n    return 0;\n}",
+      "language": "python",
+      "verdict": "Runtime Error",
+      "output": "  File \"/workspace/code.py\", line 4\n    using namespace std;\n          ^^^^^^^^^\nSyntaxError: invalid syntax\n",
+      "createdAt": "2026-07-29T16:43:53.688Z",
+      "judgedAt": "2026-07-29T16:43:54.344Z"
+    },
+    {
+      "_id": "judge_ms6bdfbq_xb89v9",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3096",
+      "problemNumber": "c_fundamentals_questions_q3096",
+      "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    int N;\n    cin >> N;\n\n    vector<int> arr(N);\n\n    for (int i = 0; i < N; i++)\n        cin >> arr[i];\n\n    int largest = INT_MIN;\n    int secondLargest = INT_MIN;\n\n    for (int x : arr) {\n        if (x > largest) {\n            secondLargest = largest;\n            largest = x;\n        } else if (x > secondLargest && x < largest) {\n            secondLargest=x;\n        }\n    }\n\n    cout << secondLargest << endl;\n\n    return 0;\n}",
+      "language": "cpp",
+      "verdict": "Successful",
+      "output": "-2147483648",
+      "createdAt": "2026-07-29T16:43:34.742Z",
+      "judgedAt": "2026-07-29T16:43:38.686Z"
+    },
+    {
+      "_id": "judge_ms6bd08o_koi70l",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3096",
+      "problemNumber": "c_fundamentals_questions_q3096",
+      "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    int N;\n    cin >> N;\n\n    vector<int> arr(N);\n\n    for (int i = 0; i < N; i++)\n        cin >> arr[i];\n\n    int largest = INT_MIN;\n    int secondLargest = INT_MIN;\n\n    for (int x : arr) {\n        if (x > largest) {\n            secondLargest = largest;\n            largest = x;\n        } else if (x > secondLargest && x < largest) {\n            secondLargest \n        }\n    }\n\n    cout << secondLargest << endl;\n\n    return 0;\n}",
+      "language": "cpp",
+      "verdict": "Compilation Error",
+      "output": "code.cpp: In function 'int main()':\ncode.cpp:23:26: error: expected ';' before '}' token\n   23 |             secondLargest\n      |                          ^\n      |                          ;\n   24 |         }\n      |         ~                 \n",
+      "createdAt": "2026-07-29T16:43:15.192Z",
+      "judgedAt": "2026-07-29T16:43:16.257Z"
+    },
+    {
+      "_id": "judge_ms6bclwl_618rp4",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3096",
+      "problemNumber": "c_fundamentals_questions_q3096",
+      "code": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    int N;\n    cin >> N;\n\n    vector<int> arr(N);\n\n    for (int i = 0; i < N; i++)\n        cin >> arr[i];\n\n    int largest = INT_MIN;\n    int secondLargest = INT_MIN;\n\n    for (int x : arr) {\n        if (x > largest) {\n            secondLargest = largest;\n            largest = x;\n        } else if (x > secondLargest && x < largest) {\n            secondLargest = x;\n        }\n    }\n\n    cout << secondLargest << endl;\n\n    return 0;\n}",
+      "language": "cpp",
+      "verdict": "Successful",
+      "output": "-2147483648",
+      "createdAt": "2026-07-29T16:42:56.613Z",
+      "judgedAt": "2026-07-29T16:43:01.104Z"
+    },
+    {
+      "_id": "judge_ms20dbia_6azy8m",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3051",
+      "problemNumber": "c_fundamentals_questions_q3051",
+      "code": "\n#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n\n    int sign = 1;\n    if (n < 0) {\n        sign = -1;\n        n = -n;\n    }\n\n    int rev = 0;\n    while (n > 0) {\n        rev = rev * 10 + (n % 10);\n        n /= 10;\n    }\n\n    printf(\"%d\", rev * sign);\n\n    return 0;\n}",
+      "language": "c",
+      "verdict": "Successful",
+      "output": "0",
+      "createdAt": "2026-07-26T16:24:29.314Z",
+      "judgedAt": "2026-07-26T16:24:48.044Z"
+    },
+    {
+      "_id": "judge_ms1xbcbb_82fs7x",
+      "userId": "test_user",
+      "problemId": "1",
+      "problemNumber": 1,
+      "code": "print(123)",
+      "language": "python",
+      "verdict": "Successful",
+      "output": "123",
+      "createdAt": "2026-07-26T14:58:58.199Z",
+      "judgedAt": "2026-07-26T14:58:59.042Z"
+    },
+    {
+      "_id": "judge_ms1x39m3_l7cmte",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3051",
+      "problemNumber": "c_fundamentals_questions_q3051",
+      "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n\n    int sign = 1;\n    if (n < 0) {\n        sign = -1;\n        n = -n;\n    }\n\n    int rev = 0;\n    while (n > 0) {\n        rev = rev * 10 + (n % 10);\n        n /= 10;\n    }\n\n    printf(\"%d\", rev * sign);\n\n    return 0;\n}",
+      "language": "c",
+      "verdict": "Wrong Answer",
+      "output": "Test case 1 failed.\nOutput:\n0",
+      "createdAt": "2026-07-26T14:52:41.451Z",
+      "judgedAt": "2026-07-26T14:52:42.573Z"
+    },
+    {
+      "_id": "judge_ms1x0tui_n53bh3",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3051",
+      "problemNumber": "c_fundamentals_questions_q3051",
+      "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n\n    int sign = 1;\n    if (n < 0) {\n        sign = -1;\n        n = -n;\n    }\n\n    int rev = 0;\n    while (n > 0) {\n        rev = rev * 10 + (n % 10);\n        n /= 10;\n    }\n\n    printf(\"%d\", rev * sign);\n\n    return 0;\n}",
+      "language": "c",
+      "verdict": "Wrong Answer",
+      "output": "Test case 1 failed.\nOutput:\n0",
+      "createdAt": "2026-07-26T14:50:47.706Z",
+      "judgedAt": "2026-07-26T14:50:49.110Z"
+    },
+    {
+      "_id": "judge_ms1x0mlu_qlezki",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3051",
+      "problemNumber": "c_fundamentals_questions_q3051",
+      "code": "#include <stdio.h>\n\nint main() {\n    int n;\n    scanf(\"%d\", &n);\n\n    int sign = 1;\n    if (n < 0) {\n        sign = -1;\n        n = -n;\n    }\n\n    int rev = 0;\n    while (n > 0) {\n        rev = rev * 10 + (n % 10);\n        n /= 10;\n    }\n\n    printf(\"%d\", rev * sign);\n\n    return 0;\n}",
+      "language": "c",
+      "verdict": "Wrong Answer",
+      "output": "Test case 1 failed.\nOutput:\n0",
+      "createdAt": "2026-07-26T14:50:38.322Z",
+      "judgedAt": "2026-07-26T14:50:39.636Z"
+    },
+    {
+      "_id": "judge_ms1wysis_gm7oq3",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3051",
+      "problemNumber": "c_fundamentals_questions_q3051",
+      "code": "#include <stdio.h>\n\nint main() {\n    int n, rev = 0;\n\n    scanf(\"%d\", &n);\n\n    while (n != 0) {\n        int digit = n % 10;\n        rev = rev * 10 + digit;\n        n = n / 10;\n    }\n\n    printf(\"%d\\n\", rev);\n\n    return 0;\n}\n",
+      "language": "c",
+      "verdict": "Wrong Answer",
+      "output": "Test case 1 failed.\nOutput:\n0",
+      "createdAt": "2026-07-26T14:49:12.676Z",
+      "judgedAt": "2026-07-26T14:49:14.058Z"
+    },
+    {
+      "_id": "judge_ms1wy07b_ayo53n",
+      "userId": "stu_ms1ekbqz_z39zxl",
+      "problemId": "c_fundamentals_questions_q3051",
+      "problemNumber": "c_fundamentals_questions_q3051",
+      "code": "#include <stdio.h>\n\nint main() {\n    int n, rev = 0;\n\n    scanf(\"%d\", &n);\n\n    while (n != 0) {\n        int digit = n % 10;\n        rev = rev * 10 + digit;\n        n = n / 10;\n    }\n\n    printf(\"%d\\n\", rev);\n\n    return 0;\n}\n",
+      "language": "c",
+      "verdict": "Compilation Error",
+      "output": "",
+      "createdAt": "2026-07-26T14:48:35.975Z",
+      "judgedAt": "2026-07-26T14:48:48.616Z"
+    },
+    {
       "_id": "judge_mrxv0hlr_lvjbxv",
       "userId": "stu_mrvx5eri_alsgkj",
       "problemId": "c_fundamentals_questions_q3059",
@@ -46800,13 +49904,30 @@
   "badges": [],
   "tests": [
     {
-      "_id": "test_mrw34rua_19a7kc",
-      "title": "test 1 ",
+      "_id": "test_ms6dbfq1_y0tpl0",
+      "title": "hh1",
+      "description": "",
+      "type": "Assessment",
+      "testType": "MCQ",
+      "status": "Upcoming",
+      "startTime": "2026-07-29T23:09",
+      "endTime": "",
+      "duration": 60,
+      "proctored": false,
+      "totalMarks": 100,
+      "branch": "CSE",
+      "section": "E",
+      "semester": 5,
+      "isPublished": true
+    },
+    {
+      "_id": "test_ms6d4ms0_xmtmap",
+      "title": "dsa",
       "description": "",
       "type": "Quiz",
       "testType": "MCQ",
       "status": "Upcoming",
-      "startTime": "2026-07-22T18:27",
+      "startTime": "2026-07-29T23:04",
       "endTime": "",
       "duration": 60,
       "proctored": false,
@@ -46822,55 +49943,106 @@
       "multipleCorrect": false,
       "marks": 10,
       "order": 1,
-      "_id": "mcq_mrw35lbs_z3o3ye",
-      "testId": "test_mrw34rua_19a7kc",
-      "questionText": "2+2",
+      "_id": "mcq_ms6d59vt_1hclgj",
+      "testId": "test_ms6d4ms0_xmtmap",
+      "questionText": "2+3",
       "options": [
-        "4",
         "5",
-        "9",
-        "97"
+        "4",
+        "7",
+        "8"
       ],
       "correctAnswers": [
         0
       ],
       "explanation": "",
-      "text": "2+2"
+      "text": "2+3"
     },
     {
       "multipleCorrect": false,
-      "marks": 10,
+      "marks": 9,
       "order": 2,
-      "_id": "mcq_mrw374zf_4abhyj",
-      "testId": "test_mrw34rua_19a7kc",
-      "questionText": "what is the ml",
+      "_id": "mcq_ms6d5rfz_da26ca",
+      "testId": "test_ms6d4ms0_xmtmap",
+      "questionText": "6+0",
       "options": [
-        "bbb",
-        "machine learning",
-        "bg",
-        "nv"
+        "4",
+        "6",
+        "0",
+        "3"
       ],
       "correctAnswers": [
         1
       ],
       "explanation": "",
-      "text": "what is the ml"
+      "text": "6+0"
+    },
+    {
+      "multipleCorrect": false,
+      "marks": 1,
+      "order": 1,
+      "_id": "mcq_ms6dbvl8_xcjkee",
+      "testId": "test_ms6dbfq1_y0tpl0",
+      "questionText": "7+8",
+      "options": [
+        "0",
+        "15",
+        "6",
+        "4"
+      ],
+      "correctAnswers": [
+        1
+      ],
+      "explanation": "",
+      "text": "7+8"
+    },
+    {
+      "multipleCorrect": false,
+      "marks": 1,
+      "order": 2,
+      "_id": "mcq_ms6dci8p_yuy46c",
+      "testId": "test_ms6dbfq1_y0tpl0",
+      "questionText": "888+0",
+      "options": [
+        "888",
+        "8756",
+        "88",
+        "67"
+      ],
+      "correctAnswers": [
+        0
+      ],
+      "explanation": "",
+      "text": "888+0"
     }
   ],
   "codingQuestions": [],
   "theoryQuestions": [],
   "testSubmissions": [
     {
-      "_id": "test_sub_mrw39z0b_hxmlun",
-      "testId": "test_mrw34rua_19a7kc",
-      "studentId": "stu_mrvx5eri_alsgkj",
+      "_id": "test_sub_ms6dxm4s_vzd26a",
+      "testId": "test_ms6dbfq1_y0tpl0",
+      "studentId": "stu_ms1ekbqz_z39zxl",
       "studentName": "CHHOTU",
       "rollNumber": "2427030521",
       "section": "E",
-      "score": 20,
-      "totalMaxScore": 20,
+      "score": 0,
+      "totalMaxScore": 2,
+      "status": "Fail",
+      "submitTime": "2026-07-29T17:55:15.916Z",
+      "warningsIssued": 0
+    },
+    {
+      "_id": "test_sub_ms6d8oeh_pcvtd3",
+      "testId": "test_ms6d4ms0_xmtmap",
+      "studentId": "fac_112",
+      "studentName": "Student",
+      "rollNumber": "",
+      "section": "",
+      "score": 19,
+      "totalMaxScore": 19,
       "status": "Pass",
-      "submitTime": "2026-07-22T12:59:14.940Z",
+      "submitTime": "2026-07-29T17:35:52.457Z",
       "warningsIssued": 0
     }
   ],
@@ -46947,16 +50119,16 @@
   ],
   "content": [
     {
-      "_id": "content_mrw25ol8_4e8f6q",
-      "title": "Unit 1 ",
-      "description": "",
-      "type": "module",
-      "subject": "CSE3101 : COMPUTER NETWORKS",
+      "_id": "content_ms1wu4ac_tqnvah",
+      "title": "Unit 1 : Intro ",
+      "description": "Handout ",
+      "type": "ppt",
+      "subject": "Artificial Intelligence & Soft Computing",
       "section": "E",
-      "fileUrl": "/uploads/content_mrw25ol8_4e8f6q-AI-Multi-Agent-Workflow.pdf",
-      "fileType": "application/pdf",
-      "uploadedBy": "dr.rishigupta@jaipur.manipal.edu",
-      "createdAt": "2026-07-22T12:27:55.204Z"
+      "fileUrl": "/uploads/content_ms1wu4ac_tqnvah-Images-GraphsTables-The-text-size-and-image-size-to-be-selected-inline-with-the-supervisor-s-approval.-If-figure-are-to-be-used-then-mention-the-figure-caption-in-this-format-Fig-1.-explain-what.pptx",
+      "fileType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "uploadedBy": "chhotu.2427030521@muj.manipal.edu",
+      "createdAt": "2026-07-26T14:45:34.650Z"
     }
   ],
   "permissions": [],
@@ -47041,6 +50213,20 @@
       "mockTestId": "mock_1",
       "studentId": "stu_mrvx5eri_alsgkj",
       "startedAt": "2026-07-26T04:25:52.713Z",
+      "status": "InProgress"
+    },
+    {
+      "_id": "mock_attempt_ms6bwr5l_d7dfk8",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-07-29T16:58:36.537Z",
+      "status": "InProgress"
+    },
+    {
+      "_id": "mock_attempt_ms6cp16t_imc6vq",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-07-29T17:20:35.909Z",
       "status": "InProgress"
     }
   ],

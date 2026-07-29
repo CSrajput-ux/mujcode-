@@ -138,14 +138,14 @@ export function registerAdminRoutes(router) {
       if (req.body.facultyIds) {
         facultyIds = JSON.parse(req.body.facultyIds);
       }
-    } catch (e) {}
+    } catch (e) { }
 
     const text = file.buffer.toString('utf8');
     const lines = text.split(/\r?\n/).filter(line => line.trim());
     if (lines.length <= 1) return ok(res, { message: 'No data to import', imported: 0 });
-    
+
     const headers = lines[0].split(',').map(h => h.trim());
-    
+
     let imported = 0;
     const newStudents = [];
     const newUsers = [];
@@ -162,7 +162,7 @@ export function registerAdminRoutes(router) {
       if (db.users.find(u => u.email.toLowerCase() === row.Email.toLowerCase())) continue;
 
       const id = nextId('stu');
-      
+
       const user = {
         id,
         name: row.Name || 'Student',
@@ -307,10 +307,10 @@ export function registerAdminRoutes(router) {
     if (!Array.isArray(ids) || ids.length === 0) {
       return sendJson(res, 400, { error: 'No student IDs provided' });
     }
-    
+
     db.students = db.students.filter(student => !ids.includes(student.id) && !ids.includes(student._id));
     db.users = db.users.filter(user => !ids.includes(user.id));
-    
+
     ctx.saveDb(db);
     return ok(res, { message: `${ids.length} students deleted successfully` });
   });

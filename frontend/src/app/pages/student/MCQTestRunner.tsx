@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { SecureTestEnvironment } from '../../components/SecureTestEnvironment';
+import { SecureExamOverlay } from '../../components/exam';
 import { Card } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
@@ -176,10 +176,14 @@ export default function MCQTestRunner() {
     const answeredCount = Object.keys(answers).length;
 
     return (
-        <SecureTestEnvironment
-            isTestActive={!submitted && !loading}
-            onViolation={handleSecurityViolation}
-            maxViolations={MAX_VIOLATIONS}
+        <SecureExamOverlay
+            isExamActive={!submitted && !loading}
+            examTitle={test?.title || 'Proctored MCQ Test'}
+            maxFullscreenExits={MAX_VIOLATIONS}
+            onAutoSubmit={() => {
+                toast.error('Exam Auto-Submitted due to multiple violations');
+                handleSubmit();
+            }}
         >
             <div className="min-h-screen bg-gray-50">
                 {/* Header */}
@@ -311,6 +315,6 @@ export default function MCQTestRunner() {
                     </div>
                 </div>
             </div>
-        </SecureTestEnvironment>
+        </SecureExamOverlay>
     );
 }

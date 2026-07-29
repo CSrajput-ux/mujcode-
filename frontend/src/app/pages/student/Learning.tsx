@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import StudentLayout from '../../components/StudentLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
@@ -113,6 +114,7 @@ const getSubjectIcon = (courseName: string, courseType: string) => {
 };
 
 export default function Learning() {
+  const navigate = useNavigate();
   const [coursesData, setCoursesData] = useState<StudentCoursesResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -288,7 +290,11 @@ export default function Learning() {
                   {coursesData.courses.map((course, index) => {
                     const SubjectIcon = getSubjectIcon(course.courseName, course.courseType);
                     return (
-                      <Card key={index} className="shadow-md hover:shadow-lg transition-shadow">
+                      <Card 
+                        key={index} 
+                        onClick={() => navigate(`/student/courses/${encodeURIComponent(course._id || course.courseCode || course.courseName)}?tab=modules`)}
+                        className="shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                      >
                         <CardContent className="p-6">
                           <div className="flex items-start justify-between">
                             <div className="flex items-start space-x-4 flex-1">
@@ -328,7 +334,13 @@ export default function Learning() {
                                 </p>
                               )}
                             </div>
-                            <Button className="bg-[#FF7A00] hover:bg-[#FF6A00]">
+                            <Button 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/student/courses/${encodeURIComponent(course._id || course.courseCode || course.courseName)}?tab=modules`);
+                              }}
+                              className="bg-[#FF7A00] hover:bg-[#FF6A00]"
+                            >
                               View Materials
                             </Button>
                           </div>

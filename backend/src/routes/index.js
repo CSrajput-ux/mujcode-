@@ -14,6 +14,8 @@ import { registerContentRoutes } from './content.js';
 import { registerMockTestRoutes } from './mockTests.js';
 import { registerCommunityRoutes } from './communities.js';
 import { registerLiveClassRoutes } from './liveClasses.js';
+import { registerExamSecurityRoutes } from './examSecurity.js';
+import { registerExamRecoveryRoutes } from './examRecovery.js';
 
 export function registerRoutes(router, ctx) {
   registerAuthRoutes(router, ctx);
@@ -32,4 +34,6 @@ export function registerRoutes(router, ctx) {
   registerMockTestRoutes(router, ctx);
   registerCommunityRoutes(router, ctx);
   registerLiveClassRoutes(router, ctx);
+  registerExamSecurityRoutes(router, ctx);
+  registerExamRecoveryRoutes(router, ctx);
 }

@@ -24,13 +24,16 @@ function courseResponse(db, student, branchCode = 'CSE', semester = 4) {
     // Legacy: old 'subjects' field — treat as Theory if not already covered
     const legacySubjects = (student.subjects || []).filter(
       sub => !theorySubjects.map(s => s.toLowerCase()).includes((sub || '').toLowerCase()) &&
-             !labSubjects.map(s => s.toLowerCase()).includes((sub || '').toLowerCase())
+        !labSubjects.map(s => s.toLowerCase()).includes((sub || '').toLowerCase())
     );
 
     const customCourses = [
       ...theorySubjects
         .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
         .map((sub, i) => ({
+          _id: sub,
+          id: sub,
+          title: sub,
           courseCode: `TH-${i + 100}`,
           courseName: sub,
           credits: 3,
@@ -42,6 +45,9 @@ function courseResponse(db, student, branchCode = 'CSE', semester = 4) {
       ...labSubjects
         .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
         .map((sub, i) => ({
+          _id: sub,
+          id: sub,
+          title: sub,
           courseCode: `LAB-${i + 100}`,
           courseName: sub,
           credits: 2,
@@ -53,6 +59,9 @@ function courseResponse(db, student, branchCode = 'CSE', semester = 4) {
       ...legacySubjects
         .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
         .map((sub, i) => ({
+          _id: sub,
+          id: sub,
+          title: sub,
           courseCode: `SUB-${i + 100}`,
           courseName: sub,
           credits: 3,

@@ -5,7 +5,7 @@ import { Button } from '@/app/components/ui/button';
 import { Badge } from '@/app/components/ui/badge';
 import { Code2, FileText, Zap, Building2, Video, Calendar, Clock, Play } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
-import SecureExamGuard from '@/app/components/SecureExamGuard';
+import { SecureExamOverlay } from '@/app/components/exam';
 import { getTests, getTestById, submitTest, Test } from '@/app/services/testService';
 import { toast } from 'sonner';
 
@@ -222,19 +222,21 @@ export default function Tests() {
       </div>
     );
 
-    if (activeTest.proctored) {
-      return (
-        <SecureExamGuard
-          isExamActive={true}
-          onTerminate={handleSubmit}
-          onViolation={handleViolation}
-        >
-          {TestContent}
-        </SecureExamGuard>
-      );
-    }
-
-    return TestContent;
+    return (
+      <SecureExamOverlay
+        isExamActive={true}
+        examTitle={activeTest.title || 'Proctored Exam'}
+        studentName="Student"
+        maxFullscreenExits={3}
+        maxCheatingScore={50}
+        onAutoSubmit={(reason) => {
+          toast.error('Exam Auto-Submitted', { description: reason });
+          handleSubmit();
+        }}
+      >
+        {TestContent}
+      </SecureExamOverlay>
+    );
   }
 
   // --- LISTING RENDER ---

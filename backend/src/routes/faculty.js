@@ -3,16 +3,76 @@ import { nextId } from '../lib/ids.js';
 import { currentUser } from './helpers.js';
 
 export function registerFacultyRoutes(router) {
+  // Returns sections & subjects for the logged-in faculty
+  // Source: students who have this faculty in their facultyMentors list (set via Excel bulk upload)
+  router.get('/api/faculty/my-assignments', (req, res, ctx) => {
+    const db = ctx.getDb();
+    const user = currentUser(db, req);
+    const facultyId = user?.id || user?._id;
+
+    // Find all students assigned to this faculty via bulk upload
+    const assignedStudents = db.students.filter(s =>
+      s.facultyMentors && s.facultyMentors.includes(facultyId)
+    );
+
+    // Build teachingAssignments: one entry per (section, subject) combo
+    const assignmentsMap = new Map(); // key: "section::subject"
+    assignedStudents.forEach(student => {
+      const section = student.section || '';
+      const branch = student.branch || '';
+      const year = student.year ? student.year + ' Year' : '';
+      const semester = student.semester || '';
+
+      const allSubjects = [
+        ...(student.theorySubjects || []),
+        ...(student.labSubjects || []),
+        ...(student.subjects || [])
+      ];
+
+      allSubjects.forEach(subject => {
+        if (!subject) return;
+        const key = `${section}::${subject}`;
+        if (!assignmentsMap.has(key)) {
+          assignmentsMap.set(key, { section, branch, year, semester, subject });
+        }
+      });
+    });
+
+    const teachingAssignments = [...assignmentsMap.values()];
+
+    // Fallback: if no students linked, use faculty's own teachingAssignments
+    const faculty = db.faculty.find(f => f.id === facultyId || f._id === facultyId);
+    const result = teachingAssignments.length > 0
+      ? teachingAssignments
+      : (faculty?.teachingAssignments || []);
+
+    return sendJson(res, 200, {
+      teachingAssignments: result,
+      name: faculty?.name || user?.name || '',
+      department: faculty?.department || ''
+    });
+  });
+
   router.get('/api/faculty/subjects-by-section', (req, res, ctx) => {
     const db = ctx.getDb();
     const result = {};
+    const sections = ['A', 'B', 'C', 'D', 'E', 'F'];
+    sections.forEach(s => { result[s] = new Set(); });
+
     db.students.forEach(student => {
       const sec = student.section || 'A';
       if (!result[sec]) result[sec] = new Set();
+      if (student.theorySubjects) {
+        student.theorySubjects.forEach(sub => result[sec].add(sub));
+      }
+      if (student.labSubjects) {
+        student.labSubjects.forEach(sub => result[sec].add(sub));
+      }
       if (student.subjects) {
         student.subjects.forEach(sub => result[sec].add(sub));
       }
     });
+
     const formatted = Object.keys(result).reduce((acc, sec) => {
       acc[sec] = Array.from(result[sec]);
       return acc;
