@@ -1,16 +1,16 @@
 {
   "name": "mujcode-backend",
   "version": "1.0.0",
-  "description": "Dependency-free backend API for the MujCode frontend.",
+  "description": "MujCode Backend",
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "start": "tsx src/server.js",
+    "start": "node src/server.js",
     "dev": "tsx watch src/server.js",
-    "check": "tsx --check src/server.js"
+    "check": "node --check src/server.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "license": "MIT",
   "dependencies": {
@@ -18,8 +18,8 @@
     "socket.io": "^4.8.3"
   },
   "devDependencies": {
-    "@types/node": "^26.1.1",
     "tsx": "^4.23.1",
+    "@types/node": "^26.1.1",
     "typescript": "^7.0.2"
   }
 }
