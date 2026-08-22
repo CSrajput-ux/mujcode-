@@ -7,3 +7,7 @@ npm-debug.log
 .gitignore
 README.md
 .npm-cache
+dist
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts

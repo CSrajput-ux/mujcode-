@@ -2,7 +2,7 @@ import StudentLayout from '../../components/StudentLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
-import { FileText, Upload, Video, File, Calendar, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { FileText, Upload, Video, File, Calendar, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import CaseStudyNotebook from '../../components/CaseStudyNotebook';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '../../components/ui/dialog';
@@ -49,8 +49,6 @@ export default function Assignments() {
     };
     fetchAssignments();
   }, []);
-
-
 
   const handleUploadSubmit = () => {
     if (!selectedFile || !uploadTarget) {
