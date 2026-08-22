@@ -3,6 +3,9 @@ import path from 'node:path';
 import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { currentStudent } from './helpers.js';
+import { requireAuth, requireAnyRole } from '../lib/requireAuth.js';
+import { S3Service } from '../services/S3Service.js';
+import { logger } from '../lib/logger.js';
 
 function safeFilename(name) {
   return String(name || 'upload.bin')
@@ -38,7 +41,8 @@ export function registerContentRoutes(router) {
     return sendJson(res, 200, content);
   });
 
-  router.post('/api/content/upload', (req, res, ctx) => {
+  router.post('/api/content/upload', async (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const file = req.body.files?.[0];
     const id = nextId('content');
@@ -46,12 +50,14 @@ export function registerContentRoutes(router) {
     let fileType = 'text/plain';
 
     if (file) {
-      const filename = `${id}-${safeFilename(file.filename)}`;
-      const target = path.join(ctx.config.uploadDir, filename);
-      fs.mkdirSync(ctx.config.uploadDir, { recursive: true });
-      fs.writeFileSync(target, file.buffer);
-      fileUrl = `/uploads/${filename}`;
-      fileType = file.contentType;
+      try {
+        const filename = `${id}-${safeFilename(file.filename)}`;
+        fileUrl = await S3Service.uploadFile(file.buffer, filename, file.contentType || 'application/octet-stream');
+        fileType = file.contentType;
+      } catch (err) {
+        logger.error('[ContentUpload] S3 Upload Failed', err);
+        return sendJson(res, 500, { error: 'Failed to upload file to S3' });
+      }
     }
 
     const item = {
@@ -73,6 +79,7 @@ export function registerContentRoutes(router) {
   });
 
   router.delete('/api/content/:id', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     db.content = db.content.filter(item => item._id !== req.params.id);
     ctx.saveDb(db);

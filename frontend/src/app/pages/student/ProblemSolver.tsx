@@ -1,10 +1,11 @@
 import StudentLayout from '../../components/StudentLayout';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Play, Send, CheckCircle2, XCircle, Clock, ArrowLeft, Save, MessageSquare, Lightbulb } from 'lucide-react';
 import { Textarea } from '../../components/ui/textarea';
+import apiClient from '../../services/apiClient';
 import { toast } from 'sonner';
 
 export default function ProblemSolver() {
@@ -23,6 +24,12 @@ export default function ProblemSolver() {
     const [verdict, setVerdict] = useState('');
     const [output, setOutput] = useState('');
     const [isRunning, setIsRunning] = useState(false);
+    const isRunningRef = useRef(false);
+
+    const setRunning = (val: boolean) => {
+        isRunningRef.current = val;
+        setIsRunning(val);
+    };
 
     // Submissions state
     const [submissions, setSubmissions] = useState<any[]>([]);
@@ -68,9 +75,8 @@ export default function ProblemSolver() {
 
     const fetchProblem = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/problems/number/${id}`);
-            const data = await res.json();
-            setProblem(data.problem);
+            const res = await apiClient.get(`/api/problems/number/${id}`);
+            setProblem(res.data.problem);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching problem:', error);
@@ -87,11 +93,10 @@ export default function ProblemSolver() {
                 return;
             }
 
-            const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/judge/submissions/${user.id}/${id}`);
-            const data = await res.json();
-
-            if (res.ok) {
-                setSubmissions(data.submissions || []);
+            const res = await apiClient.get(`/api/judge/submissions/${user.id}/${id}`);
+            
+            if (res.status === 200) {
+                setSubmissions(res.data.submissions || []);
             }
             setLoadingSubmissions(false);
         } catch (error) {
@@ -101,101 +106,123 @@ export default function ProblemSolver() {
     };
 
     const handleRun = async () => {
-        setIsRunning(true);
+        setRunning(true);
         setVerdict('Running...');
         setOutput('');
+        setShowInput(true); // Switch to Test Result tab
 
         try {
             const user = JSON.parse(localStorage.getItem('user') || '{}');
-            const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/judge/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId: user.id,
-                    problemId: id,
-                    code,
-                    language,
-                    mode: 'run'
-                })
+            const res = await apiClient.post('/api/judge/submit', {
+                userId: user.id,
+                problemId: id,
+                code,
+                language,
+                mode: 'run'
             });
 
-            const data = await res.json();
-            pollResult(data.submissionId, 'run');
+            // Use jobId for real-time in-memory queue polling
+            pollJobResult(res.data.jobId, 'run');
         } catch (error) {
             console.error('Run error:', error);
             setVerdict('Error');
             setOutput('Failed to submit code');
-            setIsRunning(false);
+            setRunning(false);
         }
     };
 
     const handleSubmit = async () => {
-        setIsRunning(true);
+        setRunning(true);
         setVerdict('Judging...');
         setOutput('');
+        setShowInput(true); // Switch to Test Result tab
 
         try {
             const user = JSON.parse(localStorage.getItem('user') || '{}');
-            const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/judge/submit', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    userId: user.id,
-                    problemId: id,
-                    code,
-                    language,
-                    mode: 'submit'
-                })
+            const res = await apiClient.post('/api/judge/submit', {
+                userId: user.id,
+                problemId: id,
+                code,
+                language,
+                mode: 'submit'
             });
 
-            const data = await res.json();
-            pollResult(data.submissionId, 'submit');
+            // Use jobId for real-time in-memory queue polling
+            pollJobResult(res.data.jobId, 'submit');
         } catch (error) {
             console.error('Submit error:', error);
             setVerdict('Error');
             setOutput('Failed to submit code');
-            setIsRunning(false);
+            setRunning(false);
         }
     };
 
-    const pollResult = async (submissionId: string, mode: string = 'run') => {
+    /**
+     * Poll /api/judge/job-status/:jobId (in-memory queue — instant updates).
+     * This is faster and more reliable than polling MongoDB /status/:submissionId
+     * because the Docker result is available immediately when the job completes.
+     */
+    const pollJobResult = async (jobId: string, mode: string = 'run') => {
+        if (!jobId) {
+            setVerdict('Error');
+            setOutput('No job ID returned from server.');
+            setRunning(false);
+            return;
+        }
+
         const interval = setInterval(async () => {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/judge/status/${submissionId}`);
-                const data = await res.json();
+                const res = await apiClient.get(`/api/judge/job-status/${jobId}`);
+                const data = res.data;
 
-                if (data.verdict !== 'Pending') {
+                // Job is done (done | error | rejected | timeout)
+                if (data.status === 'done') {
                     clearInterval(interval);
-                    setVerdict(data.verdict);
-                    setOutput(data.output || 'No output');
-                    setIsRunning(false);
+                    const result = data.result || {};
+                    setVerdict(result.verdict || 'Successful');
+                    setOutput(result.output || 'No output');
+                    setRunning(false);
 
-                    if (mode === 'submit' && data.verdict === 'Accepted') {
-                        // Refresh submissions list to show the new success
-                        fetchSubmissions();
-                        // navigate('/student/problems'); // Removed auto-redirect as per user request
-                    } else if (mode === 'submit') {
-                        // Refresh even if not accepted, so user sees the attempt
+                    if (mode === 'submit') {
                         fetchSubmissions();
                     }
+                } else if (data.status === 'error' || data.status === 'rejected') {
+                    clearInterval(interval);
+                    setVerdict('System Error');
+                    setOutput(data.error || 'Execution failed');
+                    setRunning(false);
+                } else if (data.status === 'timeout') {
+                    clearInterval(interval);
+                    setVerdict('Time Limit Exceeded');
+                    setOutput('Your code exceeded the time limit.');
+                    setRunning(false);
                 }
+                // status === 'queued' or 'running' → keep polling
             } catch (error) {
                 console.error('Poll error:', error);
                 clearInterval(interval);
-                setIsRunning(false);
+                setVerdict('Error');
+                setOutput('Failed to get result from server.');
+                setRunning(false);
             }
-        }, 1000);
+        }, 500);
 
-        // Timeout after 22 seconds (matches backend 20s + buffer)
-        setTimeout(() => {
+        // Safety timeout after 90 seconds (Java can be slow on first Docker start)
+        const safetyTimer = setTimeout(() => {
             clearInterval(interval);
-            if (isRunning) {
+            if (isRunningRef.current) {
                 setVerdict('Timeout');
                 setOutput('Request timed out. The server took too long to respond.');
-                setIsRunning(false);
+                setRunning(false);
             }
-        }, 22000);
+        }, 90000);
+
+        // Clean up safety timer when interval clears
+        const cleanup = () => clearTimeout(safetyTimer);
+        // Attach cleanup to interval clearing — patch: just clear both on unmount
+        return () => { clearInterval(interval); clearTimeout(safetyTimer); };
     };
+
 
     const getDifficultyColor = (difficulty: string) => {
         switch (difficulty) {

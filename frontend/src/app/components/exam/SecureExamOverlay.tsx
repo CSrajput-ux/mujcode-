@@ -132,7 +132,7 @@ export const SecureExamOverlay: React.FC<SecureExamOverlayProps> = ({
 
       {/* 3. Active Violation Alert Banner */}
       {activeWarning && (
-        <div className="fixed bottom-4 right-4 z-50 max-w-sm bg-red-900/95 border-2 border-red-500 text-white p-4 rounded-xl shadow-2xl flex items-start gap-3 animate-slide-up">
+        <div className="fixed bottom-4 left-4 z-50 max-w-sm bg-red-900/95 border-2 border-red-500 text-white p-4 rounded-xl shadow-2xl flex items-start gap-3 animate-slide-up">
           <AlertTriangle className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" />
           <div className="space-y-1 flex-1">
             <div className="font-bold text-sm">Violation Recorded</div>

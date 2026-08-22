@@ -9,17 +9,48 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { toast } from 'sonner';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import apiClient from '../../services/apiClient';
 
 export default function Assignments() {
   const [pendingAssignments, setPendingAssignments] = useState<any[]>([]);
   const [submittedAssignments, setSubmittedAssignments] = useState<any[]>([]);
   const [researchPapers, setResearchPapers] = useState<any[]>([]);
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [uploadTarget, setUploadTarget] = useState<{ id: string, type: 'assignment' | 'research' | 'casestudy' } | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  // Fetch assignments from backend on mount
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      try {
+        setPageLoading(true);
+        const res = await apiClient.get('/api/assignments/student/my');
+        const all: any[] = res.data || [];
+        setPendingAssignments(all.filter((a: any) => (a.type === 'Assignment' || !a.type) && a.status !== 'Submitted'));
+        setResearchPapers(all.filter((a: any) => a.type === 'Research' && a.status !== 'Submitted'));
+        setCaseStudies(all.filter((a: any) => a.type === 'CaseStudy' && a.status !== 'Submitted'));
+        // Submitted ones
+        const subRes = await apiClient.get('/api/assignments/student/submitted');
+        setSubmittedAssignments(subRes.data || []);
+      } catch (err) {
+        console.error('Failed to fetch assignments:', err);
+        // fallback: show empty
+        setPendingAssignments([]);
+        setResearchPapers([]);
+        setCaseStudies([]);
+        setSubmittedAssignments([]);
+      } finally {
+        setPageLoading(false);
+      }
+    };
+    fetchAssignments();
+  }, []);
+
+
 
   const handleUploadSubmit = () => {
     if (!selectedFile || !uploadTarget) {
@@ -80,6 +111,14 @@ export default function Assignments() {
 
   const [activeCaseStudy, setActiveCaseStudy] = useState<{ title: string } | null>(null);
 
+  if (pageLoading) {
+    return (
+      <StudentLayout>
+        <div className="p-8 text-center text-gray-500">Loading assignments...</div>
+      </StudentLayout>
+    );
+  }
+
   return (
     <StudentLayout>
       <div className="space-y-6">
@@ -106,8 +145,11 @@ export default function Assignments() {
 
           {/* Pending Assignments */}
           <TabsContent value="pending" className="space-y-4">
+            {pendingAssignments.length === 0 && (
+              <p className="text-gray-500 text-center py-8">No pending assignments found.</p>
+            )}
             {pendingAssignments.map((assignment, index) => (
-              <Card key={index} className="shadow-md border-l-4 border-orange-500">
+              <Card key={assignment._id || index} className="shadow-md border-l-4 border-orange-500">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start space-x-4 flex-1">
@@ -122,13 +164,13 @@ export default function Assignments() {
                             <Calendar className="w-4 h-4 mr-1 text-[#FF7A00]" />
                             Due: {assignment.dueDate}
                           </span>
-                          <Badge variant="outline">
-                            Accepts: {assignment.allowedTypes.join(', ')}
-                          </Badge>
+                          {assignment.description && (
+                            <Badge variant="outline">{assignment.description.slice(0, 40)}{assignment.description.length > 40 ? '...' : ''}</Badge>
+                          )}
                         </div>
                       </div>
                     </div>
-                    <Button className="bg-[#FF7A00] hover:bg-[#FF6A00]" onClick={() => { setUploadTarget({ id: assignment.id, type: 'assignment' }); setUploadModalOpen(true); }}>
+                    <Button className="bg-[#FF7A00] hover:bg-[#FF6A00]" onClick={() => { setUploadTarget({ id: assignment._id || assignment.id, type: 'assignment' }); setUploadModalOpen(true); }}>
                       <Upload className="w-4 h-4 mr-2" />
                       Submit
                     </Button>

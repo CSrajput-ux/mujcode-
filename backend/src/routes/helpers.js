@@ -92,9 +92,9 @@ export function studentSafeTest(db, test, studentId = null) {
 
 export function getQuestionsForTest(db, testId) {
   return {
-    mcq: db.mcqQuestions.filter(question => question.testId === testId),
-    coding: db.codingQuestions.filter(question => question.testId === testId),
-    theory: db.theoryQuestions.filter(question => question.testId === testId)
+    mcq: (db.mcqQuestions || []).filter(question => question.testId === testId),
+    coding: (db.codingQuestions || []).filter(question => question.testId === testId),
+    theory: (db.theoryQuestions || []).filter(question => question.testId === testId)
   };
 }
 

@@ -89,7 +89,7 @@ export default function FacultyAssignments() {
                         onDownload={handleDownloadReport}
                     />
 
-                    <CreateAssignmentModal open={createModalOpen} onOpenChange={setCreateModalOpen} />
+                    <CreateAssignmentModal open={createModalOpen} onOpenChange={setCreateModalOpen} onCreated={fetchAssignments} />
 
                     <Tabs defaultValue="assignments" className="space-y-6">
                         <TabsList className="bg-gray-100 p-1 w-full max-w-3xl grid grid-cols-4">

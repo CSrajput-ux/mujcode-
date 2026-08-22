@@ -1,5 +1,6 @@
 import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
+import { requireAuth, requireAnyRole } from '../lib/requireAuth.js';
 
 function ensurePermissionRequests(db) {
   if (Array.isArray(db.permissionRequests)) {
@@ -39,6 +40,7 @@ function filterPermissionRequests(requests, query) {
 
 export function registerPermissionsRoutes(router) {
   router.post('/api/permissions/block', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const block = {
       _id: nextId('perm'),
@@ -87,6 +89,7 @@ export function registerPermissionsRoutes(router) {
   });
 
   router.delete('/api/permissions/:id', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const block = db.permissions.find(item => item._id === req.params.id);
     if (block) block.status = 'revoked';

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import StudentLayout from '../../components/StudentLayout';
 import { Card, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
@@ -13,6 +14,7 @@ import MockTestRunner from './mock-tests/MockTestRunner';
 import MockResultPage from './mock-tests/MockResultPage';
 
 export default function Tests() {
+  const navigate = useNavigate();
   const [activeTest, setActiveTest] = useState<Test | null>(null);
   const [loading, setLoading] = useState(true);
   const [tests, setTests] = useState<Test[]>([]);
@@ -68,13 +70,10 @@ export default function Tests() {
     }
   };
 
-  const handleStartTest = async (testId: string) => {
+  const handleStartTest = async (test: Test) => {
     try {
-      const fullTest = await getTestById(testId);
-      setActiveTest(fullTest);
-      setCurrentQuestionIndex(0);
-      setAnswers({});
-      setWarnings(0);
+      const typePath = test.testType ? test.testType.toLowerCase() : 'mcq';
+      navigate(`/student/tests/${typePath}/${test._id}`);
     } catch (error) {
       toast.error("Failed to start test");
     }
@@ -414,7 +413,7 @@ export default function Tests() {
                       </div>
                       <Button
                         className="bg-[#FF7A00] hover:bg-[#FF6A00]"
-                        onClick={() => handleStartTest(test._id)}
+                        onClick={() => handleStartTest(test)}
                       >
                         Start Now (Dev Mode)
                       </Button>
@@ -442,7 +441,7 @@ export default function Tests() {
                       </div>
                       <Button
                         className="bg-[#FF7A00] hover:bg-[#FF6A00]"
-                        onClick={() => handleStartTest(test._id)}
+                        onClick={() => handleStartTest(test)}
                       >
                         <Play className="w-4 h-4 mr-2" />
                         Join Now

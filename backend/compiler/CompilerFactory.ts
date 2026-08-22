@@ -1,7 +1,5 @@
 import { languageConfigs } from './LanguageConfigs.js';
-import { WorkspaceManager } from './WorkspaceManager.js';
-import { DockerExecutor, ExecutionResult } from './DockerExecutor.js';
-import { VerdictEngine } from './VerdictEngine.js';
+import { RedisQueueExecutor } from './RedisQueueExecutor.js';
 
 export interface TestCase {
   input: string;
@@ -13,6 +11,14 @@ export interface TestCase {
 export interface JudgeResult {
   verdict: string;
   output: string;
+}
+
+/** Extract the public class name from Java source code for correct filename. */
+function getJavaClassName(code: string): string {
+  const match = code.match(/public\s+class\s+(\w+)/);
+  if (match) return match[1];
+  const fallback = code.match(/\bclass\s+(\w+)/);
+  return fallback ? fallback[1] : 'Main';
 }
 
 export class CompilerFactory {
@@ -27,77 +33,41 @@ export class CompilerFactory {
       return { verdict: 'System Error', output: `Unsupported language: ${language}` };
     }
 
-    const workspace = new WorkspaceManager();
-    try {
-      await workspace.initWorkspace();
-      await workspace.writeCode(code, config.extension);
+    if (!testCases || testCases.length === 0) {
+      testCases = [{ input: '', expectedOutput: '' }];
+    }
 
-      const executor = new DockerExecutor(
-        config.imageName,
-        workspace.workspacePath,
+    try {
+      const executor = new RedisQueueExecutor(
+        language,
+        code,
+        testCases,
         config.timeLimitMs,
-        config.memoryLimitMB
+        config.memoryLimitMB,
+        config
       );
 
-      let compileResult: ExecutionResult | null = null;
+      // In the real worker, we will evaluate verdicts. For this API Gateway mock,
+      // we assume the worker returns an array of results for each test case.
+      const results: any = await executor.executeAll();
 
-      // Compile step if required
-      if (config.compileCmd) {
-        compileResult = await executor.compile(config.compileCmd);
-        if (compileResult.exitCode !== 0) {
-          return { verdict: 'Compilation Error', output: compileResult.stderr || compileResult.stdout };
-        }
-      }
-
-      // If no test cases are provided, create a dummy one for simple testing
-      if (!testCases || testCases.length === 0) {
-        testCases = [{ input: '', expectedOutput: '' }];
-      }
-
-      let lastStdout = '';
-      // Run step for each test case
-      for (let i = 0; i < testCases.length; i++) {
-        const testCase = testCases[i];
-        await workspace.writeInput(testCase.input || '');
-
-        const runResult = await executor.run(config.runCmd);
-        lastStdout = runResult.stdout;
-
-        // In 'run' mode, only report runtime/timeout errors, don't fail on output mismatch
-        if (mode === 'run') {
-          if (runResult.isTimeout) {
-            return { verdict: 'Time Limit Exceeded', output: 'Execution timed out.' };
-          }
-          if (runResult.exitCode !== 0) {
-            return { verdict: 'Runtime Error', output: runResult.stderr || runResult.stdout };
-          }
-          continue;
-        }
-
-        // Normalize expected output from DB
-        const expected = testCase.expectedOutput || testCase.output || '';
-        const evaluated = VerdictEngine.evaluate(compileResult, runResult, expected);
-
-        if (evaluated.verdict !== 'Accepted') {
-          return {
-            verdict: evaluated.verdict,
-            output: `Test case ${i + 1} failed.\nOutput:\n${evaluated.output}`
-          };
-        }
+      // Check if any test case failed
+      const failedCase = results.find((r: any) => r.verdict !== 'Accepted' && r.verdict !== 'Successful');
+      
+      if (failedCase) {
+        return {
+          verdict: failedCase.verdict || 'Wrong Answer',
+          output: failedCase.output || 'Test case failed.'
+        };
       }
 
       return {
         verdict: mode === 'run' ? 'Successful' : 'Accepted',
-        output: mode === 'run'
-          ? (lastStdout.trim() || 'Sample test cases executed successfully.')
-          : 'All hidden and sample test cases passed.'
+        output: mode === 'run' ? 'Sample test cases executed successfully.' : 'All test cases passed.'
       };
-
     } catch (error: any) {
-      console.error('Execution error:', error);
+      console.error('[CompilerFactory] Execution error:', error);
       return { verdict: 'System Error', output: error.message || 'Internal error occurred' };
-    } finally {
-      await workspace.cleanup();
     }
   }
 }

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SecureExamOverlay } from '../../components/exam';
 import { Card } from '../../components/ui/card';
@@ -54,10 +54,6 @@ export default function CodingTestRunner() {
     const violationCountRef = useRef(0);
     const MAX_VIOLATIONS = 3;
 
-    useState(() => {
-        fetchTestAndQuestions();
-    });
-
     const fetchTestAndQuestions = async () => {
         try {
             setLoading(true);
@@ -91,6 +87,11 @@ export default function CodingTestRunner() {
         }
     };
 
+    useEffect(() => {
+        fetchTestAndQuestions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [testId]);
+
     const handleLanguageChange = (newLang: string) => {
         setSelectedLanguage(newLang);
         const currentQuestion = questions[currentQuestionIndex];
@@ -107,6 +108,7 @@ export default function CodingTestRunner() {
         }
 
         setRunning(true);
+        setTestResults(null);
         const currentQuestion = questions[currentQuestionIndex];
 
         try {
@@ -128,13 +130,16 @@ export default function CodingTestRunner() {
 
             setTestResults(response.data);
 
-            if (response.data.passed) {
+            if (response.data.compilationError) {
+                toast.error('Compilation Error — check your code syntax');
+            } else if (response.data.passed) {
                 toast.success(`All sample tests passed! (${response.data.totalScore}/${response.data.maxScore})`);
             } else {
                 toast.warning(`Some tests failed (${response.data.totalScore}/${response.data.maxScore})`);
             }
         } catch (error: any) {
-            toast.error('Failed to run code');
+            const msg = error?.response?.data?.error || 'Failed to run code';
+            toast.error(msg);
             console.error('Run error:', error);
         } finally {
             setRunning(false);
@@ -156,6 +161,7 @@ export default function CodingTestRunner() {
         }
 
         setRunning(true);
+        setTestResults(null);
         const currentQuestion = questions[currentQuestionIndex];
 
         try {
@@ -173,16 +179,22 @@ export default function CodingTestRunner() {
 
             if (force) {
                 toast.error('Test auto-submitted due to security violations.');
+            } else if (response.data.compilationError) {
+                toast.error('Compilation Error — check your code syntax');
+            } else if (response.data.passed) {
+                toast.success('All test cases passed!');
             } else {
-                toast.success('Code submitted successfully!');
+                toast.warning(`Score: ${response.data.totalScore}/${response.data.maxScore}`);
             }
         } catch (error: any) {
-            toast.error('Submission failed');
+            const msg = error?.response?.data?.error || 'Submission failed';
+            toast.error(msg);
             console.error('Submit error:', error);
         } finally {
             setRunning(false);
         }
     };
+
 
     if (loading) {
         return (
@@ -384,15 +396,42 @@ export default function CodingTestRunner() {
                                 </div>
                             </Card>
 
+                            {/* Running indicator */}
+                            {running && (
+                                <Card className="p-4">
+                                    <div className="flex items-center gap-3 text-blue-600">
+                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600" />
+                                        <span className="text-sm font-medium">Running code in Docker container...</span>
+                                    </div>
+                                </Card>
+                            )}
+
                             {/* Test Results */}
                             {testResults && !submitted && (
                                 <Card className="p-4">
                                     <h3 className="font-semibold mb-3 flex items-center gap-2">
                                         <Clock className="w-5 h-5" />
                                         Test Results
+                                        <span className="text-sm font-normal text-gray-500 ml-auto">
+                                            {testResults.totalScore}/{testResults.maxScore} marks
+                                        </span>
                                     </h3>
+
+                                    {/* Compilation Error block */}
+                                    {testResults.compilationError && (
+                                        <div className="mb-3 p-3 bg-orange-50 border border-orange-200 rounded-lg">
+                                            <div className="flex items-center gap-2 text-orange-700 font-semibold mb-2">
+                                                <AlertCircle className="w-4 h-4" />
+                                                Compilation Error
+                                            </div>
+                                            <pre className="text-xs text-orange-800 bg-white p-2 rounded overflow-x-auto whitespace-pre-wrap">
+                                                {testResults.compilationError}
+                                            </pre>
+                                        </div>
+                                    )}
+
                                     <div className="space-y-2">
-                                        {testResults.results.map((result: any, index: number) => (
+                                        {(testResults.results || []).map((result: any, index: number) => (
                                             <div
                                                 key={index}
                                                 className={`p-3 rounded-lg border ${result.passed
@@ -403,6 +442,9 @@ export default function CodingTestRunner() {
                                                 <div className="flex items-center justify-between mb-2">
                                                     <span className="font-medium text-sm">
                                                         Test Case {index + 1}
+                                                        {result.executionTime && (
+                                                            <span className="text-gray-400 font-normal ml-2">({result.executionTime})</span>
+                                                        )}
                                                     </span>
                                                     <Badge
                                                         className={
@@ -412,18 +454,24 @@ export default function CodingTestRunner() {
                                                         {result.passed ? '✓ Passed' : '✗ Failed'}
                                                     </Badge>
                                                 </div>
-                                                {!result.passed && result.actualOutput && (
-                                                    <div className="text-xs">
-                                                        <p className="text-gray-600">Your Output:</p>
-                                                        <pre className="bg-white p-2 rounded mt-1 overflow-x-auto">
-                                                            {result.actualOutput}
-                                                        </pre>
+                                                {result.error && (
+                                                    <div className="mt-1 flex items-start gap-2 text-xs text-red-700 font-medium">
+                                                        <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                                                        <span>{result.error}</span>
                                                     </div>
                                                 )}
-                                                {result.error && (
-                                                    <div className="mt-2 flex items-start gap-2 text-xs text-red-600">
-                                                        <AlertCircle className="w-4 h-4 mt-0.5" />
-                                                        <span>{result.error}</span>
+                                                {!result.passed && result.actualOutput && result.actualOutput !== '[wrong]' && (
+                                                    <div className="text-xs mt-2 space-y-1">
+                                                        {result.expectedOutput && result.expectedOutput !== '[hidden]' && (
+                                                            <>
+                                                                <p className="text-gray-500">Expected:</p>
+                                                                <pre className="bg-white p-2 rounded overflow-x-auto border">{result.expectedOutput}</pre>
+                                                            </>
+                                                        )}
+                                                        <p className="text-gray-500">Your Output:</p>
+                                                        <pre className="bg-white p-2 rounded mt-1 overflow-x-auto border">
+                                                            {result.actualOutput || '(empty)'}
+                                                        </pre>
                                                     </div>
                                                 )}
                                             </div>
@@ -431,6 +479,7 @@ export default function CodingTestRunner() {
                                     </div>
                                 </Card>
                             )}
+
                         </div>
                     </div>
                 </div>

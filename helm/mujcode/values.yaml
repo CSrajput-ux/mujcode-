@@ -1,0 +1,68 @@
+# Default values for mujcode.
+# This is a YAML-formatted file.
+
+replicaCount:
+  backend: 3
+  frontend: 2
+  compilerWorker: 5
+
+image:
+  repository: 123456789012.dkr.ecr.us-east-1.amazonaws.com/mujcode
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+  hosts:
+    - host: mujcode.com
+      paths:
+        - path: /
+          pathType: Prefix
+          serviceName: frontend
+        - path: /api
+          pathType: Prefix
+          serviceName: backend
+  tls:
+    - secretName: mujcode-tls
+      hosts:
+        - mujcode.com
+
+resources:
+  backend:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  compilerWorker:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+
+autoscaling:
+  enabled: true
+  
+  backend:
+    minReplicas: 3
+    maxReplicas: 15
+    targetCPUUtilizationPercentage: 70
+    
+  compilerWorker:
+    minReplicas: 5
+    maxReplicas: 25
+    targetCPUUtilizationPercentage: 80
+
+env:
+  NODE_ENV: "production"
+  # In a real environment, these would be pulled from AWS Secrets Manager or HashiCorp Vault
+  POSTGRES_URI: "postgres://root:changeme@mujcode-postgres:5432/mujcode_db"
+  REDIS_URI: "redis://mujcode-redis:6379"
+  MONGODB_URI: "mongodb://root:changeme@mujcode-mongodb:27017/mujcode_ats?authSource=admin"

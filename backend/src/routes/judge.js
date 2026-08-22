@@ -2,37 +2,45 @@ import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { CompilerFactory } from '../../compiler/CompilerFactory.js';
 import { executionQueue } from '../../compiler/ExecutionQueue.js';
+import { requireAuth } from '../lib/requireAuth.js';
+import { CodeExecution } from '../models/CodeExecution.js';
 
-function judgeCode(code, mode) {
-  const text = String(code || '').trim().toLowerCase();
-  if (!text) {
-    return { verdict: 'Wrong Answer', output: 'No code was submitted.' };
-  }
-  if (text.includes('syntaxerror') || text.includes('throw error')) {
-    return { verdict: 'Runtime Error', output: 'The submitted code raised an error in the demo judge.' };
-  }
-  return {
-    verdict: mode === 'run' ? 'Successful' : 'Accepted',
-    output: mode === 'run' ? 'Sample test cases passed.' : 'All hidden and sample test cases passed.'
-  };
+function normalizeOutput(str) {
+  return String(str || '')
+    .replace(/\r\n/g, '\n')
+    .split('\n')
+    .map(line => line.trimEnd())
+    .join('\n')
+    .trim();
 }
 
-function compileResult(testCases = []) {
-  const cases = testCases.length ? testCases : [{ input: '', expectedOutput: '', marks: 1 }];
-  const results = cases.map((testCase, index) => ({
-    input: testCase.input,
-    expectedOutput: testCase.expectedOutput || testCase.output,
-    actualOutput: testCase.expectedOutput || testCase.output || 'ok',
-    passed: true,
-    marks: testCase.marks || 1,
-    earnedMarks: testCase.marks || 1,
-    executionTime: '0.01s',
-    memoryUsed: '12MB',
-    index
-  }));
-  const totalScore = results.reduce((sum, item) => sum + Number(item.earnedMarks || 0), 0);
-  const maxScore = results.reduce((sum, item) => sum + Number(item.marks || 0), 0);
-  return { passed: true, totalScore, maxScore, results };
+/**
+ * Extract the public class name from Java source code.
+ * Java requires the filename to match the public class name.
+ * Falls back to 'Main' if no public class is found.
+ */
+function getJavaClassName(code) {
+  const match = String(code || '').match(/public\s+class\s+(\w+)/);
+  if (match) return match[1];
+  // Fallback: grab first class name
+  const fallback = String(code || '').match(/\bclass\s+(\w+)/);
+  return fallback ? fallback[1] : 'Main';
+}
+
+/**
+ * For Java, override the filename, compileCmd, and runCmd based on
+ * the actual public class name in the submitted code.
+ */
+function resolveJavaConfig(lang, code, config) {
+  if (lang !== 'java') {
+    return { filename: undefined, compileCmd: config.compileCmd, runCmd: config.runCmd };
+  }
+  const className = getJavaClassName(code);
+  return {
+    filename: `${className}.java`,
+    compileCmd: `javac ${className}.java`,
+    runCmd: `java ${className}`
+  };
 }
 
 export function registerJudgeRoutes(router) {
@@ -49,6 +57,7 @@ export function registerJudgeRoutes(router) {
    *   - Excess requests queue or are rejected gracefully
    */
   router.post('/api/judge/submit', async (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const submissionId = nextId('judge');
     const userId = req.body.userId || req.user?.id || 'anonymous';
@@ -74,11 +83,14 @@ export function registerJudgeRoutes(router) {
       language: req.body.language || 'python',
       verdict: 'Pending',
       output: 'Your submission is queued and will be judged shortly...',
-      createdAt: new Date().toISOString()
+      createdAt: new Date()
     };
 
-    db.problemSubmissions.unshift(submission);
-    ctx.saveDb(db);
+    try {
+      await CodeExecution.create(submission);
+    } catch (e) {
+      console.error('[MongoDB] Failed to create code execution record:', e);
+    }
 
     // ── Enqueue async execution ──────────────────────────────────────────────
     const jobId = executionQueue.enqueue(userId, async () => {
@@ -95,13 +107,14 @@ export function registerJudgeRoutes(router) {
       }
 
       // Update the stored submission with real verdict
-      const db2 = ctx.getDb();
-      const stored = db2.problemSubmissions.find(s => s._id === submissionId);
-      if (stored) {
-        stored.verdict = result.verdict;
-        stored.output = result.output;
-        stored.judgedAt = new Date().toISOString();
-        ctx.saveDb(db2);
+      try {
+        await CodeExecution.findByIdAndUpdate(submissionId, {
+          verdict: result.verdict,
+          output: result.output,
+          judgedAt: new Date()
+        });
+      } catch (e) {
+        console.error('[MongoDB] Failed to update code execution record:', e);
       }
 
       return result;
@@ -151,18 +164,29 @@ export function registerJudgeRoutes(router) {
    * ─────────────────────────────────────
    * Fetch stored submission (after it has been judged & saved to db).
    */
-  router.get('/api/judge/status/:submissionId', (req, res, ctx) => {
-    const submission = ctx.getDb().problemSubmissions.find(item => item._id === req.params.submissionId);
-    return sendJson(res, submission ? 200 : 404, submission || { error: 'Submission not found' });
+  router.get('/api/judge/status/:submissionId', async (req, res, ctx) => {
+    try {
+      const submission = await CodeExecution.findById(req.params.submissionId).lean();
+      return sendJson(res, submission ? 200 : 404, submission || { error: 'Submission not found' });
+    } catch (e) {
+      return sendJson(res, 500, { error: 'Failed to fetch submission' });
+    }
   });
 
-  router.get('/api/judge/submissions/:userId/:problemNumber', (req, res, ctx) => {
+  router.get('/api/judge/submissions/:userId/:problemNumber', async (req, res, ctx) => {
     const param = req.params.problemNumber;
-    const submissions = ctx.getDb().problemSubmissions.filter(sub =>
-      String(sub.userId) === String(req.params.userId) &&
-      (String(sub.problemId) === String(param) || String(sub.problemNumber) === String(param))
-    );
-    return sendJson(res, 200, { submissions });
+    try {
+      const submissions = await CodeExecution.find({
+        userId: req.params.userId,
+        $or: [
+          { problemId: param },
+          { problemNumber: isNaN(Number(param)) ? param : Number(param) }
+        ]
+      }).sort({ createdAt: -1 }).lean();
+      return sendJson(res, 200, { submissions });
+    } catch (e) {
+      return sendJson(res, 500, { error: 'Failed to fetch submissions' });
+    }
   });
 
   /**
@@ -180,15 +204,261 @@ export function registerJudgeRoutes(router) {
     });
   });
 
-  router.post('/api/compile/test', (req, res) => {
-    return sendJson(res, 200, compileResult(req.body.testCases || []));
+  // POST /api/compile/test  — Run code against visible test cases (Run button)
+  router.post('/api/compile/test', async (req, res) => {
+    const { language, code, testCases = [], timeLimit, memoryLimit } = req.body;
+
+    if (!code || !String(code).trim()) {
+      return sendJson(res, 200, {
+        passed: false,
+        totalScore: 0,
+        maxScore: testCases.reduce((s, tc) => s + Number(tc.marks || 1), 0),
+        results: testCases.map((tc, i) => ({
+          input: tc.input,
+          expectedOutput: tc.expectedOutput,
+          actualOutput: '',
+          passed: false,
+          marks: tc.marks || 1,
+          earnedMarks: 0,
+          error: 'No code submitted',
+          index: i
+        }))
+      });
+    }
+
+    try {
+      const { languageConfigs } = await import('../../compiler/LanguageConfigs.js');
+      const { WorkspaceManager } = await import('../../compiler/WorkspaceManager.js');
+      const { DockerExecutor } = await import('../../compiler/DockerExecutor.js');
+      const { VerdictEngine } = await import('../../compiler/VerdictEngine.js');
+
+      const lang = String(language || 'python').toLowerCase();
+      const config = languageConfigs[lang];
+      if (!config) {
+        return sendJson(res, 400, { error: `Unsupported language: ${lang}` });
+      }
+
+      const cases = testCases.length ? testCases : [{ input: '', expectedOutput: '', marks: 1 }];
+      const workspace = new WorkspaceManager();
+      await workspace.initWorkspace();
+
+      // For Java: save file as {ClassName}.java to satisfy javac requirement
+      const { filename, compileCmd, runCmd } = resolveJavaConfig(lang, code, config);
+      await workspace.writeCode(code, config.extension, filename);
+
+      const executor = new DockerExecutor(
+        config.imageName,
+        workspace.workspacePath,
+        (timeLimit ? timeLimit * 1000 : config.timeLimitMs),
+        memoryLimit || config.memoryLimitMB
+      );
+
+      // Compile step
+      let compileErr = null;
+      if (compileCmd) {
+        const cr = await executor.compile(compileCmd);
+        if (cr.exitCode !== 0) {
+          await workspace.cleanup();
+          const errMsg = cr.stderr || cr.stdout || 'Compilation failed';
+          return sendJson(res, 200, {
+            passed: false,
+            totalScore: 0,
+            maxScore: cases.reduce((s, tc) => s + Number(tc.marks || 1), 0),
+            compilationError: errMsg,
+            results: cases.map((tc, i) => ({
+              input: tc.input,
+              expectedOutput: tc.expectedOutput,
+              actualOutput: '',
+              passed: false,
+              marks: tc.marks || 1,
+              earnedMarks: 0,
+              error: `Compilation Error: ${errMsg}`,
+              index: i
+            }))
+          });
+        }
+        compileErr = cr;
+      }
+
+      // Run each test case
+      const results = [];
+      for (let i = 0; i < cases.length; i++) {
+        const tc = cases[i];
+        await workspace.writeInput(tc.input || '');
+        const runResult = await executor.run(runCmd);
+        const expected = normalizeOutput(tc.expectedOutput || tc.output || '');
+        const actual = normalizeOutput(runResult.stdout);
+
+        let passed = false;
+        let error = null;
+
+        if (runResult.isTimeout) {
+          error = 'Time Limit Exceeded';
+        } else if (runResult.exitCode !== 0) {
+          error = `Runtime Error: ${runResult.stderr || runResult.stdout || 'Non-zero exit code'}`;
+        } else if (!expected || expected === 'ANY' || actual === expected) {
+          passed = true;
+        } else {
+          error = `Wrong Answer`;
+        }
+
+        results.push({
+          input: tc.input,
+          expectedOutput: tc.expectedOutput,
+          actualOutput: actual,
+          passed,
+          marks: tc.marks || 1,
+          earnedMarks: passed ? (tc.marks || 1) : 0,
+          executionTime: `${runResult.timeMs}ms`,
+          error,
+          index: i
+        });
+      }
+
+      await workspace.cleanup();
+
+      const totalScore = results.reduce((s, r) => s + r.earnedMarks, 0);
+      const maxScore = results.reduce((s, r) => s + r.marks, 0);
+      return sendJson(res, 200, {
+        passed: results.every(r => r.passed),
+        totalScore,
+        maxScore,
+        results
+      });
+    } catch (err) {
+      console.error('[compile/test] Error:', err);
+      return sendJson(res, 500, { error: err.message || 'Execution failed' });
+    }
   });
 
-  router.post('/api/compile/submit/:questionId', (req, res, ctx) => {
+  // POST /api/compile/submit/:questionId  — Submit code against ALL test cases (Submit button)
+  router.post('/api/compile/submit/:questionId', async (req, res, ctx) => {
     const db = ctx.getDb();
-    const question = db.codingQuestions.find(item => item._id === req.params.questionId);
-    return sendJson(res, 200, compileResult(question?.testCases || []));
+    const question = (db.codingQuestions || []).find(item => item._id === req.params.questionId);
+    if (!question) {
+      return sendJson(res, 404, { error: 'Question not found' });
+    }
+
+    const { language, code } = req.body;
+    const testCases = question.testCases || [];
+
+    if (!code || !String(code).trim()) {
+      return sendJson(res, 200, {
+        passed: false,
+        totalScore: 0,
+        maxScore: testCases.reduce((s, tc) => s + Number(tc.marks || 1), 0),
+        results: testCases.map((tc, i) => ({
+          input: tc.isHidden ? '[hidden]' : tc.input,
+          passed: false,
+          marks: tc.marks || 1,
+          earnedMarks: 0,
+          error: 'No code submitted',
+          index: i
+        }))
+      });
+    }
+
+    try {
+      const { languageConfigs } = await import('../../compiler/LanguageConfigs.js');
+      const { WorkspaceManager } = await import('../../compiler/WorkspaceManager.js');
+      const { DockerExecutor } = await import('../../compiler/DockerExecutor.js');
+
+      const lang = String(language || 'python').toLowerCase();
+      const config = languageConfigs[lang];
+      if (!config) {
+        return sendJson(res, 400, { error: `Unsupported language: ${lang}` });
+      }
+
+      const cases = testCases.length ? testCases : [];
+      const workspace = new WorkspaceManager();
+      await workspace.initWorkspace();
+
+      // For Java: save file as {ClassName}.java to satisfy javac requirement
+      const { filename, compileCmd, runCmd } = resolveJavaConfig(lang, code, config);
+      await workspace.writeCode(code, config.extension, filename);
+
+      const executor = new DockerExecutor(
+        config.imageName,
+        workspace.workspacePath,
+        question.timeLimit ? question.timeLimit * 1000 : config.timeLimitMs,
+        question.memoryLimit || config.memoryLimitMB
+      );
+
+      // Compile step
+      if (compileCmd) {
+        const cr = await executor.compile(compileCmd);
+        if (cr.exitCode !== 0) {
+          await workspace.cleanup();
+          const errMsg = cr.stderr || cr.stdout || 'Compilation failed';
+          return sendJson(res, 200, {
+            passed: false,
+            totalScore: 0,
+            maxScore: cases.reduce((s, tc) => s + Number(tc.marks || 1), 0),
+            compilationError: errMsg,
+            results: cases.map((tc, i) => ({
+              input: tc.isHidden ? '[hidden]' : tc.input,
+              passed: false,
+              marks: tc.marks || 1,
+              earnedMarks: 0,
+              error: `Compilation Error: ${errMsg}`,
+              index: i
+            }))
+          });
+        }
+      }
+
+      // Run ALL test cases (including hidden)
+      const results = [];
+      for (let i = 0; i < cases.length; i++) {
+        const tc = cases[i];
+        await workspace.writeInput(tc.input || '');
+        const runResult = await executor.run(runCmd);
+        const expected = normalizeOutput(tc.expectedOutput || tc.output || '');
+        const actual = normalizeOutput(runResult.stdout);
+
+        let passed = false;
+        let error = null;
+
+        if (runResult.isTimeout) {
+          error = 'Time Limit Exceeded';
+        } else if (runResult.exitCode !== 0) {
+          error = `Runtime Error: ${runResult.stderr || runResult.stdout || 'Non-zero exit'}`;
+        } else if (!expected || expected === 'ANY' || actual === expected) {
+          passed = true;
+        } else {
+          error = 'Wrong Answer';
+        }
+
+        results.push({
+          // Hide input/expected output for hidden test cases
+          input: tc.isHidden ? '[hidden]' : tc.input,
+          expectedOutput: tc.isHidden ? '[hidden]' : tc.expectedOutput,
+          actualOutput: tc.isHidden ? (passed ? '[correct]' : '[wrong]') : actual,
+          passed,
+          marks: tc.marks || 1,
+          earnedMarks: passed ? (tc.marks || 1) : 0,
+          executionTime: `${runResult.timeMs}ms`,
+          error,
+          index: i
+        });
+      }
+
+      await workspace.cleanup();
+
+      const totalScore = results.reduce((s, r) => s + r.earnedMarks, 0);
+      const maxScore = results.reduce((s, r) => s + r.marks, 0);
+      return sendJson(res, 200, {
+        passed: results.every(r => r.passed),
+        totalScore,
+        maxScore,
+        results
+      });
+    } catch (err) {
+      console.error('[compile/submit] Error:', err);
+      return sendJson(res, 500, { error: err.message || 'Execution failed' });
+    }
   });
+
 
   router.post('/api/evaluate/theory/test', (req, res, ctx) => {
     const db = ctx.getDb();

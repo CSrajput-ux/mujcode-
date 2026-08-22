@@ -19,6 +19,24 @@ export class ApplicationController {
     }
   }
 
+  static async getAllCandidates(req, res) {
+    try {
+      const companyId = req.user?.companyId || 'comp-1'; // Mock for prototype
+      // Find all drives for this company
+      const companyDrives = await Drive.find({ companyId }, '_id title');
+      const driveIds = companyDrives.map(d => d._id);
+      
+      const applications = await Application.find({ driveId: { $in: driveIds } })
+        .populate('driveId', 'title role')
+        .sort({ createdAt: -1 });
+        
+      return sendJson(res, 200, { candidates: applications });
+    } catch (error) {
+      console.error('[ApplicationController.getAllCandidates]', error);
+      return sendJson(res, 500, { error: 'Failed to fetch candidates' });
+    }
+  }
+
   static async updateApplicationStatus(req, res) {
     try {
       const { id } = req.params;

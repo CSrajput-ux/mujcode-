@@ -1,22 +1,19 @@
 {
   "users": [
     {
-      "id": "fac_1",
-      "name": "Dr. Rishi Gupta",
-      "email": "dr.rishigupta@jaipur.manipal.edu",
-      "password": "faculty@123",
-      "role": "faculty",
-      "isPasswordChanged": true,
+      "id": 100,
+      "name": "Tech Corp Admin",
+      "email": "admin@techcorp.com",
+      "password": "$2b$10$TAgIrca4/RW6AepMXq3pF.R6ehhZYq/a7/JKJL5/Ja8AWYGA5ZbbC",
+      "role": "company",
       "isActive": true,
-      "facultyId": "FAC001",
-      "department": "CSE",
-      "designation": "Assistant Professor"
+      "isPasswordChanged": true
     },
     {
       "id": "adm_1",
       "name": "System Admin",
       "email": "admin@jaipur.manipal.edu",
-      "password": "admin@123",
+      "password": "$2b$10$hA2RhQwwpvky/PO6HiF2Juv7yy5KmMTjRdy61HR8i29NYBPNFKXdO",
       "role": "admin",
       "isPasswordChanged": true,
       "isActive": true,
@@ -1357,7 +1354,7 @@
       "id": "fac_112",
       "name": "Dr. Aditya Sinha",
       "email": "aditya.sinha@jaipur.manipal.edu",
-      "password": "faculty@123",
+      "password": "$2b$10$oaz30BpgY5aboOHoaNDPbOsZ1epHqNeJwvzlMk.KHpUgwrupsOa3a",
       "role": "faculty",
       "isPasswordChanged": false,
       "isActive": true,
@@ -9651,7 +9648,7 @@
       "id": 100,
       "name": "Tech Corp Admin",
       "email": "admin@techcorp.com",
-      "password": "password",
+      "password": "$2b$10$TAgIrca4/RW6AepMXq3pF.R6ehhZYq/a7/JKJL5/Ja8AWYGA5ZbbC",
       "role": "company",
       "isActive": true,
       "isPasswordChanged": true
@@ -10136,7 +10133,7 @@
       "id": "stu_ms1ekbqz_z39zxl",
       "name": "CHHOTU",
       "email": "chhotu.2427030521@muj.manipal.edu",
-      "password": "2427030521",
+      "password": "$2b$10$n8KuHjVN.jt1EAiUTvc4OOmenzHgDrjmGsgm7nnX7NCvEpTpDBqx6",
       "role": "student",
       "isPasswordChanged": false,
       "isActive": true,
@@ -49902,151 +49899,28 @@
     }
   ],
   "badges": [],
-  "tests": [
-    {
-      "_id": "test_ms6dbfq1_y0tpl0",
-      "title": "hh1",
-      "description": "",
-      "type": "Assessment",
-      "testType": "MCQ",
-      "status": "Upcoming",
-      "startTime": "2026-07-29T23:09",
-      "endTime": "",
-      "duration": 60,
-      "proctored": false,
-      "totalMarks": 100,
-      "branch": "CSE",
-      "section": "E",
-      "semester": 5,
-      "isPublished": true
-    },
-    {
-      "_id": "test_ms6d4ms0_xmtmap",
-      "title": "dsa",
-      "description": "",
-      "type": "Quiz",
-      "testType": "MCQ",
-      "status": "Upcoming",
-      "startTime": "2026-07-29T23:04",
-      "endTime": "",
-      "duration": 60,
-      "proctored": false,
-      "totalMarks": 100,
-      "branch": "CSE",
-      "section": "E",
-      "semester": 5,
-      "isPublished": true
-    }
-  ],
-  "mcqQuestions": [
-    {
-      "multipleCorrect": false,
-      "marks": 10,
-      "order": 1,
-      "_id": "mcq_ms6d59vt_1hclgj",
-      "testId": "test_ms6d4ms0_xmtmap",
-      "questionText": "2+3",
-      "options": [
-        "5",
-        "4",
-        "7",
-        "8"
-      ],
-      "correctAnswers": [
-        0
-      ],
-      "explanation": "",
-      "text": "2+3"
-    },
-    {
-      "multipleCorrect": false,
-      "marks": 9,
-      "order": 2,
-      "_id": "mcq_ms6d5rfz_da26ca",
-      "testId": "test_ms6d4ms0_xmtmap",
-      "questionText": "6+0",
-      "options": [
-        "4",
-        "6",
-        "0",
-        "3"
-      ],
-      "correctAnswers": [
-        1
-      ],
-      "explanation": "",
-      "text": "6+0"
-    },
-    {
-      "multipleCorrect": false,
-      "marks": 1,
-      "order": 1,
-      "_id": "mcq_ms6dbvl8_xcjkee",
-      "testId": "test_ms6dbfq1_y0tpl0",
-      "questionText": "7+8",
-      "options": [
-        "0",
-        "15",
-        "6",
-        "4"
-      ],
-      "correctAnswers": [
-        1
-      ],
-      "explanation": "",
-      "text": "7+8"
-    },
-    {
-      "multipleCorrect": false,
-      "marks": 1,
-      "order": 2,
-      "_id": "mcq_ms6dci8p_yuy46c",
-      "testId": "test_ms6dbfq1_y0tpl0",
-      "questionText": "888+0",
-      "options": [
-        "888",
-        "8756",
-        "88",
-        "67"
-      ],
-      "correctAnswers": [
-        0
-      ],
-      "explanation": "",
-      "text": "888+0"
-    }
-  ],
+  "tests": [],
+  "mcqQuestions": [],
   "codingQuestions": [],
   "theoryQuestions": [],
-  "testSubmissions": [
+  "testSubmissions": [],
+  "assignments": [
     {
-      "_id": "test_sub_ms6dxm4s_vzd26a",
-      "testId": "test_ms6dbfq1_y0tpl0",
-      "studentId": "stu_ms1ekbqz_z39zxl",
-      "studentName": "CHHOTU",
-      "rollNumber": "2427030521",
+      "_id": "asgn_mt3xf28j_cb0ost",
+      "title": "Assignment 1 ",
+      "description": " Intro of ai ",
+      "type": "Assignment",
+      "subject": "Artificial Intelligence & Soft Computing",
+      "year": "2",
+      "branch": "CSE",
       "section": "E",
-      "score": 0,
-      "totalMaxScore": 2,
-      "status": "Fail",
-      "submitTime": "2026-07-29T17:55:15.916Z",
-      "warningsIssued": 0
-    },
-    {
-      "_id": "test_sub_ms6d8oeh_pcvtd3",
-      "testId": "test_ms6d4ms0_xmtmap",
-      "studentId": "fac_112",
-      "studentName": "Student",
-      "rollNumber": "",
-      "section": "",
-      "score": 19,
-      "totalMaxScore": 19,
-      "status": "Pass",
-      "submitTime": "2026-07-29T17:35:52.457Z",
-      "warningsIssued": 0
+      "dueDate": "2026-08-25",
+      "totalMarks": 30,
+      "completedCount": 0,
+      "pendingCount": 60,
+      "totalStudents": 60
     }
   ],
-  "assignments": [],
   "assignmentSubmissions": [],
   "placementDrives": [
     {
@@ -50117,20 +49991,7 @@
       "appliedAt": "2026-05-20T11:00:00.000Z"
     }
   ],
-  "content": [
-    {
-      "_id": "content_ms1wu4ac_tqnvah",
-      "title": "Unit 1 : Intro ",
-      "description": "Handout ",
-      "type": "ppt",
-      "subject": "Artificial Intelligence & Soft Computing",
-      "section": "E",
-      "fileUrl": "/uploads/content_ms1wu4ac_tqnvah-Images-GraphsTables-The-text-size-and-image-size-to-be-selected-inline-with-the-supervisor-s-approval.-If-figure-are-to-be-used-then-mention-the-figure-caption-in-this-format-Fig-1.-explain-what.pptx",
-      "fileType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-      "uploadedBy": "chhotu.2427030521@muj.manipal.edu",
-      "createdAt": "2026-07-26T14:45:34.650Z"
-    }
-  ],
+  "content": [],
   "permissions": [],
   "mockTests": [
     {
@@ -50227,6 +50088,72 @@
       "mockTestId": "mock_1",
       "studentId": "stu_ms1ekbqz_z39zxl",
       "startedAt": "2026-07-29T17:20:35.909Z",
+      "status": "InProgress"
+    },
+    {
+      "_id": "mock_attempt_ms95k96a_ltjagl",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-07-31T16:24:14.195Z",
+      "status": "InProgress"
+    },
+    {
+      "_id": "mock_attempt_mscyaqin_6b1uoe",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-08-03T08:11:57.504Z",
+      "status": "InProgress"
+    },
+    {
+      "_id": "mock_attempt_mscyazxv_2krol3",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-08-03T08:12:09.715Z",
+      "status": "Submitted",
+      "submittedAt": "2026-08-03T08:13:03.278Z",
+      "score": 0,
+      "maxScore": 15,
+      "percentage": 0,
+      "timeTaken": 51
+    },
+    {
+      "_id": "mock_attempt_msd0j1ak_a056sv",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-08-03T09:14:23.948Z",
+      "status": "Submitted",
+      "submittedAt": "2026-08-03T09:15:42.103Z",
+      "score": 0,
+      "maxScore": 15,
+      "percentage": 0,
+      "timeTaken": 77
+    },
+    {
+      "_id": "mock_attempt_mshsa277_83lz57",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-08-06T17:22:19.171Z",
+      "status": "InProgress"
+    },
+    {
+      "_id": "mock_attempt_msj6vozy_7hrqkn",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-08-07T16:58:49.294Z",
+      "status": "InProgress"
+    },
+    {
+      "_id": "mock_attempt_msmudy8w_tmh6vt",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-08-10T06:20:10.784Z",
+      "status": "InProgress"
+    },
+    {
+      "_id": "mock_attempt_mt3x2td4_a0lzh7",
+      "mockTestId": "mock_1",
+      "studentId": "stu_ms1ekbqz_z39zxl",
+      "startedAt": "2026-08-22T05:07:35.080Z",
       "status": "InProgress"
     }
   ],

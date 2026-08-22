@@ -3,6 +3,7 @@ import { DriveController } from './controllers/DriveController.js';
 import { ApplicationController } from './controllers/ApplicationController.js';
 import { Drive } from './models/Drive.js';
 import { Application } from './models/Application.js';
+import { AssessmentController } from './controllers/AssessmentController.js';
 import { parseBody, sendJson } from '../../lib/http.js';
 
 export function registerAtsRoutes(router) {
@@ -22,6 +23,14 @@ export function registerAtsRoutes(router) {
   router.patch('/api/v1/company/applications/:id/status', async (req, res, ctx) => {
     await parseBody(req);
     return ApplicationController.updateApplicationStatus(req, res);
+  });
+
+  router.get('/api/v1/company/candidates', ApplicationController.getAllCandidates);
+
+  router.get('/api/v1/company/assessments', AssessmentController.getAll);
+  router.post('/api/v1/company/assessments', async (req, res, ctx) => {
+    await parseBody(req);
+    return AssessmentController.create(req, res);
   });
 
   // Student Facing Routes

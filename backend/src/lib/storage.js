@@ -1,14 +1,39 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { Worker } from 'node:worker_threads';
+import { fileURLToPath } from 'node:url';
 import { config } from '../config.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // ─── High-Performance In-Memory DB Engine ──────────────────────────────────
 // Keeps the database in memory for 0ms reads and debounces disk writes
-// with atomic rename to prevent file corruption under 10,000+ concurrent users.
+// using a Worker Thread to prevent event loop blocking under load.
 
 let dbCache = null;
 let saveTimeout = null;
 let isDirty = false;
+let isFlushing = false;
+
+// Initialize the storage worker
+const worker = new Worker(path.join(__dirname, 'storageWorker.js'));
+
+worker.on('message', (msg) => {
+  if (msg.type === 'SUCCESS') {
+    isFlushing = false;
+    // If more changes happened while flushing, schedule another save
+    if (isDirty) scheduleSave();
+  } else if (msg.type === 'ERROR') {
+    console.error('[StorageEngine] Worker flush error:', msg.error);
+    isFlushing = false;
+  }
+});
+
+worker.on('error', (err) => {
+  console.error('[StorageEngine] Worker thread crash:', err);
+  isFlushing = false;
+});
 
 export function loadDb() {
   if (dbCache) {
@@ -35,10 +60,28 @@ export function updateDb(updater) {
 }
 
 function scheduleSave() {
-  if (saveTimeout) return;
+  if (saveTimeout || isFlushing) return;
   saveTimeout = setTimeout(() => {
-    flushDbSync();
+    saveTimeout = null;
+    flushDbAsync();
   }, 300); // 300ms debounced persistence
+}
+
+function flushDbAsync() {
+  if (!isDirty || !dbCache || isFlushing) return;
+  
+  isFlushing = true;
+  isDirty = false;
+  
+  // Clone the cache deeply if needed, but for performance, we pass the object.
+  // worker_threads uses structured cloning which handles stringification safely.
+  worker.postMessage({
+    type: 'FLUSH',
+    payload: {
+      dbCache,
+      dbFile: config.dbFile
+    }
+  });
 }
 
 export function flushDbSync() {

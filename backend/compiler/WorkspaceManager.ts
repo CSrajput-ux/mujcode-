@@ -17,8 +17,9 @@ export class WorkspaceManager {
     await fs.chmod(this.workspacePath, 0o777);
   }
 
-  async writeCode(code: string, extension: string): Promise<string> {
-    const filePath = path.join(this.workspacePath, `code.${extension}`);
+  async writeCode(code: string, extension: string, filename?: string): Promise<string> {
+    const fname = filename ?? `code.${extension}`;
+    const filePath = path.join(this.workspacePath, fname);
     await fs.writeFile(filePath, code);
     await fs.chmod(filePath, 0o666);
     return filePath;

@@ -1,12 +1,12 @@
 import { sendJson, sendText } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
+import { asyncHandler } from '../lib/asyncHandler.js';
+import { requireAuth, requireRole } from '../middlewares/authMiddleware.js';
 
 export function registerLiveClassRoutes(router, ctx) {
   // GET /api/live-classes - Fetch classes based on role
-  router.get('/api/live-classes', async (req, res) => {
-    try {
+  router.get('/api/live-classes', asyncHandler(requireAuth(async (req, res) => {
       const db = ctx.getDb();
-      if (!req.user) return sendJson(res, 401, { error: 'Unauthorized' });
 
       let classes = db.liveClasses || [];
 
@@ -26,16 +26,10 @@ export function registerLiveClassRoutes(router, ctx) {
       classes.sort((a, b) => new Date(b.date + ' ' + b.time) - new Date(a.date + ' ' + a.time));
 
       sendJson(res, 200, { success: true, count: classes.length, data: classes });
-    } catch (err) {
-      sendJson(res, 500, { error: err.message });
-    }
-  });
+  })));
 
   // POST /api/live-classes - Schedule a new class
-  router.post('/api/live-classes', async (req, res) => {
-    try {
-      if (!req.user || req.user.role !== 'faculty') return sendJson(res, 403, { error: 'Forbidden' });
-      
+  router.post('/api/live-classes', asyncHandler(requireRole('faculty', async (req, res) => {
       const { subject, courseName, department, branch, semester, section, topic, date, time, duration, meetingLink } = req.body;
 
       if (!subject || !date || !time) {
@@ -70,16 +64,10 @@ export function registerLiveClassRoutes(router, ctx) {
       });
 
       sendJson(res, 201, { success: true, data: newClass });
-    } catch (err) {
-      sendJson(res, 500, { error: err.message });
-    }
-  });
+  })));
 
   // PUT /api/live-classes/:id/status - Update class status
-  router.put('/api/live-classes/:id/status', async (req, res) => {
-    try {
-      if (!req.user || req.user.role !== 'faculty') return sendJson(res, 403, { error: 'Forbidden' });
-      
+  router.put('/api/live-classes/:id/status', asyncHandler(requireRole('faculty', async (req, res) => {
       const { id } = req.params;
       const { status } = req.body;
       
@@ -94,16 +82,10 @@ export function registerLiveClassRoutes(router, ctx) {
 
       ctx.saveDb({ ...db, liveClasses });
       sendJson(res, 200, { success: true, data: liveClasses[classIndex] });
-    } catch (err) {
-      sendJson(res, 500, { error: err.message });
-    }
-  });
+  })));
 
   // POST /api/live-classes/:id/join - Join a class
-  router.post('/api/live-classes/:id/join', async (req, res) => {
-    try {
-      if (!req.user || req.user.role !== 'student') return sendJson(res, 403, { error: 'Forbidden' });
-      
+  router.post('/api/live-classes/:id/join', asyncHandler(requireRole('student', async (req, res) => {
       const { id } = req.params;
       const db = ctx.getDb();
       const liveClass = (db.liveClasses || []).find(c => c._id === id);
@@ -133,16 +115,10 @@ export function registerLiveClassRoutes(router, ctx) {
       }
 
       sendJson(res, 200, { success: true, data: attendanceRecord, meetingLink: liveClass.meetingLink });
-    } catch (err) {
-      sendJson(res, 500, { error: err.message });
-    }
-  });
+  })));
 
   // POST /api/live-classes/:id/leave - Leave a class
-  router.post('/api/live-classes/:id/leave', async (req, res) => {
-    try {
-      if (!req.user || req.user.role !== 'student') return sendJson(res, 403, { error: 'Forbidden' });
-      
+  router.post('/api/live-classes/:id/leave', asyncHandler(requireRole('student', async (req, res) => {
       const { id } = req.params;
       const db = ctx.getDb();
       const attendanceList = db.classAttendance || [];
@@ -165,8 +141,5 @@ export function registerLiveClassRoutes(router, ctx) {
 
       ctx.saveDb({ ...db, classAttendance: attendanceList });
       sendJson(res, 200, { success: true, data: attendanceRecord });
-    } catch (err) {
-      sendJson(res, 500, { error: err.message });
-    }
-  });
+  })));
 }

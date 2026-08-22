@@ -24,6 +24,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/ta
 import logoImage from '@/assets/image-removebg-preview.png';
 import DriveManagementPage from './Drives/DriveManagementPage';
 import AnalyticsDashboard from './AnalyticsDashboard';
+import CreateAssessmentPage from './Assessments/CreateAssessmentPage';
+import CandidatesPage from './Candidates/CandidatesPage';
+import CompanyAnalyticsPage from './Analytics/CompanyAnalyticsPage';
+import ResultsPage from './Results/ResultsPage';
 
 export default function CompanyDashboard() {
   const navigate = useNavigate();
@@ -168,23 +172,27 @@ export default function CompanyDashboard() {
             <DriveManagementPage />
           )}
 
-          {['Create Assessment', 'Candidates', 'Analytics', 'Results'].includes(activeTab) && (
-            <div className="p-4 sm:p-6 lg:p-8 flex items-center justify-center min-h-[60vh]">
-              <div className="text-center p-8 bg-white rounded-xl shadow-sm border border-gray-100 max-w-md w-full">
-                <div className="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Briefcase className="w-8 h-8 text-[#FF7A00]" />
-                </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Coming Soon</h2>
-                <p className="text-gray-500 mb-6">
-                  The {activeTab} module is currently under development. Check back later!
-                </p>
-                <Button 
-                  onClick={() => setActiveTab('Overview')}
-                  className="bg-[#FF7A00] hover:bg-[#FF6A00] w-full"
-                >
-                  Return to Overview
-                </Button>
-              </div>
+          {activeTab === 'Create Assessment' && (
+            <div className="p-4 sm:p-6 lg:p-8">
+              <CreateAssessmentPage onBack={() => setActiveTab('Overview')} />
+            </div>
+          )}
+
+          {activeTab === 'Candidates' && (
+            <div className="p-4 sm:p-6 lg:p-8">
+              <CandidatesPage />
+            </div>
+          )}
+
+          {activeTab === 'Analytics' && (
+            <div className="p-4 sm:p-6 lg:p-8">
+              <CompanyAnalyticsPage />
+            </div>
+          )}
+
+          {activeTab === 'Results' && (
+            <div className="p-4 sm:p-6 lg:p-8">
+              <ResultsPage />
             </div>
           )}
         </main>

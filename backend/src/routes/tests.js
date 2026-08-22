@@ -1,6 +1,8 @@
 import { badRequest, ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
+import { Submission } from '../models/Submission.js';
 import { computeTestStatus, currentStudent, getQuestionsForTest, studentSafeTest } from './helpers.js';
+import { requireAuth, requireAnyRole } from '../lib/requireAuth.js';
 
 function testWithQuestions(db, test, studentId = null) {
   const questions = getQuestionsForTest(db, test._id);
@@ -101,6 +103,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.post('/api/tests/create', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const id = nextId('test');
     const test = {
@@ -136,6 +139,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.patch('/api/tests/:testId/publish', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const test = db.tests.find(item => item._id === req.params.testId);
     if (!test) return sendJson(res, 404, { error: 'Test not found' });
@@ -146,6 +150,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.delete('/api/tests/:testId', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     db.tests = db.tests.filter(test => test._id !== req.params.testId);
     db.mcqQuestions = db.mcqQuestions.filter(question => question.testId !== req.params.testId);
@@ -157,14 +162,14 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/:testId/questions/mcq/student', (req, res, ctx) => {
-    const questions = ctx.getDb().mcqQuestions
+    const questions = (ctx.getDb().mcqQuestions || [])
       .filter(question => question.testId === req.params.testId)
       .map(({ correctAnswers, explanation, ...safe }) => safe);
     return sendJson(res, 200, questions);
   });
 
   router.get('/api/tests/:testId/questions/coding/student', (req, res, ctx) => {
-    const questions = ctx.getDb().codingQuestions
+    const questions = (ctx.getDb().codingQuestions || [])
       .filter(question => question.testId === req.params.testId)
       .map(question => ({
         ...question,
@@ -176,14 +181,14 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/:testId/questions/theory/student', (req, res, ctx) => {
-    const questions = ctx.getDb().theoryQuestions
+    const questions = (ctx.getDb().theoryQuestions || [])
       .filter(question => question.testId === req.params.testId)
       .map(({ modelAnswer, keywords, ...safe }) => safe);
     return sendJson(res, 200, questions);
   });
 
   router.get('/api/tests/:testId/questions/mcq', (req, res, ctx) => {
-    return sendJson(res, 200, ctx.getDb().mcqQuestions.filter(question => question.testId === req.params.testId));
+    return sendJson(res, 200, (ctx.getDb().mcqQuestions || []).filter(question => question.testId === req.params.testId));
   });
 
   router.post('/api/tests/:testId/questions/mcq', (req, res, ctx) => {
@@ -194,7 +199,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/:testId/questions/coding', (req, res, ctx) => {
-    return sendJson(res, 200, ctx.getDb().codingQuestions.filter(question => question.testId === req.params.testId));
+    return sendJson(res, 200, (ctx.getDb().codingQuestions || []).filter(question => question.testId === req.params.testId));
   });
 
   router.post('/api/tests/:testId/questions/coding', (req, res, ctx) => {
@@ -205,7 +210,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/:testId/questions/theory', (req, res, ctx) => {
-    return sendJson(res, 200, ctx.getDb().theoryQuestions.filter(question => question.testId === req.params.testId));
+    return sendJson(res, 200, (ctx.getDb().theoryQuestions || []).filter(question => question.testId === req.params.testId));
   });
 
   router.post('/api/tests/:testId/questions/theory', (req, res, ctx) => {
@@ -260,7 +265,8 @@ export function registerTestsRoutes(router) {
     return ok(res, { message: 'Question deleted' });
   });
 
-  router.post('/api/tests/submit', (req, res, ctx) => {
+  router.post('/api/tests/submit', async (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const test = db.tests.find(item => item._id === req.body.testId);
     if (!test) return sendJson(res, 404, { error: 'Test not found' });
@@ -281,21 +287,31 @@ export function registerTestsRoutes(router) {
       studentId: req.body.studentId,
       studentName: student?.fullName || 'Student',
       rollNumber: student?.rollNumber || '',
+      branch: student?.branch || '',
       section: student?.section || '',
       score,
-      totalMaxScore,
+      maxScore: totalMaxScore,
       status: score >= totalMaxScore * 0.4 ? 'Pass' : 'Fail',
-      submitTime: new Date().toISOString(),
-      warningsIssued: Number(req.body.warningsIssued || 0)
+      submittedAt: new Date(),
+      answers: req.body.answers || []
     };
 
-    db.testSubmissions.unshift(submission);
-    ctx.saveDb(db);
-    return sendJson(res, 201, submission);
+    try {
+      await Submission.create(submission);
+      return sendJson(res, 201, submission);
+    } catch (e) {
+      console.error('[MongoDB] Failed to save submission:', e);
+      return sendJson(res, 500, { error: 'Failed to save submission to database' });
+    }
   });
 
-  router.get('/api/tests/submissions/:studentId', (req, res, ctx) => {
-    return sendJson(res, 200, ctx.getDb().testSubmissions.filter(sub => sub.studentId === req.params.studentId));
+  router.get('/api/tests/submissions/:studentId', async (req, res) => {
+    try {
+      const submissions = await Submission.find({ studentId: req.params.studentId }).lean();
+      return sendJson(res, 200, submissions);
+    } catch (e) {
+      return sendJson(res, 500, { error: 'Failed to fetch submissions' });
+    }
   });
 
   router.get('/api/tests/:testId', (req, res, ctx) => {

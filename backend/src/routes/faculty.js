@@ -1,11 +1,13 @@
 import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { currentUser } from './helpers.js';
+import { requireAuth, requireFaculty } from '../lib/requireAuth.js';
 
 export function registerFacultyRoutes(router) {
   // Returns sections & subjects for the logged-in faculty
   // Source: students who have this faculty in their facultyMentors list (set via Excel bulk upload)
   router.get('/api/faculty/my-assignments', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const user = currentUser(db, req);
     const facultyId = user?.id || user?._id;
@@ -114,6 +116,7 @@ export function registerFacultyRoutes(router) {
   });
 
   router.put('/api/faculty/profile/:id', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const faculty = db.faculty.find(item => item._id === req.params.id || item.id === req.params.id) || db.faculty[0];
     if (!faculty) return sendJson(res, 404, { error: 'Faculty profile not found' });
@@ -201,6 +204,7 @@ export function registerFacultyRoutes(router) {
   });
 
   router.post('/api/faculty/questions/create', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const question = {
       _id: nextId('facq'),
@@ -213,6 +217,7 @@ export function registerFacultyRoutes(router) {
   });
 
   router.post('/api/faculty/questions/run', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const submission = {
       _id: nextId('facq_sub'),

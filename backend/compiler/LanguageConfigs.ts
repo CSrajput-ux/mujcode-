@@ -27,8 +27,8 @@ export const languageConfigs: Record<string, LanguageConfig> = {
   java: {
     extension: 'java',
     imageName: 'mujcode-compiler-java',
-    compileCmd: 'javac code.java',
-    runCmd: 'java Main', // Assuming the public class is Main
+    compileCmd: 'javac Solution.java',
+    runCmd: 'java Solution',
     timeLimitMs: 4000, // Java needs more startup time
     memoryLimitMB: 512,
   },

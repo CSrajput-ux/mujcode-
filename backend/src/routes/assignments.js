@@ -2,8 +2,47 @@ import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 
 export function registerAssignmentsRoutes(router) {
+  // Faculty: Apne section ke saare assignments dekho
   router.get('/api/assignments/faculty/all', (req, res, ctx) => {
     return sendJson(res, 200, ctx.getDb().assignments);
+  });
+
+  // Student: Apne section ke pending assignments dekho
+  router.get('/api/assignments/student/my', (req, res, ctx) => {
+    const db = ctx.getDb();
+    // Try to get student info from auth token
+    const userId = req.user?.id || req.user?.college_id;
+    const student = db.students.find(s => s.id === userId || s.college_id === userId)
+      || db.users.find(u => u.id === userId && u.role === 'student');
+
+    if (!student) {
+      // Return all assignments if student not found (fallback)
+      return sendJson(res, 200, db.assignments);
+    }
+
+    const studentSection = student.section || '';
+    const studentBranch = student.branch || '';
+
+    // Filter assignments matching student's section and branch
+    const myAssignments = db.assignments.filter(a => {
+      const sectionMatch = !a.section || !studentSection || 
+        a.section.toUpperCase() === studentSection.toUpperCase();
+      const branchMatch = !a.branch || !studentBranch || 
+        a.branch.toUpperCase() === studentBranch.toUpperCase();
+      return sectionMatch && branchMatch;
+    });
+
+    return sendJson(res, 200, myAssignments);
+  });
+
+  // Student: Submitted assignments
+  router.get('/api/assignments/student/submitted', (req, res, ctx) => {
+    const db = ctx.getDb();
+    const userId = req.user?.id || req.user?.college_id;
+    const mySubmissions = db.assignmentSubmissions.filter(sub => 
+      sub.studentId === userId || sub.studentId === String(userId)
+    );
+    return sendJson(res, 200, mySubmissions);
   });
 
   router.post('/api/assignments/seed', (req, res) => {
@@ -25,7 +64,8 @@ export function registerAssignmentsRoutes(router) {
       totalMarks: Number(req.body.totalMarks || 30),
       completedCount: 0,
       pendingCount: db.students.length,
-      totalStudents: db.students.length
+      totalStudents: db.students.length,
+      createdAt: new Date().toISOString(),
     };
     db.assignments.unshift(assignment);
     ctx.saveDb(db);
@@ -50,3 +90,4 @@ export function registerAssignmentsRoutes(router) {
     return sendJson(res, 200, submission);
   });
 }
+

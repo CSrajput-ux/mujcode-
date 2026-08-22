@@ -1,4 +1,4 @@
-import axios from 'axios';
+import apiClient from './apiClient';
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/assignments';
 
@@ -32,20 +32,20 @@ export interface Submission {
 }
 
 export const getFacultyAssignments = async (): Promise<Assignment[]> => {
-    const response = await axios.get(`${API_URL}/faculty/all`);
+    const response = await apiClient.get('/api/assignments/faculty/all');
     return response.data;
 };
 
 export const getAssignmentSubmissions = async (assignmentId: string): Promise<Submission[]> => {
-    const response = await axios.get(`${API_URL}/${assignmentId}/submissions`);
+    const response = await apiClient.get(`/api/assignments/${assignmentId}/submissions`);
     return response.data;
 };
 
 export const gradeSubmission = async (submissionId: string, marks: number, feedback: string): Promise<Submission> => {
-    const response = await axios.post(`${API_URL}/submission/${submissionId}/grade`, { marks, feedback });
+    const response = await apiClient.post(`/api/assignments/submission/${submissionId}/grade`, { marks, feedback });
     return response.data;
 };
 
 export const seedAssignments = async () => {
-    await axios.post(`${API_URL}/seed`);
+    await apiClient.post('/api/assignments/seed');
 };

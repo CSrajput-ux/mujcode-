@@ -20,6 +20,7 @@ export interface Test {
     startTime?: string;
     endTime?: string;
     duration: number;
+    testType?: string;
     questions: Question[]; // Assuming we get full question objects
     proctored: boolean;
     totalMarks: number;

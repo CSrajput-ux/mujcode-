@@ -1,5 +1,7 @@
 import { sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
+import { requireAuth, requireAnyRole } from '../lib/requireAuth.js';
+import { SecurityLog } from '../models/SecurityLog.js';
 
 // Violation severity weight mapping
 const SCORE_WEIGHTS = {
@@ -54,7 +56,8 @@ function getClientIp(req) {
 
 export function registerExamSecurityRoutes(router, ctx) {
   // 1. Log a single security violation from useSecureExamMode
-  router.post('/api/exam-security/log-violation', (req, res) => {
+  router.post('/api/exam-security/log-violation', async (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const { testId, studentId, studentName = 'Student', type, message, snapshot } = req.body || {};
 
@@ -131,7 +134,11 @@ export function registerExamSecurityRoutes(router, ctx) {
       snapshot: snapshot || null
     };
 
-    db.examSecurityLogs.push(logEntry);
+    try {
+      await SecurityLog.create(logEntry);
+    } catch (e) {
+      console.error('[MongoDB] Failed to save security log:', e);
+    }
 
     // Evaluate Auto-Submit rules
     let autoSubmit = false;
@@ -162,7 +169,7 @@ export function registerExamSecurityRoutes(router, ctx) {
   });
 
   // 2. Batch log timeline events (for offline recovery sync)
-  router.post('/api/exam-security/batch-logs', (req, res) => {
+  router.post('/api/exam-security/batch-logs', async (req, res, ctx) => {
     const db = ctx.getDb();
     const { testId, studentId, studentName = 'Student', logs = [] } = req.body || {};
 
@@ -170,7 +177,6 @@ export function registerExamSecurityRoutes(router, ctx) {
       return sendJson(res, 400, { error: 'testId, studentId, and logs array are required' });
     }
 
-    db.examSecurityLogs = db.examSecurityLogs || [];
     db.examSecuritySessions = db.examSecuritySessions || [];
 
     const { browser, os, device } = parseUserAgent(req.headers['user-agent'] || '');
@@ -204,14 +210,14 @@ export function registerExamSecurityRoutes(router, ctx) {
     }
 
     let addedScore = 0;
-    for (const log of logs) {
+    const newLogs = logs.map(log => {
       const delta = SCORE_WEIGHTS[log.type] !== undefined ? SCORE_WEIGHTS[log.type] : 5;
       addedScore += delta;
 
       if (log.type === 'FULLSCREEN_EXIT') session.fullscreenExits = (session.fullscreenExits || 0) + 1;
       if (log.type === 'TAB_SWITCH' || log.type === 'WINDOW_MINIMIZE') session.tabSwitches = (session.tabSwitches || 0) + 1;
 
-      db.examSecurityLogs.push({
+      return {
         id: nextId('sec_log'),
         testId,
         studentId,
@@ -226,7 +232,15 @@ export function registerExamSecurityRoutes(router, ctx) {
         os,
         device,
         snapshot: log.snapshot || null
-      });
+      };
+    });
+
+    try {
+      if (newLogs.length > 0) {
+        await SecurityLog.insertMany(newLogs);
+      }
+    } catch (e) {
+      console.error('[MongoDB] Failed to batch save security logs:', e);
     }
 
     session.totalCheatingScore = (session.totalCheatingScore || 0) + addedScore;
@@ -244,6 +258,7 @@ export function registerExamSecurityRoutes(router, ctx) {
 
   // 3. Faculty/Proctor endpoint: Get all student sessions for a test
   router.get('/api/exam-security/test-sessions', (req, res) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const { testId } = req.query || {};
 
@@ -264,33 +279,34 @@ export function registerExamSecurityRoutes(router, ctx) {
   });
 
   // 4. Faculty/Proctor endpoint: Get full security timeline for a student
-  router.get('/api/exam-security/student-timeline', (req, res) => {
+  router.get('/api/exam-security/student-timeline', async (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const { testId, studentId } = req.query || {};
 
-    if (!testId || !studentId) {
-      return sendJson(res, 400, { error: 'testId and studentId query parameters required' });
+    if (!testId || !studentId) return sendJson(res, 400, { error: 'Missing parameters' });
+
+    try {
+      const timeline = await SecurityLog.find({ testId, studentId }).sort({ timestamp: -1 }).lean();
+      const session = (db.examSecuritySessions || []).find(
+        s => s.testId === testId && s.studentId === studentId
+      );
+
+      return sendJson(res, 200, {
+        success: true,
+        testId,
+        studentId,
+        session: session || null,
+        timeline
+      });
+    } catch (e) {
+      return sendJson(res, 500, { error: 'Failed to fetch security logs' });
     }
-
-    const timeline = (db.examSecurityLogs || [])
-      .filter(l => l.testId === testId && l.studentId === studentId)
-      .sort((a, b) => b.timestamp - a.timestamp);
-
-    const session = (db.examSecuritySessions || []).find(
-      s => s.testId === testId && s.studentId === studentId
-    );
-
-    return sendJson(res, 200, {
-      success: true,
-      testId,
-      studentId,
-      session: session || null,
-      timeline
-    });
   });
 
   // 5. Faculty endpoint: Reset / forgive student cheating score
   router.post('/api/exam-security/reset-session', (req, res) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const { testId, studentId, reason = 'Faculty pardon' } = req.body || {};
 

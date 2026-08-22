@@ -11,14 +11,15 @@ import { useFacultyAssignments } from '@/app/hooks/useFacultyAssignments';
 interface CreateAssignmentModalProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
+    onCreated?: () => void;
 }
 
-export default function CreateAssignmentModal({ open, onOpenChange }: CreateAssignmentModalProps) {
+export default function CreateAssignmentModal({ open, onOpenChange, onCreated }: CreateAssignmentModalProps) {
     const [loading, setLoading] = useState(false);
     const { sections, subjectsBySection, branchBySection, loading: assignmentsLoading } = useFacultyAssignments();
 
     const [formData, setFormData] = useState({
-        type: 'assignment',
+        type: 'Assignment',
         section: '',
         subject: '',
         title: '',
@@ -42,8 +43,8 @@ export default function CreateAssignmentModal({ open, onOpenChange }: CreateAssi
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            await fetch(
-                (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/assignments/create',
+            const res = await fetch(
+                (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/assignments',
                 {
                     method: 'POST',
                     headers: {
@@ -61,12 +62,13 @@ export default function CreateAssignmentModal({ open, onOpenChange }: CreateAssi
                     })
                 }
             );
+            if (!res.ok) throw new Error('Server error');
             toast.success('Assignment created successfully!');
+            setFormData({ type: 'Assignment', section: '', subject: '', title: '', description: '', dueDate: '' });
             onOpenChange(false);
-            setFormData({ type: 'assignment', section: '', subject: '', title: '', description: '', dueDate: '' });
+            onCreated?.();
         } catch {
-            toast.success('Assignment created successfully!');
-            onOpenChange(false);
+            toast.error('Failed to create assignment. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -86,10 +88,10 @@ export default function CreateAssignmentModal({ open, onOpenChange }: CreateAssi
                         <Select value={formData.type} onValueChange={(v) => setFormData({ ...formData, type: v })}>
                             <SelectTrigger><SelectValue /></SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="assignment">Assignment</SelectItem>
-                                <SelectItem value="casestudy">Case Study</SelectItem>
-                                <SelectItem value="research">Research Paper</SelectItem>
-                                <SelectItem value="other">Other Task</SelectItem>
+                                <SelectItem value="Assignment">Assignment</SelectItem>
+                                <SelectItem value="CaseStudy">Case Study</SelectItem>
+                                <SelectItem value="Research">Research Paper</SelectItem>
+                                <SelectItem value="Other">Other Task</SelectItem>
                             </SelectContent>
                         </Select>
                     </div>

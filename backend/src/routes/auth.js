@@ -1,50 +1,50 @@
 import { badRequest, ok, sendJson } from '../lib/http.js';
-import { publicUser, signToken } from '../lib/auth.js';
+import { asyncHandler } from '../lib/asyncHandler.js';
+import { AuthService } from '../services/AuthService.js';
 
-export function registerAuthRoutes(router) {
-  router.post('/api/auth/login', (req, res, ctx) => {
+export function registerAuthRoutes(router, ctx) {
+  const authService = new AuthService(ctx);
+
+  router.post('/api/auth/login', asyncHandler(async (req, res) => {
     const { email, password, role } = req.body;
-    const db = ctx.getDb();
-    const user = db.users.find(item =>
-      item.email?.toLowerCase() === String(email || '').toLowerCase() &&
-      item.role === role
-    );
-
-    if (!user || user.password !== password) {
-      return sendJson(res, 401, { error: 'Invalid credentials' });
+    
+    if (!email || !password || !role) {
+      return badRequest(res, 'email, password and role are required');
     }
 
-    if (!user.isActive) {
-      return sendJson(res, 403, { error: 'Account is inactive or pending approval' });
+    const result = await authService.login(email, password, role);
+    
+    // Volume 7 Security: Set HttpOnly Cookie
+    const isProduction = process.env.NODE_ENV === 'production';
+    const cookieOptions = [
+      `token=${result.token}`,
+      `HttpOnly`,
+      `Path=/`,
+      `Max-Age=${15 * 60}`, // 15 minutes access token
+      `SameSite=Strict`
+    ];
+
+    if (isProduction) {
+      cookieOptions.push(`Secure`);
     }
+
+    res.setHeader('Set-Cookie', cookieOptions.join('; '));
 
     return ok(res, {
-      token: signToken(user),
-      user: publicUser(user)
+      success: true,
+      user: result.user
+      // We still return token for legacy mobile app clients if any, 
+      // but web clients will use the cookie automatically.
     });
-  });
+  }));
 
-  router.post('/api/auth/change-password', (req, res, ctx) => {
+  router.post('/api/auth/change-password', asyncHandler(async (req, res) => {
     const { email, oldPassword, newPassword } = req.body;
     if (!email || !oldPassword || !newPassword) {
       return badRequest(res, 'email, oldPassword and newPassword are required');
     }
 
-    const db = ctx.getDb();
-    const matchingUsers = db.users.filter(user =>
-      user.email?.toLowerCase() === String(email).toLowerCase()
-    );
-
-    if (!matchingUsers.length || !matchingUsers.some(user => user.password === oldPassword)) {
-      return sendJson(res, 401, { error: 'Current password is incorrect' });
-    }
-
-    for (const user of matchingUsers) {
-      user.password = newPassword;
-      user.isPasswordChanged = true;
-    }
-
-    ctx.saveDb(db);
-    return ok(res, { message: 'Password changed successfully' });
-  });
+    const result = await authService.changePassword(email, oldPassword, newPassword);
+    return ok(res, result);
+  }));
 }

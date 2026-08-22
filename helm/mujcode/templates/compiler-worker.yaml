@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-compiler-worker
+  labels:
+    app: compiler-worker
+spec:
+  replicas: {{ .Values.replicaCount.compilerWorker }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  selector:
+    matchLabels:
+      app: compiler-worker
+  template:
+    metadata:
+      labels:
+        app: compiler-worker
+    spec:
+      containers:
+        - name: worker
+          image: "{{ .Values.image.repository }}-worker:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: REDIS_URI
+              value: {{ .Values.env.REDIS_URI | quote }}
+          # Container Security (Volume 7): 
+          # Implement AppArmor and seccomp profiles to prevent privilege escalation and fork bombs.
+          # We drop ALL capabilities and apply the RuntimeDefault seccomp profile.
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false 
+            runAsNonRoot: true
+            runAsUser: 1000
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+          resources:
+            {{- toYaml .Values.resources.compilerWorker | nindent 12 }}
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+
+{{- if .Values.autoscaling.enabled }}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ .Release.Name }}-compiler-worker-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ .Release.Name }}-compiler-worker
+  minReplicas: {{ .Values.autoscaling.compilerWorker.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.compilerWorker.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.autoscaling.compilerWorker.targetCPUUtilizationPercentage }}
+{{- end }}
