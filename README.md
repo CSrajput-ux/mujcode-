@@ -84,7 +84,7 @@ npm run dev
 
 ## 🏗️ Architecture & Deployment
 
-MujCode is designed for **High Concurrency** and is 100% production-ready.
+MujCode is designed with production-oriented architecture and scalability in mind
 
 - **Multi-Stage Docker Builds:** Optimized images for fast pulling and minimal footprint.
 - **CI/CD Pipeline:** Fully automated via GitHub Actions.
