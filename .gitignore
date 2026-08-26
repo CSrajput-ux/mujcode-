@@ -121,3 +121,9 @@ dist-ssr
 
 # Project specific
 backend/uploads/
+
+# Sensitive data and test scripts
+backend/src/data/db.json
+backend/reset_admin.mjs
+backend/src/data/reset_admin.mjs
+backend/src/data/test_pw.mjs
