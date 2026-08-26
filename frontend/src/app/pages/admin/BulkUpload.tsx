@@ -14,11 +14,22 @@ export default function BulkUpload() {
     const [uploading, setUploading] = useState(false);
     const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState('');
+    const [facultyError, setFacultyError] = useState('');
 
     useEffect(() => {
         getFaculty({ limit: 1000 }).then(res => {
             setFacultyList(res.faculty || []);
-        }).catch(err => console.error("Failed to fetch faculty", err));
+            if (!res.faculty || res.faculty.length === 0) {
+                setFacultyError('No faculty records found in the system. Add faculty first.');
+            }
+        }).catch(err => {
+            console.error("Failed to fetch faculty", err);
+            setFacultyError(
+                err?.response?.status === 403
+                    ? 'Access denied: Admin login required to view faculty list.'
+                    : 'Could not load faculty list. Check that the backend is running.'
+            );
+        });
     }, []);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,7 +160,9 @@ export default function BulkUpload() {
                                 />
                             </div>
                             <div className="max-h-48 overflow-y-auto p-2 space-y-1">
-                                {filteredFaculty.length === 0 ? (
+                                {facultyError ? (
+                                    <div className="p-3 text-sm text-red-500 text-center">{facultyError}</div>
+                                ) : filteredFaculty.length === 0 ? (
                                     <div className="p-3 text-sm text-gray-500 text-center">No faculty found.</div>
                                 ) : (
                                     filteredFaculty.map(fac => {

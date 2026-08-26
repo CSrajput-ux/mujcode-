@@ -13,7 +13,7 @@
       "id": "adm_1",
       "name": "System Admin",
       "email": "admin@jaipur.manipal.edu",
-      "password": "$2b$10$hA2RhQwwpvky/PO6HiF2Juv7yy5KmMTjRdy61HR8i29NYBPNFKXdO",
+      "password": "$2b$10$olndvi.w4CsMOXiBDfQnjumbTd9DOENTJ9l7.uxLOC8Rmjfg.oJD.",
       "role": "admin",
       "isPasswordChanged": true,
       "isActive": true,

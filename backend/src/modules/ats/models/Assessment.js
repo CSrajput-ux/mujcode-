@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { nextId } from '../../lib/ids.js';
+import { nextId } from '../../../lib/ids.js';
 
 const assessmentSchema = new mongoose.Schema({
   _id: { type: String, default: () => nextId('assess') },

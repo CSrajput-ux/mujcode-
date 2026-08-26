@@ -25,11 +25,17 @@ const contentTypes = {
   '.zip': 'application/zip'
 };
 
-function setCors(res) {
-  const allowedOrigin = process.env.CORS_ORIGIN || (process.env.NODE_ENV === 'production' ? '' : '*');
-  if (allowedOrigin) {
-    res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-  }
+function setCors(res, req) {
+  // When withCredentials=true, Access-Control-Allow-Origin must be the exact
+  // origin — NOT the wildcard '*'. Reflect the incoming Origin header back.
+  const requestOrigin = req?.headers?.origin;
+  const allowedOrigin =
+    process.env.CORS_ORIGIN ||          // production: set this env var
+    requestOrigin ||                    // dev: echo the caller's origin
+    'http://localhost:5173';            // fallback
+
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+  res.setHeader('Vary', 'Origin');      // tell proxies the response varies by origin
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-auth-token');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -71,7 +77,7 @@ export async function createApp() {
   registerAtsRoutes(router);
 
   return async function app(req, res) {
-    setCors(res);
+    setCors(res, req);
 
     if (req.method === 'OPTIONS') {
       res.writeHead(204);

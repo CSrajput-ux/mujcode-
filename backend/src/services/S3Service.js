@@ -1,40 +1,40 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { logger } from "../lib/logger.js";
+import fs from "node:fs";
+import path from "node:path";
+import { config } from "../config.js";
 
-const s3Client = new S3Client({
-  region: process.env.AWS_REGION || "us-east-1",
-  // Ensure the EC2 instances/Pods have an attached IAM role with s3:PutObject permissions
-});
-
-const BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME || "mujcode-enterprise-uploads";
-
+/**
+ * S3Service — local dev fallback.
+ * In production (AWS_S3_BUCKET_NAME set), use real S3.
+ * In local dev, save to uploads/ folder and return a localhost URL.
+ */
 export class S3Service {
-  /**
-   * Uploads a file buffer directly to Amazon S3.
-   * @param {Buffer} buffer - The binary content of the file.
-   * @param {string} filename - The target filename/key in S3.
-   * @param {string} contentType - The MIME type of the file.
-   * @returns {string} - The public S3 URL.
-   */
   static async uploadFile(buffer, filename, contentType) {
-    const params = {
-      Bucket: BUCKET_NAME,
-      Key: `uploads/${filename}`,
-      Body: buffer,
-      ContentType: contentType,
-    };
+    const isProduction = !!process.env.AWS_S3_BUCKET_NAME;
 
-    try {
-      const command = new PutObjectCommand(params);
-      await s3Client.send(command);
-      
-      const fileUrl = `https://${BUCKET_NAME}.s3.${process.env.AWS_REGION || 'us-east-1'}.amazonaws.com/uploads/${filename}`;
-      logger.info(`[S3Service] Successfully uploaded to ${fileUrl}`);
-      
-      return fileUrl;
-    } catch (error) {
-      logger.error(`[S3Service] Failed to upload ${filename} to S3`, error);
-      throw error;
+    if (isProduction) {
+      // Lazy-load AWS SDK only when actually needed
+      const { S3Client, PutObjectCommand } = await import("@aws-sdk/client-s3");
+      const s3 = new S3Client({ region: process.env.AWS_REGION || "us-east-1" });
+      const bucket = process.env.AWS_S3_BUCKET_NAME;
+      await s3.send(new PutObjectCommand({
+        Bucket: bucket,
+        Key: `uploads/${filename}`,
+        Body: buffer,
+        ContentType: contentType,
+      }));
+      const url = `https://${bucket}.s3.${process.env.AWS_REGION || "us-east-1"}.amazonaws.com/uploads/${filename}`;
+      logger.info(`[S3Service] Uploaded to S3: ${url}`);
+      return url;
     }
+
+    // LOCAL DEV: save to uploads/ directory
+    const uploadDir = config.uploadDir;
+    fs.mkdirSync(uploadDir, { recursive: true });
+    const filePath = path.join(uploadDir, filename);
+    fs.writeFileSync(filePath, buffer);
+    const url = `http://localhost:${config.port}/uploads/${filename}`;
+    logger.info(`[S3Service] Saved locally: ${url}`);
+    return url;
   }
 }

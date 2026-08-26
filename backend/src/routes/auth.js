@@ -20,8 +20,8 @@ export function registerAuthRoutes(router, ctx) {
       `token=${result.token}`,
       `HttpOnly`,
       `Path=/`,
-      `Max-Age=${15 * 60}`, // 15 minutes access token
-      `SameSite=Strict`
+      `Max-Age=${24 * 60 * 60}`, // 24 hours
+      isProduction ? `SameSite=Strict` : `SameSite=Lax`   // Lax allows cross-origin in dev
     ];
 
     if (isProduction) {
@@ -32,9 +32,8 @@ export function registerAuthRoutes(router, ctx) {
 
     return ok(res, {
       success: true,
+      token: result.token,   // needed by frontend localStorage → Authorization header
       user: result.user
-      // We still return token for legacy mobile app clients if any, 
-      // but web clients will use the cookie automatically.
     });
   }));
 

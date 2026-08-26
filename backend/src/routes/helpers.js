@@ -10,8 +10,7 @@ export function currentStudent(db, req) {
   if (user?.role === 'student') {
     return db.students.find(student => student.id === user.id || student.college_id === user.college_id) || null;
   }
-
-  return db.students[0] || null;
+  return null; // Non-student users get null, not someone else's data
 }
 
 export function normalizeYear(year) {

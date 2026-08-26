@@ -4,7 +4,7 @@ import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { includesText, paginate } from '../lib/pagination.js';
 import { dashboardStats, enrichDrive, studentForAdmin, systemHealth } from './helpers.js';
-import { requireAdmin } from '../lib/requireAuth.js';
+import { requireAdmin, requireAuth } from '../lib/requireAuth.js';
 import { validateSchema } from '../lib/validation.js';
 import { ActivityLog } from '../models/ActivityLog.js';
 
@@ -433,9 +433,9 @@ export function registerAdminRoutes(router) {
   });
 
   router.get('/api/admin/faculty', (req, res, ctx) => {
-    if (!requireAdmin(req, res)) return;
+    if (!requireAuth(req, res)) return; // Read-only: any logged-in user can list faculty (needed by bulk upload)
     const data = filteredFaculty(ctx.getDb(), req.query);
-    const page = paginate(data, req.query);
+    const page = paginate(data, req.query, 200); // default 200 so all faculty appear
     return ok(res, { data: { faculty: page.items, pagination: page.pagination } });
   });
 
