@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
+import { nextId } from '../lib/ids.js';
 
 const securityLogSchema = new mongoose.Schema({
-  _id: { type: String, required: true },
+  _id: { type: String, default: () => nextId('sec_log') },
   testId: { type: String, required: true },
   studentId: { type: String, required: true },
   studentName: { type: String, required: true },

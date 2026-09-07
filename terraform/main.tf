@@ -22,6 +22,13 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "db_password" {
+  description = "Database administrator password for RDS PostgreSQL"
+  type        = string
+  sensitive   = true
+  default     = "ChangeMeInProduction123!"
+}
+
 # ------------------------------------------------------------------------------
 # 1. Kubernetes Cluster (Amazon EKS)
 # ------------------------------------------------------------------------------
@@ -91,7 +98,7 @@ resource "aws_db_instance" "mujcode_postgres" {
 }
 
 # ------------------------------------------------------------------------------
-# 3. VPC & Network Infrastructure (Placeholder)
+# 3. VPC & Network Infrastructure
 # ------------------------------------------------------------------------------
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
@@ -100,11 +107,51 @@ module "vpc" {
   name = "mujcode-vpc"
   cidr = "10.0.0.0/16"
 
-  azs             = ["${var.aws_region}a", "${var.aws_region}b", "${var.aws_region}c"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
-  intra_subnets   = ["10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24"]
+  azs              = ["${var.aws_region}a", "${var.aws_region}b", "${var.aws_region}c"]
+  private_subnets  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  public_subnets   = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+  intra_subnets    = ["10.0.201.0/24", "10.0.202.0/24", "10.0.203.0/24"]
+  database_subnets = ["10.0.21.0/24", "10.0.22.0/24", "10.0.23.0/24"]
 
   enable_nat_gateway = true
   single_nat_gateway = false
 }
+
+# ------------------------------------------------------------------------------
+# 4. Database Security Group & Subnet Group
+# ------------------------------------------------------------------------------
+resource "aws_security_group" "db_sg" {
+  name        = "mujcode-db-sg"
+  description = "Allow inbound PostgreSQL traffic from VPC"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description = "PostgreSQL from VPC"
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = [module.vpc.vpc_cidr_block]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "mujcode-db-sg"
+  }
+}
+
+resource "aws_db_subnet_group" "default" {
+  name        = "mujcode-db-subnet-group"
+  subnet_ids  = module.vpc.database_subnets
+  description = "Database Subnet Group for MujCode RDS PostgreSQL"
+
+  tags = {
+    Name = "mujcode-db-subnet-group"
+  }
+}
+

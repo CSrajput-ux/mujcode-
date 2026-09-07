@@ -11,7 +11,7 @@ const submissionSchema = new mongoose.Schema({
   snapshots: [{ type: String }],
   score: { type: Number, default: 0 },
   maxScore: { type: Number, default: 0 },
-  status: { type: String, enum: ['Submitted', 'Evaluating', 'Evaluated', 'Disqualified'], default: 'Submitted' },
+  status: { type: String, enum: ['Pass', 'Fail', 'Submitted', 'Evaluating', 'Evaluated', 'Disqualified'], default: 'Submitted' },
   submittedAt: { type: Date, default: Date.now }
 }, {
   timestamps: true,

@@ -1,11 +1,15 @@
 import { Assessment } from '../models/Assessment.js';
+import { Company } from '../models/Company.js';
 import { sendJson } from '../../../lib/http.js';
+import mongoose from 'mongoose';
 
 export class AssessmentController {
   static async create(req, res) {
     try {
-      // Mock companyId since auth isn't fully integrated into ATS yet for this prototype
-      const companyId = req.user?.companyId || 'comp-1'; 
+      const company = await Company.findOne();
+      const companyId = (req.user?.companyId && mongoose.Types.ObjectId.isValid(req.user.companyId))
+        ? req.user.companyId
+        : (company ? company._id.toString() : 'comp-1');
       
       const { title, description, driveId, durationMinutes, questions } = req.body;
       
@@ -30,8 +34,11 @@ export class AssessmentController {
 
   static async getAll(req, res) {
     try {
-      const companyId = req.user?.companyId || 'comp-1';
-      const assessments = await Assessment.find({ companyId }).populate('driveId', 'title role');
+      const company = await Company.findOne();
+      const companyId = (req.user?.companyId && mongoose.Types.ObjectId.isValid(req.user.companyId))
+        ? req.user.companyId
+        : (company ? company._id.toString() : 'comp-1');
+      const assessments = await Assessment.find({ companyId });
       return sendJson(res, 200, assessments);
     } catch (error) {
       console.error('[AssessmentController.getAll]', error);

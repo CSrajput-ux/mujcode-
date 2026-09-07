@@ -3,19 +3,22 @@ import { Card, CardContent } from '../../../components/ui/card';
 import { Badge } from '../../../components/ui/badge';
 import { Search, Filter, Mail, Phone, Download, MoreVertical } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
+import { apiClient } from '../../../services/apiClient';
 
 export default function CandidatesPage() {
-  const [candidates, setCandidates] = useState([]);
+  const [candidates, setCandidates] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/v1/company/candidates')
-      .then(res => res.json())
-      .then(data => {
+    apiClient.get('/api/v1/company/candidates')
+      .then(res => {
+        const data = res.data;
         if (!data.error) setCandidates(data.candidates || []);
       })
-      .catch(console.error)
+      .catch((err) => {
+        console.error('Failed to load candidates:', err);
+      })
       .finally(() => setLoading(false));
   }, []);
 

@@ -2,17 +2,18 @@ import { useState, useEffect } from 'react';
 import { Card } from '../../../components/ui/card';
 import { Search, Trophy, Medal, Star, ChevronRight } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
+import { apiClient } from '../../../services/apiClient';
 
 export default function ResultsPage() {
-  const [candidates, setCandidates] = useState([]);
+  const [candidates, setCandidates] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
   useEffect(() => {
     // For results, we reuse candidates API and mock scores since actual coding test integration isn't fully wired for ATS yet
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/v1/company/candidates')
-      .then(res => res.json())
-      .then(data => {
+    apiClient.get('/api/v1/company/candidates')
+      .then(res => {
+        const data = res.data;
         if (!data.error) {
           // Add mock scores to the candidates for the Results view
           const withScores = (data.candidates || []).map((c: any, i: number) => ({

@@ -117,8 +117,10 @@ export function registerExamSecurityRoutes(router, ctx) {
     }
 
     // Create detailed log entry
+    const secLogId = nextId('sec_log');
     const logEntry = {
-      id: nextId('sec_log'),
+      _id: secLogId,
+      id: secLogId,
       testId,
       studentId,
       studentName,
@@ -217,8 +219,10 @@ export function registerExamSecurityRoutes(router, ctx) {
       if (log.type === 'FULLSCREEN_EXIT') session.fullscreenExits = (session.fullscreenExits || 0) + 1;
       if (log.type === 'TAB_SWITCH' || log.type === 'WINDOW_MINIMIZE') session.tabSwitches = (session.tabSwitches || 0) + 1;
 
+      const secLogId = nextId('sec_log');
       return {
-        id: nextId('sec_log'),
+        _id: secLogId,
+        id: secLogId,
         testId,
         studentId,
         studentName,

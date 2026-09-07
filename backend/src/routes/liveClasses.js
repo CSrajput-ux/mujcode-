@@ -11,19 +11,23 @@ export function registerLiveClassRoutes(router, ctx) {
       let classes = db.liveClasses || [];
 
       if (req.user.role === 'student') {
-        const student = (db.students || []).find(s => s.id === req.user.id);
+        const student = (db.students || []).find(s => s.id === req.user.id || s.college_id === req.user.college_id);
         if (student) {
           classes = classes.filter(c => 
-            (!c.branch || c.branch === student.branch) &&
-            (!c.semester || c.semester === student.semester) &&
-            (!c.section || c.section === student.section)
+            (!c.branch || !student.branch || String(c.branch).toLowerCase() === String(student.branch).toLowerCase()) &&
+            (!c.semester || !student.semester || Number(c.semester) === Number(student.semester)) &&
+            (!c.section || !student.section || String(c.section).toUpperCase() === String(student.section).toUpperCase())
           );
         }
       } else if (req.user.role === 'faculty') {
         classes = classes.filter(c => c.facultyId === req.user.id);
       }
 
-      classes.sort((a, b) => new Date(b.date + ' ' + b.time) - new Date(a.date + ' ' + a.time));
+      classes.sort((a, b) => {
+        const timeB = new Date(`${b.date} ${b.time}`).getTime() || new Date(b.date || 0).getTime() || 0;
+        const timeA = new Date(`${a.date} ${a.time}`).getTime() || new Date(a.date || 0).getTime() || 0;
+        return timeB - timeA;
+      });
 
       sendJson(res, 200, { success: true, count: classes.length, data: classes });
   })));

@@ -59,6 +59,8 @@ export function verifyToken(authorization, xAuthToken) {
 }
 
 export function publicUser(user) {
-  const { password, ...safeUser } = user;
+  if (!user) return null;
+  const raw = typeof user.toObject === 'function' ? user.toObject() : (user._doc ? { ...user._doc } : { ...user });
+  const { password, ...safeUser } = raw;
   return safeUser;
 }

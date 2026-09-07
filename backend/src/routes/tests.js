@@ -296,22 +296,38 @@ export function registerTestsRoutes(router) {
       answers: req.body.answers || []
     };
 
+    // Always save to JSON/in-memory DB
+    if (!db.testSubmissions) db.testSubmissions = [];
+    const existingIndex = db.testSubmissions.findIndex(s => s._id === submission._id || (s.testId === test._id && s.studentId === submission.studentId));
+    if (existingIndex >= 0) {
+      db.testSubmissions[existingIndex] = submission;
+    } else {
+      db.testSubmissions.push(submission);
+    }
+    ctx.saveDb(db);
+
     try {
       await Submission.create(submission);
-      return sendJson(res, 201, submission);
     } catch (e) {
-      console.error('[MongoDB] Failed to save submission:', e);
-      return sendJson(res, 500, { error: 'Failed to save submission to database' });
+      console.warn('[MongoDB] Notice: Submission saved to in-memory DB (Mongo write skipped):', e.message);
     }
+
+    return sendJson(res, 201, submission);
   });
 
-  router.get('/api/tests/submissions/:studentId', async (req, res) => {
+  router.get('/api/tests/submissions/:studentId', async (req, res, ctx) => {
     try {
       const submissions = await Submission.find({ studentId: req.params.studentId }).lean();
-      return sendJson(res, 200, submissions);
+      if (submissions && submissions.length > 0) {
+        return sendJson(res, 200, submissions);
+      }
     } catch (e) {
-      return sendJson(res, 500, { error: 'Failed to fetch submissions' });
+      // Fallback to in-memory DB
     }
+
+    const db = ctx?.getDb ? ctx.getDb() : {};
+    const submissions = (db.testSubmissions || []).filter(sub => String(sub.studentId) === String(req.params.studentId));
+    return sendJson(res, 200, submissions);
   });
 
   router.get('/api/tests/:testId', (req, res, ctx) => {

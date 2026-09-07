@@ -1,7 +1,9 @@
 import { Application } from '../models/Application.js';
 import { Drive } from '../models/Drive.js';
+import { Company } from '../models/Company.js';
 import { EligibilityEngine } from '../services/EligibilityEngine.js';
 import { sendJson } from '../../../lib/http.js';
+import mongoose from 'mongoose';
 
 export class ApplicationController {
   static async getDriveApplications(req, res) {
@@ -21,12 +23,20 @@ export class ApplicationController {
 
   static async getAllCandidates(req, res) {
     try {
-      const companyId = req.user?.companyId || 'comp-1'; // Mock for prototype
-      // Find all drives for this company
-      const companyDrives = await Drive.find({ companyId }, '_id title');
+      let companyDrives = [];
+      if (req.user?.companyId && mongoose.Types.ObjectId.isValid(req.user.companyId)) {
+        companyDrives = await Drive.find({ companyId: req.user.companyId }, '_id title');
+      } else {
+        const company = await Company.findOne();
+        if (company) {
+          companyDrives = await Drive.find({ companyId: company._id }, '_id title');
+        } else {
+          companyDrives = await Drive.find({}, '_id title');
+        }
+      }
       const driveIds = companyDrives.map(d => d._id);
       
-      const applications = await Application.find({ driveId: { $in: driveIds } })
+      const applications = await Application.find(driveIds.length ? { driveId: { $in: driveIds } } : {})
         .populate('driveId', 'title role')
         .sort({ createdAt: -1 });
         

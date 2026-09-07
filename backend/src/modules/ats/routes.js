@@ -10,26 +10,22 @@ export function registerAtsRoutes(router) {
   router.get('/api/v1/company/dashboard/stats', DashboardController.getStats);
   
   router.get('/api/v1/company/drives', DriveController.getAll);
-  router.post('/api/v1/company/drives', async (req, res, ctx) => {
-    await parseBody(req);
+  router.post('/api/v1/company/drives', (req, res) => {
     return DriveController.create(req, res);
   });
 
   router.get('/api/v1/company/drives/:driveId/applications', ApplicationController.getDriveApplications);
-  router.post('/api/v1/company/drives/:driveId/apply', async (req, res, ctx) => {
-    await parseBody(req);
+  router.post('/api/v1/company/drives/:driveId/apply', (req, res) => {
     return ApplicationController.applyToDrive(req, res);
   });
-  router.patch('/api/v1/company/applications/:id/status', async (req, res, ctx) => {
-    await parseBody(req);
+  router.patch('/api/v1/company/applications/:id/status', (req, res) => {
     return ApplicationController.updateApplicationStatus(req, res);
   });
 
   router.get('/api/v1/company/candidates', ApplicationController.getAllCandidates);
 
   router.get('/api/v1/company/assessments', AssessmentController.getAll);
-  router.post('/api/v1/company/assessments', async (req, res, ctx) => {
-    await parseBody(req);
+  router.post('/api/v1/company/assessments', (req, res) => {
     return AssessmentController.create(req, res);
   });
 
@@ -51,8 +47,7 @@ export function registerAtsRoutes(router) {
     }
   });
 
-  router.post('/api/v1/student/ats/drives/:driveId/apply', async (req, res, ctx) => {
-    await parseBody(req);
+  router.post('/api/v1/student/ats/drives/:driveId/apply', (req, res) => {
     return ApplicationController.applyToDrive(req, res);
   });
 }
