@@ -98,21 +98,21 @@ export function getQuestionsForTest(db, testId) {
 }
 
 export function enrichDrive(db, drive) {
-  const Company = db.companies.find(company => company.id === Number(drive.companyId)) || null;
-  const JobPostings = db.jobPostings
+  const Company = (db.companies || []).find(company => company.id === Number(drive.companyId)) || null;
+  const JobPostings = (db.jobPostings || [])
     .filter(job => Number(job.driveId) === Number(drive.id))
     .map(job => ({
       ...job,
-      StudentApplications: db.applications.filter(app => Number(app.jobId) === Number(job.id))
+      StudentApplications: (db.applications || []).filter(app => Number(app.jobId) === Number(job.id))
     }));
 
   return { ...drive, Company, JobPostings };
 }
 
 export function enrichApplication(db, application) {
-  const job = db.jobPostings.find(item => Number(item.id) === Number(application.jobId));
-  const drive = job ? db.placementDrives.find(item => Number(item.id) === Number(job.driveId)) : null;
-  const company = drive ? db.companies.find(item => Number(item.id) === Number(drive.companyId)) : null;
+  const job = (db.jobPostings || []).find(item => Number(item.id) === Number(application.jobId));
+  const drive = job ? (db.placementDrives || []).find(item => Number(item.id) === Number(job.driveId)) : null;
+  const company = drive ? (db.companies || []).find(item => Number(item.id) === Number(drive.companyId)) : null;
 
   return {
     ...application,
