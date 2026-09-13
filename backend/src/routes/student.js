@@ -1,9 +1,10 @@
 import { ok, sendJson } from '../lib/http.js';
 import { publicCourse, currentStudent, normalizeYear } from './helpers.js';
+import { findStudentById, findStudentByCollegeId, findFacultyById } from '../lib/fastStore.js';
 
 function userAndStudent(db, id) {
   const user = db.users.find(item => item.id === id || item.college_id === id);
-  const student = db.students.find(item => item.id === id || item.college_id === id);
+  const student = findStudentById(id) || findStudentByCollegeId(id) || db.students.find(item => item.id === id || item.college_id === id);
   return { user, student };
 }
 
@@ -176,14 +177,15 @@ export function registerStudentRoutes(router) {
 
   router.get('/api/student/mentors/:studentId', (req, res, ctx) => {
     const db = ctx.getDb();
-    const student = db.students.find(s => s.id === req.params.studentId || s.college_id === req.params.studentId);
+    const student = findStudentById(req.params.studentId) || findStudentByCollegeId(req.params.studentId) || db.students.find(s => s.id === req.params.studentId || s.college_id === req.params.studentId);
     
     if (!student || !student.facultyMentors) {
       return sendJson(res, 200, []);
     }
 
-    const mentors = db.faculty
-      .filter(f => student.facultyMentors.includes(f.id) || student.facultyMentors.includes(f._id))
+    const mentors = student.facultyMentors
+      .map(fId => findFacultyById(fId) || db.faculty.find(f => f.id === fId || f._id === fId))
+      .filter(Boolean)
       .map(f => ({
         name: f.name,
         department: f.department,

@@ -2,6 +2,7 @@ import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { currentUser } from './helpers.js';
 import { requireAuth, requireFaculty } from '../lib/requireAuth.js';
+import { findFacultyById } from '../lib/fastStore.js';
 
 export function registerFacultyRoutes(router) {
   // Returns sections & subjects for the logged-in faculty
@@ -43,7 +44,7 @@ export function registerFacultyRoutes(router) {
     const teachingAssignments = [...assignmentsMap.values()];
 
     // Fallback: if no students linked, use faculty's own teachingAssignments
-    const faculty = db.faculty.find(f => f.id === facultyId || f._id === facultyId);
+    const faculty = findFacultyById(facultyId) || db.faculty.find(f => f.id === facultyId || f._id === facultyId);
     const result = teachingAssignments.length > 0
       ? teachingAssignments
       : (faculty?.teachingAssignments || []);
@@ -111,14 +112,14 @@ export function registerFacultyRoutes(router) {
 
   router.get('/api/faculty/profile/:id', (req, res, ctx) => {
     const db = ctx.getDb();
-    const faculty = db.faculty.find(item => item._id === req.params.id || item.id === req.params.id) || db.faculty[0];
+    const faculty = findFacultyById(req.params.id) || db.faculty.find(item => item._id === req.params.id || item.id === req.params.id) || db.faculty[0];
     return sendJson(res, 200, faculty ? facultyProfileForFrontend(faculty) : {});
   });
 
   router.put('/api/faculty/profile/:id', (req, res, ctx) => {
     if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
-    const faculty = db.faculty.find(item => item._id === req.params.id || item.id === req.params.id) || db.faculty[0];
+    const faculty = findFacultyById(req.params.id) || db.faculty.find(item => item._id === req.params.id || item.id === req.params.id) || db.faculty[0];
     if (!faculty) return sendJson(res, 404, { error: 'Faculty profile not found' });
 
     Object.assign(faculty, {
@@ -140,7 +141,7 @@ export function registerFacultyRoutes(router) {
   router.get('/api/faculty/courses', (req, res, ctx) => {
     const db = ctx.getDb();
     const user = currentUser(db, req);
-    const faculty = db.faculty.find(item => item.id === user?.id) || db.faculty[0];
+    const faculty = findFacultyById(user?.id) || db.faculty.find(item => item.id === user?.id) || db.faculty[0];
     const ids = faculty?.teachingCourses || [];
     const courses = db.courses
       .filter(course => ids.includes(course._id))
@@ -153,7 +154,7 @@ export function registerFacultyRoutes(router) {
     const facultyId = req.params.facultyId;
     
     // Find faculty
-    const faculty = db.faculty.find(f => f.id === facultyId || f._id === facultyId);
+    const faculty = findFacultyById(facultyId) || db.faculty.find(f => f.id === facultyId || f._id === facultyId);
     
     // Find assigned students
     const assignedStudents = db.students.filter(s => s.facultyMentors && s.facultyMentors.includes(facultyId));

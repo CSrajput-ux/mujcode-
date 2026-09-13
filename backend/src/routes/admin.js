@@ -7,6 +7,7 @@ import { dashboardStats, enrichDrive, studentForAdmin, systemHealth } from './he
 import { requireAdmin, requireAuth } from '../lib/requireAuth.js';
 import { validateSchema } from '../lib/validation.js';
 import { ActivityLog } from '../models/ActivityLog.js';
+import { findStudentById, findFacultyById } from '../lib/fastStore.js';
 
 // --- Zod Validation Schemas ---
 const companySchema = z.object({
@@ -330,7 +331,7 @@ export function registerAdminRoutes(router) {
 
   router.get('/api/admin/students/:id', (req, res, ctx) => {
     if (!requireAdmin(req, res)) return;
-    const student = ctx.getDb().students.find(item => item.id === req.params.id || item._id === req.params.id);
+    const student = findStudentById(req.params.id) || ctx.getDb().students.find(item => item.id === req.params.id || item._id === req.params.id);
     return sendJson(res, student ? 200 : 404, student ? { data: studentForAdmin(student) } : { error: 'Student not found' });
   });
 
@@ -441,7 +442,7 @@ export function registerAdminRoutes(router) {
 
   router.get('/api/admin/faculty/:id', (req, res, ctx) => {
     if (!requireAdmin(req, res)) return;
-    const faculty = ctx.getDb().faculty.find(item => item._id === req.params.id || item.id === req.params.id);
+    const faculty = findFacultyById(req.params.id) || ctx.getDb().faculty.find(item => item._id === req.params.id || item.id === req.params.id);
     return sendJson(res, faculty ? 200 : 404, faculty ? { data: faculty } : { error: 'Faculty not found' });
   });
 
