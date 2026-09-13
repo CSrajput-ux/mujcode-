@@ -18,5 +18,7 @@ export const config = {
   tokenSecret: process.env.TOKEN_SECRET || 'mujcode-local-development-secret',
   rootDir,
   dbFile: path.resolve(rootDir, process.env.DB_FILE || 'src/data/db.json'),
+  facultyFile: path.resolve(rootDir, process.env.FACULTY_FILE || 'src/data/faculty.json'),
+  studentsFile: path.resolve(rootDir, process.env.STUDENTS_FILE || 'src/data/students.json'),
   uploadDir: path.resolve(rootDir, process.env.UPLOAD_DIR || 'uploads')
 };
