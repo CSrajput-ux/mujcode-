@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { Router } from './lib/router.js';
 import { parseBody, sendJson, sendText } from './lib/http.js';
-import { loadDb, saveDb } from './lib/storage.js';
+import { loadDb, saveDb, loadFaculty, loadStudents } from './lib/storage.js';
 import { verifyToken } from './lib/auth.js';
 import { rateLimiter } from './middlewares/rateLimiter.js';
 import { logger } from './lib/logger.js';
@@ -70,7 +70,9 @@ export async function createApp() {
     config,
     startedAt: new Date(),
     getDb: loadDb,
-    saveDb
+    saveDb,
+    getFaculty: loadFaculty,
+    getStudents: loadStudents
   };
 
   registerRoutes(router, ctx);

@@ -3,6 +3,13 @@ import path from 'node:path';
 import { Worker } from 'node:worker_threads';
 import { fileURLToPath } from 'node:url';
 import { config } from '../config.js';
+import {
+  rebuildFastIndices,
+  writeFacultyFileSync,
+  writeStudentsFileSync,
+  readFacultyFile,
+  readStudentsFile
+} from './fastStore.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -42,12 +49,39 @@ export function loadDb() {
   ensureFile();
   const raw = fs.readFileSync(config.dbFile, 'utf8');
   dbCache = JSON.parse(raw);
+
+  if (!dbCache.faculty) dbCache.faculty = [];
+  if (!dbCache.students) dbCache.students = [];
+
+  // Sync with dedicated JSON files if missing or empty
+  if (!fs.existsSync(config.facultyFile) || fs.statSync(config.facultyFile).size <= 5) {
+    writeFacultyFileSync(dbCache.faculty);
+  }
+  if (!fs.existsSync(config.studentsFile) || fs.statSync(config.studentsFile).size <= 5) {
+    writeStudentsFileSync(dbCache.students);
+  }
+
+  // Populate fast-access O(1) in-memory indices
+  rebuildFastIndices(dbCache.faculty, dbCache.students);
+
   return dbCache;
+}
+
+export function loadFaculty() {
+  const db = loadDb();
+  return db.faculty || [];
+}
+
+export function loadStudents() {
+  const db = loadDb();
+  return db.students || [];
 }
 
 export function saveDb(db) {
   dbCache = db;
   isDirty = true;
+  // Keep O(1) indices updated immediately
+  rebuildFastIndices(db.faculty || [], db.students || []);
   scheduleSave();
   return db;
 }
@@ -79,7 +113,9 @@ function flushDbAsync() {
     type: 'FLUSH',
     payload: {
       dbCache,
-      dbFile: config.dbFile
+      dbFile: config.dbFile,
+      facultyFile: config.facultyFile,
+      studentsFile: config.studentsFile
     }
   });
 }
@@ -92,6 +128,14 @@ export function flushDbSync() {
     const tmpFile = path.join(dir, `db.tmp.${Date.now()}`);
     fs.writeFileSync(tmpFile, `${JSON.stringify(dbCache, null, 2)}\n`, 'utf8');
     fs.renameSync(tmpFile, config.dbFile);
+
+    if (dbCache.faculty && Array.isArray(dbCache.faculty)) {
+      writeFacultyFileSync(dbCache.faculty);
+    }
+    if (dbCache.students && Array.isArray(dbCache.students)) {
+      writeStudentsFileSync(dbCache.students);
+    }
+
     isDirty = false;
   } catch (err) {
     console.error('[StorageEngine] Error flushing DB to disk:', err.message);
@@ -107,6 +151,12 @@ function ensureFile() {
 
   if (!fs.existsSync(config.dbFile)) {
     fs.writeFileSync(config.dbFile, '{}\n', 'utf8');
+  }
+  if (!fs.existsSync(config.facultyFile)) {
+    fs.writeFileSync(config.facultyFile, '[]\n', 'utf8');
+  }
+  if (!fs.existsSync(config.studentsFile)) {
+    fs.writeFileSync(config.studentsFile, '[]\n', 'utf8');
   }
 }
 
