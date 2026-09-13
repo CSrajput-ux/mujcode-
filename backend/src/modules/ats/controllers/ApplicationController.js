@@ -8,6 +8,10 @@ import mongoose from 'mongoose';
 export class ApplicationController {
   static async getDriveApplications(req, res) {
     try {
+      if (mongoose.connection.readyState !== 1) {
+        return sendJson(res, 200, { applications: [] });
+      }
+
       const { driveId } = req.params;
       if (!driveId) {
         return sendJson(res, 400, { error: 'Drive ID is required' });
@@ -23,6 +27,10 @@ export class ApplicationController {
 
   static async getAllCandidates(req, res) {
     try {
+      if (mongoose.connection.readyState !== 1) {
+        return sendJson(res, 200, { candidates: [] });
+      }
+
       let companyDrives = [];
       if (req.user?.companyId && mongoose.Types.ObjectId.isValid(req.user.companyId)) {
         companyDrives = await Drive.find({ companyId: req.user.companyId }, '_id title');

@@ -6,6 +6,10 @@ import mongoose from 'mongoose';
 export class AssessmentController {
   static async create(req, res) {
     try {
+      if (mongoose.connection.readyState !== 1) {
+        return sendJson(res, 503, { error: 'Database unavailable' });
+      }
+
       const company = await Company.findOne();
       const companyId = (req.user?.companyId && mongoose.Types.ObjectId.isValid(req.user.companyId))
         ? req.user.companyId
@@ -34,6 +38,10 @@ export class AssessmentController {
 
   static async getAll(req, res) {
     try {
+      if (mongoose.connection.readyState !== 1) {
+        return sendJson(res, 200, []);
+      }
+
       const company = await Company.findOne();
       const companyId = (req.user?.companyId && mongoose.Types.ObjectId.isValid(req.user.companyId))
         ? req.user.companyId

@@ -1,10 +1,15 @@
 import { Drive } from '../models/Drive.js';
 import { Company } from '../models/Company.js';
 import { sendJson } from '../../../lib/http.js';
+import mongoose from 'mongoose';
 
 export class DriveController {
   static async getAll(req, res) {
     try {
+      if (mongoose.connection.readyState !== 1) {
+        return sendJson(res, 200, { drives: [] });
+      }
+
       // In production, derive companyId from req.user
       const company = await Company.findOne();
       if (!company) {
@@ -21,6 +26,10 @@ export class DriveController {
 
   static async create(req, res) {
     try {
+      if (mongoose.connection.readyState !== 1) {
+        return sendJson(res, 503, { error: 'Database unavailable' });
+      }
+
       const company = await Company.findOne();
       if (!company) {
         return sendJson(res, 404, { error: 'Company not found' });

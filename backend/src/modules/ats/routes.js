@@ -5,6 +5,7 @@ import { Drive } from './models/Drive.js';
 import { Application } from './models/Application.js';
 import { AssessmentController } from './controllers/AssessmentController.js';
 import { parseBody, sendJson } from '../../lib/http.js';
+import mongoose from 'mongoose';
 
 export function registerAtsRoutes(router) {
   router.get('/api/v1/company/dashboard/stats', DashboardController.getStats);
@@ -32,6 +33,10 @@ export function registerAtsRoutes(router) {
   // Student Facing Routes
   router.get('/api/v1/student/ats/drives', async (req, res) => {
     try {
+      if (mongoose.connection.readyState !== 1) {
+        return sendJson(res, 200, { drives: [], applications: [] });
+      }
+
       const studentId = req.query?.studentId;
       const drives = await Drive.find({ status: 'Active' }).populate('companyId', ['name', 'logo', 'industry']);
       

@@ -2,10 +2,31 @@ import { Drive } from '../models/Drive.js';
 import { Company } from '../models/Company.js';
 import { Application } from '../models/Application.js';
 import { sendJson } from '../../../lib/http.js';
+import mongoose from 'mongoose';
 
 export class DashboardController {
   static async getStats(req, res) {
     try {
+      if (mongoose.connection.readyState !== 1) {
+        return sendJson(res, 200, {
+          activeDrives: 0,
+          applicants: 0,
+          shortlisted: 0,
+          hired: 0,
+          drives: [],
+          recentApplicants: [],
+          funnel: {
+            'Applied': 0,
+            'Screening': 0,
+            'Testing': 0,
+            'Interview': 0,
+            'Offered': 0,
+            'Hired': 0,
+            'Rejected': 0
+          }
+        });
+      }
+
       const company = await Company.findOne();
       if (!company) {
         return sendJson(res, 200, {
