@@ -34,9 +34,11 @@ export const activeConnections = new client.Gauge({
   registers: [register]
 });
 
-export const compilerQueueJobs = new client.Counter({
-  name: 'compiler_jobs_submitted_total',
-  help: 'Total number of jobs submitted to the Redis queue',
-  labelNames: ['language'],
+export const judge0SubmissionsTotal = new client.Counter({
+  name: 'judge0_submissions_total',
+  help: 'Total number of submissions processed via Judge0',
+  labelNames: ['language', 'status'],
   registers: [register]
 });
+
+export const compilerQueueJobs = judge0SubmissionsTotal;
