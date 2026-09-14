@@ -1,5 +1,0 @@
-FROM mono:latest
-RUN groupadd -r judge && useradd -r -g judge judge
-WORKDIR /workspace
-RUN chown -R judge:judge /workspace
-USER judge
