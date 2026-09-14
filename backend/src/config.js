@@ -20,5 +20,11 @@ export const config = {
   dbFile: path.resolve(rootDir, process.env.DB_FILE || 'src/data/db.json'),
   facultyFile: path.resolve(rootDir, process.env.FACULTY_FILE || 'src/data/faculty.json'),
   studentsFile: path.resolve(rootDir, process.env.STUDENTS_FILE || 'src/data/students.json'),
-  uploadDir: path.resolve(rootDir, process.env.UPLOAD_DIR || 'uploads')
+  uploadDir: path.resolve(rootDir, process.env.UPLOAD_DIR || 'uploads'),
+  // Judge0 CE Configuration
+  judge0Url: process.env.JUDGE0_URL || 'http://localhost:2358',
+  judge0AuthToken: process.env.JUDGE0_AUTH_TOKEN || '',
+  judge0CpuTimeLimit: Number(process.env.JUDGE0_CPU_TIME_LIMIT || 2),
+  judge0MemoryLimit: Number(process.env.JUDGE0_MEMORY_LIMIT || 128000),
+  judge0WallTimeLimit: Number(process.env.JUDGE0_WALL_TIME_LIMIT || 5)
 };

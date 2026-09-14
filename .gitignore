@@ -127,3 +127,7 @@ backend/src/data/db.json
 backend/reset_admin.mjs
 backend/src/data/reset_admin.mjs
 backend/src/data/test_pw.mjs
+
+# Judge0 Secrets
+judge0/judge0.conf
+!judge0/judge0.conf.example
