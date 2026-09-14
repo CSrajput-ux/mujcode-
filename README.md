@@ -27,11 +27,43 @@ MujCode is a comprehensive, full-stack educational and Applicant Tracking System
 
 - **Frontend:** React 18, Vite, Tailwind CSS, Radix UI, Monaco Editor.
 - **Backend:** Node.js (ESM), Custom High-Concurrency Router, Socket.IO.
+- **Code Execution Engine:** Self-Hosted **Judge0 CE (v1.13.1)** sandbox with asynchronous job tracking.
 - **Database:**
   - **JSON File DB (Primary):** Blazing fast, in-memory DB with atomic disk flushing.
   - **MongoDB (Optional):** Used for advanced ATS & Company Drive management.
-  - **Redis (Optional):** Manages the distributed code compiler queue.
+  - **Redis:** Manages cache, WebSockets, and Judge0 execution queue.
 - **Infrastructure:** Docker, Docker Compose, GitHub Actions, AWS (ECR/EKS), Helm.
+
+---
+
+## ⚙️ Code Execution Architecture (Judge0 CE)
+
+MujCode uses **Judge0 CE (v1.13.1)** as its sole sandboxed code-execution engine. Arbitrary user code is **never** executed directly on the main application server.
+
+```text
+Frontend (Browser)
+   │  [User clicks Run / Submit in Monaco Editor]
+   ▼
+Backend API (MujCode Server)
+   │  [Rate limiting, input size guards, hidden test-case server-side protection]
+   ▼
+Judge0 API Gateway (Internal Docker Network)
+   │  [Submissions created asynchronously with Base64 payloads]
+   ▼
+Judge0 Redis Queue & PostgreSQL
+   │  [Decoupled queue of pending compilation jobs]
+   ▼
+Judge0 Workers (`isolate` Linux cgroup v1 sandbox)
+   │  [Sandboxed compilation and execution with strict CPU & memory caps]
+   ▼
+Backend CodeExecutionService
+   │  [Controlled polling, verdict & error normalization, score computation]
+   ▼
+Frontend UI
+      [Real-time status updates: Accepted, Wrong Answer, Compilation Error, Runtime Error]
+```
+
+Detailed setup and production hardening guidelines are available in the [Judge0 Deployment Guide](docs/JUDGE0_DEPLOYMENT.md).
 
 ---
 
