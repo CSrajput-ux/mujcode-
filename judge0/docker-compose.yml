@@ -1,0 +1,75 @@
+# ==============================================================================
+# Self-Hosted Judge0 CE (v1.13.1) Orchestration
+# ==============================================================================
+# Official repository: https://github.com/judge0/judge0
+# Note: In production, requires Linux cgroup v1 compatibility:
+# systemd.unified_cgroup_hierarchy=0 in /etc/default/grub
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  # ── Judge0 Server (API Gateway) ───────────────────────────────────────────
+  server:
+    image: judge0/judge0:v1.13.1
+    container_name: judge0_server
+    restart: unless-stopped
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    ports:
+      - "2358:2358"
+    privileged: true
+    depends_on:
+      - db
+      - redis
+    networks:
+      - mujcode-net
+
+  # ── Judge0 Workers (Code Execution Sandbox) ───────────────────────────────
+  workers:
+    image: judge0/judge0:v1.13.1
+    container_name: judge0_worker
+    restart: unless-stopped
+    command: ["./scripts/workers"]
+    volumes:
+      - ./judge0.conf:/judge0.conf:ro
+    privileged: true
+    depends_on:
+      - db
+      - redis
+    networks:
+      - mujcode-net
+
+  # ── Judge0 PostgreSQL Database ────────────────────────────────────────────
+  db:
+    image: postgres:13-alpine
+    container_name: judge0_db
+    restart: unless-stopped
+    env_file: judge0.conf
+    volumes:
+      - judge0_db_data:/var/lib/postgresql/data
+    networks:
+      - mujcode-net
+
+  # ── Judge0 Redis (Submission Queue) ───────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: judge0_redis
+    restart: unless-stopped
+    command: ["sh", "-c", "docker-entrypoint.sh --appendonly yes --requirepass \"$$REDIS_PASSWORD\""]
+    env_file: judge0.conf
+    volumes:
+      - judge0_redis_data:/data
+    networks:
+      - mujcode-net
+
+volumes:
+  judge0_db_data:
+    name: judge0_db_data
+  judge0_redis_data:
+    name: judge0_redis_data
+
+networks:
+  mujcode-net:
+    name: mujcode-network
+    external: true

@@ -18,6 +18,8 @@ services:
       UPLOAD_DIR: /app/uploads
       MONGODB_URI: ${MONGODB_URI:-}
       REDIS_URI: redis://redis:6379
+      JUDGE0_URL: ${JUDGE0_URL:-http://judge0_server:2358}
+      JUDGE0_AUTH_TOKEN: ${JUDGE0_AUTH_TOKEN:-}
     volumes:
       - backend_uploads:/app/uploads
       - backend_data:/app/src/data
@@ -80,6 +82,69 @@ services:
     profiles:
       - ats
 
+  # ── Judge0 Services (Self-Hosted Code Execution Engine) ───────────────────
+  judge0_server:
+    image: judge0/judge0:v1.13.1
+    container_name: mujcode_judge0_server
+    restart: unless-stopped
+    volumes:
+      - ./judge0/judge0.conf:/judge0.conf:ro
+    ports:
+      - "2358:2358"
+    privileged: true
+    depends_on:
+      - judge0_db
+      - judge0_redis
+    networks:
+      - mujcode-net
+    profiles:
+      - judge0
+      - full
+
+  judge0_worker:
+    image: judge0/judge0:v1.13.1
+    container_name: mujcode_judge0_worker
+    restart: unless-stopped
+    command: ["./scripts/workers"]
+    volumes:
+      - ./judge0/judge0.conf:/judge0.conf:ro
+    privileged: true
+    depends_on:
+      - judge0_db
+      - judge0_redis
+    networks:
+      - mujcode-net
+    profiles:
+      - judge0
+      - full
+
+  judge0_db:
+    image: postgres:13-alpine
+    container_name: mujcode_judge0_db
+    restart: unless-stopped
+    env_file: ./judge0/judge0.conf
+    volumes:
+      - judge0_db_data:/var/lib/postgresql/data
+    networks:
+      - mujcode-net
+    profiles:
+      - judge0
+      - full
+
+  judge0_redis:
+    image: redis:7-alpine
+    container_name: mujcode_judge0_redis
+    restart: unless-stopped
+    command: ["sh", "-c", "docker-entrypoint.sh --appendonly yes --requirepass \"$$REDIS_PASSWORD\""]
+    env_file: ./judge0/judge0.conf
+    volumes:
+      - judge0_redis_data:/data
+    networks:
+      - mujcode-net
+    profiles:
+      - judge0
+      - full
+
 # ── Named Volumes ─────────────────────────────────────────────────────────
 volumes:
   backend_uploads:
@@ -90,6 +155,10 @@ volumes:
     name: mujcode_redis_data
   mongodb_data:
     name: mujcode_mongodb_data
+  judge0_db_data:
+    name: mujcode_judge0_db_data
+  judge0_redis_data:
+    name: mujcode_judge0_redis_data
 
 # ── Network ───────────────────────────────────────────────────────────────
 networks:
