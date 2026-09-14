@@ -14,7 +14,6 @@ RUN npm ci --omit=optional && npm cache clean --force
 
 # Copy source code
 COPY src/ ./src/
-COPY compiler/ ./compiler/
 
 # Create uploads directory and non-root user
 RUN mkdir -p uploads && \

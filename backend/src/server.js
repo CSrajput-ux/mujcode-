@@ -41,7 +41,7 @@ server.listen(config.port, config.host, () => {
   logger.info(`🌐 Address:          http://${config.host}:${config.port}`);
   logger.info(`👥 Max Connections:  ${server.maxConnections} simultaneous users`);
   logger.info(`💾 Storage Engine:   In-Memory DB Cache + Atomic Disk Writes`);
-  logger.info(`🐳 Compiler Engine:  ExecutionQueue (20 concurrent Docker max)`);
+  logger.info(`⚡ Execution Engine: Self-Hosted Judge0 CE`);
   logger.info(`=============================================================`);
 });
 
