@@ -1,60 +1,79 @@
-import { useEffect, useState } from 'react';
-import { Badge } from "@/app/components/ui/badge";
-import { Code2, BookOpen } from 'lucide-react';
-import facultyActivityService from '@/app/services/facultyActivityService';
+import { useState, useEffect } from 'react';
+import { Badge } from '../../../components/ui/badge';
+import { FileText, Loader2 } from 'lucide-react';
 
-const QuestionsList = () => {
-    const [questions, setQuestions] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
+interface Question {
+  _id: string;
+  title: string;
+  type: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  createdAt: string;
+}
 
-    useEffect(() => {
-        const fetchQuestions = async () => {
-            try {
-                const res = await facultyActivityService.getQuestions();
-                if (res.success) {
-                    setQuestions(res.data);
-                }
-            } catch (error) {
-                console.error("Failed to load questions", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchQuestions();
-    }, []);
-
-    if (loading) return <div>Loading questions...</div>;
-
-    if (questions.length === 0) {
-        return <div className="text-center py-8 text-muted-foreground">No questions found. Create a new question to build your bank.</div>;
-    }
-
-    return (
-        <div className="space-y-4">
-            {questions.map((q) => (
-                <div key={q._id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                    <div className="flex items-center gap-4">
-                        <div className={`p-2 rounded-full ${q.type === 'coding' ? 'bg-blue-100 text-blue-600' : 'bg-purple-100 text-purple-600'}`}>
-                            {q.type === 'coding' ? <Code2 className="w-5 h-5" /> : <BookOpen className="w-5 h-5" />}
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-gray-900">{q.title}</h3>
-                            <div className="flex items-center gap-2 mt-1">
-                                <Badge variant={q.difficulty === 'Easy' ? 'secondary' : q.difficulty === 'Medium' ? 'default' : 'destructive'} className="text-xs">
-                                    {q.difficulty}
-                                </Badge>
-                                {q.topic && <span className="text-xs text-gray-500">• {q.topic}</span>}
-                                {q.languages?.length > 0 && <span className="text-xs text-gray-500">• {q.languages.join(', ')}</span>}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="text-sm text-gray-500">
-                        {new Date(q.createdAt).toLocaleDateString()}
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
+const difficultyColors: Record<string, string> = {
+  Easy: 'bg-green-100 text-green-700',
+  Medium: 'bg-yellow-100 text-yellow-700',
+  Hard: 'bg-red-100 text-red-700'
 };
 
-export default QuestionsList;
+export default function QuestionsList() {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/communities/questions`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setQuestions(data.questions || []);
+        }
+      } catch (err) {
+        console.error('Failed to load questions', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchQuestions();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-8">
+        <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
+      </div>
+    );
+  }
+
+  if (questions.length === 0) {
+    return (
+      <div className="text-center py-12 text-gray-500">
+        <FileText className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+        <p className="font-medium">No questions yet</p>
+        <p className="text-sm">Click "Create Question" to add your first question.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {questions.map(q => (
+        <div key={q._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100">
+          <div className="flex items-start gap-3">
+            <FileText className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
+            <div>
+              <p className="font-medium text-gray-900 text-sm">{q.title}</p>
+              <p className="text-xs text-gray-500 mt-0.5">{q.type} • {new Date(q.createdAt).toLocaleDateString()}</p>
+            </div>
+          </div>
+          <Badge className={difficultyColors[q.difficulty] || 'bg-gray-100 text-gray-700'}>
+            {q.difficulty}
+          </Badge>
+        </div>
+      ))}
+    </div>
+  );
+}
