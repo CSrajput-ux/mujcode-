@@ -7,7 +7,7 @@ import { Badge } from '../../components/ui/badge';
 import { Code2, FileText, Zap, Building2, Video, Calendar, Clock, Play } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { SecureExamOverlay } from '../../components/exam';
-import { getTests, getTestById, submitTest, getStudentSubmissions, Test } from '../../services/testService';
+import { getTests, submitTest, getStudentSubmissions, Test } from '../../services/testService';
 import { toast } from 'sonner';
 import MockTestsList from './mock-tests/MockTestsList';
 import MockTestRunner from './mock-tests/MockTestRunner';
