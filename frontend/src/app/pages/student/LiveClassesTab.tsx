@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
-import { Video, Clock, Calendar, Download, Users, GraduationCap, Building2, ExternalLink } from 'lucide-react';
+import { Video, Clock, Calendar, Download, GraduationCap, Building2 } from 'lucide-react';
 import { getLiveClasses, joinLiveClass, leaveLiveClass, type LiveClass } from '../../services/liveClassService';
 import { toast } from 'sonner';
 

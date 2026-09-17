@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SecureExamOverlay } from '../../components/exam';
 import { Card } from '../../components/ui/card';
@@ -37,8 +37,7 @@ export default function MCQTestRunner() {
     const [timeRemaining, setTimeRemaining] = useState(0);
     const [submitted, setSubmitted] = useState(false);
     const [score, setScore] = useState(0);
-    const violationCountRef = useRef(0);
-    const MAX_VIOLATIONS = 3;
+
 
     useEffect(() => {
         fetchTestAndQuestions();
@@ -98,14 +97,7 @@ export default function MCQTestRunner() {
         }
     };
 
-    const handleSecurityViolation = (reason: string) => {
-        violationCountRef.current += 1;
 
-        if (violationCountRef.current >= MAX_VIOLATIONS) {
-            toast.error('Maximum security violations reached. Auto-submitting test.', { duration: 5000 });
-            handleSubmit(true); // Force submit
-        }
-    };
 
     const handleSubmit = async (force: boolean = false) => {
         if (!force && !confirm('Are you sure you want to submit? You cannot change answers after submission.')) {
@@ -179,7 +171,7 @@ export default function MCQTestRunner() {
         <SecureExamOverlay
             isExamActive={!submitted && !loading}
             examTitle={test?.title || 'Proctored MCQ Test'}
-            maxFullscreenExits={MAX_VIOLATIONS}
+            maxFullscreenExits={3}
             onAutoSubmit={() => {
                 toast.error('Exam Auto-Submitted due to multiple violations');
                 handleSubmit();

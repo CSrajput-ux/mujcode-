@@ -5,7 +5,7 @@ import StudentPerformanceTable from '../../components/faculty/StudentPerformance
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Button } from '../../components/ui/button';
 import { ArrowLeft, Download } from 'lucide-react';
-import { getFacultyTests, getTestSubmissions, TestStats, StudentSubmission } from '../../services/facultyTestService';
+import { getFacultyTests, getTestSubmissions, toggleTestPublishStatus, deleteTestById, TestStats, StudentSubmission } from '../../services/facultyTestService';
 import { toast } from 'sonner';
 
 import CreateTestModal from '../../components/faculty/CreateTestModal';
@@ -61,7 +61,6 @@ export default function FacultyTests() {
 
     const handleTogglePublish = async (testId: string, currentStatus: boolean) => {
         try {
-            const { toggleTestPublishStatus } = await import('../../services/facultyTestService');
             await toggleTestPublishStatus(testId);
             toast.success(`Test ${currentStatus ? 'unpublished' : 'published'} successfully!`);
             // Refresh the test list
@@ -77,7 +76,6 @@ export default function FacultyTests() {
         if (!confirmDelete) return;
 
         try {
-            const { deleteTestById } = await import('../../services/facultyTestService');
             await deleteTestById(testId);
             toast.success('Test deleted successfully');
             fetchTests();
