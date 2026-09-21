@@ -1,0 +1,7107 @@
+[
+  {
+    "num": 3001,
+    "title": "The Classic Greeting",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3001,
+    "title": "The Classic Greeting",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3001,
+    "title": "The Classic Greeting",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3001,
+    "title": "The Classic Greeting",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3002,
+    "title": "Echo the Integer",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3002,
+    "title": "Echo the Integer",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3002,
+    "title": "Echo the Integer",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3002,
+    "title": "Echo the Integer",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3003,
+    "title": "Floating Point Precision",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3003,
+    "title": "Floating Point Precision",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3003,
+    "title": "Floating Point Precision",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3003,
+    "title": "Floating Point Precision",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3004,
+    "title": "ASCII Value Finder",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3004,
+    "title": "ASCII Value Finder",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3004,
+    "title": "ASCII Value Finder",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3004,
+    "title": "ASCII Value Finder",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3005,
+    "title": "The Size Explorer",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3005,
+    "title": "The Size Explorer",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3005,
+    "title": "The Size Explorer",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3005,
+    "title": "The Size Explorer",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3005,
+    "title": "The Size Explorer",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3006,
+    "title": "Area of a Square",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3006,
+    "title": "Area of a Square",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3006,
+    "title": "Area of a Square",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3006,
+    "title": "Area of a Square",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3007,
+    "title": "Swap Without Headache",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3007,
+    "title": "Swap Without Headache",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3007,
+    "title": "Swap Without Headache",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3007,
+    "title": "Swap Without Headache",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3008,
+    "title": "Celsius to Fahrenheit",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3008,
+    "title": "Celsius to Fahrenheit",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3008,
+    "title": "Celsius to Fahrenheit",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3008,
+    "title": "Celsius to Fahrenheit",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3009,
+    "title": "Character Case Toggle",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3009,
+    "title": "Character Case Toggle",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3009,
+    "title": "Character Case Toggle",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3009,
+    "title": "Character Case Toggle",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3010,
+    "title": "Simple Interest Calculator",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3010,
+    "title": "Simple Interest Calculator",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3010,
+    "title": "Simple Interest Calculator",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3010,
+    "title": "Simple Interest Calculator",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3011,
+    "title": "Average of Three Numbers",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3011,
+    "title": "Average of Three Numbers",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3011,
+    "title": "Average of Three Numbers",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3011,
+    "title": "Average of Three Numbers",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3012,
+    "title": "Net Salary Calculator",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3012,
+    "title": "Net Salary Calculator",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3012,
+    "title": "Net Salary Calculator",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3012,
+    "title": "Net Salary Calculator",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3013,
+    "title": "Constant Circle",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3013,
+    "title": "Constant Circle",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3013,
+    "title": "Constant Circle",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3013,
+    "title": "Constant Circle",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3014,
+    "title": "Multiple Input Read",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3014,
+    "title": "Multiple Input Read",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3014,
+    "title": "Multiple Input Read",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3014,
+    "title": "Multiple Input Read",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3015,
+    "title": "Days to Years, Weeks, Days",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3015,
+    "title": "Days to Years, Weeks, Days",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3015,
+    "title": "Days to Years, Weeks, Days",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3015,
+    "title": "Days to Years, Weeks, Days",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3016,
+    "title": "The Remainder Finder",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3016,
+    "title": "The Remainder Finder",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3016,
+    "title": "The Remainder Finder",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3016,
+    "title": "The Remainder Finder",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3017,
+    "title": "Increment and Decrement",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3017,
+    "title": "Increment and Decrement",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3017,
+    "title": "Increment and Decrement",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3017,
+    "title": "Increment and Decrement",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3018,
+    "title": "Relational Check",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3018,
+    "title": "Relational Check",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3018,
+    "title": "Relational Check",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3018,
+    "title": "Relational Check",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3019,
+    "title": "Logical AND Gate",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3019,
+    "title": "Logical AND Gate",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3019,
+    "title": "Logical AND Gate",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3019,
+    "title": "Logical AND Gate",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3020,
+    "title": "Assignment with Flavour",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3020,
+    "title": "Assignment with Flavour",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3020,
+    "title": "Assignment with Flavour",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3020,
+    "title": "Assignment with Flavour",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3021,
+    "title": "Ternary Minimum",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3021,
+    "title": "Ternary Minimum",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3021,
+    "title": "Ternary Minimum",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3021,
+    "title": "Ternary Minimum",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3022,
+    "title": "Bitwise AND Explorer",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3022,
+    "title": "Bitwise AND Explorer",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3022,
+    "title": "Bitwise AND Explorer",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3022,
+    "title": "Bitwise AND Explorer",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3023,
+    "title": "Left Shift Power",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3023,
+    "title": "Left Shift Power",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3023,
+    "title": "Left Shift Power",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3023,
+    "title": "Left Shift Power",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3024,
+    "title": "Even or Odd without IF",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3024,
+    "title": "Even or Odd without IF",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3024,
+    "title": "Even or Odd without IF",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3024,
+    "title": "Even or Odd without IF",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3025,
+    "title": "Size of Expressions",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3025,
+    "title": "Size of Expressions",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3025,
+    "title": "Size of Expressions",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3025,
+    "title": "Size of Expressions",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3025,
+    "title": "Size of Expressions",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3026,
+    "title": "Commas in C",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3026,
+    "title": "Commas in C",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3026,
+    "title": "Commas in C",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3026,
+    "title": "Commas in C",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3027,
+    "title": "Bitwise XOR Swap",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3027,
+    "title": "Bitwise XOR Swap",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3027,
+    "title": "Bitwise XOR Swap",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3027,
+    "title": "Bitwise XOR Swap",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3028,
+    "title": "Not Logically Zero",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3028,
+    "title": "Not Logically Zero",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3028,
+    "title": "Not Logically Zero",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3028,
+    "title": "Not Logically Zero",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3029,
+    "title": "Power of Two Check",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3029,
+    "title": "Power of Two Check",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3029,
+    "title": "Power of Two Check",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3029,
+    "title": "Power of Two Check",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3030,
+    "title": "Expression Priority",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3030,
+    "title": "Expression Priority",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3030,
+    "title": "Expression Priority",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3030,
+    "title": "Expression Priority",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3031,
+    "title": "Pass or Fail",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3031,
+    "title": "Pass or Fail",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3031,
+    "title": "Pass or Fail",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3031,
+    "title": "Pass or Fail",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3032,
+    "title": "Maximum of Three",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3032,
+    "title": "Maximum of Three",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3032,
+    "title": "Maximum of Three",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3032,
+    "title": "Maximum of Three",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3033,
+    "title": "Leap Year Checker",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3033,
+    "title": "Leap Year Checker",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3033,
+    "title": "Leap Year Checker",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3033,
+    "title": "Leap Year Checker",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3034,
+    "title": "Vowel or Consonant",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3034,
+    "title": "Vowel or Consonant",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3034,
+    "title": "Vowel or Consonant",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3034,
+    "title": "Vowel or Consonant",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3035,
+    "title": "Grade Calculator",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3035,
+    "title": "Grade Calculator",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3035,
+    "title": "Grade Calculator",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3035,
+    "title": "Grade Calculator",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3036,
+    "title": "Day of the Week",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3036,
+    "title": "Day of the Week",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3036,
+    "title": "Day of the Week",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3036,
+    "title": "Day of the Week",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3037,
+    "title": "Quadrant Finder",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3037,
+    "title": "Quadrant Finder",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3037,
+    "title": "Quadrant Finder",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3037,
+    "title": "Quadrant Finder",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3038,
+    "title": "Number Sign and Parity",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3038,
+    "title": "Number Sign and Parity",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3038,
+    "title": "Number Sign and Parity",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3038,
+    "title": "Number Sign and Parity",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3039,
+    "title": "Eligibility to Vote",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3039,
+    "title": "Eligibility to Vote",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3039,
+    "title": "Eligibility to Vote",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3039,
+    "title": "Eligibility to Vote",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3040,
+    "title": "Calculator Switch",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3040,
+    "title": "Calculator Switch",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3040,
+    "title": "Calculator Switch",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3040,
+    "title": "Calculator Switch",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3041,
+    "title": "Triangle Validator",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3041,
+    "title": "Triangle Validator",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3041,
+    "title": "Triangle Validator",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3041,
+    "title": "Triangle Validator",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3042,
+    "title": "Character Finder",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3042,
+    "title": "Character Finder",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3042,
+    "title": "Character Finder",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3042,
+    "title": "Character Finder",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3043,
+    "title": "Electricity Bill Calculator",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3043,
+    "title": "Electricity Bill Calculator",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3043,
+    "title": "Electricity Bill Calculator",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3043,
+    "title": "Electricity Bill Calculator",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3044,
+    "title": "Roots of a Quadratic Equation",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3044,
+    "title": "Roots of a Quadratic Equation",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3044,
+    "title": "Roots of a Quadratic Equation",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3044,
+    "title": "Roots of a Quadratic Equation",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3045,
+    "title": "ATM Withdrawal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3045,
+    "title": "ATM Withdrawal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3045,
+    "title": "ATM Withdrawal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3045,
+    "title": "ATM Withdrawal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3046,
+    "title": "Print N Numbers",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3046,
+    "title": "Print N Numbers",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3046,
+    "title": "Print N Numbers",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3046,
+    "title": "Print N Numbers",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3047,
+    "title": "Sum of First N Natural Numbers",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3047,
+    "title": "Sum of First N Natural Numbers",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3047,
+    "title": "Sum of First N Natural Numbers",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3047,
+    "title": "Sum of First N Natural Numbers",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3048,
+    "title": "Factorial Finder",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3048,
+    "title": "Factorial Finder",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3048,
+    "title": "Factorial Finder",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3048,
+    "title": "Factorial Finder",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3049,
+    "title": "Table of a Number",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3049,
+    "title": "Table of a Number",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3049,
+    "title": "Table of a Number",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3049,
+    "title": "Table of a Number",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3050,
+    "title": "Count Digits",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3050,
+    "title": "Count Digits",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3050,
+    "title": "Count Digits",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3050,
+    "title": "Count Digits",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3051,
+    "title": "Reverse a Number",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3051,
+    "title": "Reverse a Number",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3051,
+    "title": "Reverse a Number",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3051,
+    "title": "Reverse a Number",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3052,
+    "title": "Even Numbers in Range",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3052,
+    "title": "Even Numbers in Range",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3052,
+    "title": "Even Numbers in Range",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3052,
+    "title": "Even Numbers in Range",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3053,
+    "title": "Palindrome Number",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3053,
+    "title": "Palindrome Number",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3053,
+    "title": "Palindrome Number",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3053,
+    "title": "Palindrome Number",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3054,
+    "title": "Power of a Number",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3054,
+    "title": "Power of a Number",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3054,
+    "title": "Power of a Number",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3054,
+    "title": "Power of a Number",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3055,
+    "title": "Fibonacci Sequence",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3055,
+    "title": "Fibonacci Sequence",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3055,
+    "title": "Fibonacci Sequence",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3055,
+    "title": "Fibonacci Sequence",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3056,
+    "title": "Average Until Zero",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3056,
+    "title": "Average Until Zero",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3056,
+    "title": "Average Until Zero",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3056,
+    "title": "Average Until Zero",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3057,
+    "title": "GCD (Greatest Common Divisor)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3057,
+    "title": "GCD (Greatest Common Divisor)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3057,
+    "title": "GCD (Greatest Common Divisor)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3057,
+    "title": "GCD (Greatest Common Divisor)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3058,
+    "title": "Alphabet Ladder",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3058,
+    "title": "Alphabet Ladder",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3058,
+    "title": "Alphabet Ladder",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3058,
+    "title": "Alphabet Ladder",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3058,
+    "title": "Alphabet Ladder",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3059,
+    "title": "Sum of Digits",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3059,
+    "title": "Sum of Digits",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3059,
+    "title": "Sum of Digits",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3059,
+    "title": "Sum of Digits",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3060,
+    "title": "Multiples of 5 or 7",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3060,
+    "title": "Multiples of 5 or 7",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3060,
+    "title": "Multiples of 5 or 7",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3060,
+    "title": "Multiples of 5 or 7",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3061,
+    "title": "Right-Angled Triangle Pattern",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3061,
+    "title": "Right-Angled Triangle Pattern",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3061,
+    "title": "Right-Angled Triangle Pattern",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3061,
+    "title": "Right-Angled Triangle Pattern",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3062,
+    "title": "Number Pyramid",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3062,
+    "title": "Number Pyramid",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3062,
+    "title": "Number Pyramid",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3062,
+    "title": "Number Pyramid",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3063,
+    "title": "Prime Number Checker",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3063,
+    "title": "Prime Number Checker",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3063,
+    "title": "Prime Number Checker",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3063,
+    "title": "Prime Number Checker",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3064,
+    "title": "Armstrong Number",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3064,
+    "title": "Armstrong Number",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3064,
+    "title": "Armstrong Number",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3064,
+    "title": "Armstrong Number",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3065,
+    "title": "Perfect Number Checker",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3065,
+    "title": "Perfect Number Checker",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3065,
+    "title": "Perfect Number Checker",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3065,
+    "title": "Perfect Number Checker",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3066,
+    "title": "Floyd's Triangle",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3066,
+    "title": "Floyd's Triangle",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3066,
+    "title": "Floyd's Triangle",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3066,
+    "title": "Floyd's Triangle",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3067,
+    "title": "Inverted Pyramid",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3067,
+    "title": "Inverted Pyramid",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3067,
+    "title": "Inverted Pyramid",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3067,
+    "title": "Inverted Pyramid",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3068,
+    "title": "Multiples in Range",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3068,
+    "title": "Multiples in Range",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3068,
+    "title": "Multiples in Range",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3068,
+    "title": "Multiples in Range",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3069,
+    "title": "Pascal's Triangle (Simplified)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3069,
+    "title": "Pascal's Triangle (Simplified)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3069,
+    "title": "Pascal's Triangle (Simplified)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3069,
+    "title": "Pascal's Triangle (Simplified)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3070,
+    "title": "Strong Number Checker",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3070,
+    "title": "Strong Number Checker",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3070,
+    "title": "Strong Number Checker",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3070,
+    "title": "Strong Number Checker",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3071,
+    "title": "Odd-Even Pyramid",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3071,
+    "title": "Odd-Even Pyramid",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3071,
+    "title": "Odd-Even Pyramid",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3071,
+    "title": "Odd-Even Pyramid",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3072,
+    "title": "Binary to Decimal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3072,
+    "title": "Binary to Decimal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3072,
+    "title": "Binary to Decimal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3072,
+    "title": "Binary to Decimal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3073,
+    "title": "Decimal to Binary",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3073,
+    "title": "Decimal to Binary",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3073,
+    "title": "Decimal to Binary",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3073,
+    "title": "Decimal to Binary",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3074,
+    "title": "Hollow Square Pattern",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3074,
+    "title": "Hollow Square Pattern",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3074,
+    "title": "Hollow Square Pattern",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3074,
+    "title": "Hollow Square Pattern",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3075,
+    "title": "Diamond Pattern",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3075,
+    "title": "Diamond Pattern",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3075,
+    "title": "Diamond Pattern",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3075,
+    "title": "Diamond Pattern",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3076,
+    "title": "Area of Circle Function",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3076,
+    "title": "Area of Circle Function",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3076,
+    "title": "Area of Circle Function",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3076,
+    "title": "Area of Circle Function",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3077,
+    "title": "Odd or Even Function",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3077,
+    "title": "Odd or Even Function",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3077,
+    "title": "Odd or Even Function",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3077,
+    "title": "Odd or Even Function",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3078,
+    "title": "Swap by Value",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3078,
+    "title": "Swap by Value",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3078,
+    "title": "Swap by Value",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3078,
+    "title": "Swap by Value",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3079,
+    "title": "Power Function (Recursion)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3079,
+    "title": "Power Function (Recursion)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3079,
+    "title": "Power Function (Recursion)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3079,
+    "title": "Power Function (Recursion)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3080,
+    "title": "Factorial (Recursion)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3080,
+    "title": "Factorial (Recursion)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3080,
+    "title": "Factorial (Recursion)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3080,
+    "title": "Factorial (Recursion)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3081,
+    "title": "Fibonacci Term (Recursion)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3081,
+    "title": "Fibonacci Term (Recursion)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3081,
+    "title": "Fibonacci Term (Recursion)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3081,
+    "title": "Fibonacci Term (Recursion)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3082,
+    "title": "Prime Checker Function",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3082,
+    "title": "Prime Checker Function",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3082,
+    "title": "Prime Checker Function",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3082,
+    "title": "Prime Checker Function",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3083,
+    "title": "Sum of Digits (Recursion)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3083,
+    "title": "Sum of Digits (Recursion)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3083,
+    "title": "Sum of Digits (Recursion)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3083,
+    "title": "Sum of Digits (Recursion)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3084,
+    "title": "Celsius Converter Function",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3084,
+    "title": "Celsius Converter Function",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3084,
+    "title": "Celsius Converter Function",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3084,
+    "title": "Celsius Converter Function",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3085,
+    "title": "Multi-file Prototype",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3085,
+    "title": "Multi-file Prototype",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3085,
+    "title": "Multi-file Prototype",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3085,
+    "title": "Multi-file Prototype",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3086,
+    "title": "GCD using Recursion",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3086,
+    "title": "GCD using Recursion",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3086,
+    "title": "GCD using Recursion",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3086,
+    "title": "GCD using Recursion",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3087,
+    "title": "Reverse String (Recursion)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3087,
+    "title": "Reverse String (Recursion)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3087,
+    "title": "Reverse String (Recursion)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3087,
+    "title": "Reverse String (Recursion)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3088,
+    "title": "Static Variable Demo",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3088,
+    "title": "Static Variable Demo",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3088,
+    "title": "Static Variable Demo",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3088,
+    "title": "Static Variable Demo",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3088,
+    "title": "Static Variable Demo",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3089,
+    "title": "Binary Search (Recursive)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3089,
+    "title": "Binary Search (Recursive)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3089,
+    "title": "Binary Search (Recursive)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3089,
+    "title": "Binary Search (Recursive)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3090,
+    "title": "Decimal to Hexadecimal (Recursion)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3090,
+    "title": "Decimal to Hexadecimal (Recursion)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3090,
+    "title": "Decimal to Hexadecimal (Recursion)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3090,
+    "title": "Decimal to Hexadecimal (Recursion)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3091,
+    "title": "Array Traversal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3091,
+    "title": "Array Traversal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3091,
+    "title": "Array Traversal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3091,
+    "title": "Array Traversal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3092,
+    "title": "Sum and Average of Array",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3092,
+    "title": "Sum and Average of Array",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3092,
+    "title": "Sum and Average of Array",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3092,
+    "title": "Sum and Average of Array",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3093,
+    "title": "Maximum and Minimum in Array",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3093,
+    "title": "Maximum and Minimum in Array",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3093,
+    "title": "Maximum and Minimum in Array",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3093,
+    "title": "Maximum and Minimum in Array",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3094,
+    "title": "Reverse an Array",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3094,
+    "title": "Reverse an Array",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3094,
+    "title": "Reverse an Array",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3094,
+    "title": "Reverse an Array",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3095,
+    "title": "Search an Element",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3095,
+    "title": "Search an Element",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3095,
+    "title": "Search an Element",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3095,
+    "title": "Search an Element",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3096,
+    "title": "Second Largest Element",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3096,
+    "title": "Second Largest Element",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3096,
+    "title": "Second Largest Element",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3096,
+    "title": "Second Largest Element",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3097,
+    "title": "Count Even and Odd elements",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3097,
+    "title": "Count Even and Odd elements",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3097,
+    "title": "Count Even and Odd elements",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3097,
+    "title": "Count Even and Odd elements",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3098,
+    "title": "Copy Array",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3098,
+    "title": "Copy Array",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3098,
+    "title": "Copy Array",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3098,
+    "title": "Copy Array",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3099,
+    "title": "Delete an Element",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3099,
+    "title": "Delete an Element",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3099,
+    "title": "Delete an Element",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3099,
+    "title": "Delete an Element",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3100,
+    "title": "Merge Two Arrays",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3100,
+    "title": "Merge Two Arrays",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3100,
+    "title": "Merge Two Arrays",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3100,
+    "title": "Merge Two Arrays",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3101,
+    "title": "Unique Elements",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3101,
+    "title": "Unique Elements",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3101,
+    "title": "Unique Elements",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3101,
+    "title": "Unique Elements",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3102,
+    "title": "Array Frequency",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3102,
+    "title": "Array Frequency",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3102,
+    "title": "Array Frequency",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3102,
+    "title": "Array Frequency",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3103,
+    "title": "Left Rotate Array",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3103,
+    "title": "Left Rotate Array",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3103,
+    "title": "Left Rotate Array",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3103,
+    "title": "Left Rotate Array",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3104,
+    "title": "Split Even and Odd",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3104,
+    "title": "Split Even and Odd",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3104,
+    "title": "Split Even and Odd",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3104,
+    "title": "Split Even and Odd",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3105,
+    "title": "Array Symmetry",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3105,
+    "title": "Array Symmetry",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3105,
+    "title": "Array Symmetry",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3105,
+    "title": "Array Symmetry",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3106,
+    "title": "Matrix Traversal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3106,
+    "title": "Matrix Traversal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3106,
+    "title": "Matrix Traversal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3106,
+    "title": "Matrix Traversal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3107,
+    "title": "Sum of Matrix Elements",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3107,
+    "title": "Sum of Matrix Elements",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3107,
+    "title": "Sum of Matrix Elements",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3107,
+    "title": "Sum of Matrix Elements",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3108,
+    "title": "Matrix Addition",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3108,
+    "title": "Matrix Addition",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3108,
+    "title": "Matrix Addition",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3108,
+    "title": "Matrix Addition",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3109,
+    "title": "Row-wise Sum",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3109,
+    "title": "Row-wise Sum",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3109,
+    "title": "Row-wise Sum",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3109,
+    "title": "Row-wise Sum",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3110,
+    "title": "Transpose of a Matrix",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3110,
+    "title": "Transpose of a Matrix",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3110,
+    "title": "Transpose of a Matrix",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3110,
+    "title": "Transpose of a Matrix",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3111,
+    "title": "Diagonal Sum",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3111,
+    "title": "Diagonal Sum",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3111,
+    "title": "Diagonal Sum",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3111,
+    "title": "Diagonal Sum",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3112,
+    "title": "Bubble Sort",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3112,
+    "title": "Bubble Sort",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3112,
+    "title": "Bubble Sort",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3112,
+    "title": "Bubble Sort",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3113,
+    "title": "Selection Sort",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3113,
+    "title": "Selection Sort",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3113,
+    "title": "Selection Sort",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3113,
+    "title": "Selection Sort",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3114,
+    "title": "Linear Search in Matrix",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3114,
+    "title": "Linear Search in Matrix",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3114,
+    "title": "Linear Search in Matrix",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3114,
+    "title": "Linear Search in Matrix",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3115,
+    "title": "Binary Search (Iterative)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3115,
+    "title": "Binary Search (Iterative)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3115,
+    "title": "Binary Search (Iterative)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3115,
+    "title": "Binary Search (Iterative)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3116,
+    "title": "Identity Matrix Checker",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3116,
+    "title": "Identity Matrix Checker",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3116,
+    "title": "Identity Matrix Checker",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3116,
+    "title": "Identity Matrix Checker",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3117,
+    "title": "Matrix Multiplication",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3117,
+    "title": "Matrix Multiplication",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3117,
+    "title": "Matrix Multiplication",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3117,
+    "title": "Matrix Multiplication",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3118,
+    "title": "Sparse Matrix Checker",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3118,
+    "title": "Sparse Matrix Checker",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3118,
+    "title": "Sparse Matrix Checker",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3118,
+    "title": "Sparse Matrix Checker",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3119,
+    "title": "Insertion Sort",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3119,
+    "title": "Insertion Sort",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3119,
+    "title": "Insertion Sort",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3119,
+    "title": "Insertion Sort",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3120,
+    "title": "Spiral Matrix Print",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3120,
+    "title": "Spiral Matrix Print",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3120,
+    "title": "Spiral Matrix Print",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3120,
+    "title": "Spiral Matrix Print",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3121,
+    "title": "String Length",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3121,
+    "title": "String Length",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3121,
+    "title": "String Length",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3121,
+    "title": "String Length",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3122,
+    "title": "String Copy",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3122,
+    "title": "String Copy",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3122,
+    "title": "String Copy",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3122,
+    "title": "String Copy",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3123,
+    "title": "String Concatenation",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3123,
+    "title": "String Concatenation",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3123,
+    "title": "String Concatenation",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3123,
+    "title": "String Concatenation",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3124,
+    "title": "String Comparison",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3124,
+    "title": "String Comparison",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3124,
+    "title": "String Comparison",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3124,
+    "title": "String Comparison",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3125,
+    "title": "Reverse a String",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3125,
+    "title": "Reverse a String",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3125,
+    "title": "Reverse a String",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3125,
+    "title": "Reverse a String",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3126,
+    "title": "String Palindrome",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3126,
+    "title": "String Palindrome",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3126,
+    "title": "String Palindrome",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3126,
+    "title": "String Palindrome",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3127,
+    "title": "Count Vowels and Consonants",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3127,
+    "title": "Count Vowels and Consonants",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3127,
+    "title": "Count Vowels and Consonants",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3127,
+    "title": "Count Vowels and Consonants",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3128,
+    "title": "Uppercase to Lowercase",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3128,
+    "title": "Uppercase to Lowercase",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3128,
+    "title": "Uppercase to Lowercase",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3128,
+    "title": "Uppercase to Lowercase",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3129,
+    "title": "Toggle Case",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3129,
+    "title": "Toggle Case",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3129,
+    "title": "Toggle Case",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3129,
+    "title": "Toggle Case",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3130,
+    "title": "Word Count",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3130,
+    "title": "Word Count",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3130,
+    "title": "Word Count",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3130,
+    "title": "Word Count",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3131,
+    "title": "Remove Special Characters",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3131,
+    "title": "Remove Special Characters",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3131,
+    "title": "Remove Special Characters",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3131,
+    "title": "Remove Special Characters",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3132,
+    "title": "Substring Finding",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3132,
+    "title": "Substring Finding",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3132,
+    "title": "Substring Finding",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3132,
+    "title": "Substring Finding",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3133,
+    "title": "Sort String Characters",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3133,
+    "title": "Sort String Characters",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3133,
+    "title": "Sort String Characters",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3133,
+    "title": "Sort String Characters",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3134,
+    "title": "Remove Duplicates",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3134,
+    "title": "Remove Duplicates",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3134,
+    "title": "Remove Duplicates",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3134,
+    "title": "Remove Duplicates",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3135,
+    "title": "Anagram Checker",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3135,
+    "title": "Anagram Checker",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3135,
+    "title": "Anagram Checker",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3135,
+    "title": "Anagram Checker",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3136,
+    "title": "Pointer Basics",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3136,
+    "title": "Pointer Basics",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3136,
+    "title": "Pointer Basics",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3136,
+    "title": "Pointer Basics",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3137,
+    "title": "Swap using Pointers",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3137,
+    "title": "Swap using Pointers",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3137,
+    "title": "Swap using Pointers",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3137,
+    "title": "Swap using Pointers",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3138,
+    "title": "Pointer Arithmetic",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3138,
+    "title": "Pointer Arithmetic",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3138,
+    "title": "Pointer Arithmetic",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3138,
+    "title": "Pointer Arithmetic",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3139,
+    "title": "Define a Structure",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3139,
+    "title": "Define a Structure",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3139,
+    "title": "Define a Structure",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3139,
+    "title": "Define a Structure",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3140,
+    "title": "Array of Structures",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3140,
+    "title": "Array of Structures",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3140,
+    "title": "Array of Structures",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3140,
+    "title": "Array of Structures",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3141,
+    "title": "Nested Structures",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3141,
+    "title": "Nested Structures",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3141,
+    "title": "Nested Structures",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3141,
+    "title": "Nested Structures",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3142,
+    "title": "Distance Structure",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3142,
+    "title": "Distance Structure",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3142,
+    "title": "Distance Structure",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3142,
+    "title": "Distance Structure",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3143,
+    "title": "Array vs Pointer in String",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3143,
+    "title": "Array vs Pointer in String",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3143,
+    "title": "Array vs Pointer in String",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3143,
+    "title": "Array vs Pointer in String",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3143,
+    "title": "Array vs Pointer in String",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3144,
+    "title": "Pointer To Structure",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3144,
+    "title": "Pointer To Structure",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3144,
+    "title": "Pointer To Structure",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3144,
+    "title": "Pointer To Structure",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3145,
+    "title": "File Write",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3145,
+    "title": "File Write",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3145,
+    "title": "File Write",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3145,
+    "title": "File Write",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3145,
+    "title": "File Write",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3146,
+    "title": "File Read",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3146,
+    "title": "File Read",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3146,
+    "title": "File Read",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3146,
+    "title": "File Read",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3146,
+    "title": "File Read",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3147,
+    "title": "Copy File Content",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3147,
+    "title": "Copy File Content",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3147,
+    "title": "Copy File Content",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3147,
+    "title": "Copy File Content",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3147,
+    "title": "Copy File Content",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3148,
+    "title": "Count Lines in File",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3148,
+    "title": "Count Lines in File",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3148,
+    "title": "Count Lines in File",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3148,
+    "title": "Count Lines in File",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3148,
+    "title": "Count Lines in File",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3149,
+    "title": "Union Exploration",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3149,
+    "title": "Union Exploration",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3149,
+    "title": "Union Exploration",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3149,
+    "title": "Union Exploration",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3149,
+    "title": "Union Exploration",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3150,
+    "title": "Search Records in File",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 3150,
+    "title": "Search Records in File",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 3150,
+    "title": "Search Records in File",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 3150,
+    "title": "Search Records in File",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 3150,
+    "title": "Search Records in File",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 3001,
+    "title": "The Classic Greeting",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2001,
+    "title": "The Extreme Temperatures",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2001,
+    "title": "The Extreme Temperatures",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2001,
+    "title": "The Extreme Temperatures",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2001,
+    "title": "The Extreme Temperatures",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2002,
+    "title": "The Reversed Data Stream",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2002,
+    "title": "The Reversed Data Stream",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2002,
+    "title": "The Reversed Data Stream",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2002,
+    "title": "The Reversed Data Stream",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2003,
+    "title": "The Most Profitable Timeframe",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2003,
+    "title": "The Most Profitable Timeframe",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2003,
+    "title": "The Most Profitable Timeframe",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2003,
+    "title": "The Most Profitable Timeframe",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2004,
+    "title": "The Duplicate ID Detection",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2004,
+    "title": "The Duplicate ID Detection",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2004,
+    "title": "The Duplicate ID Detection",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2004,
+    "title": "The Duplicate ID Detection",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2005,
+    "title": "The Gift Hamper Fairness",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2005,
+    "title": "The Gift Hamper Fairness",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2005,
+    "title": "The Gift Hamper Fairness",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2005,
+    "title": "The Gift Hamper Fairness",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2006,
+    "title": "The Circular Library Search",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2006,
+    "title": "The Circular Library Search",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2006,
+    "title": "The Circular Library Search",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2006,
+    "title": "The Circular Library Search",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2007,
+    "title": "The Lexicographical Signal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2007,
+    "title": "The Lexicographical Signal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2007,
+    "title": "The Lexicographical Signal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2007,
+    "title": "The Lexicographical Signal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2008,
+    "title": "Maximum Profit from Bitcoin Trading",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2008,
+    "title": "Maximum Profit from Bitcoin Trading",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2008,
+    "title": "Maximum Profit from Bitcoin Trading",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2008,
+    "title": "Maximum Profit from Bitcoin Trading",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2009,
+    "title": "The Corrupted Inventory List",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2009,
+    "title": "The Corrupted Inventory List",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2009,
+    "title": "The Corrupted Inventory List",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2009,
+    "title": "The Corrupted Inventory List",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2010,
+    "title": "The K-th Highest Ranked Gamer",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2010,
+    "title": "The K-th Highest Ranked Gamer",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2010,
+    "title": "The K-th Highest Ranked Gamer",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2010,
+    "title": "The K-th Highest Ranked Gamer",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2011,
+    "title": "The Water Containment Challenge",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2011,
+    "title": "The Water Containment Challenge",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2011,
+    "title": "The Water Containment Challenge",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2011,
+    "title": "The Water Containment Challenge",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2012,
+    "title": "Special Product Array",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2012,
+    "title": "Special Product Array",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2012,
+    "title": "Special Product Array",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2012,
+    "title": "Special Product Array",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2013,
+    "title": "The Maximum Product Segment",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2013,
+    "title": "The Maximum Product Segment",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2013,
+    "title": "The Maximum Product Segment",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2013,
+    "title": "The Maximum Product Segment",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2014,
+    "title": "Rotated Array Minima",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2014,
+    "title": "Rotated Array Minima",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2014,
+    "title": "Rotated Array Minima",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2014,
+    "title": "Rotated Array Minima",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2015,
+    "title": "The Sum Pair in Rotated Array",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2015,
+    "title": "The Sum Pair in Rotated Array",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2015,
+    "title": "The Sum Pair in Rotated Array",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2015,
+    "title": "The Sum Pair in Rotated Array",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2016,
+    "title": "The Trio Sum Zero",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2016,
+    "title": "The Trio Sum Zero",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2016,
+    "title": "The Trio Sum Zero",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2016,
+    "title": "The Trio Sum Zero",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2017,
+    "title": "The Hydraulic Storage",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2017,
+    "title": "The Hydraulic Storage",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2017,
+    "title": "The Hydraulic Storage",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2017,
+    "title": "The Hydraulic Storage",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2018,
+    "title": "The Complementary Couple",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2018,
+    "title": "The Complementary Couple",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2018,
+    "title": "The Complementary Couple",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2018,
+    "title": "The Complementary Couple",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2019,
+    "title": "The K-th Lowest Rank",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2019,
+    "title": "The K-th Lowest Rank",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2019,
+    "title": "The K-th Lowest Rank",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2019,
+    "title": "The K-th Lowest Rank",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2020,
+    "title": "The Time Interval Merger",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2020,
+    "title": "The Time Interval Merger",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2020,
+    "title": "The Time Interval Merger",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2020,
+    "title": "The Time Interval Merger",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2021,
+    "title": "The Palindrome Transformation",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2021,
+    "title": "The Palindrome Transformation",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2021,
+    "title": "The Palindrome Transformation",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2021,
+    "title": "The Palindrome Transformation",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2022,
+    "title": "The Largest Value Formation",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2022,
+    "title": "The Largest Value Formation",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2022,
+    "title": "The Largest Value Formation",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2022,
+    "title": "The Largest Value Formation",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2023,
+    "title": "The Compact Absentee Tracker",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2023,
+    "title": "The Compact Absentee Tracker",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2023,
+    "title": "The Compact Absentee Tracker",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2023,
+    "title": "The Compact Absentee Tracker",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2024,
+    "title": "The Divisible Data Segments",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2024,
+    "title": "The Divisible Data Segments",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2024,
+    "title": "The Divisible Data Segments",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2024,
+    "title": "The Divisible Data Segments",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2025,
+    "title": "The Delegation Combinations",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2025,
+    "title": "The Delegation Combinations",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2025,
+    "title": "The Delegation Combinations",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2025,
+    "title": "The Delegation Combinations",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2026,
+    "title": "The Range Query Optimization",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2026,
+    "title": "The Range Query Optimization",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2026,
+    "title": "The Range Query Optimization",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2026,
+    "title": "The Range Query Optimization",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2027,
+    "title": "The Palindrome Verification",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2027,
+    "title": "The Palindrome Verification",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2027,
+    "title": "The Palindrome Verification",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2027,
+    "title": "The Palindrome Verification",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2028,
+    "title": "The Anagram Audit",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2028,
+    "title": "The Anagram Audit",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2028,
+    "title": "The Anagram Audit",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2028,
+    "title": "The Anagram Audit",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2029,
+    "title": "The Balanced Syntax",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2029,
+    "title": "The Balanced Syntax",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2029,
+    "title": "The Balanced Syntax",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2029,
+    "title": "The Balanced Syntax",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2030,
+    "title": "The Consecutive Cleaner",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2030,
+    "title": "The Consecutive Cleaner",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2030,
+    "title": "The Consecutive Cleaner",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2030,
+    "title": "The Consecutive Cleaner",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2031,
+    "title": "The Shared Prefix Search",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2031,
+    "title": "The Shared Prefix Search",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2031,
+    "title": "The Shared Prefix Search",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2031,
+    "title": "The Shared Prefix Search",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2032,
+    "title": "The Keypad Translator",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2032,
+    "title": "The Keypad Translator",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2032,
+    "title": "The Keypad Translator",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2032,
+    "title": "The Keypad Translator",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2033,
+    "title": "The Frequency Report",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2033,
+    "title": "The Frequency Report",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2033,
+    "title": "The Frequency Report",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2033,
+    "title": "The Frequency Report",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2034,
+    "title": "The Unique Substream",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2034,
+    "title": "The Unique Substream",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2034,
+    "title": "The Unique Substream",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2034,
+    "title": "The Unique Substream",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2035,
+    "title": "The Character Replacement Strategy",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2035,
+    "title": "The Character Replacement Strategy",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2035,
+    "title": "The Character Replacement Strategy",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2035,
+    "title": "The Character Replacement Strategy",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2036,
+    "title": "The Anagram Grouping",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2036,
+    "title": "The Anagram Grouping",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2036,
+    "title": "The Anagram Grouping",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2036,
+    "title": "The Anagram Grouping",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2037,
+    "title": "The Longest Palindromic Substring",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2037,
+    "title": "The Longest Palindromic Substring",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2037,
+    "title": "The Longest Palindromic Substring",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2037,
+    "title": "The Longest Palindromic Substring",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2038,
+    "title": "The Palindromic Count",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2038,
+    "title": "The Palindromic Count",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2038,
+    "title": "The Palindromic Count",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2038,
+    "title": "The Palindromic Count",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2039,
+    "title": "The Permutation Inclusion",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2039,
+    "title": "The Permutation Inclusion",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2039,
+    "title": "The Permutation Inclusion",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2039,
+    "title": "The Permutation Inclusion",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2040,
+    "title": "The Distinct Palindromic Sequences",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2040,
+    "title": "The Distinct Palindromic Sequences",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2040,
+    "title": "The Distinct Palindromic Sequences",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2040,
+    "title": "The Distinct Palindromic Sequences",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2041,
+    "title": "The Smallest Window Cover",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2041,
+    "title": "The Smallest Window Cover",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2041,
+    "title": "The Smallest Window Cover",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2041,
+    "title": "The Smallest Window Cover",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2042,
+    "title": "The Wildcard Pattern",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2042,
+    "title": "The Wildcard Pattern",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2042,
+    "title": "The Wildcard Pattern",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2042,
+    "title": "The Wildcard Pattern",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2043,
+    "title": "The Pattern Search (KMP)",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2043,
+    "title": "The Pattern Search (KMP)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2043,
+    "title": "The Pattern Search (KMP)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2043,
+    "title": "The Pattern Search (KMP)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2043,
+    "title": "The Pattern Search (KMP)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2044,
+    "title": "The Rolling Hash (Rabin-Karp)",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2044,
+    "title": "The Rolling Hash (Rabin-Karp)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2044,
+    "title": "The Rolling Hash (Rabin-Karp)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2044,
+    "title": "The Rolling Hash (Rabin-Karp)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2044,
+    "title": "The Rolling Hash (Rabin-Karp)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2045,
+    "title": "The Minimal Operations Transformation",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2045,
+    "title": "The Minimal Operations Transformation",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2045,
+    "title": "The Minimal Operations Transformation",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2045,
+    "title": "The Minimal Operations Transformation",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2045,
+    "title": "The Minimal Operations Transformation",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2046,
+    "title": "The Occurrence Finder",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2046,
+    "title": "The Occurrence Finder",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2046,
+    "title": "The Occurrence Finder",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2046,
+    "title": "The Occurrence Finder",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2047,
+    "title": "The Rotated Search II",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2047,
+    "title": "The Rotated Search II",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2047,
+    "title": "The Rotated Search II",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2047,
+    "title": "The Rotated Search II",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2047,
+    "title": "The Rotated Search II",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2048,
+    "title": "The Precise Root",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2048,
+    "title": "The Precise Root",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2048,
+    "title": "The Precise Root",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2048,
+    "title": "The Precise Root",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2048,
+    "title": "The Precise Root",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2049,
+    "title": "The Majority Consensus",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2049,
+    "title": "The Majority Consensus",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2049,
+    "title": "The Majority Consensus",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2049,
+    "title": "The Majority Consensus",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2049,
+    "title": "The Majority Consensus",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2050,
+    "title": "The Peak Identification",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2050,
+    "title": "The Peak Identification",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2050,
+    "title": "The Peak Identification",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2050,
+    "title": "The Peak Identification",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2050,
+    "title": "The Peak Identification",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2051,
+    "title": "The Inversion Count",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2051,
+    "title": "The Inversion Count",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2051,
+    "title": "The Inversion Count",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2051,
+    "title": "The Inversion Count",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2051,
+    "title": "The Inversion Count",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2052,
+    "title": "The Quick Partition",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2052,
+    "title": "The Quick Partition",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2052,
+    "title": "The Quick Partition",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2052,
+    "title": "The Quick Partition",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2052,
+    "title": "The Quick Partition",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2053,
+    "title": "The Book Allocator",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2053,
+    "title": "The Book Allocator",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2053,
+    "title": "The Book Allocator",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2053,
+    "title": "The Book Allocator",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2053,
+    "title": "The Book Allocator",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2054,
+    "title": "The Aggressive Herders",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2054,
+    "title": "The Aggressive Herders",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2054,
+    "title": "The Aggressive Herders",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2054,
+    "title": "The Aggressive Herders",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2054,
+    "title": "The Aggressive Herders",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2055,
+    "title": "The Median of Sorted Arrays",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2055,
+    "title": "The Median of Sorted Arrays",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2055,
+    "title": "The Median of Sorted Arrays",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2055,
+    "title": "The Median of Sorted Arrays",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2055,
+    "title": "The Median of Sorted Arrays",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2056,
+    "title": "The Spiral Traversal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2056,
+    "title": "The Spiral Traversal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2056,
+    "title": "The Spiral Traversal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2056,
+    "title": "The Spiral Traversal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2057,
+    "title": "The Matrix Zero Setter",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2057,
+    "title": "The Matrix Zero Setter",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2057,
+    "title": "The Matrix Zero Setter",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2057,
+    "title": "The Matrix Zero Setter",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2057,
+    "title": "The Matrix Zero Setter",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2058,
+    "title": "The Image Rotation",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2058,
+    "title": "The Image Rotation",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2058,
+    "title": "The Image Rotation",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2058,
+    "title": "The Image Rotation",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2058,
+    "title": "The Image Rotation",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2059,
+    "title": "The 2D Search",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2059,
+    "title": "The 2D Search",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2059,
+    "title": "The 2D Search",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2059,
+    "title": "The 2D Search",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2059,
+    "title": "The 2D Search",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2060,
+    "title": "The Row with Maximum Ones",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2060,
+    "title": "The Row with Maximum Ones",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2060,
+    "title": "The Row with Maximum Ones",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2060,
+    "title": "The Row with Maximum Ones",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2060,
+    "title": "The Row with Maximum Ones",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2061,
+    "title": "The Linked List Reversal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2061,
+    "title": "The Linked List Reversal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2061,
+    "title": "The Linked List Reversal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2061,
+    "title": "The Linked List Reversal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2062,
+    "title": "The Middle Node",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2062,
+    "title": "The Middle Node",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2062,
+    "title": "The Middle Node",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2062,
+    "title": "The Middle Node",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2062,
+    "title": "The Middle Node",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2063,
+    "title": "The Sorted Merger",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2063,
+    "title": "The Sorted Merger",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2063,
+    "title": "The Sorted Merger",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2063,
+    "title": "The Sorted Merger",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2063,
+    "title": "The Sorted Merger",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2064,
+    "title": "The N-th Removal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2064,
+    "title": "The N-th Removal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2064,
+    "title": "The N-th Removal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2064,
+    "title": "The N-th Removal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2064,
+    "title": "The N-th Removal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2065,
+    "title": "The Cycle Detector",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2065,
+    "title": "The Cycle Detector",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2065,
+    "title": "The Cycle Detector",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2065,
+    "title": "The Cycle Detector",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2066,
+    "title": "The Shared Node Intersection",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2066,
+    "title": "The Shared Node Intersection",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2066,
+    "title": "The Shared Node Intersection",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2066,
+    "title": "The Shared Node Intersection",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2066,
+    "title": "The Shared Node Intersection",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2067,
+    "title": "The Palindromic List",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2067,
+    "title": "The Palindromic List",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2067,
+    "title": "The Palindromic List",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2067,
+    "title": "The Palindromic List",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2067,
+    "title": "The Palindromic List",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2068,
+    "title": "The Cycle Start Point",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2068,
+    "title": "The Cycle Start Point",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2068,
+    "title": "The Cycle Start Point",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2068,
+    "title": "The Cycle Start Point",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2068,
+    "title": "The Cycle Start Point",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2069,
+    "title": "The K-Group Reversal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2069,
+    "title": "The K-Group Reversal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2069,
+    "title": "The K-Group Reversal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2069,
+    "title": "The K-Group Reversal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2069,
+    "title": "The K-Group Reversal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2070,
+    "title": "The Cloned List",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2070,
+    "title": "The Cloned List",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2070,
+    "title": "The Cloned List",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2070,
+    "title": "The Cloned List",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2070,
+    "title": "The Cloned List",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2071,
+    "title": "The Minimum Element Stack",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2071,
+    "title": "The Minimum Element Stack",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2071,
+    "title": "The Minimum Element Stack",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2071,
+    "title": "The Minimum Element Stack",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2071,
+    "title": "The Minimum Element Stack",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2072,
+    "title": "Queue via Stacks",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2072,
+    "title": "Queue via Stacks",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2072,
+    "title": "Queue via Stacks",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2072,
+    "title": "Queue via Stacks",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2072,
+    "title": "Queue via Stacks",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2073,
+    "title": "The Next Greater Element",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2073,
+    "title": "The Next Greater Element",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2073,
+    "title": "The Next Greater Element",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2073,
+    "title": "The Next Greater Element",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2073,
+    "title": "The Next Greater Element",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2074,
+    "title": "The Histogram Area",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2074,
+    "title": "The Histogram Area",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2074,
+    "title": "The Histogram Area",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2074,
+    "title": "The Histogram Area",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2074,
+    "title": "The Histogram Area",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2075,
+    "title": "The Sliding Window Maximum",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2075,
+    "title": "The Sliding Window Maximum",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2075,
+    "title": "The Sliding Window Maximum",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2075,
+    "title": "The Sliding Window Maximum",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2075,
+    "title": "The Sliding Window Maximum",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2076,
+    "title": "The Well-Formed Parentheses",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2076,
+    "title": "The Well-Formed Parentheses",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2076,
+    "title": "The Well-Formed Parentheses",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2076,
+    "title": "The Well-Formed Parentheses",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2077,
+    "title": "The Power Set (Subsets)",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2077,
+    "title": "The Power Set (Subsets)",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2077,
+    "title": "The Power Set (Subsets)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2077,
+    "title": "The Power Set (Subsets)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2077,
+    "title": "The Power Set (Subsets)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2077,
+    "title": "The Power Set (Subsets)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2078,
+    "title": "The Combination Sum",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2078,
+    "title": "The Combination Sum",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2078,
+    "title": "The Combination Sum",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2078,
+    "title": "The Combination Sum",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2078,
+    "title": "The Combination Sum",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2079,
+    "title": "The Permutations List",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2079,
+    "title": "The Permutations List",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2079,
+    "title": "The Permutations List",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2079,
+    "title": "The Permutations List",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2079,
+    "title": "The Permutations List",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2080,
+    "title": "The N-Queens Challenge",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2080,
+    "title": "The N-Queens Challenge",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2080,
+    "title": "The N-Queens Challenge",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2080,
+    "title": "The N-Queens Challenge",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2080,
+    "title": "The N-Queens Challenge",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2081,
+    "title": "The Sudoku Solver",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2081,
+    "title": "The Sudoku Solver",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2081,
+    "title": "The Sudoku Solver",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2081,
+    "title": "The Sudoku Solver",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2081,
+    "title": "The Sudoku Solver",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2081,
+    "title": "The Sudoku Solver",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2082,
+    "title": "The Word Search Grid",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2082,
+    "title": "The Word Search Grid",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2082,
+    "title": "The Word Search Grid",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2082,
+    "title": "The Word Search Grid",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2082,
+    "title": "The Word Search Grid",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2082,
+    "title": "The Word Search Grid",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2083,
+    "title": "The Rat in a Maze",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2083,
+    "title": "The Rat in a Maze",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2083,
+    "title": "The Rat in a Maze",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2083,
+    "title": "The Rat in a Maze",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2083,
+    "title": "The Rat in a Maze",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2084,
+    "title": "The Palindrome Partitioning",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2084,
+    "title": "The Palindrome Partitioning",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2084,
+    "title": "The Palindrome Partitioning",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2084,
+    "title": "The Palindrome Partitioning",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2084,
+    "title": "The Palindrome Partitioning",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2085,
+    "title": "The Phone Keypad Combinations",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2085,
+    "title": "The Phone Keypad Combinations",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2085,
+    "title": "The Phone Keypad Combinations",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2085,
+    "title": "The Phone Keypad Combinations",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2085,
+    "title": "The Phone Keypad Combinations",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2086,
+    "title": "The Inorder Traversal",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2086,
+    "title": "The Inorder Traversal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2086,
+    "title": "The Inorder Traversal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2086,
+    "title": "The Inorder Traversal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2086,
+    "title": "The Inorder Traversal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2087,
+    "title": "The Preorder Traversal",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2087,
+    "title": "The Preorder Traversal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2087,
+    "title": "The Preorder Traversal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2087,
+    "title": "The Preorder Traversal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2087,
+    "title": "The Preorder Traversal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2087,
+    "title": "The Preorder Traversal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2088,
+    "title": "The Postorder Traversal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2088,
+    "title": "The Postorder Traversal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2088,
+    "title": "The Postorder Traversal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2088,
+    "title": "The Postorder Traversal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2088,
+    "title": "The Postorder Traversal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2089,
+    "title": "The Max Depth",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2089,
+    "title": "The Max Depth",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2089,
+    "title": "The Max Depth",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2089,
+    "title": "The Max Depth",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2089,
+    "title": "The Max Depth",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2089,
+    "title": "The Max Depth",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2090,
+    "title": "The Tree Diameter",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2090,
+    "title": "The Tree Diameter",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2090,
+    "title": "The Tree Diameter",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2090,
+    "title": "The Tree Diameter",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2090,
+    "title": "The Tree Diameter",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2090,
+    "title": "The Tree Diameter",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2091,
+    "title": "The Balanced Tree Check",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2091,
+    "title": "The Balanced Tree Check",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2091,
+    "title": "The Balanced Tree Check",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2091,
+    "title": "The Balanced Tree Check",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2091,
+    "title": "The Balanced Tree Check",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2092,
+    "title": "The Identical Trees",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2092,
+    "title": "The Identical Trees",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2092,
+    "title": "The Identical Trees",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2092,
+    "title": "The Identical Trees",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2092,
+    "title": "The Identical Trees",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2093,
+    "title": "The Symmetric Symmetry",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2093,
+    "title": "The Symmetric Symmetry",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2093,
+    "title": "The Symmetric Symmetry",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2093,
+    "title": "The Symmetric Symmetry",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2093,
+    "title": "The Symmetric Symmetry",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2093,
+    "title": "The Symmetric Symmetry",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2094,
+    "title": "The ZigZag Traversal",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2094,
+    "title": "The ZigZag Traversal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2094,
+    "title": "The ZigZag Traversal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2094,
+    "title": "The ZigZag Traversal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2094,
+    "title": "The ZigZag Traversal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2094,
+    "title": "The ZigZag Traversal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2095,
+    "title": "The Lowest Common Ancestor",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2095,
+    "title": "The Lowest Common Ancestor",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2095,
+    "title": "The Lowest Common Ancestor",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2095,
+    "title": "The Lowest Common Ancestor",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2095,
+    "title": "The Lowest Common Ancestor",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2095,
+    "title": "The Lowest Common Ancestor",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2096,
+    "title": "The BST Validator",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2096,
+    "title": "The BST Validator",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2096,
+    "title": "The BST Validator",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2096,
+    "title": "The BST Validator",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2096,
+    "title": "The BST Validator",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2096,
+    "title": "The BST Validator",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2097,
+    "title": "The LCA in BST",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2097,
+    "title": "The LCA in BST",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2097,
+    "title": "The LCA in BST",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2097,
+    "title": "The LCA in BST",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2097,
+    "title": "The LCA in BST",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2097,
+    "title": "The LCA in BST",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2098,
+    "title": "The BST Search",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2098,
+    "title": "The BST Search",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2098,
+    "title": "The BST Search",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2098,
+    "title": "The BST Search",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2098,
+    "title": "The BST Search",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2098,
+    "title": "The BST Search",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2099,
+    "title": "The Balanced BST Construction",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2099,
+    "title": "The Balanced BST Construction",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2099,
+    "title": "The Balanced BST Construction",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2099,
+    "title": "The Balanced BST Construction",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2099,
+    "title": "The Balanced BST Construction",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2100,
+    "title": "The Tree Architect",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2100,
+    "title": "The Tree Architect",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2100,
+    "title": "The Tree Architect",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2100,
+    "title": "The Tree Architect",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2100,
+    "title": "The Tree Architect",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2101,
+    "title": "The List Flattener",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2101,
+    "title": "The List Flattener",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2101,
+    "title": "The List Flattener",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2101,
+    "title": "The List Flattener",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2101,
+    "title": "The List Flattener",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2102,
+    "title": "The Tree Serializer",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2102,
+    "title": "The Tree Serializer",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2102,
+    "title": "The Tree Serializer",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2102,
+    "title": "The Tree Serializer",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2102,
+    "title": "The Tree Serializer",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2103,
+    "title": "The Maximum Path Sum",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2103,
+    "title": "The Maximum Path Sum",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2103,
+    "title": "The Maximum Path Sum",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2103,
+    "title": "The Maximum Path Sum",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2103,
+    "title": "The Maximum Path Sum",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2104,
+    "title": "The K-th Smallest Element",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2104,
+    "title": "The K-th Smallest Element",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2104,
+    "title": "The K-th Smallest Element",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2104,
+    "title": "The K-th Smallest Element",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2104,
+    "title": "The K-th Smallest Element",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2105,
+    "title": "The Two Sum Pair (BST)",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2105,
+    "title": "The Two Sum Pair (BST)",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2105,
+    "title": "The Two Sum Pair (BST)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2105,
+    "title": "The Two Sum Pair (BST)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2105,
+    "title": "The Two Sum Pair (BST)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2105,
+    "title": "The Two Sum Pair (BST)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2106,
+    "title": "The Province Counter",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2106,
+    "title": "The Province Counter",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2106,
+    "title": "The Province Counter",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2106,
+    "title": "The Province Counter",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2106,
+    "title": "The Province Counter",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2107,
+    "title": "The Island Counter",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2107,
+    "title": "The Island Counter",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2107,
+    "title": "The Island Counter",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2107,
+    "title": "The Island Counter",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2107,
+    "title": "The Island Counter",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2108,
+    "title": "The Flood Fill",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2108,
+    "title": "The Flood Fill",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2108,
+    "title": "The Flood Fill",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2108,
+    "title": "The Flood Fill",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2108,
+    "title": "The Flood Fill",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2108,
+    "title": "The Flood Fill",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2109,
+    "title": "The Rotting Oranges",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2109,
+    "title": "The Rotting Oranges",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2109,
+    "title": "The Rotting Oranges",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2109,
+    "title": "The Rotting Oranges",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2109,
+    "title": "The Rotting Oranges",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2110,
+    "title": "The Cycle in Undirected Graph",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2110,
+    "title": "The Cycle in Undirected Graph",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2110,
+    "title": "The Cycle in Undirected Graph",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2110,
+    "title": "The Cycle in Undirected Graph",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2110,
+    "title": "The Cycle in Undirected Graph",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2111,
+    "title": "The Cycle in Directed Graph",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2111,
+    "title": "The Cycle in Directed Graph",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2111,
+    "title": "The Cycle in Directed Graph",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2111,
+    "title": "The Cycle in Directed Graph",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2111,
+    "title": "The Cycle in Directed Graph",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2112,
+    "title": "The Course Schedule I",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2112,
+    "title": "The Course Schedule I",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2112,
+    "title": "The Course Schedule I",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2112,
+    "title": "The Course Schedule I",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2112,
+    "title": "The Course Schedule I",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2112,
+    "title": "The Course Schedule I",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2113,
+    "title": "The Course Schedule II",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2113,
+    "title": "The Course Schedule II",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2113,
+    "title": "The Course Schedule II",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2113,
+    "title": "The Course Schedule II",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2113,
+    "title": "The Course Schedule II",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2113,
+    "title": "The Course Schedule II",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2114,
+    "title": "The Eventual Safe States",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2114,
+    "title": "The Eventual Safe States",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2114,
+    "title": "The Eventual Safe States",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2114,
+    "title": "The Eventual Safe States",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2114,
+    "title": "The Eventual Safe States",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2114,
+    "title": "The Eventual Safe States",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2115,
+    "title": "The Alien Dictionary",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2115,
+    "title": "The Alien Dictionary",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2115,
+    "title": "The Alien Dictionary",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2115,
+    "title": "The Alien Dictionary",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2115,
+    "title": "The Alien Dictionary",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2116,
+    "title": "The Unit Weight Shortest Path",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2116,
+    "title": "The Unit Weight Shortest Path",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2116,
+    "title": "The Unit Weight Shortest Path",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2116,
+    "title": "The Unit Weight Shortest Path",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2116,
+    "title": "The Unit Weight Shortest Path",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2117,
+    "title": "The DAG Shortest Path",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2117,
+    "title": "The DAG Shortest Path",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2117,
+    "title": "The DAG Shortest Path",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2117,
+    "title": "The DAG Shortest Path",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2117,
+    "title": "The DAG Shortest Path",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2118,
+    "title": "The Network Delay (Dijkstra)",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2118,
+    "title": "The Network Delay (Dijkstra)",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2118,
+    "title": "The Network Delay (Dijkstra)",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2118,
+    "title": "The Network Delay (Dijkstra)",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2118,
+    "title": "The Network Delay (Dijkstra)",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2119,
+    "title": "The Cheapest Flights",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2119,
+    "title": "The Cheapest Flights",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2119,
+    "title": "The Cheapest Flights",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2119,
+    "title": "The Cheapest Flights",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2119,
+    "title": "The Cheapest Flights",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2120,
+    "title": "The All-Pairs Shortest Path",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2120,
+    "title": "The All-Pairs Shortest Path",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2120,
+    "title": "The All-Pairs Shortest Path",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2120,
+    "title": "The All-Pairs Shortest Path",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2120,
+    "title": "The All-Pairs Shortest Path",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2120,
+    "title": "The All-Pairs Shortest Path",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2121,
+    "title": "The Minimum Connection Cost",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2121,
+    "title": "The Minimum Connection Cost",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2121,
+    "title": "The Minimum Connection Cost",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2121,
+    "title": "The Minimum Connection Cost",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2121,
+    "title": "The Minimum Connection Cost",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2122,
+    "title": "The Network Reconstruction",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2122,
+    "title": "The Network Reconstruction",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2122,
+    "title": "The Network Reconstruction",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2122,
+    "title": "The Network Reconstruction",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2122,
+    "title": "The Network Reconstruction",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2123,
+    "title": "The Stone Removal",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2123,
+    "title": "The Stone Removal",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2123,
+    "title": "The Stone Removal",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2123,
+    "title": "The Stone Removal",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2123,
+    "title": "The Stone Removal",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2123,
+    "title": "The Stone Removal",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2124,
+    "title": "The Account Merge",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2124,
+    "title": "The Account Merge",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2124,
+    "title": "The Account Merge",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2124,
+    "title": "The Account Merge",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2124,
+    "title": "The Account Merge",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2125,
+    "title": "The Word Ladder",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2125,
+    "title": "The Word Ladder",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2125,
+    "title": "The Word Ladder",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2125,
+    "title": "The Word Ladder",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2125,
+    "title": "The Word Ladder",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2126,
+    "title": "The Staircase Climb",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2126,
+    "title": "The Staircase Climb",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2126,
+    "title": "The Staircase Climb",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2126,
+    "title": "The Staircase Climb",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2126,
+    "title": "The Staircase Climb",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2127,
+    "title": "The Fibonacci Number",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2127,
+    "title": "The Fibonacci Number",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2127,
+    "title": "The Fibonacci Number",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2127,
+    "title": "The Fibonacci Number",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2127,
+    "title": "The Fibonacci Number",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2127,
+    "title": "The Fibonacci Number",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2128,
+    "title": "The House Robber",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2128,
+    "title": "The House Robber",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2128,
+    "title": "The House Robber",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2128,
+    "title": "The House Robber",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2128,
+    "title": "The House Robber",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2129,
+    "title": "The Ring Robber",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2129,
+    "title": "The Ring Robber",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2129,
+    "title": "The Ring Robber",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2129,
+    "title": "The Ring Robber",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2129,
+    "title": "The Ring Robber",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2130,
+    "title": "The Longest Increasing Subsequence",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2130,
+    "title": "The Longest Increasing Subsequence",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2130,
+    "title": "The Longest Increasing Subsequence",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2130,
+    "title": "The Longest Increasing Subsequence",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2130,
+    "title": "The Longest Increasing Subsequence",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2130,
+    "title": "The Longest Increasing Subsequence",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2131,
+    "title": "The Coin Change",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2131,
+    "title": "The Coin Change",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2131,
+    "title": "The Coin Change",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2131,
+    "title": "The Coin Change",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2131,
+    "title": "The Coin Change",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2131,
+    "title": "The Coin Change",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2132,
+    "title": "The Coin Combinations",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2132,
+    "title": "The Coin Combinations",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2132,
+    "title": "The Coin Combinations",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2132,
+    "title": "The Coin Combinations",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2132,
+    "title": "The Coin Combinations",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2133,
+    "title": "The Maximum Product Subarray",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2133,
+    "title": "The Maximum Product Subarray",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2133,
+    "title": "The Maximum Product Subarray",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2133,
+    "title": "The Maximum Product Subarray",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2133,
+    "title": "The Maximum Product Subarray",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2134,
+    "title": "The Subset Partition",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2134,
+    "title": "The Subset Partition",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2134,
+    "title": "The Subset Partition",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2134,
+    "title": "The Subset Partition",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2134,
+    "title": "The Subset Partition",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2135,
+    "title": "The Decode Ways",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2135,
+    "title": "The Decode Ways",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2135,
+    "title": "The Decode Ways",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2135,
+    "title": "The Decode Ways",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2135,
+    "title": "The Decode Ways",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2136,
+    "title": "The Unique Paths",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2136,
+    "title": "The Unique Paths",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2136,
+    "title": "The Unique Paths",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2136,
+    "title": "The Unique Paths",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2136,
+    "title": "The Unique Paths",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2137,
+    "title": "The Minimum Path Sum",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2137,
+    "title": "The Minimum Path Sum",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2137,
+    "title": "The Minimum Path Sum",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2137,
+    "title": "The Minimum Path Sum",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2137,
+    "title": "The Minimum Path Sum",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2138,
+    "title": "The Longest Common Subsequence",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2138,
+    "title": "The Longest Common Subsequence",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2138,
+    "title": "The Longest Common Subsequence",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2138,
+    "title": "The Longest Common Subsequence",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2138,
+    "title": "The Longest Common Subsequence",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2138,
+    "title": "The Longest Common Subsequence",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2139,
+    "title": "The Longest Palindromic Subsequence",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2139,
+    "title": "The Longest Palindromic Subsequence",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2139,
+    "title": "The Longest Palindromic Subsequence",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2139,
+    "title": "The Longest Palindromic Subsequence",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2139,
+    "title": "The Longest Palindromic Subsequence",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2139,
+    "title": "The Longest Palindromic Subsequence",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2140,
+    "title": "The Edit Distance",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2140,
+    "title": "The Edit Distance",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2140,
+    "title": "The Edit Distance",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2140,
+    "title": "The Edit Distance",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2140,
+    "title": "The Edit Distance",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2141,
+    "title": "The Maximal Square",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2141,
+    "title": "The Maximal Square",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2141,
+    "title": "The Maximal Square",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2141,
+    "title": "The Maximal Square",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2141,
+    "title": "The Maximal Square",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2142,
+    "title": "The Distinct Subsequences",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2142,
+    "title": "The Distinct Subsequences",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2142,
+    "title": "The Distinct Subsequences",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2142,
+    "title": "The Distinct Subsequences",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2142,
+    "title": "The Distinct Subsequences",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2143,
+    "title": "The Stock with Cooldown",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2143,
+    "title": "The Stock with Cooldown",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2143,
+    "title": "The Stock with Cooldown",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2143,
+    "title": "The Stock with Cooldown",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2143,
+    "title": "The Stock with Cooldown",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2144,
+    "title": "The Interleaving String",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2144,
+    "title": "The Interleaving String",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2144,
+    "title": "The Interleaving String",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2144,
+    "title": "The Interleaving String",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2144,
+    "title": "The Interleaving String",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2144,
+    "title": "The Interleaving String",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2145,
+    "title": "The Burst Balloons",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2145,
+    "title": "The Burst Balloons",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2145,
+    "title": "The Burst Balloons",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2145,
+    "title": "The Burst Balloons",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2145,
+    "title": "The Burst Balloons",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2146,
+    "title": "Note the Prefix",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2146,
+    "title": "Note the Prefix",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2146,
+    "title": "Note the Prefix",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2146,
+    "title": "Note the Prefix",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2146,
+    "title": "Note the Prefix",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2146,
+    "title": "Note the Prefix",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2147,
+    "title": "The Word Dictionary",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2147,
+    "title": "The Word Dictionary",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2147,
+    "title": "The Word Dictionary",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2147,
+    "title": "The Word Dictionary",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2147,
+    "title": "The Word Dictionary",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2148,
+    "title": "The Word Search II",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2148,
+    "title": "The Word Search II",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2148,
+    "title": "The Word Search II",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2148,
+    "title": "The Word Search II",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2148,
+    "title": "The Word Search II",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2149,
+    "title": "The Maximum XOR Pair",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2149,
+    "title": "The Maximum XOR Pair",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2149,
+    "title": "The Maximum XOR Pair",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2149,
+    "title": "The Maximum XOR Pair",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2149,
+    "title": "The Maximum XOR Pair",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2150,
+    "title": "The K-th Largest Element",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2150,
+    "title": "The K-th Largest Element",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2150,
+    "title": "The K-th Largest Element",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2150,
+    "title": "The K-th Largest Element",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2150,
+    "title": "The K-th Largest Element",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2151,
+    "title": "The Top K Frequent Elements",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2151,
+    "title": "The Top K Frequent Elements",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2151,
+    "title": "The Top K Frequent Elements",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2151,
+    "title": "The Top K Frequent Elements",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2151,
+    "title": "The Top K Frequent Elements",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2152,
+    "title": "The Median Stream",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2152,
+    "title": "The Median Stream",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2152,
+    "title": "The Median Stream",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2152,
+    "title": "The Median Stream",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2152,
+    "title": "The Median Stream",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2153,
+    "title": "The Merge K Sorted Lists",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2153,
+    "title": "The Merge K Sorted Lists",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2153,
+    "title": "The Merge K Sorted Lists",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2153,
+    "title": "The Merge K Sorted Lists",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2153,
+    "title": "The Merge K Sorted Lists",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2154,
+    "title": "The Task Scheduler",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2154,
+    "title": "The Task Scheduler",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2154,
+    "title": "The Task Scheduler",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2154,
+    "title": "The Task Scheduler",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2154,
+    "title": "The Task Scheduler",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2155,
+    "title": "The String Reorganization",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2155,
+    "title": "The String Reorganization",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2155,
+    "title": "The String Reorganization",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2155,
+    "title": "The String Reorganization",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2155,
+    "title": "The String Reorganization",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2156,
+    "title": "The Single Number",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2156,
+    "title": "The Single Number",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2156,
+    "title": "The Single Number",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2156,
+    "title": "The Single Number",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2156,
+    "title": "The Single Number",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2157,
+    "title": "The Hamming Weight",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2157,
+    "title": "The Hamming Weight",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2157,
+    "title": "The Hamming Weight",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2157,
+    "title": "The Hamming Weight",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2157,
+    "title": "The Hamming Weight",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2157,
+    "title": "The Hamming Weight",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2158,
+    "title": "The Bit Counting",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2158,
+    "title": "The Bit Counting",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2158,
+    "title": "The Bit Counting",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2158,
+    "title": "The Bit Counting",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2158,
+    "title": "The Bit Counting",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2159,
+    "title": "The Reverse Bits",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2159,
+    "title": "The Reverse Bits",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2159,
+    "title": "The Reverse Bits",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2159,
+    "title": "The Reverse Bits",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2159,
+    "title": "The Reverse Bits",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2159,
+    "title": "The Reverse Bits",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2160,
+    "title": "The Jump Game",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2160,
+    "title": "The Jump Game",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2160,
+    "title": "The Jump Game",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2160,
+    "title": "The Jump Game",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2160,
+    "title": "The Jump Game",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2160,
+    "title": "The Jump Game",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2161,
+    "title": "The Minimum Jumps",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2161,
+    "title": "The Minimum Jumps",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2161,
+    "title": "The Minimum Jumps",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2161,
+    "title": "The Minimum Jumps",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2161,
+    "title": "The Minimum Jumps",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2162,
+    "title": "The Gas Station",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2162,
+    "title": "The Gas Station",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2162,
+    "title": "The Gas Station",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2162,
+    "title": "The Gas Station",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2162,
+    "title": "The Gas Station",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2163,
+    "title": "The Candy Distribution",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2163,
+    "title": "The Candy Distribution",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2163,
+    "title": "The Candy Distribution",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2163,
+    "title": "The Candy Distribution",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2163,
+    "title": "The Candy Distribution",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2164,
+    "title": "The Power Function",
+    "issue": "Short/missing description"
+  },
+  {
+    "num": 2164,
+    "title": "The Power Function",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2164,
+    "title": "The Power Function",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2164,
+    "title": "The Power Function",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2164,
+    "title": "The Power Function",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2164,
+    "title": "The Power Function",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 2165,
+    "title": "The Trailing Zeroes",
+    "issue": "NO test cases"
+  },
+  {
+    "num": 2165,
+    "title": "The Trailing Zeroes",
+    "issue": "Missing inputFormat"
+  },
+  {
+    "num": 2165,
+    "title": "The Trailing Zeroes",
+    "issue": "Missing outputFormat"
+  },
+  {
+    "num": 2165,
+    "title": "The Trailing Zeroes",
+    "issue": "Missing sampleInput"
+  },
+  {
+    "num": 2165,
+    "title": "The Trailing Zeroes",
+    "issue": "Missing sampleOutput"
+  },
+  {
+    "num": 1011,
+    "title": "Composition Over Inheritance",
+    "issue": "Missing sampleInput"
+  }
+]
