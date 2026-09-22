@@ -28,8 +28,9 @@ services:
   # ── Judge0 Workers (Code Execution Sandbox) ───────────────────────────────
   workers:
     image: judge0/judge0:v1.13.1
-    container_name: judge0_worker
     restart: unless-stopped
+    deploy:
+      replicas: 10
     command: ["./scripts/workers"]
     volumes:
       - ./judge0.conf:/judge0.conf:ro
