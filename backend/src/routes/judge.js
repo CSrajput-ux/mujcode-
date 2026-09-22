@@ -25,7 +25,7 @@ export function registerJudgeRoutes(router) {
 
     // Enforce rate limiting
     try {
-      CodeExecutionService.checkRateLimit(userId, isAuth);
+      await CodeExecutionService.checkRateLimit(userId, isAuth);
     } catch (err) {
       return sendJson(res, 429, { error: err.message });
     }
@@ -168,8 +168,8 @@ export function registerJudgeRoutes(router) {
    * Live status of an async job from in-memory tracker.
    * Returns: queued | running | done | error
    */
-  router.get('/api/judge/job-status/:jobId', (req, res) => {
-    const job = CodeExecutionService.getJob(req.params.jobId);
+  router.get('/api/judge/job-status/:jobId', async (req, res) => {
+    const job = await CodeExecutionService.getJob(req.params.jobId);
     if (!job) {
       return sendJson(res, 404, { error: 'Job not found or has expired.' });
     }

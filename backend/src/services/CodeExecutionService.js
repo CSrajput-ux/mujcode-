@@ -1,6 +1,7 @@
 import { Judge0Service } from './Judge0Service.js';
 import { logger } from '../lib/logger.js';
 import { judge0SubmissionsTotal } from '../lib/metrics.js';
+import { redis } from '../config/redis.js';
 
 /**
  * Verified Judge0 CE Default Language IDs
@@ -31,21 +32,8 @@ const DEFAULT_LANGUAGE_MAP = {
   php: 68           // PHP (7.4.1)
 };
 
-// ── Rate Limiter Storage ─────────────────────────────────────────────────────
-const rateLimitMap = new Map(); // key -> { count, resetAt }
-
-// ── In-Memory Job Tracking for Async Client Polling ──────────────────────────
-const activeJobs = new Map(); // jobId -> JobStatusObject
-
-function cleanOldJobs() {
-  const cutoff = Date.now() - 5 * 60 * 1000; // 5 min TTL
-  for (const [id, job] of activeJobs.entries()) {
-    if (job.finishedAt && job.finishedAt < cutoff) {
-      activeJobs.delete(id);
-    }
-  }
-}
-setInterval(cleanOldJobs, 60000).unref?.();
+// ── Rate Limiter and Job Storage ───────────────────────────────────────────────
+// Uses Redis to support massive concurrency across multiple backend nodes.
 
 function normalizeOutput(str) {
   return String(str || '')
@@ -78,16 +66,26 @@ export class CodeExecutionService {
   /**
    * Rate limiting enforcement
    */
-  static checkRateLimit(identifier, isAuthenticated = false) {
-    const limit = isAuthenticated ? 20 : 5; // 20 per min for logged in, 5 for anon
-    const windowMs = 60 * 1000;
+  static async checkRateLimit(identifier, isAuthenticated = false) {
+    const minIntervalMs = 3000; // 3 seconds between consecutive submissions
+    const windowMs = 60 * 1000; // 1 minute window
+    const limit = isAuthenticated ? 30 : 10; // 30 per min for logged in, 10 for anon
     const now = Date.now();
+    const key = `rate:judge:${identifier}`;
 
-    let record = rateLimitMap.get(identifier);
+    const recordStr = await redis.get(key);
+    let record = recordStr ? JSON.parse(recordStr) : null;
+
     if (!record || record.resetAt <= now) {
-      record = { count: 1, resetAt: now + windowMs };
-      rateLimitMap.set(identifier, record);
+      record = { count: 1, resetAt: now + windowMs, lastRequestAt: now };
+      await redis.set(key, JSON.stringify(record), 'PX', windowMs);
       return true;
+    }
+
+    // Enforce minimum time between submissions to prevent spamming the queue
+    if (now - record.lastRequestAt < minIntervalMs) {
+      const waitSeconds = Math.ceil((minIntervalMs - (now - record.lastRequestAt)) / 1000);
+      throw new Error(`Please wait ${waitSeconds}s before submitting again to prevent spam.`);
     }
 
     if (record.count >= limit) {
@@ -96,6 +94,8 @@ export class CodeExecutionService {
     }
 
     record.count++;
+    record.lastRequestAt = now;
+    await redis.set(key, JSON.stringify(record), 'PX', Math.max(1, record.resetAt - now));
     return true;
   }
 
@@ -131,7 +131,7 @@ export class CodeExecutionService {
   /**
    * Poll Judge0 submission until it is finished or times out
    */
-  static async pollSubmission(token, maxAttempts = 30, intervalMs = 500) {
+  static async pollSubmission(token, maxAttempts = 120, intervalMs = 500) {
     let attempts = 0;
 
     while (attempts < maxAttempts) {
@@ -350,8 +350,9 @@ export class CodeExecutionService {
   /**
    * Enqueue background job for /api/judge/submit
    */
-  static enqueueJob(jobId, task) {
-    const job = {
+  static async enqueueJob(jobId, task) {
+    const jobKey = `job:${jobId}`;
+    const initialJob = {
       jobId,
       status: 'queued',
       queuedAt: Date.now(),
@@ -361,21 +362,22 @@ export class CodeExecutionService {
       error: null
     };
 
-    activeJobs.set(jobId, job);
+    await redis.set(jobKey, JSON.stringify(initialJob), 'EX', 3600); // 1 hour TTL
 
     // Asynchronously execute
     setImmediate(async () => {
-      job.status = 'running';
-      job.startedAt = Date.now();
+      let currentJob = { ...initialJob, status: 'running', startedAt: Date.now() };
+      await redis.set(jobKey, JSON.stringify(currentJob), 'EX', 3600);
       try {
         const result = await task();
-        job.status = 'done';
-        job.result = result;
+        currentJob.status = 'done';
+        currentJob.result = result;
       } catch (err) {
-        job.status = 'error';
-        job.error = err.message || 'Execution error';
+        currentJob.status = 'error';
+        currentJob.error = err.message || 'Execution error';
       } finally {
-        job.finishedAt = Date.now();
+        currentJob.finishedAt = Date.now();
+        await redis.set(jobKey, JSON.stringify(currentJob), 'EX', 3600);
       }
     });
 
@@ -385,7 +387,9 @@ export class CodeExecutionService {
   /**
    * Get job status for /api/judge/job-status/:jobId
    */
-  static getJob(jobId) {
-    return activeJobs.get(jobId);
+  static async getJob(jobId) {
+    const jobKey = `job:${jobId}`;
+    const jobStr = await redis.get(jobKey);
+    return jobStr ? JSON.parse(jobStr) : null;
   }
 }
