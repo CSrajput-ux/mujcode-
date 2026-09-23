@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card } from '../../../components/ui/card';
-import { Search, Trophy, Medal, Star, ChevronRight } from 'lucide-react';
+import { Search, Trophy, Medal, ChevronRight } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
 import { apiClient } from '../../../services/apiClient';
 

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { BookOpen, ShieldAlert, Check, Layout, AlertCircle } from 'lucide-react';
+import { useState } from 'react';
+import { BookOpen, ShieldAlert } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
 import {

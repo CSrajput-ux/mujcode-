@@ -1,26 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { Badge } from '../../components/ui/badge';
 import {
-  Code2,
   Users,
   FileText,
-  Calendar,
-  Video,
   TrendingUp,
   CheckCircle,
-  Clock,
-  Eye,
-  Download,
-  Filter,
   LogOut,
   Menu,
   X,
   Briefcase
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import logoImage from '@/assets/image-removebg-preview.png';
 import DriveManagementPage from './Drives/DriveManagementPage';
 import AnalyticsDashboard from './AnalyticsDashboard';
@@ -53,15 +43,7 @@ export default function CompanyDashboard() {
       .finally(() => setLoading(false));
   }, []);
 
-  const stats = [
-    { icon: <Briefcase className="w-6 h-6" />, label: 'Active Drives', value: dashboardData.activeDrives.toString(), color: 'bg-blue-500' },
-    { icon: <Users className="w-6 h-6" />, label: 'Applicants', value: dashboardData.applicants.toString(), color: 'bg-green-500' },
-    { icon: <CheckCircle className="w-6 h-6" />, label: 'Shortlisted', value: dashboardData.shortlisted.toString(), color: 'bg-purple-500' },
-    { icon: <TrendingUp className="w-6 h-6" />, label: 'Hired (YTD)', value: dashboardData.hired.toString(), color: 'bg-[#FF7A00]' },
-  ];
 
-  const activeDrives = dashboardData.drives || [];
-  const recentApplicants = dashboardData.recentApplicants || [];
 
   const menuItems = [
     { icon: <TrendingUp />, label: 'Overview' },
