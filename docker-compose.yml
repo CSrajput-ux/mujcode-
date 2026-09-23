@@ -57,7 +57,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: ""
+        VITE_API_URL: ${VITE_API_URL:-https://mujcode-1.onrender.com}
     container_name: mujcode_frontend
     restart: unless-stopped
     ports:

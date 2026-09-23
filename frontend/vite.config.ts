@@ -15,12 +15,14 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
-        changeOrigin: true
+        target: process.env.VITE_API_URL || 'https://mujcode-1.onrender.com',
+        changeOrigin: true,
+        secure: false
       },
       '/socket.io': {
-        target: 'http://localhost:5000',
-        ws: true
+        target: process.env.VITE_API_URL || 'https://mujcode-1.onrender.com',
+        ws: true,
+        secure: false
       }
     }
   }
