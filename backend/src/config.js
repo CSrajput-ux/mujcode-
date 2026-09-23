@@ -21,8 +21,8 @@ export const config = {
   facultyFile: path.resolve(rootDir, process.env.FACULTY_FILE || 'src/data/faculty.json'),
   studentsFile: path.resolve(rootDir, process.env.STUDENTS_FILE || 'src/data/students.json'),
   uploadDir: path.resolve(rootDir, process.env.UPLOAD_DIR || 'uploads'),
-  // PostgreSQL Database Configuration
-  postgresUri: process.env.POSTGRES_URI || 'postgres://postgres:postgres@localhost:5432/mujcode_db',
+  // PostgreSQL Database Configuration (Enabled when POSTGRES_URI is provided)
+  postgresUri: process.env.POSTGRES_URI || '',
   // Judge0 CE Configuration
   judge0Url: process.env.JUDGE0_URL || 'http://localhost:2358',
   judge0AuthToken: process.env.JUDGE0_AUTH_TOKEN || '',

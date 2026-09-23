@@ -37,7 +37,7 @@ export function isPostgresConnected() {
 export async function initPostgres() {
   const p = getPostgresPool();
   if (!p) {
-    logger.warn('[PostgreSQL] No POSTGRES_URI configured. Skipping PostgreSQL initialization.');
+    logger.info('[PostgreSQL] POSTGRES_URI not set. Running with local JSON storage engine.');
     return false;
   }
 

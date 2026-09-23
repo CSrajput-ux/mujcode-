@@ -6,7 +6,7 @@ import path from 'node:path';
 // Worker thread to offload heavy JSON.stringify operations from the main event loop
 parentPort.on('message', async (message) => {
   if (message.type === 'FLUSH') {
-    const { dbCache, dbFile } = message.payload;
+    const { dbCache, dbFile, facultyFile, studentsFile } = message.payload;
     try {
       const dir = path.dirname(dbFile);
       // Ensure dir exists

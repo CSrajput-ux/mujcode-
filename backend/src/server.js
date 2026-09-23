@@ -22,7 +22,7 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 // Initialize PostgreSQL primary database connection and auto-migration
-await initPostgres();
+const isPgActive = await initPostgres();
 await loadDbFromPostgresOrFile();
 
 const app = await createApp();
@@ -45,7 +45,7 @@ server.listen(config.port, config.host, () => {
   logger.info(`🚀 MujCode High-Concurrency Server Running!`);
   logger.info(`🌐 Address:          http://${config.host}:${config.port}`);
   logger.info(`👥 Max Connections:  ${server.maxConnections} simultaneous users`);
-  logger.info(`🐘 Primary DB:       PostgreSQL (ACID + JSONB Collections)`);
+  logger.info(`💾 Storage Engine:   ${isPgActive ? 'PostgreSQL (ACID + JSONB Collections)' : 'In-Memory Fast Store + Local Disk Snapshot'}`);
   logger.info(`⚡ Cache & Sockets:  In-Memory Fast Store + Redis Queues`);
   logger.info(`⚡ Execution Engine: Self-Hosted Judge0 CE`);
   logger.info(`=============================================================`);
