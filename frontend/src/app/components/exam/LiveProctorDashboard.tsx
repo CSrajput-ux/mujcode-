@@ -5,18 +5,12 @@ import {
   ShieldAlert,
   Users,
   AlertTriangle,
-  CheckCircle2,
   Wifi,
   WifiOff,
   Maximize2,
   Minimize2,
-  Send,
-  RefreshCw,
   Settings,
-  Filter,
-  Eye,
-  FileText
-} from 'lucide-react';
+  Filter} from 'lucide-react';
 import { Button } from '../ui/button';
 
 export interface ProctorStudentStatus {

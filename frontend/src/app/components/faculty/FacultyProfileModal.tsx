@@ -8,7 +8,6 @@ import {
     DialogTitle,
 } from '../ui/dialog';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { User, Mail, Shield, Briefcase, Building } from 'lucide-react';
 
@@ -18,7 +17,7 @@ interface FacultyProfileModalProps {
     onSuccess: () => void;
 }
 
-export default function FacultyProfileModal({ open, onOpenChange, onSuccess }: FacultyProfileModalProps) {
+export default function FacultyProfileModal({ open, onOpenChange }: FacultyProfileModalProps) {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const [loading, setLoading] = useState(false);
 

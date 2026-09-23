@@ -21,7 +21,6 @@ export default function ProctoredTest({ onViolation, onSubmitTest, children, tes
     // Refs
     const videoRef = useRef<HTMLVideoElement>(null);
     const streamRef = useRef<MediaStream | null>(null);
-    const requestRef = useRef<number>();
     const isProcessingRef = useRef(false);
 
     // --- 1. Load AI Model & Camera ---
