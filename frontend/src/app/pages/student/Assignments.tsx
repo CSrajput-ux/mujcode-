@@ -32,12 +32,14 @@ export default function Assignments() {
         setPageLoading(true);
         const res = await apiClient.get('/api/assignments/student/my');
         const all: any[] = res.data || [];
-        setPendingAssignments(all.filter((a: any) => (a.type === 'Assignment' || !a.type) && a.status !== 'Submitted'));
-        setResearchPapers(all.filter((a: any) => a.type === 'Research' && a.status !== 'Submitted'));
-        setCaseStudies(all.filter((a: any) => a.type === 'CaseStudy' && a.status !== 'Submitted'));
-        // Submitted ones
         const subRes = await apiClient.get('/api/assignments/student/submitted');
-        setSubmittedAssignments(subRes.data || []);
+        const submitted = subRes.data || [];
+        setSubmittedAssignments(submitted);
+        const submittedIds = submitted.map((s: any) => s.assignmentId || s.id || s._id);
+
+        setPendingAssignments(all.filter((a: any) => (a.type === 'Assignment' || !a.type) && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
+        setResearchPapers(all.filter((a: any) => a.type === 'Research' && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
+        setCaseStudies(all.filter((a: any) => a.type === 'CaseStudy' && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
       } catch (err) {
         console.error('Failed to fetch assignments:', err);
         // fallback: show empty
@@ -52,44 +54,52 @@ export default function Assignments() {
     fetchAssignments();
   }, []);
 
-  const handleUploadSubmit = () => {
+  const handleUploadSubmit = async () => {
     if (!selectedFile || !uploadTarget) {
       toast.error("Please select a file to upload.");
       return;
     }
 
-    const today = new Date().toISOString().split('T')[0];
+    const formData = new FormData();
+    formData.append('files', selectedFile);
 
-    if (uploadTarget.type === 'assignment') {
-      const item = pendingAssignments.find(a => a.id === uploadTarget.id || a._id === uploadTarget.id);
-      if (item) {
-        setPendingAssignments(prev => prev.filter(a => a.id !== uploadTarget.id && a._id !== uploadTarget.id));
-        setSubmittedAssignments(prev => [{
-           id: item.id || item._id, _id: item._id || item.id, title: item.title, subject: item.subject, type: item.type, fileUrl: item.fileUrl, fileName: item.fileName, fileType: item.fileType, submittedOn: today, grade: 'Pending', score: 0 
-        }, ...prev]);
-      }
-    } else if (uploadTarget.type === 'research') {
-      const item = researchPapers.find(r => r.id === uploadTarget.id || r._id === uploadTarget.id);
-      if (item) {
-        setResearchPapers(prev => prev.filter(r => r.id !== uploadTarget.id && r._id !== uploadTarget.id));
-        setSubmittedAssignments(prev => [{
-           id: item.id || item._id, _id: item._id || item.id, title: item.title, subject: item.subject, type: 'Research', fileUrl: item.fileUrl, fileName: item.fileName, fileType: item.fileType, submittedOn: today, grade: 'Pending', score: 0 
-        }, ...prev]);
-      }
-    } else if (uploadTarget.type === 'casestudy') {
-      const item = caseStudies.find(c => c.id === uploadTarget.id || c._id === uploadTarget.id);
-      if (item) {
-        setCaseStudies(prev => prev.filter(c => c.id !== uploadTarget.id && c._id !== uploadTarget.id));
-        setSubmittedAssignments(prev => [{
-           id: item.id || item._id, _id: item._id || item.id, title: item.title, subject: item.subject, type: 'Case Study', fileUrl: item.fileUrl, fileName: item.fileName, fileType: item.fileType, submittedOn: today, grade: 'Pending', score: 0 
-        }, ...prev]);
-      }
+    try {
+      const loadingId = toast.loading("Submitting assignment...");
+      
+      await apiClient.post(`/api/assignments/${uploadTarget.id}/submit`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      toast.dismiss(loadingId);
+      toast.success("Document submitted successfully!");
+
+      setUploadModalOpen(false);
+      setSelectedFile(null);
+      setUploadTarget(null);
+
+      // Re-fetch assignments
+      setPageLoading(true);
+      const res = await apiClient.get('/api/assignments/student/my');
+      const all: any[] = res.data || [];
+      
+      const subRes = await apiClient.get('/api/assignments/student/submitted');
+      const submitted = subRes.data || [];
+      setSubmittedAssignments(submitted);
+      const submittedIds = submitted.map((s: any) => s.assignmentId || s.id || s._id);
+
+      setPendingAssignments(all.filter((a: any) => (a.type === 'Assignment' || !a.type) && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
+      setResearchPapers(all.filter((a: any) => a.type === 'Research' && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
+      setCaseStudies(all.filter((a: any) => a.type === 'CaseStudy' && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
+      
+    } catch (err) {
+      console.error('Submit error:', err);
+      toast.dismiss();
+      toast.error("Failed to submit assignment.");
+    } finally {
+      setPageLoading(false);
     }
-
-    setUploadModalOpen(false);
-    setSelectedFile(null);
-    setUploadTarget(null);
-    toast.success("Document submitted successfully!");
   };
 
   const getTypeIcon = (type: string) => {

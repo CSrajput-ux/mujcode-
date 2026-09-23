@@ -59,6 +59,81 @@ export function registerAssignmentsRoutes(router) {
     return ok(res, { message: 'Assignments are already seeded' });
   });
 
+  // Student: Submit an assignment
+  router.post('/api/assignments/:id/submit', async (req, res, ctx) => {
+    const db = ctx.getDb();
+    const assignmentId = req.params.id;
+    const assignment = (db.assignments || []).find(a => a._id === assignmentId || a.id === assignmentId);
+    
+    if (!assignment) {
+      return sendJson(res, 404, { error: 'Assignment not found' });
+    }
+
+    const userId = req.user?.id || req.user?.college_id;
+    const student = (db.students || []).find(s => s.id === userId || s.college_id === userId)
+      || (db.users || []).find(u => u.id === userId && u.role === 'student');
+
+    if (!student) {
+      return sendJson(res, 401, { error: 'Unauthorized' });
+    }
+
+    if (!db.assignmentSubmissions) {
+      db.assignmentSubmissions = [];
+    }
+
+    const existingIndex = db.assignmentSubmissions.findIndex(sub => 
+      (sub.assignmentId === assignmentId) && (sub.studentId === userId || sub.studentId === String(userId))
+    );
+
+    let fileUrl = '';
+    let fileName = '';
+    let fileType = '';
+
+    const file = req.body.files?.[0];
+    if (file) {
+      try {
+        fileName = file.filename || 'submission.pdf';
+        const safeName = String(fileName).replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
+        const filename = `${assignmentId}-${userId}-${safeName}`;
+        fileUrl = await CloudinaryService.uploadFile(file.buffer, filename, file.contentType || 'application/octet-stream');
+        fileType = file.contentType || 'application/pdf';
+      } catch (err) {
+        logger.error('[AssignmentSubmit] Cloudinary upload error:', err);
+        return sendJson(res, 500, { error: 'File upload failed' });
+      }
+    }
+
+    const submission = {
+      _id: nextId('sub'),
+      assignmentId,
+      studentId: String(userId),
+      studentName: student.name || student.email || 'Student',
+      fileUrl,
+      fileName,
+      fileType,
+      submittedOn: new Date().toISOString().slice(0, 10),
+      createdAt: new Date().toISOString(),
+      grade: 'Pending',
+      score: 0,
+      title: assignment.title,
+      subject: assignment.subject,
+      type: assignment.type,
+      status: 'Submitted'
+    };
+
+    if (existingIndex >= 0) {
+      submission._id = db.assignmentSubmissions[existingIndex]._id;
+      db.assignmentSubmissions[existingIndex] = submission;
+    } else {
+      db.assignmentSubmissions.push(submission);
+      assignment.completedCount = (assignment.completedCount || 0) + 1;
+      assignment.pendingCount = Math.max(0, (assignment.pendingCount || 0) - 1);
+    }
+
+    ctx.saveDb(db);
+    return sendJson(res, 201, submission);
+  });
+
   router.post('/api/assignments', async (req, res, ctx) => {
     const db = ctx.getDb();
     const id = nextId('asgn');
