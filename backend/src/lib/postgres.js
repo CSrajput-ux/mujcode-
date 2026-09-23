@@ -61,6 +61,64 @@ export async function initPostgres() {
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
       );
       CREATE INDEX IF NOT EXISTS idx_mujcode_collections_name ON mujcode_collections (collection_name);
+
+      CREATE TABLE IF NOT EXISTS faculty (
+        id VARCHAR(100) PRIMARY KEY,
+        faculty_id VARCHAR(100),
+        name VARCHAR(255),
+        email VARCHAR(255),
+        department VARCHAR(255),
+        designation VARCHAR(255),
+        is_active BOOLEAN DEFAULT true,
+        raw_data JSONB,
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+
+      CREATE TABLE IF NOT EXISTS problems (
+        id VARCHAR(100) PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        difficulty VARCHAR(50),
+        topic VARCHAR(255),
+        category VARCHAR(100),
+        points INT DEFAULT 10,
+        number INT,
+        description TEXT,
+        constraints TEXT,
+        input_format TEXT,
+        output_format TEXT,
+        sample_input TEXT,
+        sample_output TEXT,
+        explanation TEXT,
+        test_cases JSONB,
+        raw_data JSONB,
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+
+      CREATE OR REPLACE VIEW coding_questions AS SELECT * FROM problems;
+
+      CREATE TABLE IF NOT EXISTS users (
+        id VARCHAR(100) PRIMARY KEY,
+        name VARCHAR(255),
+        email VARCHAR(255),
+        role VARCHAR(50),
+        is_active BOOLEAN DEFAULT true,
+        raw_data JSONB,
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+
+      CREATE TABLE IF NOT EXISTS students (
+        id VARCHAR(100) PRIMARY KEY,
+        full_name VARCHAR(255),
+        email VARCHAR(255),
+        roll_number VARCHAR(100),
+        college_id VARCHAR(100),
+        branch VARCHAR(100),
+        section VARCHAR(50),
+        semester INT,
+        year VARCHAR(50),
+        raw_data JSONB,
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
     `);
 
     // 2. Check if collections table is empty
