@@ -1,6 +1,6 @@
 import StudentLayout from '../../components/StudentLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
-import { TrendingUp, Target, Award, BookOpen } from 'lucide-react';
+import { TrendingUp, Target, BookOpen } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 

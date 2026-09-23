@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import {
-    ShieldCheck, Clock, Layers,
-    Calendar, Check, X, Info, User, BookOpen, Search, ShieldAlert
+    ShieldCheck, 
+    User, BookOpen, ShieldAlert
 } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/app/components/ui/card';
+import { Card } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
 import { Badge } from '@/app/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/app/components/ui/tabs";

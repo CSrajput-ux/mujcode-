@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/ca
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Badge } from '../../components/ui/badge';
-import { Video, Plus, Calendar, Clock, Upload, Users, MoreVertical } from 'lucide-react';
+import { Video, Plus, Calendar, Clock, Upload, Users } from 'lucide-react';
 import { getLiveClasses, scheduleLiveClass, updateLiveClassStatus, type LiveClass } from '../../services/liveClassService';
 import { toast } from 'sonner';
 
