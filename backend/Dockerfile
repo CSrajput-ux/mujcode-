@@ -1,5 +1,5 @@
 # ── Backend Dockerfile ──────────────────────────────────────────────────────
-FROM node:20-alpine
+FROM node:22-alpine
 
 LABEL maintainer="MujCode"
 LABEL description="MujCode Backend API"
@@ -27,6 +27,6 @@ EXPOSE 5000
 ENV NODE_ENV=production
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
-  CMD wget -qO- http://localhost:5000 || exit 1
+  CMD wget -qO- http://127.0.0.1:5000/ || exit 1
 
 CMD ["node", "--import", "tsx/esm", "src/server.js"]

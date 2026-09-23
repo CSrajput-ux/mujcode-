@@ -11,7 +11,7 @@ services:
       PORT: 5000
       HOST: "0.0.0.0"
       NODE_ENV: production
-      TOKEN_SECRET: ${TOKEN_SECRET:?TOKEN_SECRET is required}
+      TOKEN_SECRET: ${TOKEN_SECRET:-mujcode-secure-default-secret-please-change-in-production}
       CORS_ORIGIN: ${CORS_ORIGIN:-*}
       DB_FILE: /app/src/data/db.json
       UPLOAD_DIR: /app/uploads
@@ -28,7 +28,7 @@ services:
       redis:
         condition: service_started
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:5000"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5000/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -87,7 +87,7 @@ services:
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:?MONGO_PASSWORD is required}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-mujcode_mongo_secure_pass_491823}
     networks:
       - mujcode-net
     volumes:
@@ -102,6 +102,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./judge0/judge0.conf:/judge0.conf:ro
+    env_file: ./judge0/judge0.conf
     ports:
       - "2358:2358"
     privileged: true
@@ -122,6 +123,7 @@ services:
     command: ["./scripts/workers"]
     volumes:
       - ./judge0/judge0.conf:/judge0.conf:ro
+    env_file: ./judge0/judge0.conf
     privileged: true
     depends_on:
       - judge0_db

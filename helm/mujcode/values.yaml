@@ -63,6 +63,7 @@ autoscaling:
 env:
   NODE_ENV: "production"
   # In a real environment, these would be pulled from AWS Secrets Manager or HashiCorp Vault
+  TOKEN_SECRET: "changeme-in-production-secure-token-secret"
   POSTGRES_URI: "postgres://root:changeme@mujcode-postgres:5432/mujcode_db"
   REDIS_URI: "redis://mujcode-redis:6379"
   MONGODB_URI: "mongodb://root:changeme@mujcode-mongodb:27017/mujcode_ats?authSource=admin"

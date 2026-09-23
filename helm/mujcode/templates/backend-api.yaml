@@ -28,6 +28,8 @@ spec:
           env:
             - name: NODE_ENV
               value: {{ .Values.env.NODE_ENV | quote }}
+            - name: TOKEN_SECRET
+              value: {{ .Values.env.TOKEN_SECRET | quote }}
             - name: POSTGRES_URI
               value: {{ .Values.env.POSTGRES_URI | quote }}
             - name: REDIS_URI
