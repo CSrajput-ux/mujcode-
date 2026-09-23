@@ -1,33 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import StudentLayout from '../../components/StudentLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import {
   BookOpen, FileText, Download, Play, AlertCircle, GraduationCap,
   Brain, Code2, Calculator, Cpu, FlaskConical, Database,
-  Network, Waves, Cog, Lightbulb, Palette, Languages,
-  Presentation, FolderOpen
-} from 'lucide-react';
+  Network, Waves, Cog, Lightbulb, Palette, Languages} from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
-import { Badge } from '../../components/ui/badge';
 import { getMyCoursesAPI, type StudentCoursesResponse } from '../../services/academicService';
 import { Alert, AlertDescription } from '../../components/ui/alert';
 import LiveClassesTab from './LiveClassesTab';
 
-interface ContentItem {
-  _id: string;
-  title: string;
-  description: string;
-  type: 'module' | 'ppt' | 'pyq';
-  subject: string;
-  section: string;
-  fileUrl: string;
-  fileType: string;
-  uploadedBy: string;
-  createdAt: string;
-}
 
 // Smart icon mapping function
 const getSubjectIcon = (courseName: string, courseType: string) => {

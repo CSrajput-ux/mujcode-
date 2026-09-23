@@ -47,7 +47,6 @@ export default function Dashboard() {
     const fetchMentors = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
-        const studentProfile = user.StudentProfile || {};
 
         const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/mentors/${user.id}`);
         const data = await res.json();

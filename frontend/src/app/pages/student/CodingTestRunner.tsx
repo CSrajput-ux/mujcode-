@@ -146,14 +146,6 @@ export default function CodingTestRunner() {
         }
     };
 
-    const handleSecurityViolation = (reason: string) => {
-        violationCountRef.current += 1;
-
-        if (violationCountRef.current >= MAX_VIOLATIONS) {
-            toast.error('Maximum security violations reached. Auto-submitting test.', { duration: 5000 });
-            handleSubmit(true);
-        }
-    };
 
     const handleSubmit = async (force: boolean = false) => {
         if (!force && !confirm('Are you sure you want to submit? You can only submit once.')) {
