@@ -2,7 +2,7 @@ import StudentLayout from '../../components/StudentLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
-import { FileText, Upload, Video, File, Calendar, CheckCircle2, AlertCircle } from 'lucide-react';
+import { FileText, Upload, Video, File, Calendar, CheckCircle2, AlertCircle, Eye, Download } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import CaseStudyNotebook from '../../components/CaseStudyNotebook';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '../../components/ui/dialog';
@@ -11,6 +11,7 @@ import { Label } from '../../components/ui/label';
 import { toast } from 'sonner';
 import { useState, useEffect } from 'react';
 import apiClient from '../../services/apiClient';
+import DocumentPreviewModal from '../../components/DocumentPreviewModal';
 
 export default function Assignments() {
   const [pendingAssignments, setPendingAssignments] = useState<any[]>([]);
@@ -22,6 +23,7 @@ export default function Assignments() {
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [uploadTarget, setUploadTarget] = useState<{ id: string, type: 'assignment' | 'research' | 'casestudy' } | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewItem, setPreviewItem] = useState<any | null>(null);
 
   // Fetch assignments from backend on mount
   useEffect(() => {
@@ -59,27 +61,27 @@ export default function Assignments() {
     const today = new Date().toISOString().split('T')[0];
 
     if (uploadTarget.type === 'assignment') {
-      const item = pendingAssignments.find(a => a.id === uploadTarget.id);
+      const item = pendingAssignments.find(a => a.id === uploadTarget.id || a._id === uploadTarget.id);
       if (item) {
-        setPendingAssignments(prev => prev.filter(a => a.id !== uploadTarget.id));
+        setPendingAssignments(prev => prev.filter(a => a.id !== uploadTarget.id && a._id !== uploadTarget.id));
         setSubmittedAssignments(prev => [{
-           id: item.id, title: item.title, subject: item.subject, type: item.type, submittedOn: today, grade: 'Pending', score: 0 
+           id: item.id || item._id, _id: item._id || item.id, title: item.title, subject: item.subject, type: item.type, fileUrl: item.fileUrl, fileName: item.fileName, fileType: item.fileType, submittedOn: today, grade: 'Pending', score: 0 
         }, ...prev]);
       }
     } else if (uploadTarget.type === 'research') {
-      const item = researchPapers.find(r => r.id === uploadTarget.id);
+      const item = researchPapers.find(r => r.id === uploadTarget.id || r._id === uploadTarget.id);
       if (item) {
-        setResearchPapers(prev => prev.filter(r => r.id !== uploadTarget.id));
+        setResearchPapers(prev => prev.filter(r => r.id !== uploadTarget.id && r._id !== uploadTarget.id));
         setSubmittedAssignments(prev => [{
-           id: item.id, title: item.title, subject: item.subject, type: 'Research', submittedOn: today, grade: 'Pending', score: 0 
+           id: item.id || item._id, _id: item._id || item.id, title: item.title, subject: item.subject, type: 'Research', fileUrl: item.fileUrl, fileName: item.fileName, fileType: item.fileType, submittedOn: today, grade: 'Pending', score: 0 
         }, ...prev]);
       }
     } else if (uploadTarget.type === 'casestudy') {
-      const item = caseStudies.find(c => c.id === uploadTarget.id);
+      const item = caseStudies.find(c => c.id === uploadTarget.id || c._id === uploadTarget.id);
       if (item) {
-        setCaseStudies(prev => prev.filter(c => c.id !== uploadTarget.id));
+        setCaseStudies(prev => prev.filter(c => c.id !== uploadTarget.id && c._id !== uploadTarget.id));
         setSubmittedAssignments(prev => [{
-           id: item.id, title: item.title, subject: item.subject, type: 'Case Study', submittedOn: today, grade: 'Pending', score: 0 
+           id: item.id || item._id, _id: item._id || item.id, title: item.title, subject: item.subject, type: 'Case Study', fileUrl: item.fileUrl, fileName: item.fileName, fileType: item.fileType, submittedOn: today, grade: 'Pending', score: 0 
         }, ...prev]);
       }
     }
@@ -146,67 +148,133 @@ export default function Assignments() {
             {pendingAssignments.length === 0 && (
               <p className="text-gray-500 text-center py-8">No pending assignments found.</p>
             )}
-            {pendingAssignments.map((assignment, index) => (
-              <Card key={assignment._id || index} className="shadow-md border-l-4 border-orange-500">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-4 flex-1">
-                      <div className="p-3 bg-orange-100 rounded-lg text-[#FF7A00]">
-                        {getTypeIcon(assignment.type)}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-1">{assignment.title}</h3>
-                        <p className="text-sm text-gray-600 mb-3">{assignment.subject}</p>
-                        <div className="flex items-center space-x-4 text-sm">
-                          <span className="flex items-center text-gray-600">
-                            <Calendar className="w-4 h-4 mr-1 text-[#FF7A00]" />
-                            Due: {assignment.dueDate}
-                          </span>
-                          {assignment.description && (
-                            <Badge variant="outline">{assignment.description.slice(0, 40)}{assignment.description.length > 40 ? '...' : ''}</Badge>
-                          )}
+            {pendingAssignments.map((assignment, index) => {
+              const assignmentId = assignment._id || assignment.id;
+              const hasFile = Boolean(assignment.fileUrl);
+              const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '');
+              const downloadHref = hasFile ? `${baseUrl}/api/assignments/download/${assignmentId}` : '#';
+
+              return (
+                <Card key={assignmentId || index} className="shadow-md border-l-4 border-orange-500 hover:shadow-lg transition-all duration-200">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                      <div className="flex items-start space-x-4 flex-1 min-w-0">
+                        <div className="p-3 bg-orange-100 rounded-lg text-[#FF7A00] shrink-0">
+                          {getTypeIcon(assignment.type)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-xl font-semibold text-gray-900 mb-1">{assignment.title}</h3>
+                          <p className="text-sm text-gray-600 mb-2">{assignment.subject}</p>
+                          <div className="flex flex-wrap items-center gap-3 text-sm">
+                            <span className="flex items-center text-gray-600 font-medium">
+                              <Calendar className="w-4 h-4 mr-1 text-[#FF7A00]" />
+                              Due: {assignment.dueDate}
+                            </span>
+                            {assignment.fileName && (
+                              <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200 text-xs">
+                                📎 {assignment.fileName}
+                              </Badge>
+                            )}
+                            {assignment.description && (
+                              <Badge variant="outline" className="text-xs max-w-xs truncate">{assignment.description}</Badge>
+                            )}
+                          </div>
                         </div>
                       </div>
+
+                      {/* Action Buttons: View, Download, Submit */}
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="gap-1.5 text-[#FF7A00] border-[#FF7A00]/40 hover:bg-[#FF7A00]/10 hover:text-[#FF7A00] font-medium"
+                          onClick={() => setPreviewItem(assignment)}
+                        >
+                          <Eye className="w-4 h-4" />
+                          View
+                        </Button>
+
+                        {hasFile && (
+                          <a href={downloadHref} target="_blank" rel="noopener noreferrer" download>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="gap-1.5 text-gray-700 hover:text-gray-900 hover:border-gray-400 font-medium"
+                            >
+                              <Download className="w-4 h-4" />
+                              Download
+                            </Button>
+                          </a>
+                        )}
+
+                        <Button
+                          className="bg-[#FF7A00] hover:bg-[#FF6A00] gap-1.5 font-medium shadow-sm"
+                          size="sm"
+                          onClick={() => { setUploadTarget({ id: assignmentId, type: 'assignment' }); setUploadModalOpen(true); }}
+                        >
+                          <Upload className="w-4 h-4" />
+                          Submit
+                        </Button>
+                      </div>
                     </div>
-                    <Button className="bg-[#FF7A00] hover:bg-[#FF6A00]" onClick={() => { setUploadTarget({ id: assignment._id || assignment.id, type: 'assignment' }); setUploadModalOpen(true); }}>
-                      <Upload className="w-4 h-4 mr-2" />
-                      Submit
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </TabsContent>
 
           {/* Submitted Assignments */}
           <TabsContent value="submitted" className="space-y-4">
-            {submittedAssignments.map((assignment, index) => (
-              <Card key={index} className="shadow-md border-l-4 border-green-500">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start space-x-4 flex-1">
-                      <div className="p-3 bg-green-100 rounded-lg text-green-600">
-                        <CheckCircle2 className="w-6 h-6" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-semibold text-gray-900 mb-1">{assignment.title}</h3>
-                        <p className="text-sm text-gray-600 mb-3">{assignment.subject}</p>
-                        <div className="flex items-center space-x-4">
-                          <span className="text-sm text-gray-600">Submitted: {assignment.submittedOn}</span>
-                          <Badge className={getGradeColor(assignment.grade)}>
-                            Grade: {assignment.grade}
-                          </Badge>
-                          <span className="text-sm font-semibold text-[#FF7A00]">Score: {assignment.score}/100</span>
+            {submittedAssignments.map((assignment, index) => {
+              const assignmentId = assignment._id || assignment.id;
+              const hasFile = Boolean(assignment.fileUrl);
+              const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '');
+              const downloadHref = hasFile ? `${baseUrl}/api/assignments/download/${assignmentId}` : '#';
+
+              return (
+                <Card key={assignmentId || index} className="shadow-md border-l-4 border-green-500">
+                  <CardContent className="p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                      <div className="flex items-start space-x-4 flex-1 min-w-0">
+                        <div className="p-3 bg-green-100 rounded-lg text-green-600 shrink-0">
+                          <CheckCircle2 className="w-6 h-6" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-xl font-semibold text-gray-900 mb-1">{assignment.title}</h3>
+                          <p className="text-sm text-gray-600 mb-2">{assignment.subject}</p>
+                          <div className="flex flex-wrap items-center gap-3">
+                            <span className="text-sm text-gray-600">Submitted: {assignment.submittedOn}</span>
+                            <Badge className={getGradeColor(assignment.grade)}>
+                              Grade: {assignment.grade}
+                            </Badge>
+                            <span className="text-sm font-semibold text-[#FF7A00]">Score: {assignment.score}/100</span>
+                          </div>
                         </div>
                       </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="gap-1.5 text-gray-700 hover:border-[#FF7A00] hover:text-[#FF7A00]"
+                          onClick={() => setPreviewItem(assignment)}
+                        >
+                          <Eye className="w-4 h-4" />
+                          View
+                        </Button>
+                        {hasFile && (
+                          <a href={downloadHref} target="_blank" rel="noopener noreferrer" download>
+                            <Button variant="outline" size="sm" className="gap-1.5">
+                              <Download className="w-4 h-4" />
+                              Download
+                            </Button>
+                          </a>
+                        )}
+                      </div>
                     </div>
-                    <Button variant="outline" className="hover:border-[#FF7A00] hover:text-[#FF7A00]">
-                      View Feedback
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </TabsContent>
 
           {/* Research Papers */}
@@ -238,9 +306,21 @@ export default function Assignments() {
                   </div>
 
                   <div className="flex space-x-2">
-                    <Button variant="outline" className="flex-1 hover:border-[#FF7A00] hover:text-[#FF7A00]">
+                    <Button
+                      variant="outline"
+                      className="flex-1 hover:border-[#FF7A00] hover:text-[#FF7A00] gap-1.5"
+                      onClick={() => setPreviewItem(paper)}
+                    >
+                      <Eye className="w-4 h-4" />
                       View Guidelines
                     </Button>
+                    {paper.fileUrl && (
+                      <a href={paper.fileUrl} target="_blank" rel="noopener noreferrer" download>
+                        <Button variant="outline" className="gap-1.5">
+                          <Download className="w-4 h-4" />
+                        </Button>
+                      </a>
+                    )}
                     <Button className="flex-1 bg-[#FF7A00] hover:bg-[#FF6A00]" onClick={() => { setUploadTarget({ id: paper.id, type: 'research' }); setUploadModalOpen(true); }}>
                       <Upload className="w-4 h-4 mr-2" />
                       Submit Paper
@@ -280,10 +360,21 @@ export default function Assignments() {
                   </div>
 
                   <div className="flex space-x-2">
-                    <Button variant="outline" className="flex-1 hover:border-[#FF7A00] hover:text-[#FF7A00]">
-                      <FileText className="w-4 h-4 mr-2" />
+                    <Button
+                      variant="outline"
+                      className="flex-1 hover:border-[#FF7A00] hover:text-[#FF7A00] gap-1.5"
+                      onClick={() => setPreviewItem(study)}
+                    >
+                      <Eye className="w-4 h-4" />
                       Read Case
                     </Button>
+                    {study.fileUrl && (
+                      <a href={study.fileUrl} target="_blank" rel="noopener noreferrer" download>
+                        <Button variant="outline" className="gap-1.5">
+                          <Download className="w-4 h-4" />
+                        </Button>
+                      </a>
+                    )}
                     <Button
                       onClick={() => { setUploadTarget({ id: study.id, type: 'casestudy' }); setUploadModalOpen(true); }}
                       className="flex-1 bg-[#FF7A00] hover:bg-[#FF6A00]"
@@ -362,6 +453,20 @@ export default function Assignments() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Document / Assignment Preview Modal */}
+      {previewItem && (
+        <DocumentPreviewModal
+          open={!!previewItem}
+          onOpenChange={(open) => !open && setPreviewItem(null)}
+          title={previewItem.title || previewItem.fileName || 'Assignment Preview'}
+          fileUrl={previewItem.fileUrl || ''}
+          fileName={previewItem.fileName || ''}
+          fileType={previewItem.fileType || ''}
+          assignmentId={previewItem._id || previewItem.id || ''}
+          description={previewItem.description || ''}
+        />
+      )}
     </StudentLayout>
   );
 }

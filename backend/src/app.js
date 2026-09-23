@@ -41,7 +41,7 @@ function setCors(res, req) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Max-Age', '86400');
   // Online Examination Security Headers (Phase 6)
-  const isEmbeddable = req?.url?.includes('/api/content/view') || req?.url?.includes('/uploads/');
+  const isEmbeddable = req?.url?.includes('/api/content/view') || req?.url?.includes('/api/assignments/view') || req?.url?.includes('/uploads/');
   if (!isEmbeddable) {
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   } else {

@@ -16,6 +16,7 @@ interface CreateAssignmentModalProps {
 
 export default function CreateAssignmentModal({ open, onOpenChange, onCreated }: CreateAssignmentModalProps) {
     const [loading, setLoading] = useState(false);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const { sections, subjectsBySection, branchBySection, loading: assignmentsLoading } = useFacultyAssignments();
 
     const [formData, setFormData] = useState({
@@ -43,8 +44,44 @@ export default function CreateAssignmentModal({ open, onOpenChange, onCreated }:
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
+            const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '');
+
+            let fileUrl = '';
+            let fileName = '';
+            let fileType = '';
+
+            // If a file is attached, upload it first to obtain CDN URL
+            if (selectedFile) {
+                const uploadFormData = new FormData();
+                uploadFormData.append('file', selectedFile);
+                uploadFormData.append('title', formData.title);
+                uploadFormData.append('description', formData.description);
+                uploadFormData.append('section', formData.section);
+                uploadFormData.append('subject', formData.subject);
+                uploadFormData.append('type', formData.type);
+
+                try {
+                    const upRes = await fetch(`${baseUrl}/api/content/upload`, {
+                        method: 'POST',
+                        headers: {
+                            ...(token ? { Authorization: `Bearer ${token}` } : {})
+                        },
+                        body: uploadFormData
+                    });
+
+                    if (upRes.ok) {
+                        const upData = await upRes.json();
+                        fileUrl = upData.fileUrl || '';
+                        fileName = upData.fileName || selectedFile.name;
+                        fileType = upData.fileType || selectedFile.type;
+                    }
+                } catch (uploadErr) {
+                    console.error('File upload failed:', uploadErr);
+                }
+            }
+
             const res = await fetch(
-                (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/assignments',
+                `${baseUrl}/api/assignments`,
                 {
                     method: 'POST',
                     headers: {
@@ -59,12 +96,16 @@ export default function CreateAssignmentModal({ open, onOpenChange, onCreated }:
                         title: formData.title,
                         description: formData.description,
                         dueDate: formData.dueDate,
+                        fileUrl,
+                        fileName,
+                        fileType
                     })
                 }
             );
             if (!res.ok) throw new Error('Server error');
             toast.success('Assignment created successfully!');
             setFormData({ type: 'Assignment', section: '', subject: '', title: '', description: '', dueDate: '' });
+            setSelectedFile(null);
             onOpenChange(false);
             onCreated?.();
         } catch {
@@ -166,7 +207,16 @@ export default function CreateAssignmentModal({ open, onOpenChange, onCreated }:
                     {/* Upload */}
                     <div className="grid gap-2">
                         <Label>Upload File (PDF/DOC)</Label>
-                        <Input type="file" />
+                        <Input 
+                            type="file" 
+                            accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg"
+                            onChange={(e) => setSelectedFile(e.target.files ? e.target.files[0] : null)}
+                        />
+                        {selectedFile && (
+                            <p className="text-xs text-green-600 font-medium flex items-center">
+                                Attached: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
+                            </p>
+                        )}
                     </div>
 
                     {/* Due Date */}

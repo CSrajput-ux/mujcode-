@@ -38,6 +38,7 @@ interface DocumentPreviewModalProps {
   fileType?: string;
   fileName?: string;
   contentId?: string;
+  assignmentId?: string;
   description?: string;
 }
 
@@ -49,6 +50,7 @@ export default function DocumentPreviewModal({
   fileType = "",
   fileName = "",
   contentId = "",
+  assignmentId = "",
   description = ""
 }: DocumentPreviewModalProps) {
   const [viewerType, setViewerType] = useState<"direct" | "google" | "office">("direct");
@@ -57,9 +59,17 @@ export default function DocumentPreviewModal({
   const cleanExt = getCleanExtension(fileUrl, fileName, fileType);
 
   const base = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
-  // Use our backend stream route if contentId is available to guarantee correct inline Content-Type & Content-Disposition
-  const previewUrl = contentId ? `${base}/api/content/view/${contentId}` : fullUrl;
-  const downloadUrl = contentId ? `${base}/api/content/download/${contentId}` : fullUrl;
+  // Use our backend stream route if contentId or assignmentId is available to guarantee correct inline Content-Type & Content-Disposition
+  const previewUrl = contentId 
+    ? `${base}/api/content/view/${contentId}` 
+    : assignmentId 
+      ? `${base}/api/assignments/view/${assignmentId}` 
+      : fullUrl;
+  const downloadUrl = contentId 
+    ? `${base}/api/content/download/${contentId}` 
+    : assignmentId 
+      ? `${base}/api/assignments/download/${assignmentId}` 
+      : fullUrl;
 
   const isImage = ["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(cleanExt) || fileType.startsWith("image/");
   const isVideo = ["mp4", "webm", "ogg", "mov"].includes(cleanExt) || fileType.startsWith("video/");
@@ -175,25 +185,44 @@ export default function DocumentPreviewModal({
               {isFullScreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
             </Button>
 
-            <a href={previewUrl} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
-                <ExternalLink className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">New Tab</span>
-              </Button>
-            </a>
+            {fileUrl && (
+              <>
+                <a href={previewUrl} target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">New Tab</span>
+                  </Button>
+                </a>
 
-            <a href={downloadUrl} download={downloadFileName} target="_blank" rel="noopener noreferrer">
-              <Button size="sm" className="h-8 gap-1.5 text-xs bg-[#FF7A00] hover:bg-[#FF6A00] text-white font-medium">
-                <Download className="w-3.5 h-3.5" />
-                <span>Download</span>
-              </Button>
-            </a>
+                <a href={downloadUrl} download={downloadFileName} target="_blank" rel="noopener noreferrer">
+                  <Button size="sm" className="h-8 gap-1.5 text-xs bg-[#FF7A00] hover:bg-[#FF6A00] text-white font-medium">
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Download</span>
+                  </Button>
+                </a>
+              </>
+            )}
           </div>
         </DialogHeader>
 
         {/* Viewer Body */}
         <div className="flex-1 w-full h-full bg-slate-900 relative overflow-hidden flex items-center justify-center">
-          {isImage ? (
+          {!fileUrl ? (
+            <div className="w-full h-full flex flex-col items-center justify-center p-8 bg-slate-900 text-center">
+              <div className="w-16 h-16 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center mb-4">
+                <FileText className="w-8 h-8 text-[#FF7A00]" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
+              {description ? (
+                <div className="max-w-xl bg-slate-800/80 border border-slate-700 rounded-xl p-5 text-gray-300 text-sm text-left leading-relaxed shadow-lg">
+                  <p className="font-semibold text-orange-400 mb-2">Instructions / Details:</p>
+                  <p className="whitespace-pre-wrap">{description}</p>
+                </div>
+              ) : (
+                <p className="text-gray-400 text-sm max-w-md">No attachment file is associated with this item.</p>
+              )}
+            </div>
+          ) : isImage ? (
             <div className="w-full h-full p-4 flex items-center justify-center overflow-auto bg-slate-900">
               <img
                 src={previewUrl}
