@@ -28,11 +28,7 @@ export const httpRequestsTotal = new client.Counter({
   registers: [register]
 });
 
-export const activeConnections = new client.Gauge({
-  name: 'active_connections',
-  help: 'Number of active WebSocket or HTTP connections',
-  registers: [register]
-});
+
 
 export const judge0SubmissionsTotal = new client.Counter({
   name: 'judge0_submissions_total',
@@ -41,4 +37,4 @@ export const judge0SubmissionsTotal = new client.Counter({
   registers: [register]
 });
 
-export const compilerQueueJobs = judge0SubmissionsTotal;
+

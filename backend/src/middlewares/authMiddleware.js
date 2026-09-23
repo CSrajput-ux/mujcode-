@@ -25,12 +25,4 @@ export const requireRole = (role, handler) => async (req, res, ctx) => {
   return handler(req, res, ctx);
 };
 
-export const requireAnyRole = (roles, handler) => async (req, res, ctx) => {
-  if (!req.user) {
-    return sendJson(res, 401, { error: 'Unauthorized: Invalid or missing token' });
-  }
-  if (!roles.includes(req.user.role)) {
-    return sendJson(res, 403, { error: `Forbidden: Requires one of [${roles.join(', ')}] privileges` });
-  }
-  return handler(req, res, ctx);
-};
+

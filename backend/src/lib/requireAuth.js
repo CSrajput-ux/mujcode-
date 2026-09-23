@@ -40,9 +40,7 @@ export function requireFaculty(req, res) {
   return requireAuth(req, res, 'faculty');
 }
 
-export function requireStudent(req, res) {
-  return requireAuth(req, res, 'student');
-}
+
 
 /**
  * Allow multiple roles (e.g., both admin and faculty).

@@ -86,12 +86,7 @@ export function saveDb(db) {
   return db;
 }
 
-export function updateDb(updater) {
-  const db = loadDb();
-  const result = updater(db);
-  saveDb(db);
-  return result;
-}
+
 
 function scheduleSave() {
   if (saveTimeout || isFlushing) return;
