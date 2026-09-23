@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Mic, MicOff, Video, VideoOff, PhoneOff,
-  Presentation, Hand, PenTool, Monitor, Users, MessageSquare, Eye
+  Presentation, PenTool, Monitor, Users, MessageSquare, Eye
 } from 'lucide-react';
-import { Button } from '../../../app/components/ui/button';
 import { useSocket } from '../hooks/useSocket';
 import { ChatBox } from '../components/ChatBox';
 import { Whiteboard } from '../components/Whiteboard';
@@ -255,8 +254,7 @@ export default function LiveClassroomPage() {
 
 // ─── Top Bar Component ────────────────────────────────────────────────────────
 function TopBar({
-  roomId, isConnected, isFaculty, onLeave
-}: {
+  roomId, isConnected, isFaculty}: {
   roomId: string; isConnected: boolean; isFaculty: boolean; onLeave: () => void;
 }) {
   return (
