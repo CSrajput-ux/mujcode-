@@ -60,14 +60,10 @@ export function ok(res, data = {}, status = 200) {
   return sendJson(res, status, { success: true, ...data });
 }
 
-export function created(res, data = {}) {
-  return ok(res, data, 201);
-}
+
 
 export function badRequest(res, error) {
   return sendJson(res, 400, { error });
 }
 
-export function notFound(res, error = 'Not found') {
-  return sendJson(res, 404, { error });
-}
+

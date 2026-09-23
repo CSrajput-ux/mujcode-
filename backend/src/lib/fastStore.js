@@ -112,28 +112,18 @@ export function rebuildFastIndices(facultyList = [], studentsList = []) {
 
 // --- Fast Access Query Functions (O(1) lookups) ---
 
-export function getAllFacultyFast() {
-  return cachedFaculty || [];
-}
+
 
 export function findFacultyById(id) {
   if (!id) return null;
   return facultyById.get(String(id)) || null;
 }
 
-export function findFacultyByEmail(email) {
-  if (!email) return null;
-  return facultyByEmail.get(String(email).toLowerCase()) || null;
-}
 
-export function findFacultyByFacultyId(facultyId) {
-  if (!facultyId) return null;
-  return facultyByFacultyId.get(String(facultyId).toLowerCase()) || null;
-}
 
-export function getAllStudentsFast() {
-  return cachedStudents || [];
-}
+
+
+
 
 export function findStudentById(id) {
   if (!id) return null;
@@ -145,12 +135,6 @@ export function findStudentByCollegeId(collegeId) {
   return studentByCollegeId.get(String(collegeId)) || null;
 }
 
-export function findStudentByRollNumber(rollNumber) {
-  if (!rollNumber) return null;
-  return studentByRollNumber.get(String(rollNumber)) || null;
-}
 
-export function findStudentByEmail(email) {
-  if (!email) return null;
-  return studentByEmail.get(String(email).toLowerCase()) || null;
-}
+
+
