@@ -5,8 +5,8 @@ import AssignmentSubmissionTable from '../../components/faculty/AssignmentSubmis
 import CreateAssignmentModal from '../../components/faculty/CreateAssignmentModal';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { Button } from '../../components/ui/button';
-import { ArrowLeft, Download } from 'lucide-react';
-import { getFacultyAssignments, getAssignmentSubmissions, Assignment, Submission } from '../../services/facultyAssignmentService';
+import { ArrowLeft, Download, Trash2 } from 'lucide-react';
+import { getFacultyAssignments, getAssignmentSubmissions, deleteAssignment, Assignment, Submission } from '../../services/facultyAssignmentService';
 import { toast } from 'sonner';
 
 export default function FacultyAssignments() {
@@ -45,6 +45,23 @@ export default function FacultyAssignments() {
         }
     };
 
+    const handleDeleteAssignment = async (id: string) => {
+        if (!window.confirm("Are you sure you want to delete this assignment?")) {
+            return;
+        }
+        try {
+            await deleteAssignment(id);
+            toast.success("Assignment deleted successfully");
+            setAssignments(prev => prev.filter(a => a._id !== id));
+            if (selectedAssignment?._id === id) {
+                handleBackToList();
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to delete assignment");
+        }
+    };
+
     const handleBackToList = () => {
         setViewMode('list');
         setSelectedAssignment(null);
@@ -53,7 +70,6 @@ export default function FacultyAssignments() {
 
     const handleDownloadReport = () => {
         toast.info("Downloading report...");
-        // Implement CSV download logic here
     };
 
     if (loading) {
@@ -102,7 +118,12 @@ export default function FacultyAssignments() {
                         <TabsContent value="assignments" className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {assignmentList.map(a => (
-                                    <AssignmentCard key={a._id} assignment={a} onViewSubmissions={handleViewSubmissions} />
+                                    <AssignmentCard
+                                        key={a._id}
+                                        assignment={a}
+                                        onViewSubmissions={handleViewSubmissions}
+                                        onDelete={handleDeleteAssignment}
+                                    />
                                 ))}
                                 {assignmentList.length === 0 && <p className="text-gray-500 col-span-3">No assignments found.</p>}
                             </div>
@@ -111,7 +132,12 @@ export default function FacultyAssignments() {
                         <TabsContent value="casestudies" className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {caseStudies.map(a => (
-                                    <AssignmentCard key={a._id} assignment={a} onViewSubmissions={handleViewSubmissions} />
+                                    <AssignmentCard
+                                        key={a._id}
+                                        assignment={a}
+                                        onViewSubmissions={handleViewSubmissions}
+                                        onDelete={handleDeleteAssignment}
+                                    />
                                 ))}
                                 {caseStudies.length === 0 && <p className="text-gray-500 col-span-3">No case studies found.</p>}
                             </div>
@@ -120,7 +146,12 @@ export default function FacultyAssignments() {
                         <TabsContent value="research" className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {researchWork.map(a => (
-                                    <AssignmentCard key={a._id} assignment={a} onViewSubmissions={handleViewSubmissions} />
+                                    <AssignmentCard
+                                        key={a._id}
+                                        assignment={a}
+                                        onViewSubmissions={handleViewSubmissions}
+                                        onDelete={handleDeleteAssignment}
+                                    />
                                 ))}
                                 {researchWork.length === 0 && <p className="text-gray-500 col-span-3">No research work found.</p>}
                             </div>
@@ -129,7 +160,12 @@ export default function FacultyAssignments() {
                         <TabsContent value="other" className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {otherWork.map(a => (
-                                    <AssignmentCard key={a._id} assignment={a} onViewSubmissions={handleViewSubmissions} />
+                                    <AssignmentCard
+                                        key={a._id}
+                                        assignment={a}
+                                        onViewSubmissions={handleViewSubmissions}
+                                        onDelete={handleDeleteAssignment}
+                                    />
                                 ))}
                                 {otherWork.length === 0 && <p className="text-gray-500 col-span-3">No other work found.</p>}
                             </div>
@@ -150,10 +186,20 @@ export default function FacultyAssignments() {
                                 <h1 className="text-2xl font-bold text-gray-900">{selectedAssignment.title}</h1>
                                 <p className="text-gray-500 mt-1">{selectedAssignment.description}</p>
                             </div>
-                            <Button variant="outline" onClick={handleDownloadReport}>
-                                <Download className="w-4 h-4 mr-2" />
-                                Download Report
-                            </Button>
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    variant="outline"
+                                    className="text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
+                                    onClick={() => handleDeleteAssignment(selectedAssignment._id)}
+                                >
+                                    <Trash2 className="w-4 h-4 mr-2" />
+                                    Delete
+                                </Button>
+                                <Button variant="outline" onClick={handleDownloadReport}>
+                                    <Download className="w-4 h-4 mr-2" />
+                                    Download Report
+                                </Button>
+                            </div>
                         </div>
                     </div>
 

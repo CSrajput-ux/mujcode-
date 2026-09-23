@@ -44,6 +44,10 @@ export const gradeSubmission = async (submissionId: string, marks: number, feedb
     return response.data;
 };
 
+export const deleteAssignment = async (assignmentId: string): Promise<void> => {
+    await apiClient.delete(`/api/assignments/${assignmentId}`);
+};
+
 export const seedAssignments = async () => {
     await apiClient.post('/api/assignments/seed');
 };

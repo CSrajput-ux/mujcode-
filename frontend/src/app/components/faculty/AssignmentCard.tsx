@@ -1,4 +1,4 @@
-import { Calendar, Users, Briefcase } from 'lucide-react';
+import { Calendar, Users, Briefcase, Trash2 } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -7,9 +7,10 @@ import { Assignment } from '../../services/facultyAssignmentService';
 interface AssignmentCardProps {
     assignment: Assignment;
     onViewSubmissions: (a: Assignment) => void;
+    onDelete?: (id: string) => void;
 }
 
-export default function AssignmentCard({ assignment, onViewSubmissions }: AssignmentCardProps) {
+export default function AssignmentCard({ assignment, onViewSubmissions, onDelete }: AssignmentCardProps) {
     const isOverdue = new Date(assignment.dueDate) < new Date();
 
     return (
@@ -54,12 +55,28 @@ export default function AssignmentCard({ assignment, onViewSubmissions }: Assign
                     </div>
                 </div>
 
-                <Button
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                    onClick={() => onViewSubmissions(assignment)}
-                >
-                    View Submissions
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button
+                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium"
+                        onClick={() => onViewSubmissions(assignment)}
+                    >
+                        View Submissions
+                    </Button>
+                    {onDelete && (
+                        <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-10 w-10 text-red-500 border-red-200 hover:bg-red-50 hover:text-red-700 hover:border-red-300 transition-colors shrink-0"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete(assignment._id);
+                            }}
+                            title="Delete Assignment"
+                        >
+                            <Trash2 className="w-4 h-4" />
+                        </Button>
+                    )}
+                </div>
             </CardContent>
         </Card>
     );

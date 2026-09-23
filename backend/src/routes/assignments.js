@@ -89,5 +89,16 @@ export function registerAssignmentsRoutes(router) {
 
     return sendJson(res, 200, submission);
   });
+
+  router.delete('/api/assignments/:id', (req, res, ctx) => {
+    const db = ctx.getDb();
+    const id = req.params.id;
+    db.assignments = (db.assignments || []).filter(item => item._id !== id);
+    if (db.assignmentSubmissions) {
+      db.assignmentSubmissions = db.assignmentSubmissions.filter(sub => sub.assignmentId !== id);
+    }
+    ctx.saveDb(db);
+    return ok(res, { message: 'Assignment deleted successfully' });
+  });
 }
 
