@@ -13,11 +13,17 @@ let isConnected = false;
  */
 export function getPostgresPool() {
   if (!pool && config.postgresUri) {
+    const isSsl = config.postgresUri.includes('sslmode=require') || 
+                  config.postgresUri.includes('neon.tech') || 
+                  config.postgresUri.includes('supabase') || 
+                  config.postgresUri.includes('aws');
+
     pool = new Pool({
       connectionString: config.postgresUri,
+      ssl: isSsl ? { rejectUnauthorized: false } : undefined,
       max: 20,
       idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 5000,
+      connectionTimeoutMillis: 10000,
     });
 
     pool.on('error', (err) => {

@@ -41,9 +41,15 @@ try {
   process.exit(1);
 }
 
+const isSsl = postgresUri.includes('sslmode=require') || 
+              postgresUri.includes('neon.tech') || 
+              postgresUri.includes('supabase') || 
+              postgresUri.includes('aws');
+
 const pool = new Pool({
   connectionString: postgresUri,
-  connectionTimeoutMillis: 10000,
+  ssl: isSsl ? { rejectUnauthorized: false } : undefined,
+  connectionTimeoutMillis: 15000,
 });
 
 async function runMigration() {
