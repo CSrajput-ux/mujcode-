@@ -70,6 +70,9 @@ export function registerContentRoutes(router) {
           return sendJson(res, 502, { error: 'Failed to retrieve file from CDN' });
         }
         res.statusCode = 200;
+        res.removeHeader('X-Frame-Options');
+        res.setHeader('Content-Security-Policy', "frame-ancestors *");
+        res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
         res.setHeader('Content-Type', contentType);
         res.setHeader('Content-Disposition', `inline; filename="${safeName}"`);
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -80,6 +83,9 @@ export function registerContentRoutes(router) {
         const localPath = path.join(process.cwd(), item.fileUrl.replace(/^\/+/, ''));
         if (fs.existsSync(localPath)) {
           res.statusCode = 200;
+          res.removeHeader('X-Frame-Options');
+          res.setHeader('Content-Security-Policy', "frame-ancestors *");
+          res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
           res.setHeader('Content-Type', contentType);
           res.setHeader('Content-Disposition', `inline; filename="${safeName}"`);
           res.setHeader('Access-Control-Allow-Origin', '*');

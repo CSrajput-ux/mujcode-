@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { ExternalLink, Download, FileText, Presentation, BookOpen, Image as ImageIcon, Video, HelpCircle } from "lucide-react";
+import { ExternalLink, Download, FileText, Presentation, BookOpen, Image as ImageIcon, Video } from "lucide-react";
 import { useState } from "react";
 
 export function getResolvedFileUrl(url: string): string {
@@ -51,7 +51,7 @@ export default function DocumentPreviewModal({
   contentId = "",
   description = ""
 }: DocumentPreviewModalProps) {
-  const [viewerType, setViewerType] = useState<"google" | "office">("google");
+  const [viewerType, setViewerType] = useState<"direct" | "google" | "office">("direct");
   const fullUrl = getResolvedFileUrl(fileUrl);
   const cleanExt = getCleanExtension(fileUrl, fileName, fileType);
 
@@ -114,7 +114,28 @@ export default function DocumentPreviewModal({
 
           {/* Quick Actions in Header */}
           <div className="flex items-center gap-2 shrink-0">
-            {isPpt || isDoc ? (
+            {isPdf ? (
+              <div className="hidden sm:flex items-center rounded-lg border border-gray-200 p-0.5 text-xs bg-gray-50">
+                <button
+                  type="button"
+                  onClick={() => setViewerType("direct")}
+                  className={`px-2.5 py-1 rounded-md font-medium transition-all ${
+                    viewerType === "direct" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-900"
+                  }`}
+                >
+                  Direct PDF
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewerType("google")}
+                  className={`px-2.5 py-1 rounded-md font-medium transition-all ${
+                    viewerType === "google" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-900"
+                  }`}
+                >
+                  Google Viewer
+                </button>
+              </div>
+            ) : isPpt || isDoc ? (
               <div className="hidden sm:flex items-center rounded-lg border border-gray-200 p-0.5 text-xs bg-gray-50">
                 <button
                   type="button"
@@ -172,7 +193,8 @@ export default function DocumentPreviewModal({
           ) : isPdf ? (
             <div className="w-full h-full flex flex-col bg-white">
               <iframe
-                src={`${previewUrl}#toolbar=1&navpanes=1`}
+                key={viewerType}
+                src={viewerType === "direct" ? `${previewUrl}#toolbar=1&navpanes=1` : googleViewerUrl}
                 className="w-full flex-1 border-0 bg-white"
                 title={title}
               />
@@ -181,7 +203,7 @@ export default function DocumentPreviewModal({
             <div className="w-full h-full flex flex-col bg-white">
               <iframe
                 key={viewerType}
-                src={viewerType === "google" ? googleViewerUrl : officeViewerUrl}
+                src={viewerType === "office" ? officeViewerUrl : googleViewerUrl}
                 className="w-full flex-1 border-0"
                 title={title}
               />

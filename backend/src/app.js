@@ -41,7 +41,13 @@ function setCors(res, req) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Max-Age', '86400');
   // Online Examination Security Headers (Phase 6)
-  res.setHeader('X-Frame-Options', 'DENY');
+  const isEmbeddable = req?.url?.includes('/api/content/view') || req?.url?.includes('/uploads/');
+  if (!isEmbeddable) {
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  } else {
+    res.setHeader('Content-Security-Policy', "frame-ancestors *");
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  }
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'screen-wake-lock=*, camera=*, microphone=*');
