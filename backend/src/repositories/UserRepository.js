@@ -29,21 +29,27 @@ export class UserRepository {
     return this._db().users;
   }
 
-  // Finds a user by email and optionally role
-  async findByEmailAndRole(email, role) {
+  // Finds a user by email/college_id and optionally role
+  async findByEmailAndRole(identifier, role) {
     const db = this._db();
-    return db.users.find(u =>
-      u.email?.toLowerCase() === email?.toLowerCase() &&
-      (!role || u.role === role)
-    ) || null;
+    const clean = String(identifier || '').trim().toLowerCase();
+    return db.users.find(u => {
+      const matchEmail = u.email?.toLowerCase() === clean;
+      const matchCollegeId = String(u.college_id || u.collegeId || '').trim().toLowerCase() === clean;
+      const matchRole = !role || u.role?.toLowerCase() === String(role).toLowerCase();
+      return (matchEmail || matchCollegeId) && matchRole;
+    }) || null;
   }
 
-  // Finds all users matching an email (any role)
-  async findAllByEmail(email) {
+  // Finds all users matching an email or college_id (any role)
+  async findAllByEmail(identifier) {
     const db = this._db();
-    return db.users.filter(u =>
-      u.email?.toLowerCase() === email?.toLowerCase()
-    );
+    const clean = String(identifier || '').trim().toLowerCase();
+    return db.users.filter(u => {
+      const matchEmail = u.email?.toLowerCase() === clean;
+      const matchCollegeId = String(u.college_id || u.collegeId || '').trim().toLowerCase() === clean;
+      return matchEmail || matchCollegeId;
+    });
   }
 
   // Updates a single user and persists to disk
