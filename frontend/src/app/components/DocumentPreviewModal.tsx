@@ -93,7 +93,7 @@ export default function DocumentPreviewModal({
         }`}
       >
         {/* Header */}
-        <DialogHeader className="p-4 border-b border-gray-100 flex flex-row items-center justify-between shrink-0 bg-white">
+        <DialogHeader className="px-5 py-3.5 pr-14 border-b border-gray-100 flex flex-row items-center justify-between shrink-0 bg-white">
           <div className="flex items-center gap-3 min-w-0 pr-4">
             <div className="w-10 h-10 rounded-lg bg-orange-50 border border-orange-200/80 flex items-center justify-center shrink-0">
               {getIcon()}
