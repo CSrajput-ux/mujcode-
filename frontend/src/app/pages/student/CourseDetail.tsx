@@ -3,10 +3,11 @@ import { Card, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
-import { Code2, Database, Globe, Target, ArrowLeft, CheckCircle2, Circle, FileText, BookOpen, Presentation, Download } from 'lucide-react';
+import { Code2, Database, Globe, Target, ArrowLeft, CheckCircle2, Circle, FileText, BookOpen, Presentation, Download, Eye } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import DocumentPreviewModal from '../../components/DocumentPreviewModal';
 
 interface Problem {
     _id: string;
@@ -47,6 +48,7 @@ export default function CourseDetail() {
     const [courseContent, setCourseContent] = useState<ContentItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [solvedCount, setSolvedCount] = useState(0);
+    const [previewItem, setPreviewItem] = useState<ContentItem | null>(null);
 
     useEffect(() => {
         fetchCourseDetails();
@@ -144,15 +146,26 @@ export default function CourseDetail() {
                                 <p className="text-xs text-gray-500 mt-1">{item.description || 'No description'}</p>
                             </div>
                         </div>
-                        <a
-                            href={item.fileUrl?.startsWith('http') ? item.fileUrl : `${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}${item.fileUrl?.startsWith('/') ? '' : '/'}${item.fileUrl || ''}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <Button variant="outline" size="sm" className="gap-2">
-                                <Download className="w-4 h-4" /> Download
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-1.5 text-[#FF7A00] border-[#FF7A00]/40 hover:bg-[#FF7A00]/10 hover:text-[#FF7A00] hover:border-[#FF7A00]"
+                                onClick={() => setPreviewItem(item)}
+                            >
+                                <Eye className="w-4 h-4" /> View
                             </Button>
-                        </a>
+                            <a
+                                href={item.fileUrl?.startsWith('http') ? item.fileUrl : `${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}${item.fileUrl?.startsWith('/') ? '' : '/'}${item.fileUrl || ''}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                download
+                            >
+                                <Button variant="outline" size="sm" className="gap-1.5">
+                                    <Download className="w-4 h-4" /> Download
+                                </Button>
+                            </a>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -339,6 +352,17 @@ export default function CourseDetail() {
                     </TabsContent>
                 </Tabs>
             </div>
+
+            {previewItem && (
+                <DocumentPreviewModal
+                    open={!!previewItem}
+                    onOpenChange={(open) => !open && setPreviewItem(null)}
+                    title={previewItem.title}
+                    fileUrl={previewItem.fileUrl}
+                    fileType={previewItem.fileType}
+                    description={previewItem.description}
+                />
+            )}
         </StudentLayout>
     );
 }

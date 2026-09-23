@@ -1,0 +1,156 @@
+﻿import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
+import { ExternalLink, Download, FileText, Presentation, BookOpen, Image as ImageIcon, Video, AlertCircle } from "lucide-react";
+import { useState } from "react";
+
+export function getResolvedFileUrl(url: string): string {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  const base = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
+  return `${base}${url.startsWith("/") ? "" : "/"}${url}`;
+}
+
+interface DocumentPreviewModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  fileUrl: string;
+  fileType?: string;
+  description?: string;
+}
+
+export default function DocumentPreviewModal({
+  open,
+  onOpenChange,
+  title,
+  fileUrl,
+  fileType = "",
+  description = ""
+}: DocumentPreviewModalProps) {
+  const [viewerType, setViewerType] = useState<"google" | "office">("google");
+  const fullUrl = getResolvedFileUrl(fileUrl);
+  const cleanExt = (fileUrl.split("?")[0].split(".").pop() || "").toLowerCase();
+
+  const isImage = ["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(cleanExt) || fileType.startsWith("image/");
+  const isVideo = ["mp4", "webm", "ogg", "mov"].includes(cleanExt) || fileType.startsWith("video/");
+  const isPdf = cleanExt === "pdf" || fileType === "application/pdf" || fullUrl.toLowerCase().includes(".pdf");
+  const isPpt = ["ppt", "pptx"].includes(cleanExt) || fileType.includes("presentation");
+  const isDoc = ["doc", "docx", "txt"].includes(cleanExt) || fileType.includes("word");
+
+  const googleViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
+  const officeViewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(fullUrl)}`;
+
+  const getIcon = () => {
+    if (isImage) return <ImageIcon className="w-5 h-5 text-purple-500" />;
+    if (isVideo) return <Video className="w-5 h-5 text-red-500" />;
+    if (isPpt) return <Presentation className="w-5 h-5 text-[#FF7A00]" />;
+    if (isPdf) return <BookOpen className="w-5 h-5 text-blue-500" />;
+    return <FileText className="w-5 h-5 text-green-500" />;
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-5xl w-[95vw] h-[88vh] flex flex-col p-0 gap-0 overflow-hidden bg-white border border-gray-200 shadow-2xl rounded-2xl">
+        {/* Header */}
+        <DialogHeader className="p-4 border-b border-gray-100 flex flex-row items-center justify-between shrink-0 bg-white">
+          <div className="flex items-center gap-3 min-w-0 pr-4">
+            <div className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200/80 flex items-center justify-center shrink-0">
+              {getIcon()}
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <DialogTitle className="text-base font-semibold text-gray-900 truncate">
+                  {title}
+                </DialogTitle>
+                <Badge variant="outline" className="text-xs uppercase px-2 py-0.5 shrink-0 bg-gray-50">
+                  {cleanExt || "FILE"}
+                </Badge>
+              </div>
+              {description && (
+                <p className="text-xs text-gray-500 truncate mt-0.5 max-w-xl">
+                  {description}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Quick Actions in Header */}
+          <div className="flex items-center gap-2 shrink-0">
+            {isPpt || isDoc ? (
+              <div className="hidden sm:flex items-center rounded-lg border border-gray-200 p-0.5 text-xs bg-gray-50">
+                <button
+                  type="button"
+                  onClick={() => setViewerType("google")}
+                  className={`px-2.5 py-1 rounded-md font-medium transition-all ${
+                    viewerType === "google" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-900"
+                  }`}
+                >
+                  Google Viewer
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewerType("office")}
+                  className={`px-2.5 py-1 rounded-md font-medium transition-all ${
+                    viewerType === "office" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-900"
+                  }`}
+                >
+                  Office Viewer
+                </button>
+              </div>
+            ) : null}
+
+            <a href={fullUrl} target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">New Tab</span>
+              </Button>
+            </a>
+
+            <a href={fullUrl} download target="_blank" rel="noopener noreferrer">
+              <Button size="sm" className="h-8 gap-1.5 text-xs bg-[#FF7A00] hover:bg-[#FF6A00] text-white">
+                <Download className="w-3.5 h-3.5" />
+                <span>Download</span>
+              </Button>
+            </a>
+          </div>
+        </DialogHeader>
+
+        {/* Viewer Body */}
+        <div className="flex-1 w-full h-full bg-slate-900 relative overflow-hidden flex items-center justify-center">
+          {isImage ? (
+            <div className="w-full h-full p-4 flex items-center justify-center overflow-auto bg-slate-900">
+              <img
+                src={fullUrl}
+                alt={title}
+                className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+              />
+            </div>
+          ) : isVideo ? (
+            <div className="w-full h-full p-4 flex items-center justify-center bg-black">
+              <video src={fullUrl} controls className="max-w-full max-h-full rounded-lg" autoPlay>
+                Your browser does not support HTML5 video.
+              </video>
+            </div>
+          ) : isPdf ? (
+            <iframe
+              src={`${fullUrl}#toolbar=1&navpanes=1`}
+              className="w-full h-full border-0 bg-white"
+              title={title}
+            />
+          ) : (
+            <div className="w-full h-full flex flex-col bg-white">
+              <iframe
+                key={viewerType}
+                src={viewerType === "google" ? googleViewerUrl : officeViewerUrl}
+                className="w-full flex-1 border-0"
+                title={title}
+              />
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+

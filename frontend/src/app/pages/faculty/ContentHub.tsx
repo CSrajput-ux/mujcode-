@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { Upload, FileText, Trash2, Filter, X, File, Presentation, BookOpen } from 'lucide-react';
+import { Upload, FileText, Trash2, Filter, X, File, Presentation, BookOpen, Eye } from 'lucide-react';
 import { Button } from '../../components/ui/button';
+import DocumentPreviewModal from '../../components/DocumentPreviewModal';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
@@ -25,6 +26,7 @@ interface ContentItem {
 export default function ContentHub() {
     const [contents, setContents] = useState<ContentItem[]>([]);
     const [loading, setLoading] = useState(true);
+    const [previewItem, setPreviewItem] = useState<ContentItem | null>(null);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -405,6 +407,25 @@ export default function ContentHub() {
 
                                     <div className="flex items-center gap-2">
                                         <Button
+                                            variant="outline"
+                                            size="sm"
+                                            className="text-xs gap-1.5 text-[#FF7A00] border-[#FF7A00]/40 hover:bg-[#FF7A00]/10 hover:text-[#FF7A00]"
+                                            onClick={() => setPreviewItem(content)}
+                                        >
+                                            <Eye className="w-3.5 h-3.5" />
+                                            View
+                                        </Button>
+                                        <a
+                                            href={content.fileUrl?.startsWith('http') ? content.fileUrl : `${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}${content.fileUrl?.startsWith('/') ? '' : '/'}${content.fileUrl || ''}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            download
+                                        >
+                                            <Button variant="outline" size="sm" className="text-xs">
+                                                Download
+                                            </Button>
+                                        </a>
+                                        <Button
                                             variant="ghost"
                                             size="sm"
                                             className="text-red-500 hover:text-red-700 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -412,15 +433,6 @@ export default function ContentHub() {
                                         >
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
-                                        <a
-                                            href={content.fileUrl?.startsWith('http') ? content.fileUrl : `${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}${content.fileUrl?.startsWith('/') ? '' : '/'}${content.fileUrl || ''}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            <Button variant="outline" size="sm" className="text-xs">
-                                                Download
-                                            </Button>
-                                        </a>
                                     </div>
                                 </div>
                             ))}
@@ -428,6 +440,17 @@ export default function ContentHub() {
                     )}
                 </div>
             </div>
+
+            {previewItem && (
+                <DocumentPreviewModal
+                    open={!!previewItem}
+                    onOpenChange={(open) => !open && setPreviewItem(null)}
+                    title={previewItem.title}
+                    fileUrl={previewItem.fileUrl}
+                    fileType={previewItem.fileType}
+                    description={previewItem.description}
+                />
+            )}
         </div>
     );
 }
