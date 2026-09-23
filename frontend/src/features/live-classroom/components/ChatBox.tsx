@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, User } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { Socket } from 'socket.io-client';
 
 interface Message {

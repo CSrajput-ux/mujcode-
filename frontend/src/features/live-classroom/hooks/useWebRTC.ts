@@ -15,7 +15,7 @@ const ICE_SERVERS = {
   ]
 };
 
-export const useWebRTC = (socket: Socket | null, localStream: MediaStream | null, userId: string) => {
+export const useWebRTC = (socket: Socket | null, localStream: MediaStream | null) => {
   const [peers, setPeers] = useState<PeerConnection[]>([]);
   const peersRef = useRef<{ [key: string]: PeerConnection }>({});
 

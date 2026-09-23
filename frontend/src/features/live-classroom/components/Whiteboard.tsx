@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, MouseEvent } from 'react';
+import { useRef, useEffect, useState, MouseEvent } from 'react';
 import { Socket } from 'socket.io-client';
 import { Eraser, Pencil, Trash2, Plus, ChevronLeft, ChevronRight, FileText } from 'lucide-react';
 
