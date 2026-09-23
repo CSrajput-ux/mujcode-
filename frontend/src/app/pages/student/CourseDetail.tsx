@@ -36,6 +36,7 @@ interface ContentItem {
     type: 'module' | 'ppt' | 'pyq';
     fileUrl: string;
     fileType: string;
+    fileName?: string;
     uploadedBy: string;
     createdAt: string;
 }
@@ -156,7 +157,7 @@ export default function CourseDetail() {
                                 <Eye className="w-4 h-4" /> View
                             </Button>
                             <a
-                                href={item.fileUrl?.startsWith('http') ? item.fileUrl : `${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}${item.fileUrl?.startsWith('/') ? '' : '/'}${item.fileUrl || ''}`}
+                                href={`${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}/api/content/download/${item._id}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 download
@@ -360,6 +361,8 @@ export default function CourseDetail() {
                     title={previewItem.title}
                     fileUrl={previewItem.fileUrl}
                     fileType={previewItem.fileType}
+                    fileName={previewItem.fileName}
+                    contentId={previewItem._id}
                     description={previewItem.description}
                 />
             )}

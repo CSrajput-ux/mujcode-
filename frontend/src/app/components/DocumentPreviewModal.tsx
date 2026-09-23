@@ -1,7 +1,7 @@
-﻿import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { ExternalLink, Download, FileText, Presentation, BookOpen, Image as ImageIcon, Video, AlertCircle } from "lucide-react";
+import { ExternalLink, Download, FileText, Presentation, BookOpen, Image as ImageIcon, Video, HelpCircle } from "lucide-react";
 import { useState } from "react";
 
 export function getResolvedFileUrl(url: string): string {
@@ -11,12 +11,33 @@ export function getResolvedFileUrl(url: string): string {
   return `${base}${url.startsWith("/") ? "" : "/"}${url}`;
 }
 
+export function getCleanExtension(fileUrl: string, fileName?: string, fileType?: string): string {
+  if (fileName && fileName.includes(".")) {
+    const ext = fileName.split(".").pop()?.trim().toLowerCase();
+    if (ext && ext.length <= 5) return ext;
+  }
+  const cleanPath = (fileUrl || "").split("?")[0].split("#")[0];
+  const lastSegment = cleanPath.split("/").pop() || "";
+  if (lastSegment.includes(".")) {
+    const ext = lastSegment.split(".").pop()?.trim().toLowerCase();
+    if (ext && ext.length <= 5) return ext;
+  }
+  if (fileType?.includes("pdf")) return "pdf";
+  if (fileType?.includes("presentation") || fileType?.includes("powerpoint")) return "pptx";
+  if (fileType?.includes("word") || fileType?.includes("document")) return "docx";
+  if (fileType?.startsWith("image/")) return fileType.split("/")[1]?.toLowerCase() || "png";
+  if (fileType?.startsWith("video/")) return fileType.split("/")[1]?.toLowerCase() || "mp4";
+  return "pdf";
+}
+
 interface DocumentPreviewModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   title: string;
   fileUrl: string;
   fileType?: string;
+  fileName?: string;
+  contentId?: string;
   description?: string;
 }
 
@@ -26,17 +47,29 @@ export default function DocumentPreviewModal({
   title,
   fileUrl,
   fileType = "",
+  fileName = "",
+  contentId = "",
   description = ""
 }: DocumentPreviewModalProps) {
   const [viewerType, setViewerType] = useState<"google" | "office">("google");
   const fullUrl = getResolvedFileUrl(fileUrl);
-  const cleanExt = (fileUrl.split("?")[0].split(".").pop() || "").toLowerCase();
+  const cleanExt = getCleanExtension(fileUrl, fileName, fileType);
+
+  const base = (import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
+  // Use our backend stream route if contentId is available to guarantee correct inline Content-Type & Content-Disposition
+  const previewUrl = contentId ? `${base}/api/content/view/${contentId}` : fullUrl;
+  const downloadUrl = contentId ? `${base}/api/content/download/${contentId}` : fullUrl;
 
   const isImage = ["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(cleanExt) || fileType.startsWith("image/");
   const isVideo = ["mp4", "webm", "ogg", "mov"].includes(cleanExt) || fileType.startsWith("video/");
-  const isPdf = cleanExt === "pdf" || fileType === "application/pdf" || fullUrl.toLowerCase().includes(".pdf");
+  const isPdf = cleanExt === "pdf" || fileType.includes("pdf") || title.toLowerCase().endsWith(".pdf") || fullUrl.toLowerCase().includes(".pdf");
   const isPpt = ["ppt", "pptx"].includes(cleanExt) || fileType.includes("presentation");
   const isDoc = ["doc", "docx", "txt"].includes(cleanExt) || fileType.includes("word");
+
+  const cleanTitle = (title || fileName || "document").replace(/[^\w\s.-]/g, "").trim().replace(/\s+/g, "_");
+  const downloadFileName = fileName && fileName.includes(".")
+    ? fileName
+    : (cleanTitle.toLowerCase().endsWith(`.${cleanExt}`) ? cleanTitle : `${cleanTitle}.${cleanExt}`);
 
   const googleViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(fullUrl)}&embedded=true`;
   const officeViewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(fullUrl)}`;
@@ -55,7 +88,7 @@ export default function DocumentPreviewModal({
         {/* Header */}
         <DialogHeader className="p-4 border-b border-gray-100 flex flex-row items-center justify-between shrink-0 bg-white">
           <div className="flex items-center gap-3 min-w-0 pr-4">
-            <div className="w-10 h-10 rounded-lg bg-gray-50 border border-gray-200/80 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-lg bg-orange-50 border border-orange-200/80 flex items-center justify-center shrink-0">
               {getIcon()}
             </div>
             <div className="min-w-0">
@@ -63,13 +96,17 @@ export default function DocumentPreviewModal({
                 <DialogTitle className="text-base font-semibold text-gray-900 truncate">
                   {title}
                 </DialogTitle>
-                <Badge variant="outline" className="text-xs uppercase px-2 py-0.5 shrink-0 bg-gray-50">
-                  {cleanExt || "FILE"}
+                <Badge variant="outline" className="text-xs uppercase font-bold px-2 py-0.5 shrink-0 bg-orange-50 text-orange-700 border-orange-200">
+                  {cleanExt.toUpperCase()}
                 </Badge>
               </div>
-              {description && (
+              {description ? (
                 <p className="text-xs text-gray-500 truncate mt-0.5 max-w-xl">
                   {description}
+                </p>
+              ) : (
+                <p className="text-xs text-gray-400 truncate mt-0.5">
+                  {downloadFileName}
                 </p>
               )}
             </div>
@@ -100,15 +137,15 @@ export default function DocumentPreviewModal({
               </div>
             ) : null}
 
-            <a href={fullUrl} target="_blank" rel="noopener noreferrer">
+            <a href={previewUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">New Tab</span>
               </Button>
             </a>
 
-            <a href={fullUrl} download target="_blank" rel="noopener noreferrer">
-              <Button size="sm" className="h-8 gap-1.5 text-xs bg-[#FF7A00] hover:bg-[#FF6A00] text-white">
+            <a href={downloadUrl} download={downloadFileName} target="_blank" rel="noopener noreferrer">
+              <Button size="sm" className="h-8 gap-1.5 text-xs bg-[#FF7A00] hover:bg-[#FF6A00] text-white font-medium">
                 <Download className="w-3.5 h-3.5" />
                 <span>Download</span>
               </Button>
@@ -121,23 +158,25 @@ export default function DocumentPreviewModal({
           {isImage ? (
             <div className="w-full h-full p-4 flex items-center justify-center overflow-auto bg-slate-900">
               <img
-                src={fullUrl}
+                src={previewUrl}
                 alt={title}
                 className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
               />
             </div>
           ) : isVideo ? (
             <div className="w-full h-full p-4 flex items-center justify-center bg-black">
-              <video src={fullUrl} controls className="max-w-full max-h-full rounded-lg" autoPlay>
+              <video src={previewUrl} controls className="max-w-full max-h-full rounded-lg" autoPlay>
                 Your browser does not support HTML5 video.
               </video>
             </div>
           ) : isPdf ? (
-            <iframe
-              src={`${fullUrl}#toolbar=1&navpanes=1`}
-              className="w-full h-full border-0 bg-white"
-              title={title}
-            />
+            <div className="w-full h-full flex flex-col bg-white">
+              <iframe
+                src={`${previewUrl}#toolbar=1&navpanes=1`}
+                className="w-full flex-1 border-0 bg-white"
+                title={title}
+              />
+            </div>
           ) : (
             <div className="w-full h-full flex flex-col bg-white">
               <iframe
@@ -153,4 +192,3 @@ export default function DocumentPreviewModal({
     </Dialog>
   );
 }
-

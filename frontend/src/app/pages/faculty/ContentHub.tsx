@@ -19,6 +19,7 @@ interface ContentItem {
     section: string;
     fileUrl: string;
     fileType: string;
+    fileName?: string;
     uploadedBy: string;
     createdAt: string;
 }
@@ -416,7 +417,7 @@ export default function ContentHub() {
                                             View
                                         </Button>
                                         <a
-                                            href={content.fileUrl?.startsWith('http') ? content.fileUrl : `${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}${content.fileUrl?.startsWith('/') ? '' : '/'}${content.fileUrl || ''}`}
+                                            href={`${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}/api/content/download/${content._id}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             download
@@ -448,6 +449,8 @@ export default function ContentHub() {
                     title={previewItem.title}
                     fileUrl={previewItem.fileUrl}
                     fileType={previewItem.fileType}
+                    fileName={previewItem.fileName}
+                    contentId={previewItem._id}
                     description={previewItem.description}
                 />
             )}
