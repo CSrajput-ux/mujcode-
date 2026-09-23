@@ -18,8 +18,13 @@ export function getPostgresPool() {
                   config.postgresUri.includes('supabase') || 
                   config.postgresUri.includes('aws');
 
+    let cleanUri = config.postgresUri;
+    if (cleanUri.includes('sslmode=require') && !cleanUri.includes('uselibpqcompat=')) {
+      cleanUri += cleanUri.includes('?') ? '&uselibpqcompat=true' : '?uselibpqcompat=true';
+    }
+
     pool = new Pool({
-      connectionString: config.postgresUri,
+      connectionString: cleanUri,
       ssl: isSsl ? { rejectUnauthorized: false } : undefined,
       max: 20,
       idleTimeoutMillis: 30000,
