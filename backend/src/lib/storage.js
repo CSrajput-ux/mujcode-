@@ -7,45 +7,56 @@ import {
   rebuildFastIndices,
   writeFacultyFileSync,
   writeStudentsFileSync,
-  readFacultyFile,
-  readStudentsFile
 } from './fastStore.js';
+import {
+  isPostgresConnected,
+  saveAllToPostgres,
+  loadAllFromPostgres
+} from './postgres.js';
+import { logger } from './logger.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ─── High-Performance In-Memory DB Engine ──────────────────────────────────
-// Keeps the database in memory for 0ms reads and debounces disk writes
-// using a Worker Thread to prevent event loop blocking under load.
+// ─── High-Performance PostgreSQL + In-Memory Hybrid DB Engine ─────────────
+// Keeps the database in memory for 0ms reads and debounces writes
+// to PostgreSQL (ACID persistence) and disk snapshot worker threads.
 
 let dbCache = null;
 let saveTimeout = null;
 let isDirty = false;
 let isFlushing = false;
 
-// Initialize the storage worker
+// Initialize the storage worker for background file snapshots
 const worker = new Worker(path.join(__dirname, 'storageWorker.js'));
 
 worker.on('message', (msg) => {
   if (msg.type === 'SUCCESS') {
     isFlushing = false;
-    // If more changes happened while flushing, schedule another save
     if (isDirty) scheduleSave();
   } else if (msg.type === 'ERROR') {
-    console.error('[StorageEngine] Worker flush error:', msg.error);
+    logger.error('[StorageEngine] Worker flush error:', msg.error);
     isFlushing = false;
   }
 });
 
 worker.on('error', (err) => {
-  console.error('[StorageEngine] Worker thread crash:', err);
+  logger.error('[StorageEngine] Worker thread crash:', err);
   isFlushing = false;
 });
+
+export function setDbCache(cache) {
+  dbCache = cache;
+  if (!dbCache.faculty) dbCache.faculty = [];
+  if (!dbCache.students) dbCache.students = [];
+  rebuildFastIndices(dbCache.faculty, dbCache.students);
+}
 
 export function loadDb() {
   if (dbCache) {
     return dbCache;
   }
+
   ensureFile();
   const raw = fs.readFileSync(config.dbFile, 'utf8');
   dbCache = JSON.parse(raw);
@@ -67,6 +78,23 @@ export function loadDb() {
   return dbCache;
 }
 
+export async function loadDbFromPostgresOrFile() {
+  if (isPostgresConnected()) {
+    try {
+      const pgData = await loadAllFromPostgres();
+      if (pgData && Object.keys(pgData).length > 0) {
+        setDbCache(pgData);
+        logger.info(`[StorageEngine] Successfully hydrated in-memory store from PostgreSQL (${Object.keys(pgData).length} collections).`);
+        return dbCache;
+      }
+    } catch (err) {
+      logger.warn(`[StorageEngine] Failed to load from PostgreSQL: ${err.message}. Falling back to disk.`);
+    }
+  }
+
+  return loadDb();
+}
+
 export function loadFaculty() {
   const db = loadDb();
   return db.faculty || [];
@@ -86,8 +114,6 @@ export function saveDb(db) {
   return db;
 }
 
-
-
 function scheduleSave() {
   if (saveTimeout || isFlushing) return;
   saveTimeout = setTimeout(() => {
@@ -96,14 +122,20 @@ function scheduleSave() {
   }, 300); // 300ms debounced persistence
 }
 
-function flushDbAsync() {
+async function flushDbAsync() {
   if (!isDirty || !dbCache || isFlushing) return;
   
   isFlushing = true;
   isDirty = false;
   
-  // Clone the cache deeply if needed, but for performance, we pass the object.
-  // worker_threads uses structured cloning which handles stringification safely.
+  // 1. Asynchronously persist to PostgreSQL if connected
+  if (isPostgresConnected()) {
+    saveAllToPostgres(dbCache).catch((err) => {
+      logger.error('[StorageEngine] Async PostgreSQL flush error:', err.message);
+    });
+  }
+
+  // 2. Offload disk snapshot to worker thread
   worker.postMessage({
     type: 'FLUSH',
     payload: {
@@ -131,9 +163,14 @@ export function flushDbSync() {
       writeStudentsFileSync(dbCache.students);
     }
 
+    // Persist to PostgreSQL if connected
+    if (isPostgresConnected()) {
+      saveAllToPostgres(dbCache).catch(() => {});
+    }
+
     isDirty = false;
   } catch (err) {
-    console.error('[StorageEngine] Error flushing DB to disk:', err.message);
+    logger.error('[StorageEngine] Error flushing DB to disk:', err.message);
   } finally {
     saveTimeout = null;
   }
@@ -159,4 +196,3 @@ function ensureFile() {
 process.on('exit', () => flushDbSync());
 process.on('SIGINT', () => { flushDbSync(); process.exit(0); });
 process.on('SIGTERM', () => { flushDbSync(); process.exit(0); });
-

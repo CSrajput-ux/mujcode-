@@ -15,6 +15,7 @@ A unified, high-concurrency educational platform bridging the gap between **Stud
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![Judge0](https://img.shields.io/badge/Judge0_CE-v1.13.1-FF6B6B?style=for-the-badge&logo=codewars&logoColor=white)](https://judge0.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Redis](https://img.shields.io/badge/Redis-7.0-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-7.0-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
@@ -139,7 +140,8 @@ flowchart TB
     end
 
     subgraph StorageLayer["Data & Persistence Layer"]
-        MEM[(In-Memory Fast JSON DB<br/>with Atomic Disk Sync)]
+        PG[(PostgreSQL 15<br/>Primary ACID Store & JSONB)]
+        MEM[(In-Memory Fast Store<br/>0ms Route Caching)]
         REDIS[(Redis 7<br/>Cache, Sockets & Jobs)]
         MONGO[(MongoDB 7<br/>ATS & Placements)]
         S3[(Upload Storage<br/>Local / AWS S3)]
@@ -157,6 +159,7 @@ flowchart TB
     Clients --> NGX
     NGX --> BackendCluster
 
+    BackendCluster <--> PG
     BackendCluster <--> MEM
     BackendCluster <--> REDIS
     BackendCluster <--> MONGO
@@ -185,7 +188,8 @@ flowchart TB
 | **Real-time WebSockets** | [Socket.IO 4.8](https://socket.io/) | Live classes, test state sync, and real-time alerts |
 | **Security & Auth** | JWT + [Bcrypt](https://github.com/kelektiv/node.bcrypt.js) | Token-based auth, hashed credentials & RBAC |
 | **Sandboxed Execution** | [Judge0 CE v1.13.1](https://judge0.com/) | Secure cgroup v1 sandboxed multi-language execution |
-| **Databases & Cache** | In-Memory Atomic JSON DB, [Redis 7](https://redis.io/), [MongoDB 7](https://www.mongodb.com/) | Dual-mode ultra-fast data persistence & caching |
+| **Primary Database** | [PostgreSQL 15](https://www.postgresql.org/) | Enterprise ACID persistence with indexed JSONB collections |
+| **Databases & Cache** | In-Memory Fast Store, [Redis 7](https://redis.io/), [MongoDB 7](https://www.mongodb.com/) | 0ms read caching, WebSocket state & ATS drive pipeline |
 | **Containers & Orchestration** | [Docker](https://www.docker.com/), [Helm](https://helm.sh/), [Kubernetes](https://kubernetes.io/) | Multi-stage container builds & cloud deployments |
 | **Infrastructure as Code** | [Terraform](https://www.terraform.io/) | Automated AWS infrastructure provisioning |
 

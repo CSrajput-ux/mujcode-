@@ -15,6 +15,7 @@ services:
       CORS_ORIGIN: ${CORS_ORIGIN:-*}
       DB_FILE: /app/src/data/db.json
       UPLOAD_DIR: /app/uploads
+      POSTGRES_URI: ${POSTGRES_URI:-postgres://postgres:postgres@postgres:5432/mujcode_db}
       MONGODB_URI: ${MONGODB_URI:-}
       REDIS_URI: redis://redis:6379
       JUDGE0_URL: ${JUDGE0_URL:-http://judge0_server:2358}
@@ -27,6 +28,8 @@ services:
     depends_on:
       redis:
         condition: service_started
+      postgres:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5000/"]
       interval: 30s
@@ -64,6 +67,27 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+
+  # ── PostgreSQL Database (Primary Storage Engine) ──────────────────────────
+  postgres:
+    image: postgres:15-alpine
+    container_name: mujcode_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-mujcode_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mujcode-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # ── Redis ─────────────────────────────────────────────────────────────────
   redis:
@@ -169,6 +193,8 @@ volumes:
     name: mujcode_data
   redis_data:
     name: mujcode_redis_data
+  postgres_data:
+    name: mujcode_postgres_data
   mongodb_data:
     name: mujcode_mongodb_data
   judge0_db_data:

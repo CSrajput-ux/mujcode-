@@ -3,7 +3,8 @@ import { createApp } from './app.js';
 import { config } from './config.js';
 import { setupSockets } from './sockets/index.js';
 import { connectDB } from './config/db.js';
-import { flushDbSync } from './lib/storage.js';
+import { flushDbSync, loadDbFromPostgresOrFile } from './lib/storage.js';
+import { initPostgres, closePostgres } from './lib/postgres.js';
 import { logger } from './lib/logger.js';
 
 // ─── Crash-Proof Global Exception Handlers ─────────────────────────────────
@@ -20,6 +21,10 @@ process.on('unhandledRejection', (reason, promise) => {
   process.exit(1);
 });
 
+// Initialize PostgreSQL primary database connection and auto-migration
+await initPostgres();
+await loadDbFromPostgresOrFile();
+
 const app = await createApp();
 const server = createServer(app);
 
@@ -32,7 +37,7 @@ server.requestTimeout = 30000;   // Free up stalled connections after 30 seconds
 
 setupSockets(server);
 
-// Connect to MongoDB Database
+// Connect to MongoDB Database (for ATS modules)
 connectDB();
 
 server.listen(config.port, config.host, () => {
@@ -40,30 +45,32 @@ server.listen(config.port, config.host, () => {
   logger.info(`🚀 MujCode High-Concurrency Server Running!`);
   logger.info(`🌐 Address:          http://${config.host}:${config.port}`);
   logger.info(`👥 Max Connections:  ${server.maxConnections} simultaneous users`);
-  logger.info(`💾 Storage Engine:   In-Memory DB Cache + Atomic Disk Writes`);
+  logger.info(`🐘 Primary DB:       PostgreSQL (ACID + JSONB Collections)`);
+  logger.info(`⚡ Cache & Sockets:  In-Memory Fast Store + Redis Queues`);
   logger.info(`⚡ Execution Engine: Self-Hosted Judge0 CE`);
   logger.info(`=============================================================`);
 });
 
 // ─── Graceful Shutdown ─────────────────────────────────────────────────────
-// Drain active connections before exiting
-function gracefulShutdown(signal) {
+// Drain active connections and close database pools before exiting
+async function gracefulShutdown(signal) {
   logger.info(`\n[Shutdown] ${signal} received. Draining connections...`);
 
-  server.close(() => {
+  server.close(async () => {
     flushDbSync();
-    console.log('[Shutdown] Database flushed. Exiting.');
+    await closePostgres();
+    console.log('[Shutdown] Database flushed and connections closed. Exiting.');
     process.exit(0);
   });
 
   // Force exit after 10 seconds if connections won't drain
-  setTimeout(() => {
+  setTimeout(async () => {
     console.error('[Shutdown] Forcing exit after 10s timeout.');
     flushDbSync();
+    await closePostgres();
     process.exit(1);
   }, 10000).unref();
 }
 
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
-
