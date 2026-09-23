@@ -27,7 +27,7 @@ interface Answer {
     markedForReview: boolean;
 }
 
-export default function MockTestRunner({ attemptId, questions, duration, onSubmit, onExit }: MockTestRunnerProps) {
+export default function MockTestRunner({ questions, duration, onSubmit, onExit }: MockTestRunnerProps) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<Map<string, Answer>>(new Map());
     const [markedForReview, setMarkedForReview] = useState<Set<string>>(new Set());

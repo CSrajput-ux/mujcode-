@@ -218,7 +218,6 @@ export default function ProblemSolver() {
         }, 90000);
 
         // Clean up safety timer when interval clears
-        const cleanup = () => clearTimeout(safetyTimer);
         // Attach cleanup to interval clearing — patch: just clear both on unmount
         return () => { clearInterval(interval); clearTimeout(safetyTimer); };
     };

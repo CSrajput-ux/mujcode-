@@ -86,11 +86,6 @@ export default function Tests() {
     }));
   };
 
-  const handleViolation = (reason: string) => {
-    setWarnings(prev => prev + 1);
-    // SecureExamGuard handles the UI toast warnings
-    console.warn("External Violation Log:", reason);
-  };
 
   const handleSubmit = async () => {
     if (!activeTest) return;

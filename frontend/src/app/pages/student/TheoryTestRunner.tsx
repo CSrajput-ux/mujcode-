@@ -4,7 +4,7 @@ import { SecureExamOverlay } from '../../components/exam';
 import { Card } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
-import { ArrowRight, CheckCircle, Clock, BookOpen } from 'lucide-react';
+import { ArrowRight, CheckCircle, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
 
@@ -96,14 +96,6 @@ export default function TheoryTestRunner() {
         }
     };
 
-    const handleSecurityViolation = (reason: string) => {
-        violationCountRef.current += 1;
-
-        if (violationCountRef.current >= MAX_VIOLATIONS) {
-            toast.error('Maximum security violations reached. Auto-submitting test.', { duration: 5000 });
-            handleSubmit(true);
-        }
-    };
 
     const handleSubmit = async (force: boolean = false) => {
         if (!force && !confirm('Are you sure you want to submit? You cannot change answers after submission.')) {
