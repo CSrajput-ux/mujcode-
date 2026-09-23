@@ -14,7 +14,7 @@ export default function DriveManagementPage() {
 
   const fetchDrives = () => {
     setLoading(true);
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/v1/company/drives')
+    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/drives')
       .then(res => res.json())
       .then(data => {
         if (!data.error) setDrives(data.drives || []);

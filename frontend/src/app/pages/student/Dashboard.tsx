@@ -31,7 +31,7 @@ export default function Dashboard() {
           return;
         }
 
-        const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/rankings/${userId}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/rankings/${userId}`);
         const data = await res.json();
 
         if (res.ok && data.ranks) {
@@ -48,7 +48,7 @@ export default function Dashboard() {
       try {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-        const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/mentors/${user.id}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/mentors/${user.id}`);
         const data = await res.json();
 
         if (res.ok && Array.isArray(data)) {

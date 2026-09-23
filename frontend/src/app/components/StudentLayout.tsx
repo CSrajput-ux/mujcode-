@@ -56,7 +56,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
         // If we don't have the endpoint, we can't hide it yet.
         // REQUIRED: I need to add GET /api/student/restrictions to fetch my blocks.
 
-        const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/student/restrictions', {
+        const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/student/restrictions', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {

@@ -34,7 +34,7 @@ const SecureExamGuard: React.FC<SecureExamGuardProps> = ({
     // Socket Connection
     useEffect(() => {
         if (isExamActive) {
-            const socket = io((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '', {
+            const socket = io((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '', {
                 transports: ['websocket'],
                 autoConnect: true
             });

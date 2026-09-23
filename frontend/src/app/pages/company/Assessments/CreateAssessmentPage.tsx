@@ -19,7 +19,7 @@ export default function CreateAssessmentPage({ onBack }: { onBack?: () => void }
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/v1/company/drives')
+    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/drives')
       .then(res => res.json())
       .then(data => {
         if (!data.error) setDrives(data.drives || []);
@@ -31,7 +31,7 @@ export default function CreateAssessmentPage({ onBack }: { onBack?: () => void }
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/v1/company/assessments', {
+      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/assessments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

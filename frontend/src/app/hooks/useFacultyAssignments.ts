@@ -21,7 +21,7 @@ export function useFacultyAssignments() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     fetch(
-      (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/faculty/my-assignments',
+      (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/faculty/my-assignments',
       { headers: token ? { Authorization: `Bearer ${token}` } : {} }
     )
       .then(r => r.json())

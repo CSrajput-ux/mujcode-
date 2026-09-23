@@ -11,7 +11,7 @@ export default function CompanyAnalyticsPage() {
   useEffect(() => {
     // In a real app, this would fetch from /api/v1/company/dashboard/stats?type=analytics
     // For now, we mock the analytics data based on the general stats
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/v1/company/dashboard/stats')
+    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/dashboard/stats')
       .then(res => res.json())
       .then(data => {
         if (!data.error) {

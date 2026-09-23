@@ -103,7 +103,7 @@ export const LiveProctorDashboard: React.FC<LiveProctorDashboardProps> = ({
     fetchInitialSessions();
 
     // B. Connect to Socket.IO default namespace and join proctor room
-    const socket = io((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '', {
+    const socket = io((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '', {
       transports: ['websocket'],
       autoConnect: true
     });

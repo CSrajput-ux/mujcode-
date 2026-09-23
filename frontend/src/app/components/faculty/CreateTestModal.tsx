@@ -49,7 +49,7 @@ export default function CreateTestModal({ open, onOpenChange }: CreateTestModalP
         setLoading(true);
         try {
             const response = await axios.post(
-                (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/tests/create',
+                (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/tests/create',
                 {
                     title: formData.title,
                     testType: formData.testType,

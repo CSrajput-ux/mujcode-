@@ -21,7 +21,7 @@ export default function CandidatePipeline({ drive, onBack }: CandidatePipelinePr
 
   const fetchApplications = () => {
     setLoading(true);
-    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/v1/company/drives/${drive._id}/applications`)
+    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/v1/company/drives/${drive._id}/applications`)
       .then(res => res.json())
       .then(data => {
         if (!data.error) setApplications(data.applications || []);
@@ -50,7 +50,7 @@ export default function CandidatePipeline({ drive, onBack }: CandidatePipelinePr
 
     // Update Backend
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/v1/company/applications/${appId}/status`, {
+      await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/v1/company/applications/${appId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })

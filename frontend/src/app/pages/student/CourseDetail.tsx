@@ -57,7 +57,7 @@ export default function CourseDetail() {
             const user = JSON.parse(localStorage.getItem('user') || '{}');
             const studentId = user.college_id || user.id || '';
 
-            const apiUrl = `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/course/${courseId}/details?studentId=${studentId}`;
+            const apiUrl = `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/course/${courseId}/details?studentId=${studentId}`;
             const res = await fetch(apiUrl);
             const data = await res.json();
 
@@ -84,7 +84,7 @@ export default function CourseDetail() {
     const fetchContent = async (subject: string) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/content', {
+            const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/content', {
                 headers: { Authorization: `Bearer ${token}` },
                 params: { subject } // Filter by subject matching course title
             });
@@ -144,7 +144,7 @@ export default function CourseDetail() {
                                 <p className="text-xs text-gray-500 mt-1">{item.description || 'No description'}</p>
                             </div>
                         </div>
-                        <a href={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}${item.fileUrl}`} target="_blank" rel="noopener noreferrer">
+                        <a href={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}${item.fileUrl}`} target="_blank" rel="noopener noreferrer">
                             <Button variant="outline" size="sm" className="gap-2">
                                 <Download className="w-4 h-4" /> Download
                             </Button>

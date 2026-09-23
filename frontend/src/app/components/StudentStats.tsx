@@ -23,9 +23,9 @@ export default function StudentStats() {
 
                 // Parallel Fetch: User Stats + Global Problem Stats
                 const [userStatsRes, globalStatsRes, badgesRes] = await Promise.all([
-                    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/problem-stats/${userId}`),
-                    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/problems/stats`),
-                    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/badges/${userId}`)
+                    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/problem-stats/${userId}`),
+                    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/problems/stats`),
+                    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/badges/${userId}`)
                 ]);
 
                 const userStats = await userStatsRes.json();

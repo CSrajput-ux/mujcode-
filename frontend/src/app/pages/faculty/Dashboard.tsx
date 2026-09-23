@@ -25,7 +25,7 @@ export default function FacultyDashboard() {
         const user = JSON.parse(storedUser);
         const facultyId = user.id;
         
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/faculty/analytics/dashboard-stats/${facultyId}`)
+        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/faculty/analytics/dashboard-stats/${facultyId}`)
           .then(res => res.json())
           .then(data => {
             if (!data.error) {

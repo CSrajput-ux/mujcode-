@@ -111,7 +111,7 @@ export default function ContentHub() {
         setLoading(true);
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/content', {
+            const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/content', {
                 headers: { Authorization: `Bearer ${token}` },
                 params: {
                     section: filterVerify.section !== 'All' ? filterVerify.section : undefined,
@@ -156,7 +156,7 @@ export default function ContentHub() {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/content/upload', data, {
+            await axios.post((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/content/upload', data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data'
@@ -180,7 +180,7 @@ export default function ContentHub() {
         if (!confirm('Are you sure you want to delete this content?')) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/content/${id}`, {
+            await axios.delete(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/content/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success('Content deleted');
@@ -413,7 +413,7 @@ export default function ContentHub() {
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
                                         <a
-                                            href={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}${content.fileUrl}`}
+                                            href={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}${content.fileUrl}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >

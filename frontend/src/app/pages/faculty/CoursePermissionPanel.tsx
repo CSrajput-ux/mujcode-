@@ -31,7 +31,7 @@ export default function CoursePermissionPanel({ facultyCourses, facultySections 
     const [blockReason, setBlockReason] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api';
+    const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api';
 
     const handleBlock = async () => {
         if (!selectedCourse) {

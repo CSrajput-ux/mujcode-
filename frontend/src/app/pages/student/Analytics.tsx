@@ -29,11 +29,11 @@ export default function Analytics() {
     try {
       // Fetch all analytics data
       const [rankRes, trendRes, topicRes, improvementRes, summaryRes] = await Promise.all([
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/rankings/${studentId}`),
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/analytics/trend/${studentId}`),
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/analytics/topics/${studentId}`),
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/analytics/improvement/${studentId}`),
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/analytics/summary/${studentId}`)
+        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/rankings/${studentId}`),
+        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/analytics/trend/${studentId}`),
+        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/analytics/topics/${studentId}`),
+        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/analytics/improvement/${studentId}`),
+        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/analytics/summary/${studentId}`)
       ]);
 
       const [rankData, trendData, topicData, improvementData, summaryData] = await Promise.all([

@@ -34,7 +34,7 @@ export default function CompanyDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/v1/company/dashboard/stats')
+    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/dashboard/stats')
       .then(res => res.json())
       .then(data => {
         if (!data.error) setDashboardData(data);

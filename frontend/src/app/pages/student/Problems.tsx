@@ -38,8 +38,8 @@ export default function Problems() {
 
       // Pass userId to get solved status for each problem
       const url = user.id
-        ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/problems?userId=${user.id}`
-        : (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/problems';
+        ? `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/problems?userId=${user.id}`
+        : (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/problems';
 
       const res = await fetch(url);
       const data = await res.json();
@@ -69,7 +69,7 @@ export default function Problems() {
 
   const fetchMetadata = async () => {
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/problems/metadata');
+      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/problems/metadata');
       const data = await res.json();
       if (res.ok) {
         setCategories(data.categories || []);

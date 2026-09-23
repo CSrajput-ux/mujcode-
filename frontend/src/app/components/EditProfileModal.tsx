@@ -88,7 +88,7 @@ export default function EditProfileModal({ open, onOpenChange, onSuccess }: Edit
 
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/profile`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/profile`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

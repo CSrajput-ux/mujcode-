@@ -37,7 +37,7 @@ export default function CreateDriveModal({ isOpen, onClose, onSuccess }: CreateD
         eligibility: { minCgpa: Number(formData.minCgpa), maxBacklogs: Number(formData.maxBacklogs) }
       };
 
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/v1/company/drives', {
+      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/drives', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

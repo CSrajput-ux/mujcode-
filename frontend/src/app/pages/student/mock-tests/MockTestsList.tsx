@@ -40,7 +40,7 @@ export default function MockTestsList({ onStartTest }: MockTestsListProps) {
 
     const fetchMockTests = async () => {
         try {
-            const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/mock-tests');
+            const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/mock-tests');
             const data = await res.json();
             setMockTests(data.mockTests || []);
             setFilteredTests(data.mockTests || []);

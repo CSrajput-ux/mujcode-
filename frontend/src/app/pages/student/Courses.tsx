@@ -32,7 +32,7 @@ export default function Courses() {
       const studentId = user.college_id || user.id || 'guest';
 
       // Try student-specific endpoint first, fallback to general courses
-      let apiUrl = `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/student/courses/${studentId}`;
+      let apiUrl = `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/courses/${studentId}`;
       console.log('🔍 Fetching courses for student:', studentId, 'from:', apiUrl);
 
       let res = await fetch(apiUrl);
@@ -41,7 +41,7 @@ export default function Courses() {
       // If student endpoint fails, try getting all courses
       if (!res.ok) {
         console.warn('⚠️ Student endpoint failed, trying general courses endpoint...');
-        apiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/student/courses';
+        apiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/student/courses';
         res = await fetch(apiUrl);
       }
 

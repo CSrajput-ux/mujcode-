@@ -20,7 +20,7 @@ export const ProtectedRoute = ({ requiredFeature, children }: { requiredFeature:
                 // Optimization: In a real app, we'd cache this in Context or Redux to avoid spamming the API on every route change.
                 // For this MVP, we fetch on mount of the protected route.
 
-                const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/student/restrictions', {
+                const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/student/restrictions', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 

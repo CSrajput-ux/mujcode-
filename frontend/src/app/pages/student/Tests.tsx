@@ -119,7 +119,7 @@ export default function Tests() {
   // Mock Test Handlers
   const handleStartMockTest = async (mockTestId: string) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/mock-tests/${mockTestId}/start`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/mock-tests/${mockTestId}/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ studentId })
@@ -143,7 +143,7 @@ export default function Tests() {
 
   const handleSubmitMockTest = async (answers: any[], timeTaken: number) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000') + ''}/api/mock-tests/${mockTestAttemptId}/submit`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/mock-tests/${mockTestAttemptId}/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

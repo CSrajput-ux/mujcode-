@@ -90,7 +90,9 @@ export async function createApp() {
       return serveUpload(req, res);
     }
 
-    const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+    const cleanUrl = (req.url || '/').replace(/^\/+/, '/');
+    const url = new URL(cleanUrl, `http://${req.headers.host || 'localhost'}`);
+    const pathname = (url.pathname || '/').replace(/\/+/g, '/') || '/';
     const startTime = Date.now();
     let statusCode = 200;
     req.query = Object.fromEntries(url.searchParams.entries());
@@ -110,7 +112,7 @@ export async function createApp() {
     req.user = verifyToken(req.headers.authorization, token);
 
     try {
-      if (url.pathname === '/metrics') {
+      if (pathname === '/metrics') {
         res.setHeader('Content-Type', register.contentType);
         const metricsData = await register.metrics();
         return sendText(res, 200, metricsData);
@@ -121,11 +123,11 @@ export async function createApp() {
       if (limitExceeded) return; // 429 response already sent
 
       req.body = await parseBody(req);
-      const handled = await router.handle(req, res, ctx, url.pathname);
+      const handled = await router.handle(req, res, ctx, pathname);
 
       if (handled) return;
 
-      if (url.pathname === '/' || url.pathname === '/api') {
+      if (pathname === '/' || pathname === '/api') {
         return sendJson(res, 200, {
           success: true,
           name: 'MujCode Backend',
@@ -134,10 +136,10 @@ export async function createApp() {
         });
       }
 
-      return sendJson(res, 404, { error: 'Route not found', path: url.pathname });
+      return sendJson(res, 404, { error: 'Route not found', path: pathname });
     } catch (error) {
       statusCode = error.status || 500;
-      if (statusCode >= 500) logger.error(`[AppError] ${error.message}`, { error, path: url.pathname });
+      if (statusCode >= 500) logger.error(`[AppError] ${error.message}`, { error, path: pathname });
       return sendJson(res, statusCode, {
         error: error.message || 'Internal server error',
         detail: process.env.NODE_ENV === 'production' ? undefined : error.stack
@@ -145,10 +147,10 @@ export async function createApp() {
     } finally {
       // Record Prometheus Metrics
       const durationMs = Date.now() - startTime;
-      httpRequestDurationMicroseconds.labels(req.method, url.pathname, statusCode).observe(durationMs);
-      httpRequestsTotal.labels(req.method, url.pathname, statusCode).inc();
+      httpRequestDurationMicroseconds.labels(req.method, pathname, statusCode).observe(durationMs);
+      httpRequestsTotal.labels(req.method, pathname, statusCode).inc();
       
-      logger.info(`${req.method} ${url.pathname} ${statusCode} - ${durationMs}ms`);
+      logger.info(`${req.method} ${pathname} ${statusCode} - ${durationMs}ms`);
     }
   };
 }
