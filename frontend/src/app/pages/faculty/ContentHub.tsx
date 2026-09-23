@@ -413,7 +413,7 @@ export default function ContentHub() {
                                             <Trash2 className="w-4 h-4" />
                                         </Button>
                                         <a
-                                            href={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}${content.fileUrl}`}
+                                            href={content.fileUrl?.startsWith('http') ? content.fileUrl : `${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}${content.fileUrl?.startsWith('/') ? '' : '/'}${content.fileUrl || ''}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >

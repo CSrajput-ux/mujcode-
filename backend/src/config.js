@@ -28,5 +28,10 @@ export const config = {
   judge0AuthToken: process.env.JUDGE0_AUTH_TOKEN || '',
   judge0CpuTimeLimit: Number(process.env.JUDGE0_CPU_TIME_LIMIT || 2),
   judge0MemoryLimit: Number(process.env.JUDGE0_MEMORY_LIMIT || 128000),
-  judge0WallTimeLimit: Number(process.env.JUDGE0_WALL_TIME_LIMIT || 5)
+  judge0WallTimeLimit: Number(process.env.JUDGE0_WALL_TIME_LIMIT || 5),
+  // Cloudinary Storage Configuration (for PPT, PDF, Images, Documents)
+  cloudinaryUrl: process.env.CLOUDINARY_URL || '',
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || '',
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET || ''
 };

@@ -144,7 +144,11 @@ export default function CourseDetail() {
                                 <p className="text-xs text-gray-500 mt-1">{item.description || 'No description'}</p>
                             </div>
                         </div>
-                        <a href={`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}${item.fileUrl}`} target="_blank" rel="noopener noreferrer">
+                        <a
+                            href={item.fileUrl?.startsWith('http') ? item.fileUrl : `${(import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '')}${item.fileUrl?.startsWith('/') ? '' : '/'}${item.fileUrl || ''}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             <Button variant="outline" size="sm" className="gap-2">
                                 <Download className="w-4 h-4" /> Download
                             </Button>

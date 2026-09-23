@@ -17,6 +17,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1116.0",
     "bcrypt": "^6.0.0",
+    "cloudinary": "^2.11.0",
     "ioredis": "^6.0.0",
     "mongoose": "^9.7.4",
     "pg": "^8.23.0",

@@ -4,7 +4,7 @@ import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { currentStudent } from './helpers.js';
 import { requireAuth, requireAnyRole } from '../lib/requireAuth.js';
-import { S3Service } from '../services/S3Service.js';
+import { CloudinaryService } from '../services/CloudinaryService.js';
 import { logger } from '../lib/logger.js';
 
 function safeFilename(name) {
@@ -52,11 +52,11 @@ export function registerContentRoutes(router) {
     if (file) {
       try {
         const filename = `${id}-${safeFilename(file.filename)}`;
-        fileUrl = await S3Service.uploadFile(file.buffer, filename, file.contentType || 'application/octet-stream');
+        fileUrl = await CloudinaryService.uploadFile(file.buffer, filename, file.contentType || 'application/octet-stream');
         fileType = file.contentType;
       } catch (err) {
-        logger.error('[ContentUpload] S3 Upload Failed', err);
-        return sendJson(res, 500, { error: 'Failed to upload file to S3' });
+        logger.error('[ContentUpload] Cloudinary Upload Failed', err);
+        return sendJson(res, 500, { error: 'Failed to upload file to Cloudinary' });
       }
     }
 
