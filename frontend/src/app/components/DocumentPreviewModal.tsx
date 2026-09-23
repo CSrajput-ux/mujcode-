@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import { ExternalLink, Download, FileText, Presentation, BookOpen, Image as ImageIcon, Video } from "lucide-react";
+import { ExternalLink, Download, FileText, Presentation, BookOpen, Image as ImageIcon, Video, Maximize2, Minimize2 } from "lucide-react";
 import { useState } from "react";
 
 export function getResolvedFileUrl(url: string): string {
@@ -52,6 +52,7 @@ export default function DocumentPreviewModal({
   description = ""
 }: DocumentPreviewModalProps) {
   const [viewerType, setViewerType] = useState<"direct" | "google" | "office">("direct");
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const fullUrl = getResolvedFileUrl(fileUrl);
   const cleanExt = getCleanExtension(fileUrl, fileName, fileType);
 
@@ -84,7 +85,13 @@ export default function DocumentPreviewModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl w-[95vw] h-[88vh] flex flex-col p-0 gap-0 overflow-hidden bg-white border border-gray-200 shadow-2xl rounded-2xl">
+      <DialogContent
+        className={`flex flex-col p-0 gap-0 overflow-hidden bg-white shadow-2xl transition-all duration-200 ${
+          isFullScreen
+            ? "fixed inset-0 w-screen h-screen max-w-none sm:max-w-none rounded-none top-0 left-0 translate-x-0 translate-y-0 border-0"
+            : "w-[96vw] max-w-[96vw] sm:max-w-[96vw] md:max-w-[95vw] lg:max-w-[94vw] xl:max-w-[1450px] h-[94vh] max-h-[96vh] rounded-2xl border border-gray-200"
+        }`}
+      >
         {/* Header */}
         <DialogHeader className="p-4 border-b border-gray-100 flex flex-row items-center justify-between shrink-0 bg-white">
           <div className="flex items-center gap-3 min-w-0 pr-4">
@@ -157,6 +164,16 @@ export default function DocumentPreviewModal({
                 </button>
               </div>
             ) : null}
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 w-8 p-0 text-xs hidden sm:flex items-center justify-center text-gray-600 hover:text-gray-900"
+              onClick={() => setIsFullScreen(!isFullScreen)}
+              title={isFullScreen ? "Exit Fullscreen" : "Fullscreen"}
+            >
+              {isFullScreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
+            </Button>
 
             <a href={previewUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="outline" size="sm" className="h-8 gap-1.5 text-xs">
