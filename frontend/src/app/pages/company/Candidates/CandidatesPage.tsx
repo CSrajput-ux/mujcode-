@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Card, CardContent } from '../../../components/ui/card';
-import { Badge } from '../../../components/ui/badge';
-import { Search, Filter, Mail, Phone, Download, MoreVertical } from 'lucide-react';
+import { Card } from '../../../components/ui/card';
+import { Search, Filter, Mail, Download, MoreVertical } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
 import { apiClient } from '../../../services/apiClient';
 

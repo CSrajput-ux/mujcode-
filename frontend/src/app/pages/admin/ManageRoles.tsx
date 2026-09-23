@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
@@ -9,15 +9,12 @@ import {
     ArrowLeft,
     Plus,
     Search,
-    UserPlus,
     Settings2,
     Lock,
     Users,
     Trash2,
-    CheckCircle2,
     ShieldAlert
 } from 'lucide-react';
-import { toast } from 'sonner';
 
 // Mock data for initial UI implementation
 const MOCK_ROLES = [
