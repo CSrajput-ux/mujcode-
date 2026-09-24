@@ -254,7 +254,7 @@ export default function LiveClassroomPage() {
 
 // ─── Top Bar Component ────────────────────────────────────────────────────────
 function TopBar({
-  roomId, isConnected, isFaculty}: {
+  roomId, isConnected, isFaculty, onLeave}: {
   roomId: string; isConnected: boolean; isFaculty: boolean; onLeave: () => void;
 }) {
   return (

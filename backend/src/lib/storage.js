@@ -192,7 +192,8 @@ function ensureFile() {
   }
 }
 
-// Flush dirty state on process shutdown
+// Flush dirty state on process exit (synchronous — last-resort safety net).
+// NOTE: SIGINT and SIGTERM are handled by server.js gracefulShutdown which
+// calls flushDbSync() before process.exit(), so we do NOT register them here
+// to avoid double exit() calls and conflicting shutdown sequences.
 process.on('exit', () => flushDbSync());
-process.on('SIGINT', () => { flushDbSync(); process.exit(0); });
-process.on('SIGTERM', () => { flushDbSync(); process.exit(0); });
