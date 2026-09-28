@@ -26,9 +26,12 @@ export function getPostgresPool() {
     pool = new Pool({
       connectionString: cleanUri,
       ssl: isSsl ? { rejectUnauthorized: false } : undefined,
-      max: 20,
+      max: 30,                          // Increased from 20 for higher concurrency
+      min: 2,                           // Keep 2 warm connections ready
       idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
+      connectionTimeoutMillis: 5000,    // Reduced from 10s — fail faster if PG is down
+      statement_timeout: 5000,          // Kill queries that run > 5 seconds
+      allowExitOnIdle: true,
     });
 
     pool.on('error', (err) => {
@@ -211,25 +214,26 @@ export async function saveAllToPostgres(dbCache) {
   const p = getPostgresPool();
   if (!p || !isConnected || !dbCache) return false;
 
+  const entries = Object.entries(dbCache);
+  if (entries.length === 0) return true;
+
+  // Build arrays for a single bulk UPSERT using UNNEST — N collections in 1 query
+  const names = entries.map(([k]) => k);
+  const datas = entries.map(([, v]) => JSON.stringify(v));
+
   let client;
   try {
     client = await p.connect();
-    await client.query('BEGIN');
-
-    for (const [key, val] of Object.entries(dbCache)) {
-      await client.query(`
-        INSERT INTO mujcode_collections (collection_name, data, updated_at)
-        VALUES ($1, $2, NOW())
-        ON CONFLICT (collection_name)
-        DO UPDATE SET data = EXCLUDED.data, updated_at = NOW()
-      `, [key, JSON.stringify(val)]);
-    }
-
-    await client.query('COMMIT');
+    await client.query(
+      `INSERT INTO mujcode_collections (collection_name, data, updated_at)
+       SELECT unnest($1::text[]), unnest($2::jsonb[]), NOW()
+       ON CONFLICT (collection_name)
+       DO UPDATE SET data = EXCLUDED.data, updated_at = NOW()`,
+      [names, datas]
+    );
     return true;
   } catch (err) {
-    if (client) await client.query('ROLLBACK').catch(() => {});
-    logger.error('[PostgreSQL] Failed to persist collections to PostgreSQL:', err.message);
+    logger.error('[PostgreSQL] Failed to batch persist collections:', err.message);
     return false;
   } finally {
     if (client) client.release();
