@@ -11,7 +11,7 @@ version: '3.8'
 services:
   # ── Judge0 Server (API Gateway) ───────────────────────────────────────────
   server:
-    image: judge0/judge0:v1.13.1
+    image: judge0/judge0:1.13.1
     container_name: judge0_server
     restart: unless-stopped
     volumes:
@@ -27,7 +27,7 @@ services:
 
   # ── Judge0 Workers (Code Execution Sandbox) ───────────────────────────────
   workers:
-    image: judge0/judge0:v1.13.1
+    image: judge0/judge0:1.13.1
     restart: unless-stopped
     deploy:
       replicas: 10
