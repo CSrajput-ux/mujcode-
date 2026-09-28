@@ -418,4 +418,32 @@ export function registerJudgeRoutes(router) {
     const percentage = maxScore ? Math.round((totalScore / maxScore) * 100) : 0;
     return sendJson(res, 200, { totalScore, maxScore, percentage, results });
   });
+
+  /**
+   * GET /api/judge/languages
+   * ───────────────────────
+   * Returns the list of languages supported by the connected Judge0 instance.
+   * Fetches live from Judge0 CE at runtime — most accurate, no hardcoded IDs.
+   */
+  router.get('/api/judge/languages', async (req, res) => {
+    try {
+      const languages = await CodeExecutionService.getSupportedLanguages();
+      return sendJson(res, 200, { success: true, languages });
+    } catch (err) {
+      logger.warn(`[Judge0] /languages error: ${err.message}`);
+      return sendJson(res, 503, { error: 'Judge0 is unavailable. Code execution is disabled.', detail: err.message });
+    }
+  });
+
+  /**
+   * GET /api/judge/health
+   * ─────────────────────
+   * Check Judge0 connection status and latency.
+   */
+  router.get('/api/judge/health', async (req, res) => {
+    const health = await Judge0Service.checkHealth();
+    return sendJson(res, health.healthy ? 200 : 503, health);
+  });
+
 }
+
