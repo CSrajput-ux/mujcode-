@@ -119,23 +119,24 @@ function scheduleSave() {
   saveTimeout = setTimeout(() => {
     saveTimeout = null;
     flushDbAsync();
-  }, 300); // 300ms debounced persistence
+  }, 500); // 500ms debounce — reduces write amplification under burst traffic
 }
 
 async function flushDbAsync() {
   if (!isDirty || !dbCache || isFlushing) return;
-  
+
   isFlushing = true;
   isDirty = false;
-  
-  // 1. Asynchronously persist to PostgreSQL if connected
+
+  // 1. Fire-and-forget PostgreSQL save — completely non-blocking
+  //    Does NOT hold isFlushing lock (PG is independent of disk snapshot)
   if (isPostgresConnected()) {
     saveAllToPostgres(dbCache).catch((err) => {
       logger.error('[StorageEngine] Async PostgreSQL flush error:', err.message);
     });
   }
 
-  // 2. Offload disk snapshot to worker thread
+  // 2. Disk snapshot via worker thread — tracks completion via isFlushing
   worker.postMessage({
     type: 'FLUSH',
     payload: {
@@ -145,6 +146,7 @@ async function flushDbAsync() {
       studentsFile: config.studentsFile
     }
   });
+  // isFlushing is reset in worker.on('message') handler above
 }
 
 export function flushDbSync() {

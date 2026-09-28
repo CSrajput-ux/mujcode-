@@ -1,38 +1,50 @@
 export class Router {
   constructor() {
-    this.routes = [];
+    // Method-indexed map: 'GET' -> [ ...routes ]
+    // Static routes stored separately for O(1) exact match
+    this._byMethod = new Map();
+    this._static   = new Map(); // 'GET:/api/foo' -> handler
   }
 
-  get(path, handler) {
-    this.add('GET', path, handler);
-  }
-
-  post(path, handler) {
-    this.add('POST', path, handler);
-  }
-
-  put(path, handler) {
-    this.add('PUT', path, handler);
-  }
-
-  patch(path, handler) {
-    this.add('PATCH', path, handler);
-  }
-
-  delete(path, handler) {
-    this.add('DELETE', path, handler);
-  }
+  get(path, handler)    { this.add('GET',    path, handler); }
+  post(path, handler)   { this.add('POST',   path, handler); }
+  put(path, handler)    { this.add('PUT',    path, handler); }
+  patch(path, handler)  { this.add('PATCH',  path, handler); }
+  delete(path, handler) { this.add('DELETE', path, handler); }
 
   add(method, path, handler) {
-    this.routes.push({ method, path, parts: splitPath(path), handler });
+    const parts = splitPath(path);
+    const isDynamic = parts.some(p => p.startsWith(':') || p === '*');
+
+    if (!isDynamic) {
+      // Pure static path — O(1) lookup
+      this._static.set(`${method}:${path}`, handler);
+      return;
+    }
+
+    if (!this._byMethod.has(method)) {
+      this._byMethod.set(method, []);
+    }
+    this._byMethod.get(method).push({ path, parts, handler });
   }
 
   async handle(req, res, ctx, pathname) {
+    const method = req.method;
+
+    // 1. Fast O(1) static match
+    const staticHandler = this._static.get(`${method}:${pathname}`);
+    if (staticHandler) {
+      req.params = {};
+      await staticHandler(req, res, ctx);
+      return true;
+    }
+
+    // 2. Dynamic routes — only scan routes for this HTTP method
+    const dynamicRoutes = this._byMethod.get(method);
+    if (!dynamicRoutes) return false;
+
     const pathParts = splitPath(pathname);
-
-    for (const route of this.routes) {
-      if (route.method !== req.method) continue;
-
+    for (const route of dynamicRoutes) {
       const params = matchParts(route.parts, pathParts);
       if (!params) continue;
 
