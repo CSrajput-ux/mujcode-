@@ -1,10 +1,31 @@
 node_modules
-npm-debug.log
+npm-debug.log*
+*.log
+
+# Dev/Test files
 .env
 .env.*
-!.env.example
-uploads
-*.log
+*.test.*
+*.spec.*
+
+# Git
 .git
 .gitignore
-README.md
+.github
+
+# Editor
+.vscode
+.idea
+*.swp
+
+# Build artifacts
+dist
+coverage
+
+# Data files (mounted as volumes in production)
+src/data/
+uploads/
+
+# Docs
+*.md
+README*

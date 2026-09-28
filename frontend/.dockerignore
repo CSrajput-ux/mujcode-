@@ -1,13 +1,26 @@
 node_modules
-npm-debug.log
+npm-debug.log*
+*.log
+
+# Dev files
 .env
 .env.*
-*.log
+*.test.*
+
+# Git & Editor
 .git
 .gitignore
-README.md
-.npm-cache
+.github
+.vscode
+.idea
+
+# Already built (builder stage generates fresh)
 dist
-*.tsbuildinfo
-vite.config.js
-vite.config.d.ts
+
+# Docs
+*.md
+README*
+
+# npm cache
+.npm-cache
+.npm

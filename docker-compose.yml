@@ -1,25 +1,64 @@
+# ==============================================================================
+# MujCode — Production Docker Compose
+# ==============================================================================
+# Quick Start:
+#   cp .env.example .env        # fill in your secrets
+#   docker compose up -d        # start core services
+#
+# With Judge0 (self-hosted code execution):
+#   docker compose --profile judge0 up -d
+#
+# With MongoDB ATS module:
+#   docker compose --profile ats up -d
+#
+# Everything:
+#   docker compose --profile full up -d
+# ==============================================================================
+
 services:
-  # ── Backend ──────────────────────────────────────────────────────────────
+
+  # ── Backend (Node.js — Cluster Mode, multi-replica) ─────────────────────────
+  # NOTE: no container_name when using replicas > 1
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: mujcode-backend:latest
     restart: unless-stopped
     deploy:
-      replicas: 5
+      replicas: 2
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1024M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
     environment:
       PORT: 5000
       HOST: "0.0.0.0"
       NODE_ENV: production
-      TOKEN_SECRET: ${TOKEN_SECRET:-mujcode-secure-default-secret-please-change-in-production}
+      WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}
+      TOKEN_SECRET: ${TOKEN_SECRET:?TOKEN_SECRET is required — set it in .env}
       CORS_ORIGIN: ${CORS_ORIGIN:-*}
       DB_FILE: /app/src/data/db.json
       UPLOAD_DIR: /app/uploads
-      POSTGRES_URI: ${POSTGRES_URI:-postgres://postgres:postgres@postgres:5432/mujcode_db}
+      POSTGRES_URI: ${POSTGRES_URI:-postgres://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/mujcode_db}
       MONGODB_URI: ${MONGODB_URI:-}
       REDIS_URI: redis://redis:6379
       JUDGE0_URL: ${JUDGE0_URL:-http://judge0_server:2358}
       JUDGE0_AUTH_TOKEN: ${JUDGE0_AUTH_TOKEN:-}
+      JUDGE0_CPU_TIME_LIMIT: ${JUDGE0_CPU_TIME_LIMIT:-2}
+      JUDGE0_MEMORY_LIMIT: ${JUDGE0_MEMORY_LIMIT:-128000}
+      JUDGE0_WALL_TIME_LIMIT: ${JUDGE0_WALL_TIME_LIMIT:-5}
+      CLOUDINARY_URL: ${CLOUDINARY_URL:-}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME:-}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY:-}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET:-}
     volumes:
       - backend_uploads:/app/uploads
       - backend_data:/app/src/data
@@ -27,73 +66,132 @@ services:
       - mujcode-net
     depends_on:
       redis:
-        condition: service_started
+        condition: service_healthy
       postgres:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5000/"]
-      interval: 30s
-      timeout: 10s
+      interval: 20s
+      timeout: 5s
       retries: 3
-      start_period: 15s
+      start_period: 25s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-  # ── NGINX Load Balancer ──────────────────────────────────────────────────
+  # ── Nginx — Load Balancer + Reverse Proxy ────────────────────────────────────
   nginx:
-    image: nginx:alpine
+    image: nginx:1.27-alpine
     container_name: mujcode_nginx
     restart: unless-stopped
     ports:
-      - "5000:80"
+      - "${BACKEND_PORT:-5000}:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - backend
     networks:
       - mujcode-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
 
-  # ── Frontend ─────────────────────────────────────────────────────────────
+  # ── Frontend (React + Vite + Nginx) ──────────────────────────────────────────
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: ${VITE_API_URL:-https://mujcode-1.onrender.com}
+        # Leave empty = frontend uses relative /api/ path via nginx proxy (recommended)
+        # Set to external URL only for Render/Vercel/external deployments
+        VITE_API_URL: ${VITE_API_URL:-}
+    image: mujcode-frontend:latest
     container_name: mujcode_frontend
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "${FRONTEND_PORT:-80}:80"
     networks:
       - mujcode-net
     depends_on:
-      backend:
+      nginx:
         condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
 
-  # ── PostgreSQL Database (Primary Storage Engine) ──────────────────────────
+  # ── PostgreSQL (Primary Database) ────────────────────────────────────────────
   postgres:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     container_name: mujcode_postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-mujcode_db}
-    ports:
-      - "5432:5432"
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --lc-collate=C --lc-ctype=C"
+    command: >
+      postgres
+        -c max_connections=200
+        -c shared_buffers=256MB
+        -c effective_cache_size=768MB
+        -c maintenance_work_mem=64MB
+        -c checkpoint_completion_target=0.9
+        -c wal_buffers=16MB
+        -c default_statistics_target=100
+        -c random_page_cost=1.1
+        -c effective_io_concurrency=200
+        -c work_mem=4MB
+        -c min_wal_size=1GB
+        -c max_wal_size=4GB
+        -c log_min_duration_statement=1000
+    # ⚠️  Do NOT expose 5432 to host in production — internal only
+    # Uncomment only for local development/debugging:
+    # ports:
+    #   - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - mujcode-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-mujcode_db}"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-  # ── Redis ─────────────────────────────────────────────────────────────────
+  # ── Redis (Cache + Rate Limiting + Job Queues) ───────────────────────────────
   redis:
     image: redis:7-alpine
     container_name: mujcode_redis
     restart: unless-stopped
+    command: >
+      redis-server
+        --appendonly yes
+        --appendfsync everysec
+        --maxmemory 256mb
+        --maxmemory-policy allkeys-lru
+        --tcp-keepalive 60
+        --timeout 300
+    # ⚠️  Do NOT expose Redis port to host in production — internal only
+    # ports:
+    #   - "${REDIS_PORT:-6379}:6379"
     networks:
       - mujcode-net
     volumes:
@@ -101,27 +199,47 @@ services:
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
-      timeout: 5s
-      retries: 3
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
 
-  # ── MongoDB (optional — for ATS/Placement features) ───────────────────────
+  # ── MongoDB (Optional — ATS/Placement Drives module) ─────────────────────────
   mongodb:
     image: mongo:7
     container_name: mujcode_mongodb
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-mujcode_mongo_secure_pass_491823}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-mongopassword}
+      MONGO_INITDB_DATABASE: mujcode_ats
+    command: mongod --quiet --wiredTigerCacheSizeGB 0.5
     networks:
       - mujcode-net
     volumes:
       - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "--quiet"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     profiles:
       - ats
+      - full
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
-  # ── Judge0 Services (Self-Hosted Code Execution Engine) ───────────────────
+  # ── Judge0 CE — Self-Hosted Code Execution Engine ───────────────────────────
   judge0_server:
-    image: judge0/judge0:v1.13.1
+    image: judge0/judge0:1.13.1
     container_name: mujcode_judge0_server
     restart: unless-stopped
     volumes:
@@ -131,19 +249,26 @@ services:
       - "2358:2358"
     privileged: true
     depends_on:
-      - judge0_db
-      - judge0_redis
+      judge0_db:
+        condition: service_started
+      judge0_redis:
+        condition: service_started
     networks:
       - mujcode-net
     profiles:
       - judge0
       - full
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   judge0_worker:
-    image: judge0/judge0:v1.13.1
+    image: judge0/judge0:1.13.1
     restart: unless-stopped
     deploy:
-      replicas: 10
+      replicas: 4            # 4 parallel execution workers
     command: ["./scripts/workers"]
     volumes:
       - ./judge0/judge0.conf:/judge0.conf:ro
@@ -157,6 +282,11 @@ services:
     profiles:
       - judge0
       - full
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
 
   judge0_db:
     image: postgres:13-alpine
@@ -175,7 +305,10 @@ services:
     image: redis:7-alpine
     container_name: mujcode_judge0_redis
     restart: unless-stopped
-    command: ["sh", "-c", "docker-entrypoint.sh --appendonly yes --requirepass \"$$REDIS_PASSWORD\""]
+    command:
+      - sh
+      - -c
+      - 'redis-server --requirepass "$$REDIS_PASSWORD"'
     env_file: ./judge0/judge0.conf
     volumes:
       - judge0_redis_data:/data
@@ -185,7 +318,7 @@ services:
       - judge0
       - full
 
-# ── Named Volumes ─────────────────────────────────────────────────────────
+# ── Named Volumes ──────────────────────────────────────────────────────────────
 volumes:
   backend_uploads:
     name: mujcode_uploads
@@ -202,8 +335,10 @@ volumes:
   judge0_redis_data:
     name: mujcode_judge0_redis_data
 
-# ── Network ───────────────────────────────────────────────────────────────
+# ── Internal Network ───────────────────────────────────────────────────────────
 networks:
   mujcode-net:
     name: mujcode-network
     driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: "1450"
