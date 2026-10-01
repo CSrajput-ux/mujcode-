@@ -111,6 +111,7 @@ export function registerFacultyRoutes(router) {
   });
 
   router.get('/api/faculty/profile/:id', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const faculty = findFacultyById(req.params.id) || db.faculty.find(item => item._id === req.params.id || item.id === req.params.id) || db.faculty[0];
     return sendJson(res, 200, faculty ? facultyProfileForFrontend(faculty) : {});
@@ -118,6 +119,7 @@ export function registerFacultyRoutes(router) {
 
   router.put('/api/faculty/profile/:id', (req, res, ctx) => {
     if (!requireFaculty(req, res)) return;
+    if (!requireSelfOrAdmin(req, res, req.params.id)) return;
     const db = ctx.getDb();
     const faculty = findFacultyById(req.params.id) || db.faculty.find(item => item._id === req.params.id || item.id === req.params.id) || db.faculty[0];
     if (!faculty) return sendJson(res, 404, { error: 'Faculty profile not found' });
@@ -139,6 +141,7 @@ export function registerFacultyRoutes(router) {
   });
 
   router.get('/api/faculty/courses', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const user = currentUser(db, req);
     const faculty = findFacultyById(user?.id) || db.faculty.find(item => item.id === user?.id) || db.faculty[0];
@@ -150,6 +153,8 @@ export function registerFacultyRoutes(router) {
   });
 
   router.get('/api/faculty/analytics/dashboard-stats/:facultyId', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
+    if (!requireSelfOrAdmin(req, res, req.params.facultyId)) return;
     const db = ctx.getDb();
     const facultyId = req.params.facultyId;
     
@@ -171,6 +176,7 @@ export function registerFacultyRoutes(router) {
   });
 
   router.get('/api/faculty/analytics/section-performance', (req, res) => {
+    if (!requireFaculty(req, res)) return;
     return sendJson(res, 200, [
       { week: 'Week 1', A: 62, B: 58 },
       { week: 'Week 2', A: 68, B: 61 },
@@ -180,6 +186,7 @@ export function registerFacultyRoutes(router) {
   });
 
   router.get('/api/faculty/analytics/activity-metrics', (req, res) => {
+    if (!requireFaculty(req, res)) return;
     return sendJson(res, 200, [
       { day: 'Mon', submissions: 12 },
       { day: 'Tue', submissions: 18 },
@@ -190,6 +197,7 @@ export function registerFacultyRoutes(router) {
   });
 
   router.get('/api/faculty/analytics/success-rates', (req, res) => {
+    if (!requireFaculty(req, res)) return;
     return sendJson(res, 200, [
       { name: 'Passed', value: 76 },
       { name: 'Needs Support', value: 24 }
@@ -197,6 +205,7 @@ export function registerFacultyRoutes(router) {
   });
 
   router.get('/api/faculty/analytics/insights', (req, res) => {
+    if (!requireFaculty(req, res)) return;
     return sendJson(res, 200, [
       'Section A improved by 13% over the last four weeks.',
       'Tree traversal problems need extra reinforcement.',
@@ -233,18 +242,22 @@ export function registerFacultyRoutes(router) {
   });
 
   router.get('/api/faculty/questions/submission/:submissionId', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const submission = ctx.getDb().facultyQuestionSubmissions.find(item => item._id === req.params.submissionId);
     return sendJson(res, submission ? 200 : 404, submission || { error: 'Submission not found' });
   });
 
   router.get('/api/faculty/questions/:id', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const question = ctx.getDb().facultyQuestions.find(item => item._id === req.params.id);
     return sendJson(res, question ? 200 : 404, question || { error: 'Question not found' });
   });
 
   router.get('/api/faculty/questions', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     return sendJson(res, 200, ctx.getDb().facultyQuestions);
   });
+
 }
 
 function facultyProfileForFrontend(faculty) {

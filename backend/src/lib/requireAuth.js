@@ -1,27 +1,16 @@
 import { sendJson } from './http.js';
 
 /**
- * Authorization guard — ensures the request has a valid, non-expired token
- * and (optionally) the correct role.
- *
- * Usage in route files:
- *   import { requireAuth } from '../lib/requireAuth.js';
- *
- *   router.get('/api/admin/students', (req, res, ctx) => {
- *     if (!requireAuth(req, res, 'admin')) return;
- *     // ... handler logic
- *   });
- *
- * Returns `true` if the request is authorized, `false` otherwise (and sends
- * the appropriate 401/403 response automatically).
+ * Authorization Guards — Enforce server-side role checks and object-level permissions
  */
+
 export function requireAuth(req, res, role = null) {
   if (!req.user) {
     sendJson(res, 401, { error: 'Authentication required. Please log in.' });
     return false;
   }
 
-  if (role && req.user.role !== role) {
+  if (role && req.user.role !== role && req.user.role !== 'admin') {
     sendJson(res, 403, { error: `Forbidden. This endpoint requires the "${role}" role.` });
     return false;
   }
@@ -29,32 +18,75 @@ export function requireAuth(req, res, role = null) {
   return true;
 }
 
-/**
- * Convenience helpers for common role checks.
- */
 export function requireAdmin(req, res) {
   return requireAuth(req, res, 'admin');
 }
 
 export function requireFaculty(req, res) {
-  return requireAuth(req, res, 'faculty');
+  return requireAnyRole(req, res, 'faculty', 'admin');
 }
 
+export function requireCompany(req, res) {
+  return requireAnyRole(req, res, 'company', 'admin');
+}
 
+export function requireStudent(req, res) {
+  return requireAnyRole(req, res, 'student', 'admin');
+}
 
-/**
- * Allow multiple roles (e.g., both admin and faculty).
- */
 export function requireAnyRole(req, res, ...roles) {
   if (!req.user) {
     sendJson(res, 401, { error: 'Authentication required. Please log in.' });
     return false;
   }
 
-  if (roles.length > 0 && !roles.includes(req.user.role)) {
+  if (roles.length > 0 && !roles.includes(req.user.role) && req.user.role !== 'admin') {
     sendJson(res, 403, { error: `Forbidden. This endpoint requires one of: ${roles.join(', ')}` });
     return false;
   }
 
   return true;
+}
+
+/**
+ * Object-level Authorization (BOLA/IDOR protection):
+ * Verifies that the caller owns the targeted resource or has elevated privileges.
+ */
+export function requireSelfOrAdmin(req, res, targetId) {
+  if (!requireAuth(req, res)) return false;
+
+  const currentId = req.user.id;
+  const currentCollegeId = req.user.college_id;
+  const target = String(targetId || '').trim();
+
+  if (
+    currentId === target ||
+    (currentCollegeId && currentCollegeId === target) ||
+    req.user.role === 'admin'
+  ) {
+    return true;
+  }
+
+  sendJson(res, 403, { error: 'Forbidden. You do not have permission to access or modify this record.' });
+  return false;
+}
+
+export function requireSelfOrFacultyOrAdmin(req, res, targetId) {
+  if (!requireAuth(req, res)) return false;
+
+  const currentId = req.user.id;
+  const currentCollegeId = req.user.college_id;
+  const target = String(targetId || '').trim();
+
+  if (
+    currentId === target ||
+    (currentCollegeId && currentCollegeId === target) ||
+    req.user.role === 'faculty' ||
+    req.user.role === 'admin'
+  ) {
+    return true;
+  }
+
+  sendJson(res, 403, { error: 'Forbidden. You do not have permission to access this record.' });
+  return false;
 }

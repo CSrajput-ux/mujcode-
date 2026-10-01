@@ -300,7 +300,7 @@ export function registerAdminRoutes(router) {
 
     // Hash all passwords concurrently
     await Promise.all(newUsers.map(async (u) => {
-      u.password = await bcrypt.hash(u.password, 10);
+      u.password = await bcrypt.hash(u.password, 12);
     }));
 
     if (imported > 0) {
@@ -346,7 +346,7 @@ export function registerAdminRoutes(router) {
       id,
       name: req.body.name,
       email: req.body.email,
-      password: await bcrypt.hash(req.body.password || 'password123', 10),
+      password: await bcrypt.hash(req.body.password || 'password123', 12),
       role: 'student',
       isPasswordChanged: false,
       isActive: true,
@@ -467,7 +467,7 @@ export function registerAdminRoutes(router) {
       id,
       name: faculty.name,
       email: faculty.email,
-      password: await bcrypt.hash(req.body.password || 'password123', 10),
+      password: await bcrypt.hash(req.body.password || 'password123', 12),
       role: 'faculty',
       isPasswordChanged: false,
       isActive: true,

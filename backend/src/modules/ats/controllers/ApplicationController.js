@@ -32,19 +32,21 @@ export class ApplicationController {
       }
 
       let companyDrives = [];
-      if (req.user?.companyId && mongoose.Types.ObjectId.isValid(req.user.companyId)) {
-        companyDrives = await Drive.find({ companyId: req.user.companyId }, '_id title');
+      const companyId = req.user?.companyId || req.user?.id;
+      if (req.user?.role === 'admin') {
+        companyDrives = await Drive.find({}, '_id title');
+      } else if (companyId) {
+        companyDrives = await Drive.find({ companyId }, '_id title');
       } else {
-        const company = await Company.findOne();
-        if (company) {
-          companyDrives = await Drive.find({ companyId: company._id }, '_id title');
-        } else {
-          companyDrives = await Drive.find({}, '_id title');
-        }
+        return sendJson(res, 200, { candidates: [] });
       }
+
       const driveIds = companyDrives.map(d => d._id);
+      if (driveIds.length === 0) {
+        return sendJson(res, 200, { candidates: [] });
+      }
       
-      const applications = await Application.find(driveIds.length ? { driveId: { $in: driveIds } } : {})
+      const applications = await Application.find({ driveId: { $in: driveIds } })
         .populate('driveId', 'title role')
         .sort({ createdAt: -1 });
         
@@ -69,15 +71,22 @@ export class ApplicationController {
         return sendJson(res, 400, { error: 'Invalid status provided' });
       }
 
-      const application = await Application.findByIdAndUpdate(
-        id, 
-        { status },
-        { new: true }
-      );
-
+      const application = await Application.findById(id).populate('driveId');
       if (!application) {
         return sendJson(res, 404, { error: 'Application not found' });
       }
+
+      // Enforce multi-tenant company ownership check
+      if (req.user?.role !== 'admin') {
+        const callerCompanyId = String(req.user?.companyId || req.user?.id);
+        const driveCompanyId = String(application.driveId?.companyId || '');
+        if (callerCompanyId !== driveCompanyId) {
+          return sendJson(res, 403, { error: 'Forbidden: You do not own this drive' });
+        }
+      }
+
+      application.status = status;
+      await application.save();
 
       return sendJson(res, 200, { application });
     } catch (error) {
@@ -89,10 +98,10 @@ export class ApplicationController {
   static async applyToDrive(req, res) {
     try {
       const { driveId } = req.params;
-      const studentData = req.body.studentDetails; // Passed from frontend auth context
-
-      if (!studentData || !studentData.id) {
-        return sendJson(res, 400, { error: 'Student details required' });
+      // Derive identity from verified user token
+      const studentId = req.user?.id || req.user?.college_id;
+      if (!studentId) {
+        return sendJson(res, 401, { error: 'Authentication required' });
       }
 
       const drive = await Drive.findById(driveId);
@@ -105,10 +114,23 @@ export class ApplicationController {
       }
 
       // Check for existing application
-      const existingApp = await Application.findOne({ driveId, studentId: studentData.id });
+      const existingApp = await Application.findOne({ driveId, studentId });
       if (existingApp) {
         return sendJson(res, 400, { error: 'You have already applied to this drive' });
       }
+
+      const studentName = req.user?.name || req.body.studentDetails?.name || 'Student';
+      const studentEmail = req.user?.email || req.body.studentDetails?.email || '';
+      const studentBranch = req.user?.branch || req.body.studentDetails?.branch || 'CSE';
+      const studentCgpa = Number(req.body.studentDetails?.cgpa || 0);
+
+      const studentData = {
+        id: studentId,
+        name: studentName,
+        email: studentEmail,
+        branch: studentBranch,
+        cgpa: Math.min(10, Math.max(0, studentCgpa))
+      };
 
       // Run Eligibility Engine
       const eligibility = EligibilityEngine.evaluate(studentData, drive.eligibility);
@@ -120,13 +142,13 @@ export class ApplicationController {
 
       const newApplication = new Application({
         driveId,
-        studentId: studentData.id,
+        studentId,
         studentDetails: {
           name: studentData.name,
           email: studentData.email,
           branch: studentData.branch,
           cgpa: studentData.cgpa || 0,
-          score: studentData.score || 0
+          score: 0
         },
         status: newStatus,
         notes: notes
@@ -144,3 +166,4 @@ export class ApplicationController {
     }
   }
 }
+

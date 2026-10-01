@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { Readable } from 'node:stream';
 import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { currentStudent } from './helpers.js';
@@ -41,8 +42,26 @@ export function registerContentRoutes(router) {
     return sendJson(res, 200, content);
   });
 
+const ALLOWED_STORAGE_HOSTS = new Set([
+  'res.cloudinary.com',
+  'api.cloudinary.com',
+  's3.amazonaws.com'
+]);
+
+function isTrustedStorageUrl(urlString) {
+  try {
+    const parsed = new URL(urlString);
+    if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return false;
+    const hostname = parsed.hostname.toLowerCase();
+    return ALLOWED_STORAGE_HOSTS.has(hostname) || hostname.endsWith('.cloudinary.com') || hostname.endsWith('.amazonaws.com');
+  } catch {
+    return false;
+  }
+}
+
   // View file inline (perfect for PDF preview modal, images, docs)
   router.get('/api/content/view/:id', async (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const item = (db.content || []).find(c => c._id === req.params.id);
     if (!item || !item.fileUrl) {
@@ -64,31 +83,32 @@ export function registerContentRoutes(router) {
       const safeName = (item.fileName || `${item.title || 'document'}${ext || '.pdf'}`).replace(/[^\w.-]/g, '_');
 
       if (item.fileUrl.startsWith('http://') || item.fileUrl.startsWith('https://')) {
+        if (!isTrustedStorageUrl(item.fileUrl)) {
+          return sendJson(res, 400, { error: 'Invalid or untrusted file storage URL' });
+        }
         const upstreamRes = await fetch(item.fileUrl);
         if (!upstreamRes.ok) {
           logger.error(`[ContentView] Failed to fetch upstream file: ${upstreamRes.status}`);
           return sendJson(res, 502, { error: 'Failed to retrieve file from CDN' });
         }
         res.statusCode = 200;
-        res.removeHeader('X-Frame-Options');
-        res.setHeader('Content-Security-Policy', "frame-ancestors *");
-        res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
         res.setHeader('Content-Type', contentType);
         res.setHeader('Content-Disposition', `inline; filename="${safeName}"`);
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Cache-Control', 'public, max-age=86400');
+        res.setHeader('Cache-Control', 'private, max-age=86400');
+        if (upstreamRes.body) {
+          return Readable.fromWeb(upstreamRes.body).pipe(res);
+        }
         const buf = Buffer.from(await upstreamRes.arrayBuffer());
         return res.end(buf);
       } else {
-        const localPath = path.join(process.cwd(), item.fileUrl.replace(/^\/+/, ''));
+        const localPath = path.resolve(process.cwd(), item.fileUrl.replace(/^\/+/, ''));
+        if (!localPath.startsWith(process.cwd())) {
+          return sendJson(res, 403, { error: 'Access denied' });
+        }
         if (fs.existsSync(localPath)) {
           res.statusCode = 200;
-          res.removeHeader('X-Frame-Options');
-          res.setHeader('Content-Security-Policy', "frame-ancestors *");
-          res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
           res.setHeader('Content-Type', contentType);
           res.setHeader('Content-Disposition', `inline; filename="${safeName}"`);
-          res.setHeader('Access-Control-Allow-Origin', '*');
           return fs.createReadStream(localPath).pipe(res);
         }
         return sendJson(res, 404, { error: 'Local file not found' });
@@ -101,6 +121,7 @@ export function registerContentRoutes(router) {
 
   // Download file with proper original filename and extension
   router.get('/api/content/download/:id', async (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const item = (db.content || []).find(c => c._id === req.params.id);
     if (!item || !item.fileUrl) {
@@ -125,6 +146,9 @@ export function registerContentRoutes(router) {
       let contentType = item.fileType || 'application/octet-stream';
 
       if (item.fileUrl.startsWith('http://') || item.fileUrl.startsWith('https://')) {
+        if (!isTrustedStorageUrl(item.fileUrl)) {
+          return sendJson(res, 400, { error: 'Invalid or untrusted file storage URL' });
+        }
         const upstreamRes = await fetch(item.fileUrl);
         if (!upstreamRes.ok) {
           return sendJson(res, 502, { error: 'Failed to retrieve file from CDN' });
@@ -132,11 +156,16 @@ export function registerContentRoutes(router) {
         res.statusCode = 200;
         res.setHeader('Content-Type', contentType);
         res.setHeader('Content-Disposition', `attachment; filename="${downloadName}"`);
-        res.setHeader('Access-Control-Allow-Origin', '*');
+        if (upstreamRes.body) {
+          return Readable.fromWeb(upstreamRes.body).pipe(res);
+        }
         const buf = Buffer.from(await upstreamRes.arrayBuffer());
         return res.end(buf);
       } else {
-        const localPath = path.join(process.cwd(), item.fileUrl.replace(/^\/+/, ''));
+        const localPath = path.resolve(process.cwd(), item.fileUrl.replace(/^\/+/, ''));
+        if (!localPath.startsWith(process.cwd())) {
+          return sendJson(res, 403, { error: 'Access denied' });
+        }
         if (fs.existsSync(localPath)) {
           res.statusCode = 200;
           res.setHeader('Content-Type', contentType);

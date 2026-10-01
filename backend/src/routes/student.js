@@ -1,6 +1,7 @@
 import { ok, sendJson } from '../lib/http.js';
 import { publicCourse, currentStudent, normalizeYear } from './helpers.js';
 import { findStudentById, findStudentByCollegeId, findFacultyById } from '../lib/fastStore.js';
+import { requireAuth, requireSelfOrAdmin, requireSelfOrFacultyOrAdmin } from '../lib/requireAuth.js';
 
 function userAndStudent(db, id) {
   const user = db.users.find(item => item.id === id || item.college_id === id);
@@ -8,40 +9,37 @@ function userAndStudent(db, id) {
   return { user, student };
 }
 
-function updateStudentProfile(db, id, profile) {
+// Allowed writable profile fields for students (prevents mass assignment of role, cgpa, branch, etc.)
+const STUDENT_WRITABLE_FIELDS = ['bio', 'phone', 'contactNumber', 'github', 'githubUrl', 'linkedin', 'linkedinUrl', 'avatar', 'name', 'fullName'];
+
+function updateStudentProfile(db, id, profile, isAdmin = false) {
   const { user, student } = userAndStudent(db, id);
-  const patch = {
-    departmentId: profile.departmentId || undefined,
-    programId: profile.programId || undefined,
-    branchId: profile.branchId || undefined,
-    sectionId: profile.sectionId || undefined,
-    academicYearId: profile.academicYearId || undefined,
-    branch: profile.branch || profile.branchCode || user?.branch || student?.branch || 'CSE',
-    section: profile.section || user?.section || student?.section || 'A',
-    year: profile.year || user?.year || student?.year || '2',
-    semester: profile.semester || user?.semester || 4,
-    department: profile.department || user?.department || 'Computer Science and Engineering',
-    course: profile.course || user?.course || 'B.Tech'
-  };
+
+  // Whitelist writable fields
+  const patch = {};
+
+  for (const field of STUDENT_WRITABLE_FIELDS) {
+    if (profile[field] !== undefined) {
+      patch[field] = String(profile[field]).slice(0, 500); // length sanitize
+    }
+  }
+
+  // Only administrators can modify academic enrollment parameters
+  if (isAdmin) {
+    if (profile.branch) patch.branch = profile.branch;
+    if (profile.section) patch.section = profile.section;
+    if (profile.year) patch.year = normalizeYear(profile.year) || profile.year;
+    if (profile.semester) patch.semester = Number(profile.semester);
+    if (profile.department) patch.department = profile.department;
+    if (profile.course) patch.course = profile.course;
+  }
 
   if (user) {
-    Object.assign(user, patch, {
-      StudentProfile: {
-        branch: patch.branch,
-        section: patch.section,
-        year: `${normalizeYear(patch.year) || patch.year}${normalizeYear(patch.year) ? 'th Year' : ''}`,
-        semester: Number(patch.semester || 4)
-      }
-    });
+    Object.assign(user, patch);
   }
 
   if (student) {
-    Object.assign(student, {
-      branch: patch.branch,
-      section: patch.section,
-      year: normalizeYear(patch.year) || patch.year,
-      semester: Number(patch.semester || 4)
-    });
+    Object.assign(student, patch);
   }
 
   return { ...patch, id };
@@ -74,11 +72,13 @@ function restrictionsFor(db, student) {
 
 export function registerStudentRoutes(router) {
   router.get('/api/student/courses', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     return sendJson(res, 200, { courses: db.courses.map(publicCourse) });
   });
 
   router.get('/api/student/courses/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const { student } = userAndStudent(db, req.params.studentId);
     let courses = db.courses
@@ -110,6 +110,7 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/course/:courseId/details', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     let course = db.courses.find(item => item._id === req.params.courseId || item.courseCode === req.params.courseId || (item.courseName || item.title || '').toLowerCase() === decodeURIComponent(req.params.courseId).toLowerCase());
     if (!course) {
@@ -127,7 +128,7 @@ export function registerStudentRoutes(router) {
         description: 'Uploaded Semester Course'
       };
     }
-    const solved = solvedSet(db, req.query.studentId || currentStudent(db, req)?.id);
+    const solved = solvedSet(db, currentStudent(db, req)?.id || req.user.id);
     const problems = db.problems
       .filter(problem => problem.courseId === req.params.courseId)
       .map(problem => ({
@@ -148,11 +149,21 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/profile/:id', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.id)) return;
     const db = ctx.getDb();
     const { user, student } = userAndStudent(db, req.params.id);
+    if (!user && !student) {
+      return sendJson(res, 404, { error: 'Student not found' });
+    }
+
+    // Strip sensitive fields (passwords, internal flags)
+    const safeUser = user ? { ...user } : {};
+    delete safeUser.password;
+    delete safeUser.isPasswordChanged;
+
     return sendJson(res, 200, {
       profile: {
-        ...(user || {}),
+        ...safeUser,
         ...(student || {}),
         name: user?.name || student?.fullName,
         email: user?.email || student?.User?.email
@@ -161,21 +172,27 @@ export function registerStudentRoutes(router) {
   });
 
   router.put('/api/student/profile/:id', (req, res, ctx) => {
+    if (!requireSelfOrAdmin(req, res, req.params.id)) return;
     const db = ctx.getDb();
-    const profile = updateStudentProfile(db, req.params.id, req.body);
+    const isAdmin = req.user.role === 'admin';
+    const profile = updateStudentProfile(db, req.params.id, req.body || {}, isAdmin);
     ctx.saveDb(db);
     return ok(res, { profile });
   });
 
   router.put('/api/student/profile', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const student = currentStudent(db, req);
-    const profile = updateStudentProfile(db, student?.id || 'stu_1', req.body);
+    const targetId = student?.id || req.user.id;
+    const isAdmin = req.user.role === 'admin';
+    const profile = updateStudentProfile(db, targetId, req.body || {}, isAdmin);
     ctx.saveDb(db);
     return ok(res, { profile });
   });
 
   router.get('/api/student/mentors/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const student = findStudentById(req.params.studentId) || findStudentByCollegeId(req.params.studentId) || db.students.find(s => s.id === req.params.studentId || s.college_id === req.params.studentId);
     
@@ -195,7 +212,9 @@ export function registerStudentRoutes(router) {
     return sendJson(res, 200, mentors);
   });
 
+
   router.get('/api/student/restrictions', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const student = currentStudent(db, req);
     const details = restrictionsFor(db, student);
@@ -204,6 +223,7 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/permissions', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const student = currentStudent(db, req);
     const details = restrictionsFor(db, student);
@@ -212,6 +232,7 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/rankings/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const studentId = req.params.studentId;
     const student = db.students.find(s => s.id === studentId || s.college_id === studentId);
@@ -278,6 +299,7 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/problem-stats/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const student = db.students.find(s => s.id === req.params.studentId || s.college_id === req.params.studentId);
     const actualId = student ? student.id : req.params.studentId;
@@ -293,6 +315,7 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/badges/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const student = db.students.find(s => s.id === req.params.studentId || s.college_id === req.params.studentId);
     const actualId = student ? student.id : req.params.studentId;
@@ -302,6 +325,7 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/heatmap/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const studentId = req.params.studentId;
     const student = db.students.find(s => s.id === studentId || s.college_id === studentId);
@@ -344,6 +368,8 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/analytics/trend/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
+
     const db = ctx.getDb();
     const studentId = req.params.studentId;
     const student = db.students.find(s => s.id === studentId || s.college_id === studentId);
@@ -374,6 +400,7 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/analytics/topics/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const studentId = req.params.studentId;
     const student = db.students.find(s => s.id === studentId || s.college_id === studentId);
@@ -408,6 +435,7 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/analytics/improvement/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const studentId = req.params.studentId;
     const student = db.students.find(s => s.id === studentId || s.college_id === studentId);
@@ -449,6 +477,7 @@ export function registerStudentRoutes(router) {
   });
 
   router.get('/api/student/analytics/summary/:studentId', (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const studentId = req.params.studentId;
     const student = db.students.find(s => s.id === studentId || s.college_id === studentId);

@@ -10,13 +10,14 @@ export class DriveController {
         return sendJson(res, 200, { drives: [] });
       }
 
-      // In production, derive companyId from req.user
-      const company = await Company.findOne();
-      if (!company) {
-        return sendJson(res, 200, { drives: [] });
+      const companyId = req.user?.companyId || req.user?.id;
+      let filter = {};
+      if (req.user?.role !== 'admin') {
+        if (!companyId) return sendJson(res, 200, { drives: [] });
+        filter = { companyId };
       }
 
-      const drives = await Drive.find({ companyId: company._id }).sort({ createdAt: -1 });
+      const drives = await Drive.find(filter).sort({ createdAt: -1 });
       return sendJson(res, 200, { drives });
     } catch (error) {
       console.error('[DriveController.getAll]', error);
@@ -30,9 +31,9 @@ export class DriveController {
         return sendJson(res, 503, { error: 'Database unavailable' });
       }
 
-      const company = await Company.findOne();
-      if (!company) {
-        return sendJson(res, 404, { error: 'Company not found' });
+      const companyId = req.user?.companyId || req.user?.id;
+      if (!companyId && req.user?.role !== 'admin') {
+        return sendJson(res, 400, { error: 'Company identity missing from user context' });
       }
 
       const { title, description, eligibility, salary, locationType, location, deadline } = req.body;
@@ -42,7 +43,7 @@ export class DriveController {
       }
 
       const newDrive = new Drive({
-        companyId: company._id,
+        companyId: companyId || req.body.companyId,
         title,
         description,
         eligibility,
@@ -61,3 +62,4 @@ export class DriveController {
     }
   }
 }
+

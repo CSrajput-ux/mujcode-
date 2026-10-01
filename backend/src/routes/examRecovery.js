@@ -1,11 +1,18 @@
 import { sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
+import { requireAuth, requireSelfOrAdmin } from '../lib/requireAuth.js';
 
 export function registerExamRecoveryRoutes(router, ctx) {
-  // 1. Save / backup exam recovery snapshot from student
+  // 1. Save / backup exam recovery snapshot from student (AUTHENTICATED & SELF-LOCKED)
   router.post('/api/exam-recovery/save', (req, res) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
-    const { testId, studentId, answers = {}, lockedQuestionIds = [], lastSavedAt = Date.now() } = req.body || {};
+    const { testId, answers = {}, lockedQuestionIds = [], lastSavedAt = Date.now() } = req.body || {};
+
+    // Prevent IDOR: caller can only save their own exam snapshot unless admin
+    const callerId = req.user.id || req.user.college_id;
+    const requestedStudentId = req.body?.studentId;
+    const studentId = (req.user.role === 'admin' && requestedStudentId) ? requestedStudentId : callerId;
 
     if (!testId || !studentId) {
       return sendJson(res, 400, { error: 'testId and studentId are required' });
@@ -33,17 +40,22 @@ export function registerExamRecoveryRoutes(router, ctx) {
     });
   });
 
-  // 2. Restore / query exam snapshot after browser crash / reconnect
+  // 2. Restore / query exam snapshot after browser crash / reconnect (AUTHENTICATED & SELF-LOCKED)
   router.get('/api/exam-recovery/restore', (req, res) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
-    const { testId, studentId } = req.query || {};
+    const { testId } = req.query || {};
+    const callerId = req.user.id || req.user.college_id;
+    const requestedStudentId = req.query?.studentId || callerId;
 
-    if (!testId || !studentId) {
+    if (!requireSelfOrAdmin(req, res, requestedStudentId)) return;
+
+    if (!testId || !requestedStudentId) {
       return sendJson(res, 400, { error: 'testId and studentId query parameters required' });
     }
 
     db.examRecoverySnapshots = db.examRecoverySnapshots || {};
-    const key = `${testId}_${studentId}`;
+    const key = `${testId}_${requestedStudentId}`;
 
     const snapshot = db.examRecoverySnapshots[key];
     if (!snapshot) {
@@ -57,3 +69,4 @@ export function registerExamRecoveryRoutes(router, ctx) {
     });
   });
 }
+

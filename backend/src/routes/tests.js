@@ -2,7 +2,8 @@ import { badRequest, ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { Submission } from '../models/Submission.js';
 import { computeTestStatus, currentStudent, getQuestionsForTest, studentSafeTest } from './helpers.js';
-import { requireAuth, requireAnyRole } from '../lib/requireAuth.js';
+import { requireAuth, requireAnyRole, requireFaculty, requireSelfOrFacultyOrAdmin } from '../lib/requireAuth.js';
+import { saveTestSubmissionPg, getTestSubmissionsPg, isPostgresConnected } from '../lib/postgres.js';
 
 function testWithQuestions(db, test, studentId = null) {
   const questions = getQuestionsForTest(db, test._id);
@@ -98,6 +99,7 @@ function updateQuestion(collection, id, body) {
 
 export function registerTestsRoutes(router) {
   router.get('/api/tests/faculty/all', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     return sendJson(res, 200, db.tests.map(test => facultyTestStats(db, test)));
   });
@@ -133,7 +135,12 @@ export function registerTestsRoutes(router) {
     }, 201);
   });
 
-  router.get('/api/tests/:testId/submissions', (req, res, ctx) => {
+  router.get('/api/tests/:testId/submissions', async (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
+    if (isPostgresConnected()) {
+      const pgSubs = await getTestSubmissionsPg(req.params.testId);
+      if (pgSubs) return sendJson(res, 200, pgSubs);
+    }
     const submissions = ctx.getDb().testSubmissions.filter(sub => sub.testId === req.params.testId);
     return sendJson(res, 200, submissions);
   });
@@ -162,18 +169,32 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/:testId/questions/mcq/student', (req, res, ctx) => {
-    const questions = (ctx.getDb().mcqQuestions || [])
+    if (!requireAuth(req, res)) return;
+    const db = ctx.getDb();
+    const test = db.tests.find(item => item._id === req.params.testId);
+    if (!test) return sendJson(res, 404, { error: 'Test not found' });
+    if (!test.isPublished && req.user?.role !== 'faculty' && req.user?.role !== 'admin') {
+      return sendJson(res, 403, { error: 'Test is not published yet' });
+    }
+    const questions = (db.mcqQuestions || [])
       .filter(question => question.testId === req.params.testId)
       .map(({ correctAnswers, explanation, ...safe }) => safe);
     return sendJson(res, 200, questions);
   });
 
   router.get('/api/tests/:testId/questions/coding/student', (req, res, ctx) => {
-    const questions = (ctx.getDb().codingQuestions || [])
+    if (!requireAuth(req, res)) return;
+    const db = ctx.getDb();
+    const test = db.tests.find(item => item._id === req.params.testId);
+    if (!test) return sendJson(res, 404, { error: 'Test not found' });
+    if (!test.isPublished && req.user?.role !== 'faculty' && req.user?.role !== 'admin') {
+      return sendJson(res, 403, { error: 'Test is not published yet' });
+    }
+    const questions = (db.codingQuestions || [])
       .filter(question => question.testId === req.params.testId)
       .map(question => ({
         ...question,
-        testCases: question.testCases.map(testCase => testCase.isHidden
+        testCases: (question.testCases || []).map(testCase => testCase.isHidden
           ? { ...testCase, expectedOutput: undefined }
           : testCase)
       }));
@@ -181,17 +202,27 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/:testId/questions/theory/student', (req, res, ctx) => {
-    const questions = (ctx.getDb().theoryQuestions || [])
+    if (!requireAuth(req, res)) return;
+    const db = ctx.getDb();
+    const test = db.tests.find(item => item._id === req.params.testId);
+    if (!test) return sendJson(res, 404, { error: 'Test not found' });
+    if (!test.isPublished && req.user?.role !== 'faculty' && req.user?.role !== 'admin') {
+      return sendJson(res, 403, { error: 'Test is not published yet' });
+    }
+    const questions = (db.theoryQuestions || [])
       .filter(question => question.testId === req.params.testId)
       .map(({ modelAnswer, keywords, ...safe }) => safe);
     return sendJson(res, 200, questions);
   });
 
+  // Faculty/Admin only routes for full question data (including correct answers)
   router.get('/api/tests/:testId/questions/mcq', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     return sendJson(res, 200, (ctx.getDb().mcqQuestions || []).filter(question => question.testId === req.params.testId));
   });
 
   router.post('/api/tests/:testId/questions/mcq', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const question = addQuestion(db, req.params.testId, 'mcq', req.body);
     ctx.saveDb(db);
@@ -199,10 +230,12 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/:testId/questions/coding', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     return sendJson(res, 200, (ctx.getDb().codingQuestions || []).filter(question => question.testId === req.params.testId));
   });
 
   router.post('/api/tests/:testId/questions/coding', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const question = addQuestion(db, req.params.testId, 'coding', req.body);
     ctx.saveDb(db);
@@ -210,10 +243,12 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/:testId/questions/theory', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     return sendJson(res, 200, (ctx.getDb().theoryQuestions || []).filter(question => question.testId === req.params.testId));
   });
 
   router.post('/api/tests/:testId/questions/theory', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const question = addQuestion(db, req.params.testId, 'theory', req.body);
     ctx.saveDb(db);
@@ -221,6 +256,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.put('/api/questions/mcq/:questionId', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const question = updateQuestion(db.mcqQuestions, req.params.questionId, req.body);
     if (!question) return sendJson(res, 404, { error: 'Question not found' });
@@ -229,6 +265,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.delete('/api/questions/mcq/:questionId', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     db.mcqQuestions = db.mcqQuestions.filter(question => question._id !== req.params.questionId);
     ctx.saveDb(db);
@@ -236,6 +273,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.put('/api/questions/coding/:questionId', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const question = updateQuestion(db.codingQuestions, req.params.questionId, req.body);
     if (!question) return sendJson(res, 404, { error: 'Question not found' });
@@ -244,6 +282,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.delete('/api/questions/coding/:questionId', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     db.codingQuestions = db.codingQuestions.filter(question => question._id !== req.params.questionId);
     ctx.saveDb(db);
@@ -251,6 +290,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.put('/api/questions/theory/:questionId', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const question = updateQuestion(db.theoryQuestions, req.params.questionId, req.body);
     if (!question) return sendJson(res, 404, { error: 'Question not found' });
@@ -259,6 +299,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.delete('/api/questions/theory/:questionId', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     db.theoryQuestions = db.theoryQuestions.filter(question => question._id !== req.params.questionId);
     ctx.saveDb(db);
@@ -271,8 +312,13 @@ export function registerTestsRoutes(router) {
     const test = db.tests.find(item => item._id === req.body.testId);
     if (!test) return sendJson(res, 404, { error: 'Test not found' });
 
+    // Derive studentId from verified token to prevent impersonation (IDOR)
+    const effectiveStudentId = (req.user.role === 'admin' && req.body.studentId)
+      ? String(req.body.studentId)
+      : (req.user.id || req.user.college_id);
+
     const questions = db.mcqQuestions.filter(question => question.testId === test._id);
-    const answers = req.body.answers || [];
+    const answers = Array.isArray(req.body.answers) ? req.body.answers : [];
     const score = answers.reduce((sum, answer) => {
       const question = questions.find(item => item._id === answer.questionId);
       return question?.correctAnswers?.includes(Number(answer.selectedOption))
@@ -280,21 +326,26 @@ export function registerTestsRoutes(router) {
         : sum;
     }, 0);
     const totalMaxScore = questions.reduce((sum, question) => sum + Number(question.marks || 0), 0);
-    const student = db.students.find(item => item.id === req.body.studentId || item.college_id === req.body.studentId);
+    const student = db.students.find(item => item.id === effectiveStudentId || item.college_id === effectiveStudentId);
     const submission = {
       _id: nextId('test_sub'),
       testId: test._id,
-      studentId: req.body.studentId,
-      studentName: student?.fullName || 'Student',
-      rollNumber: student?.rollNumber || '',
-      branch: student?.branch || '',
-      section: student?.section || '',
+      studentId: effectiveStudentId,
+      studentName: student?.fullName || student?.name || req.user.name || 'Student',
+      rollNumber: student?.rollNumber || student?.college_id || req.user.college_id || '',
+      branch: student?.branch || req.user.branch || '',
+      section: student?.section || req.user.section || '',
       score,
       maxScore: totalMaxScore,
-      status: score >= totalMaxScore * 0.4 ? 'Pass' : 'Fail',
+      status: totalMaxScore > 0 ? (score >= totalMaxScore * 0.4 ? 'Pass' : 'Fail') : 'Pass',
       submittedAt: new Date(),
-      answers: req.body.answers || []
+      answers
     };
+
+    // Persist to authoritative PostgreSQL table if connected
+    if (isPostgresConnected()) {
+      await saveTestSubmissionPg(submission);
+    }
 
     // Always save to JSON/in-memory DB
     if (!db.testSubmissions) db.testSubmissions = [];
@@ -316,6 +367,7 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/submissions/:studentId', async (req, res, ctx) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     try {
       const submissions = await Submission.find({ studentId: req.params.studentId }).lean();
       if (submissions && submissions.length > 0) {
@@ -331,20 +383,29 @@ export function registerTestsRoutes(router) {
   });
 
   router.get('/api/tests/:testId', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const student = currentStudent(db, req);
-    const studentId = req.query.studentId || student?.id || student?.college_id;
+    const studentId = req.user?.role === 'student' ? (student?.id || student?.college_id || req.user.id) : (req.query.studentId || student?.id || student?.college_id);
     const test = db.tests.find(item => item._id === req.params.testId);
-    return sendJson(res, test ? 200 : 404, test ? testWithQuestions(db, test, studentId) : { error: 'Test not found' });
+    if (!test) return sendJson(res, 404, { error: 'Test not found' });
+    if (!test.isPublished && req.user?.role !== 'faculty' && req.user?.role !== 'admin') {
+      return sendJson(res, 403, { error: 'Test is not published yet' });
+    }
+    return sendJson(res, 200, testWithQuestions(db, test, studentId));
   });
 
   router.get('/api/tests', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const student = currentStudent(db, req);
-    const studentId = req.query.studentId || student?.id || student?.college_id;
+    const studentId = req.user?.role === 'student' ? (student?.id || student?.college_id || req.user.id) : (req.query.studentId || student?.id || student?.college_id);
 
     let tests = db.tests
-      .filter(test => test.isPublished !== false)
+      .filter(test => {
+        if (req.user?.role === 'faculty' || req.user?.role === 'admin') return true;
+        return test.isPublished !== false;
+      })
       .map(test => studentSafeTest(db, test, studentId));
 
     if (req.query.type) tests = tests.filter(test => test.type === req.query.type || test.testType === req.query.type);
@@ -356,3 +417,4 @@ export function registerTestsRoutes(router) {
     return sendJson(res, 200, tests);
   });
 }
+

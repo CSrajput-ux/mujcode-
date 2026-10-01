@@ -10,10 +10,10 @@ export class AssessmentController {
         return sendJson(res, 503, { error: 'Database unavailable' });
       }
 
-      const company = await Company.findOne();
-      const companyId = (req.user?.companyId && mongoose.Types.ObjectId.isValid(req.user.companyId))
-        ? req.user.companyId
-        : (company ? company._id.toString() : 'comp-1');
+      const companyId = req.user?.companyId || req.user?.id;
+      if (!companyId && req.user?.role !== 'admin') {
+        return sendJson(res, 400, { error: 'Company identity missing from user context' });
+      }
       
       const { title, description, driveId, durationMinutes, questions } = req.body;
       
@@ -21,7 +21,7 @@ export class AssessmentController {
         title,
         description,
         driveId,
-        companyId,
+        companyId: companyId || req.body.companyId,
         durationMinutes,
         questions,
         status: 'Active'
@@ -42,12 +42,15 @@ export class AssessmentController {
         return sendJson(res, 200, []);
       }
 
-      const company = await Company.findOne();
-      const companyId = (req.user?.companyId && mongoose.Types.ObjectId.isValid(req.user.companyId))
-        ? req.user.companyId
-        : (company ? company._id.toString() : 'comp-1');
-      const assessments = await Assessment.find({ companyId });
+      const companyId = req.user?.companyId || req.user?.id;
+      let filter = {};
+      if (req.user?.role !== 'admin') {
+        if (!companyId) return sendJson(res, 200, []);
+        filter = { companyId };
+      }
+      const assessments = await Assessment.find(filter);
       return sendJson(res, 200, assessments);
+
     } catch (error) {
       console.error('[AssessmentController.getAll]', error);
       return sendJson(res, 500, { error: 'Failed to fetch assessments' });

@@ -4,6 +4,7 @@ import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { CloudinaryService } from '../services/CloudinaryService.js';
 import { logger } from '../lib/logger.js';
+import { requireAuth, requireFaculty } from '../lib/requireAuth.js';
 
 function safeFilename(name) {
   return String(name || 'assignment.pdf')
@@ -11,33 +12,47 @@ function safeFilename(name) {
     .replace(/^-+|-+$/g, '') || 'assignment.pdf';
 }
 
+function isTrustedStorageUrl(fileUrl) {
+  if (!fileUrl || typeof fileUrl !== 'string') return false;
+  try {
+    const parsed = new URL(fileUrl);
+    return parsed.protocol === 'https:' && (
+      parsed.hostname === 'res.cloudinary.com' ||
+      parsed.hostname.endsWith('.cloudinary.com') ||
+      parsed.hostname.endsWith('.amazonaws.com')
+    );
+  } catch {
+    return false;
+  }
+}
+
 export function registerAssignmentsRoutes(router) {
-  // Faculty: Apne section ke saare assignments dekho
+  // Faculty: Apne section ke saare assignments dekho (RESTRICTED TO FACULTY / ADMIN)
   router.get('/api/assignments/faculty/all', (req, res, ctx) => {
-    return sendJson(res, 200, ctx.getDb().assignments);
+    if (!requireFaculty(req, res)) return;
+    return sendJson(res, 200, ctx.getDb().assignments || []);
   });
 
-  // Student: Apne section ke pending assignments dekho
+  // Student: Apne section ke pending assignments dekho (AUTHENTICATED)
   router.get('/api/assignments/student/my', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
-    // Try to get student info from auth token
-    const userId = req.user?.id || req.user?.college_id;
-    const student = db.students.find(s => s.id === userId || s.college_id === userId)
-      || db.users.find(u => u.id === userId && u.role === 'student');
+    const userId = req.user.id;
+    const student = (db.students || []).find(s => s.id === userId || s.college_id === req.user.college_id)
+      || (db.users || []).find(u => u.id === userId && u.role === 'student');
 
     if (!student) {
-      // Return all assignments if student not found (fallback)
-      return sendJson(res, 200, db.assignments);
+      return sendJson(res, 200, []);
     }
 
     const studentSection = student.section || '';
     const studentBranch = student.branch || '';
 
     // Filter assignments matching student's section and branch
-    const myAssignments = db.assignments.filter(a => {
-      const sectionMatch = !a.section || !studentSection || 
+    const myAssignments = (db.assignments || []).filter(a => {
+      const sectionMatch = !a.section || !studentSection ||
         a.section.toUpperCase() === studentSection.toUpperCase();
-      const branchMatch = !a.branch || !studentBranch || 
+      const branchMatch = !a.branch || !studentBranch ||
         a.branch.toUpperCase() === studentBranch.toUpperCase();
       return sectionMatch && branchMatch;
     });
@@ -45,44 +60,50 @@ export function registerAssignmentsRoutes(router) {
     return sendJson(res, 200, myAssignments);
   });
 
-  // Student: Submitted assignments
+  // Student: Submitted assignments (AUTHENTICATED — ONLY OWN SUBMISSIONS)
   router.get('/api/assignments/student/submitted', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
-    const userId = req.user?.id || req.user?.college_id;
-    const mySubmissions = db.assignmentSubmissions.filter(sub => 
-      sub.studentId === userId || sub.studentId === String(userId)
+    const userId = String(req.user.id);
+    const collegeId = req.user.college_id ? String(req.user.college_id) : null;
+
+    const mySubmissions = (db.assignmentSubmissions || []).filter(sub =>
+      String(sub.studentId) === userId || (collegeId && String(sub.studentId) === collegeId)
     );
     return sendJson(res, 200, mySubmissions);
   });
 
   router.post('/api/assignments/seed', (req, res) => {
+    if (!requireFaculty(req, res)) return;
     return ok(res, { message: 'Assignments are already seeded' });
   });
 
-  // Student: Submit an assignment
+  // Student: Submit an assignment (AUTHENTICATED — FORCED OWN USER ID)
   router.post('/api/assignments/:id/submit', async (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const assignmentId = req.params.id;
     const assignment = (db.assignments || []).find(a => a._id === assignmentId || a.id === assignmentId);
-    
+
     if (!assignment) {
       return sendJson(res, 404, { error: 'Assignment not found' });
     }
 
-    const userId = req.user?.id || req.user?.college_id;
-    const student = (db.students || []).find(s => s.id === userId || s.college_id === userId)
-      || (db.users || []).find(u => u.id === userId && u.role === 'student');
+    // Always derive student identity from verified token — NEVER trust client body
+    const userId = req.user.id;
+    const student = (db.students || []).find(s => s.id === userId || s.college_id === req.user.college_id)
+      || (db.users || []).find(u => u.id === userId);
 
     if (!student) {
-      return sendJson(res, 401, { error: 'Unauthorized' });
+      return sendJson(res, 403, { error: 'Student record not found' });
     }
 
     if (!db.assignmentSubmissions) {
       db.assignmentSubmissions = [];
     }
 
-    const existingIndex = db.assignmentSubmissions.findIndex(sub => 
-      (sub.assignmentId === assignmentId) && (sub.studentId === userId || sub.studentId === String(userId))
+    const existingIndex = db.assignmentSubmissions.findIndex(sub =>
+      (sub.assignmentId === assignmentId) && (String(sub.studentId) === String(userId))
     );
 
     let fileUrl = '';
@@ -93,7 +114,7 @@ export function registerAssignmentsRoutes(router) {
     if (file) {
       try {
         fileName = file.filename || 'submission.pdf';
-        const safeName = String(fileName).replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
+        const safeName = safeFilename(fileName);
         const filename = `${assignmentId}-${userId}-${safeName}`;
         fileUrl = await CloudinaryService.uploadFile(file.buffer, filename, file.contentType || 'application/octet-stream');
         fileType = file.contentType || 'application/pdf';
@@ -107,7 +128,7 @@ export function registerAssignmentsRoutes(router) {
       _id: nextId('sub'),
       assignmentId,
       studentId: String(userId),
-      studentName: student.name || student.email || 'Student',
+      studentName: student.name || student.fullName || req.user.email || 'Student',
       fileUrl,
       fileName,
       fileType,
@@ -134,7 +155,9 @@ export function registerAssignmentsRoutes(router) {
     return sendJson(res, 201, submission);
   });
 
+  // Faculty: Create assignment (RESTRICTED TO FACULTY / ADMIN)
   router.post('/api/assignments', async (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const id = nextId('asgn');
     let fileUrl = req.body.fileUrl || '';
@@ -170,15 +193,16 @@ export function registerAssignmentsRoutes(router) {
       fileUrl,
       fileName,
       fileType,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString()
     };
     db.assignments.unshift(assignment);
     ctx.saveDb(db);
     return sendJson(res, 201, assignment);
   });
 
-  // Download assignment file
+  // Download assignment file (AUTHENTICATED + SSRF-SAFE)
   router.get('/api/assignments/download/:id', async (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const item = (db.assignments || []).find(a => a._id === req.params.id || a.id === req.params.id);
     if (!item || !item.fileUrl) {
@@ -202,6 +226,11 @@ export function registerAssignmentsRoutes(router) {
       let contentType = item.fileType || 'application/pdf';
 
       if (item.fileUrl.startsWith('http://') || item.fileUrl.startsWith('https://')) {
+        // SSRF Check: only allow trusted storage CDN domains
+        if (!isTrustedStorageUrl(item.fileUrl)) {
+          return sendJson(res, 400, { error: 'Invalid or untrusted file storage URL' });
+        }
+
         const upstreamRes = await fetch(item.fileUrl);
         if (!upstreamRes.ok) {
           return sendJson(res, 502, { error: 'Failed to retrieve file from storage' });
@@ -209,11 +238,13 @@ export function registerAssignmentsRoutes(router) {
         res.statusCode = 200;
         res.setHeader('Content-Type', contentType);
         res.setHeader('Content-Disposition', `attachment; filename="${downloadName}"`);
-        res.setHeader('Access-Control-Allow-Origin', '*');
         const buf = Buffer.from(await upstreamRes.arrayBuffer());
         return res.end(buf);
       } else {
-        const localPath = path.join(process.cwd(), item.fileUrl.replace(/^\/+/, ''));
+        const localPath = path.resolve(process.cwd(), item.fileUrl.replace(/^\/+/, ''));
+        if (!localPath.startsWith(process.cwd())) {
+          return sendJson(res, 403, { error: 'Access denied' });
+        }
         if (fs.existsSync(localPath)) {
           res.statusCode = 200;
           res.setHeader('Content-Type', contentType);
@@ -227,8 +258,9 @@ export function registerAssignmentsRoutes(router) {
     }
   });
 
-  // View assignment file inline
+  // View assignment file inline (AUTHENTICATED + SSRF-SAFE)
   router.get('/api/assignments/view/:id', async (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const item = (db.assignments || []).find(a => a._id === req.params.id || a.id === req.params.id);
     if (!item || !item.fileUrl) {
@@ -241,30 +273,29 @@ export function registerAssignmentsRoutes(router) {
       const safeName = (item.fileName || `${item.title || 'assignment'}${ext || '.pdf'}`).replace(/[^\w.-]/g, '_');
 
       if (item.fileUrl.startsWith('http://') || item.fileUrl.startsWith('https://')) {
+        if (!isTrustedStorageUrl(item.fileUrl)) {
+          return sendJson(res, 400, { error: 'Invalid or untrusted file storage URL' });
+        }
+
         const upstreamRes = await fetch(item.fileUrl);
         if (!upstreamRes.ok) {
           return sendJson(res, 502, { error: 'Failed to retrieve file from storage' });
         }
         res.statusCode = 200;
-        res.removeHeader('X-Frame-Options');
-        res.setHeader('Content-Security-Policy', "frame-ancestors *");
-        res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
         res.setHeader('Content-Type', contentType);
         res.setHeader('Content-Disposition', `inline; filename="${safeName}"`);
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Cache-Control', 'public, max-age=86400');
+        res.setHeader('Cache-Control', 'private, max-age=3600');
         const buf = Buffer.from(await upstreamRes.arrayBuffer());
         return res.end(buf);
       } else {
-        const localPath = path.join(process.cwd(), item.fileUrl.replace(/^\/+/, ''));
+        const localPath = path.resolve(process.cwd(), item.fileUrl.replace(/^\/+/, ''));
+        if (!localPath.startsWith(process.cwd())) {
+          return sendJson(res, 403, { error: 'Access denied' });
+        }
         if (fs.existsSync(localPath)) {
           res.statusCode = 200;
-          res.removeHeader('X-Frame-Options');
-          res.setHeader('Content-Security-Policy', "frame-ancestors *");
-          res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
           res.setHeader('Content-Type', contentType);
           res.setHeader('Content-Disposition', `inline; filename="${safeName}"`);
-          res.setHeader('Access-Control-Allow-Origin', '*');
           return fs.createReadStream(localPath).pipe(res);
         }
         return sendJson(res, 404, { error: 'Local file not found' });
@@ -274,25 +305,34 @@ export function registerAssignmentsRoutes(router) {
     }
   });
 
+  // Faculty: View submissions for an assignment (RESTRICTED TO FACULTY / ADMIN)
   router.get('/api/assignments/:assignmentId/submissions', (req, res, ctx) => {
-    const submissions = ctx.getDb().assignmentSubmissions.filter(sub => sub.assignmentId === req.params.assignmentId);
+    if (!requireFaculty(req, res)) return;
+    const submissions = (ctx.getDb().assignmentSubmissions || []).filter(sub => sub.assignmentId === req.params.assignmentId);
     return sendJson(res, 200, submissions);
   });
 
+  // Faculty: Grade submission (RESTRICTED TO FACULTY / ADMIN)
   router.post('/api/assignments/submission/:submissionId/grade', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
-    const submission = db.assignmentSubmissions.find(item => item._id === req.params.submissionId);
+    const submission = (db.assignmentSubmissions || []).find(item => item._id === req.params.submissionId);
     if (!submission) return sendJson(res, 404, { error: 'Submission not found' });
 
-    submission.marks = Number(req.body.marks || 0);
-    submission.feedback = req.body.feedback || '';
+    submission.marks = Math.max(0, Number(req.body.marks || 0));
+    submission.score = submission.marks;
+    submission.feedback = String(req.body.feedback || '').slice(0, 2000);
     submission.status = 'Graded';
+    submission.gradedBy = req.user.email || req.user.id;
+    submission.gradedAt = new Date().toISOString();
     ctx.saveDb(db);
 
     return sendJson(res, 200, submission);
   });
 
+  // Faculty: Delete assignment (RESTRICTED TO FACULTY / ADMIN)
   router.delete('/api/assignments/:id', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const id = req.params.id;
     db.assignments = (db.assignments || []).filter(item => item._id !== id && item.id !== id);
@@ -303,4 +343,3 @@ export function registerAssignmentsRoutes(router) {
     return ok(res, { message: 'Assignment deleted successfully' });
   });
 }
-

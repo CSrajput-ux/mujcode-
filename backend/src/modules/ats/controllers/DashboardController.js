@@ -27,19 +27,23 @@ export class DashboardController {
         });
       }
 
-      const company = await Company.findOne();
-      if (!company) {
-        return sendJson(res, 200, {
-          activeDrives: 0,
-          applicants: 0,
-          shortlisted: 0,
-          hired: 0,
-          drives: [],
-          recentApplicants: []
-        });
+      const companyId = req.user?.companyId || req.user?.id;
+      let filter = {};
+      if (req.user?.role !== 'admin') {
+        if (!companyId) {
+          return sendJson(res, 200, {
+            activeDrives: 0,
+            applicants: 0,
+            shortlisted: 0,
+            hired: 0,
+            drives: [],
+            recentApplicants: []
+          });
+        }
+        filter = { companyId };
       }
 
-      const drives = await Drive.find({ companyId: company._id }).sort({ createdAt: -1 });
+      const drives = await Drive.find(filter).sort({ createdAt: -1 });
       const driveIds = drives.map(d => d._id);
 
       // Aggregate funnel analytics
