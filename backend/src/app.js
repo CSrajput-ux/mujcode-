@@ -10,6 +10,12 @@ import { register, httpRequestDurationMicroseconds, httpRequestsTotal } from './
 import { config } from './config.js';
 import { registerRoutes } from './routes/index.js';
 import { registerAtsRoutes } from './modules/ats/routes.js';
+import { monitorEventLoopDelay } from 'node:perf_hooks';
+import { getPostgresPoolStats, auditDatabaseIntegrity } from './lib/postgres.js';
+import { getRedisStats } from './config/redis.js';
+
+const eventLoopMonitor = monitorEventLoopDelay({ resolution: 20 });
+eventLoopMonitor.enable();
 
 // ─── Static file types map ─────────────────────────────────────────────────────
 const contentTypes = {
@@ -31,6 +37,8 @@ const MULTI_SLASH_RE   = /\/+/g;
 const MONGO_ID_RE      = /\/[0-9a-f]{24}(?=\/|$)/gi;
 const NUMERIC_ID_RE    = /\/[0-9]+(?=\/|$)/g;
 const JOB_TOKEN_RE     = /\/job_[^/]+/g;
+const SYNTHETIC_ID_RE  = /\/(usr|stu|fac|adm|sess|att|sub|custom)_[^/]+/gi;
+const UUID_RE          = /\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}(?=\/|$)/gi;
 const COOKIE_TOKEN_RE  = /(?:^|;\s*)token=([^;]*)/;
 const UPLOAD_PREFIX    = '/uploads/';
 const METRICS_PATH     = '/metrics';
@@ -52,36 +60,49 @@ function isEmbeddable(url) {
   return false;
 }
 
+const configuredOrigins = (config.corsOrigin || 'http://localhost:5173')
+  .split(',')
+  .map(o => o.trim().toLowerCase())
+  .filter(Boolean);
+
+function isAllowedOrigin(origin) {
+  if (!origin) return false;
+  const lower = origin.toLowerCase();
+  return (
+    configuredOrigins.includes(lower) ||
+    lower === 'http://localhost:5173' ||
+    lower === 'http://localhost:3000' ||
+    lower === 'http://127.0.0.1:5173' ||
+    lower === 'http://127.0.0.1:3000'
+  );
+}
+
 function setCors(res, req) {
   const requestOrigin = req.headers.origin;
-  const allowedOrigin = process.env.CORS_ORIGIN || requestOrigin || 'http://localhost:5173';
+  const allowed = isAllowedOrigin(requestOrigin);
+  const originToSet = allowed ? requestOrigin : (configuredOrigins[0] || 'http://localhost:5173');
 
-  // Cache lookup to avoid repeated setHeader calls for same origin
-  let cached = corsCache.get(allowedOrigin);
-  if (!cached) {
-    cached = allowedOrigin;
-    if (corsCache.size >= CORS_CACHE_MAX) {
-      corsCache.delete(corsCache.keys().next().value);
-    }
-    corsCache.set(allowedOrigin, cached);
-  }
-
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
+  res.setHeader('Access-Control-Allow-Origin', originToSet);
   res.setHeader('Vary', 'Origin');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-auth-token');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Max-Age', '86400');
 
+  // Modern Security Headers (Phase 7)
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Permissions-Policy', 'screen-wake-lock=*, camera=(), microphone=(), geolocation=()');
+
   if (isEmbeddable(req.url)) {
-    res.setHeader('Content-Security-Policy', 'frame-ancestors *');
+    res.setHeader('Content-Security-Policy', "frame-ancestors 'self'");
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   } else {
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' ws: wss: https:; frame-ancestors 'self'; object-src 'none';");
   }
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Permissions-Policy', 'screen-wake-lock=*, camera=*, microphone=*');
 }
 
 function serveUpload(req, res) {
@@ -127,18 +148,27 @@ function fastParseUrl(rawUrl) {
 
 function parseQueryString(search) {
   if (!search) return {};
-  const out = {};
+  const out = Object.create(null);
   const pairs = search.split('&');
   for (let i = 0; i < pairs.length; i++) {
     const eq = pairs[i].indexOf('=');
+    let key, val;
     if (eq === -1) {
-      out[decodeURIComponent(pairs[i])] = '';
+      key = decodeURIComponent(pairs[i]);
+      val = '';
     } else {
-      out[decodeURIComponent(pairs[i].slice(0, eq))] = decodeURIComponent(pairs[i].slice(eq + 1));
+      key = decodeURIComponent(pairs[i].slice(0, eq));
+      val = decodeURIComponent(pairs[i].slice(eq + 1));
     }
+    // Block prototype pollution & NoSQL injection operator keys
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype' || key.startsWith('$')) {
+      continue;
+    }
+    out[key] = val;
   }
-  return out;
+  return { ...out };
 }
+
 
 export async function createApp() {
   const router = new Router();
@@ -197,6 +227,58 @@ export async function createApp() {
         return sendText(res, 200, await register.metrics());
       }
 
+      // ── Detailed System Metrics Endpoint (JSON - Admin Only) ──────────────
+      if (pathname === '/api/system/metrics') {
+        if (!req.user || req.user.role !== 'admin') {
+          return sendJson(res, 403, { error: 'Forbidden: Admin access required' });
+        }
+        const mem = process.memoryUsage();
+        const cpu = process.cpuUsage();
+        return sendJson(res, 200, {
+          success: true,
+          pid: process.pid,
+          uptimeSeconds: process.uptime(),
+          memory: {
+            rssMb: Number((mem.rss / (1024 * 1024)).toFixed(2)),
+            heapTotalMb: Number((mem.heapTotal / (1024 * 1024)).toFixed(2)),
+            heapUsedMb: Number((mem.heapUsed / (1024 * 1024)).toFixed(2)),
+            externalMb: Number((mem.external / (1024 * 1024)).toFixed(2)),
+            arrayBuffersMb: Number(((mem.arrayBuffers || 0) / (1024 * 1024)).toFixed(2)),
+            rssBytes: mem.rss,
+            heapTotalBytes: mem.heapTotal,
+            heapUsedBytes: mem.heapUsed,
+            externalBytes: mem.external,
+            arrayBuffersBytes: mem.arrayBuffers || 0
+          },
+          cpu: {
+            userMicroseconds: cpu.user,
+            systemMicroseconds: cpu.system
+          },
+          eventLoopLagMs: {
+            min: Number((eventLoopMonitor.min / 1e6).toFixed(2)),
+            max: Number((eventLoopMonitor.max / 1e6).toFixed(2)),
+            mean: Number((eventLoopMonitor.mean / 1e6).toFixed(2)),
+            p50: Number((eventLoopMonitor.percentile(50) / 1e6).toFixed(2)),
+            p90: Number((eventLoopMonitor.percentile(90) / 1e6).toFixed(2)),
+            p95: Number((eventLoopMonitor.percentile(95) / 1e6).toFixed(2)),
+            p99: Number((eventLoopMonitor.percentile(99) / 1e6).toFixed(2))
+          },
+          activeHandles: process._getActiveHandles?.()?.length || 0,
+          activeRequests: process._getActiveRequests?.()?.length || 0,
+          postgres: getPostgresPoolStats(),
+          redis: getRedisStats()
+        });
+      }
+
+      // ── Database Integrity Audit Endpoint (JSON - Admin Only) ───────────────
+      if (pathname === '/api/system/reconciliation') {
+        if (!req.user || req.user.role !== 'admin') {
+          return sendJson(res, 403, { error: 'Forbidden: Admin access required' });
+        }
+        const audit = await auditDatabaseIntegrity();
+        return sendJson(res, 200, audit);
+      }
+
       // ── Rate limiting ───────────────────────────────────────────────────────
       const limitExceeded = await rateLimiter(req, res);
       if (limitExceeded) return;
@@ -221,21 +303,24 @@ export async function createApp() {
     } catch (error) {
       statusCode = error.status || 500;
       if (statusCode >= 500) {
-        logger.error(`[AppError] ${error.message}`, { path: pathname });
+        logger.error(`[AppError] ${error.message}`, { path: pathname, stack: error.stack });
       }
       return sendJson(res, statusCode, {
-        error: error.message || 'Internal server error',
-        detail: process.env.NODE_ENV === 'production' ? undefined : error.stack
+        error: (statusCode >= 500 && config.nodeEnv === 'production') ? 'Internal server error' : (error.message || 'An unexpected error occurred')
       });
+
 
     } finally {
       // ── Prometheus metrics — sanitize labels to prevent cardinality explosion ──
       const durationMs = Number(process.hrtime.bigint() - startTime) / 1_000_000;
 
-      // Only sanitize if the pathname contains digits (most don't)
-      const routeLabel = /\d/.test(pathname)
-        ? pathname.replace(MONGO_ID_RE, '/:id').replace(NUMERIC_ID_RE, '/:id').replace(JOB_TOKEN_RE, '/:jobId')
-        : pathname;
+      // Sanitize routeLabel to prevent Prometheus label cardinality explosion
+      const routeLabel = pathname
+        .replace(MONGO_ID_RE, '/:id')
+        .replace(NUMERIC_ID_RE, '/:id')
+        .replace(JOB_TOKEN_RE, '/:jobId')
+        .replace(SYNTHETIC_ID_RE, '/:id')
+        .replace(UUID_RE, '/:id');
 
       httpRequestDurationMicroseconds.labels(req.method, routeLabel, statusCode).observe(durationMs);
       httpRequestsTotal.labels(req.method, routeLabel, statusCode).inc();

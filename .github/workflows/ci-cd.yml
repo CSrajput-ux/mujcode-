@@ -9,14 +9,33 @@ on:
       - main
   workflow_dispatch:
 
+# Enforce least-privilege permissions (Phase 10)
+permissions:
+  contents: read
+
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: mujcode
   EKS_CLUSTER_NAME: mujcode-production
 
 jobs:
+  security-audit:
+    name: Secrets & Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks Secret Scanner
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   test:
     name: Build & Type Check
+    needs: security-audit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code

@@ -10,7 +10,7 @@ function userAndStudent(db, id) {
 }
 
 // Allowed writable profile fields for students (prevents mass assignment of role, cgpa, branch, etc.)
-const STUDENT_WRITABLE_FIELDS = ['bio', 'phone', 'contactNumber', 'github', 'githubUrl', 'linkedin', 'linkedinUrl', 'avatar', 'name', 'fullName'];
+export const STUDENT_WRITABLE_FIELDS = ['bio', 'phone', 'contactNumber', 'github', 'githubUrl', 'linkedin', 'linkedinUrl', 'avatar', 'name', 'fullName'];
 
 function updateStudentProfile(db, id, profile, isAdmin = false) {
   const { user, student } = userAndStudent(db, id);

@@ -25,29 +25,23 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: REDIS_URI
-              value: {{ .Values.env.REDIS_URI | quote }}
-          # Container Security (Volume 7): 
-          # Implement AppArmor and seccomp profiles to prevent privilege escalation and fork bombs.
-          # We drop ALL capabilities and apply the RuntimeDefault seccomp profile.
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secrets
+                  key: redis-uri
+          # Container Security: Drop ALL capabilities and apply RuntimeDefault seccomp profile
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false 
             runAsNonRoot: true
-            runAsUser: 1000
+            runAsUser: 10001
             seccompProfile:
               type: RuntimeDefault
             capabilities:
               drop:
                 - ALL
-          volumeMounts:
-            - name: docker-sock
-              mountPath: /var/run/docker.sock
           resources:
             {{- toYaml .Values.resources.compilerWorker | nindent 12 }}
-      volumes:
-        - name: docker-sock
-          hostPath:
-            path: /var/run/docker.sock
 
 {{- if .Values.autoscaling.enabled }}
 ---

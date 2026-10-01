@@ -19,8 +19,21 @@ spec:
       labels:
         app: backend
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: backend
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
           image: "{{ .Values.image.repository }}-backend:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -29,13 +42,25 @@ spec:
             - name: NODE_ENV
               value: {{ .Values.env.NODE_ENV | quote }}
             - name: TOKEN_SECRET
-              value: {{ .Values.env.TOKEN_SECRET | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secrets
+                  key: token-secret
             - name: POSTGRES_URI
-              value: {{ .Values.env.POSTGRES_URI | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secrets
+                  key: postgres-uri
             - name: REDIS_URI
-              value: {{ .Values.env.REDIS_URI | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secrets
+                  key: redis-uri
             - name: MONGODB_URI
-              value: {{ .Values.env.MONGODB_URI | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secrets
+                  key: mongodb-uri
           resources:
             {{- toYaml .Values.resources.backend | nindent 12 }}
           livenessProbe:

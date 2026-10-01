@@ -32,18 +32,44 @@ class AsyncTransport extends winston.Transport {
     logBuffer.push(
       isProduction
         ? JSON.stringify(info) + '\n'
-        : `${info.timestamp} [${info.level.toUpperCase()}] ${info.message}\n`
+        : `${info.timestamp} [${info.level.toUpperCase()}] ${info.message}${info.stack ? '\n' + info.stack : ''}\n`
     );
     scheduleFlush();
     callback();
   }
 }
 
+const SENSITIVE_KEYS = new Set([
+  'password', 'token', 'secret', 'authorization', 'cookie', 'jwt',
+  'refreshtoken', 'accesstoken', 'creditcard', 'apikey', 'headers'
+]);
+
+function redactSensitive(obj, depth = 0) {
+  if (depth > 6 || !obj || typeof obj !== 'object') return obj;
+  if (Array.isArray(obj)) return obj.map(item => redactSensitive(item, depth + 1));
+  const out = {};
+  for (const [k, v] of Object.entries(obj)) {
+    if (SENSITIVE_KEYS.has(k.toLowerCase())) {
+      out[k] = '[REDACTED]';
+    } else if (typeof v === 'object' && v !== null) {
+      out[k] = redactSensitive(v, depth + 1);
+    } else {
+      out[k] = v;
+    }
+  }
+  return out;
+}
+
+const redactFormat = winston.format((info) => {
+  return redactSensitive(info);
+});
+
 export const logger = winston.createLogger({
   level: isProduction ? 'info' : 'debug',
   format: winston.format.combine(
     winston.format.timestamp({ format: 'HH:mm:ss.SSS' }),
-    winston.format.errors({ stack: true })
+    winston.format.errors({ stack: true }),
+    redactFormat()
   ),
   defaultMeta: { service: 'mujcode-backend' },
   transports: [

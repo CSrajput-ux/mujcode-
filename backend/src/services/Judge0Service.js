@@ -96,14 +96,18 @@ export class Judge0Service {
     wallTimeLimit = null,
     callbackUrl = null
   }) {
+    const safeCpu = Math.min(5, Math.max(0.5, Number(cpuTimeLimit || config.judge0CpuTimeLimit)));
+    const safeMem = Math.min(262144, Math.max(16384, Number(memoryLimit || config.judge0MemoryLimit)));
+    const safeWall = Math.min(10, Math.max(1, Number(wallTimeLimit || config.judge0WallTimeLimit)));
+
     const payload = {
       source_code: toBase64(sourceCode),
       language_id: Number(languageId),
       stdin: stdin ? toBase64(stdin) : null,
       expected_output: expectedOutput !== null && expectedOutput !== undefined ? toBase64(expectedOutput) : null,
-      cpu_time_limit: cpuTimeLimit ? Number(cpuTimeLimit) : config.judge0CpuTimeLimit,
-      memory_limit: memoryLimit ? Number(memoryLimit) : config.judge0MemoryLimit,
-      wall_time_limit: wallTimeLimit ? Number(wallTimeLimit) : config.judge0WallTimeLimit
+      cpu_time_limit: safeCpu,
+      memory_limit: safeMem,
+      wall_time_limit: safeWall
     };
 
     if (callbackUrl) {

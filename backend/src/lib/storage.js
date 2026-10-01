@@ -105,11 +105,39 @@ export function loadStudents() {
   return db.students || [];
 }
 
+export function broadcastCacheSync(collection, data) {
+  if (process.send) {
+    try {
+      process.send({ type: 'CACHE_SYNC', collection, data });
+    } catch {
+      // IPC channel closed
+    }
+  }
+}
+
+const FORBIDDEN_STORAGE_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+export function onWorkerCacheSync(message) {
+  if (!dbCache || !message) return;
+  if (FORBIDDEN_STORAGE_KEYS.has(message.collection)) return;
+  if (message.collection === 'all' && message.data) {
+    dbCache = message.data;
+    rebuildFastIndices(dbCache.faculty || [], dbCache.students || []);
+  } else if (message.collection && message.data) {
+    dbCache[message.collection] = message.data;
+    if (message.collection === 'faculty' || message.collection === 'students') {
+      rebuildFastIndices(dbCache.faculty || [], dbCache.students || []);
+    }
+  }
+  logger.info(`[ClusterSync] Worker ${process.pid} synchronized collection "${message.collection || 'all'}".`);
+}
+
 export function saveDb(db) {
   dbCache = db;
   isDirty = true;
   // Keep O(1) indices updated immediately
   rebuildFastIndices(db.faculty || [], db.students || []);
+  broadcastCacheSync('all', db);
   scheduleSave();
   return db;
 }
@@ -119,7 +147,7 @@ function scheduleSave() {
   saveTimeout = setTimeout(() => {
     saveTimeout = null;
     flushDbAsync();
-  }, 500); // 500ms debounce — reduces write amplification under burst traffic
+  }, 5000); // 5s debounce — prevents structured clone buffer memory bloat under burst traffic
 }
 
 async function flushDbAsync() {

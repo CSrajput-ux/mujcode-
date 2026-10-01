@@ -23,10 +23,9 @@ variable "aws_region" {
 }
 
 variable "db_password" {
-  description = "Database administrator password for RDS PostgreSQL"
+  description = "Database administrator password for RDS PostgreSQL (Set via TF_VAR_db_password or AWS Secrets Manager)"
   type        = string
   sensitive   = true
-  default     = "ChangeMeInProduction123!"
 }
 
 # ------------------------------------------------------------------------------
@@ -79,6 +78,9 @@ resource "aws_db_instance" "mujcode_postgres" {
   instance_class         = "db.r6g.large"
   allocated_storage      = 100
   storage_type           = "gp3"
+  storage_encrypted      = true # Enforce AES-256 encryption at rest
+  publicly_accessible    = false # Never expose RDS to the public internet
+  deletion_protection    = true
   
   db_name                = "mujcode_db"
   username               = "mujcode_admin"
@@ -122,22 +124,15 @@ module "vpc" {
 # ------------------------------------------------------------------------------
 resource "aws_security_group" "db_sg" {
   name        = "mujcode-db-sg"
-  description = "Allow inbound PostgreSQL traffic from VPC"
+  description = "Allow inbound PostgreSQL traffic strictly from EKS worker nodes"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    description = "PostgreSQL from VPC"
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    cidr_blocks = [module.vpc.vpc_cidr_block]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    description     = "PostgreSQL from EKS nodes only"
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [module.eks.node_security_group_id]
   }
 
   tags = {

@@ -1,5 +1,6 @@
 import { parseMultipart } from './multipart.js';
 import zlib from 'node:zlib';
+import { sanitizeInput } from './sanitizer.js';
 
 // ─── Pre-allocated response constants ─────────────────────────────────────────
 // Avoid string allocation on every request for common headers
@@ -87,14 +88,14 @@ export async function parseBody(req) {
   // Use indexOf instead of includes — slightly faster for long strings
   if (contentType.indexOf('application/json') !== -1) {
     try {
-      return JSON.parse(buffer);
+      return sanitizeInput(JSON.parse(buffer));
     } catch {
       return {};
     }
   }
 
   if (contentType.indexOf('application/x-www-form-urlencoded') !== -1) {
-    return Object.fromEntries(new URLSearchParams(buffer.toString('utf8')));
+    return sanitizeInput(Object.fromEntries(new URLSearchParams(buffer.toString('utf8'))));
   }
 
   if (contentType.indexOf('multipart/form-data') !== -1) {

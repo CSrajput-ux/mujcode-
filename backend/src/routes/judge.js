@@ -1,10 +1,13 @@
 import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
-import { requireAuth } from '../lib/requireAuth.js';
+import { requireAuth, requireSelfOrFacultyOrAdmin } from '../lib/requireAuth.js';
+import { codeRateLimiter } from '../middlewares/rateLimiter.js';
 import { CodeExecution } from '../models/CodeExecution.js';
 import { CodeExecutionService } from '../services/CodeExecutionService.js';
 import { Judge0Service } from '../services/Judge0Service.js';
 import { logger } from '../lib/logger.js';
+
+const MAX_CODE_BYTES = 64 * 1024; // 64 KB
 
 export function registerJudgeRoutes(router) {
 
@@ -12,23 +15,20 @@ export function registerJudgeRoutes(router) {
    * POST /api/judge/submit
    * ──────────────────────
    * Asynchronous submission endpoint (used by ProblemSolver).
-   * 1. Validates and saves initial record to MongoDB.
-   * 2. Enqueues background execution using Judge0 CE.
-   * 3. Immediately returns { submissionId, jobId, status: 'queued' }.
    */
   router.post('/api/judge/submit', async (req, res, ctx) => {
     if (!requireAuth(req, res)) return;
+    if (await codeRateLimiter(req, res)) return;
+
     const db = ctx.getDb();
     const submissionId = nextId('judge');
-    const userId = req.body.userId || req.user?.id || 'anonymous';
-    const isAuth = !!(req.user?.id);
+    const userId = req.user.id || req.user.college_id;
 
-    // Enforce rate limiting
-    try {
-      await CodeExecutionService.checkRateLimit(userId, isAuth);
-    } catch (err) {
-      return sendJson(res, 429, { error: err.message });
+    const code = req.body.code || '';
+    if (code.length > MAX_CODE_BYTES) {
+      return sendJson(res, 400, { error: 'Source code exceeds maximum allowed size (64KB)' });
     }
+
 
     // Fetch problem test cases if problemId is provided
     let testCases = [];
@@ -211,9 +211,10 @@ export function registerJudgeRoutes(router) {
   /**
    * GET /api/judge/submissions/:userId/:problemNumber
    * ──────────────────────────────────────────────────
-   * Fetch submission history for a specific user and problem.
+   * Fetch submission history for a specific user and problem (Protected: self, faculty, admin).
    */
   router.get('/api/judge/submissions/:userId/:problemNumber', async (req, res) => {
+    if (!requireSelfOrFacultyOrAdmin(req, res, req.params.userId)) return;
     const param = req.params.problemNumber;
     try {
       const submissions = await CodeExecution.find({
@@ -252,6 +253,9 @@ export function registerJudgeRoutes(router) {
    * Run code against visible test cases (used by CodingTestRunner Run button).
    */
   router.post('/api/compile/test', async (req, res) => {
+    if (!requireAuth(req, res)) return;
+    if (await codeRateLimiter(req, res)) return;
+
     const { language, code, testCases = [], timeLimit, memoryLimit } = req.body;
 
     if (!code || !String(code).trim()) {
@@ -272,13 +276,17 @@ export function registerJudgeRoutes(router) {
       });
     }
 
+    if (String(code).length > MAX_CODE_BYTES) {
+      return sendJson(res, 400, { error: 'Source code exceeds maximum allowed size (64KB)' });
+    }
+
     try {
       const executionResult = await CodeExecutionService.executeTestCases({
         language: language || 'python',
         sourceCode: code,
         testCases,
-        timeLimit,
-        memoryLimit,
+        timeLimit: Math.min(5, Number(timeLimit) || 2),
+        memoryLimit: Math.min(262144, Number(memoryLimit) || 128000),
         isSubmit: false
       });
 
@@ -286,7 +294,7 @@ export function registerJudgeRoutes(router) {
     } catch (err) {
       logger.error('[api/compile/test] Execution error:', err);
       return sendJson(res, 500, {
-        error: err.message || 'Execution failed',
+        error: 'Execution failed',
         status: 'EXECUTION_SERVICE_ERROR'
       });
     }
@@ -295,9 +303,12 @@ export function registerJudgeRoutes(router) {
   /**
    * POST /api/compile/submit/:questionId
    * ─────────────────────────────────────
-   * Submit code against ALL test cases including hidden ones (used by CodingTestRunner Submit button).
+   * Submit code against ALL test cases including hidden ones.
    */
   router.post('/api/compile/submit/:questionId', async (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
+    if (await codeRateLimiter(req, res)) return;
+
     const db = ctx.getDb();
     const question = (db.codingQuestions || []).find(item => String(item._id) === String(req.params.questionId));
     if (!question) {
@@ -323,13 +334,17 @@ export function registerJudgeRoutes(router) {
       });
     }
 
+    if (String(code).length > MAX_CODE_BYTES) {
+      return sendJson(res, 400, { error: 'Source code exceeds maximum allowed size (64KB)' });
+    }
+
     try {
       const executionResult = await CodeExecutionService.executeTestCases({
         language: language || 'python',
         sourceCode: code,
         testCases,
-        timeLimit: question.timeLimit,
-        memoryLimit: question.memoryLimit,
+        timeLimit: Math.min(5, Number(question.timeLimit) || 2),
+        memoryLimit: Math.min(262144, Number(question.memoryLimit) || 128000),
         isSubmit: true
       });
 
@@ -337,7 +352,7 @@ export function registerJudgeRoutes(router) {
     } catch (err) {
       logger.error('[api/compile/submit] Submission error:', err);
       return sendJson(res, 500, {
-        error: err.message || 'Submission execution failed',
+        error: 'Submission execution failed',
         status: 'EXECUTION_SERVICE_ERROR'
       });
     }
@@ -347,10 +362,11 @@ export function registerJudgeRoutes(router) {
    * POST /api/v1/code/run
    * ──────────────────────
    * Standardized application-level execution API.
-   * Request:  { language: string, sourceCode: string, stdin?: string }
-   * Response: { success: boolean, status: string, stdout: string, stderr: string, compileOutput: string, time: number, memory: number }
    */
   router.post('/api/v1/code/run', async (req, res) => {
+    if (!requireAuth(req, res)) return;
+    if (await codeRateLimiter(req, res)) return;
+
     const { language, sourceCode, stdin } = req.body;
 
     if (!sourceCode || !String(sourceCode).trim()) {
@@ -359,12 +375,15 @@ export function registerJudgeRoutes(router) {
     if (!language) {
       return sendJson(res, 400, { error: 'language is required' });
     }
+    if (String(sourceCode).length > MAX_CODE_BYTES) {
+      return sendJson(res, 400, { error: 'Source code exceeds maximum allowed size (64KB)' });
+    }
 
     try {
       const result = await CodeExecutionService.runCode({
         language,
         sourceCode,
-        stdin: stdin || ''
+        stdin: String(stdin || '').slice(0, 16384)
       });
 
       return sendJson(res, 200, result);
@@ -373,7 +392,7 @@ export function registerJudgeRoutes(router) {
       return sendJson(res, 500, {
         success: false,
         status: 'EXECUTION_SERVICE_UNAVAILABLE',
-        message: err.message || 'Code execution service temporarily unavailable'
+        message: 'Code execution service temporarily unavailable'
       });
     }
   });
@@ -382,15 +401,16 @@ export function registerJudgeRoutes(router) {
    * POST /api/evaluate/theory/test
    * ──────────────────────────────
    * Evaluates student answers against theory questions based on keyword matching.
-   * (Preserved from original platform functionality)
    */
   router.post('/api/evaluate/theory/test', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const answers = req.body.answers || {};
     const questionIds = req.body.questionIds || Object.keys(answers);
     const questions = questionIds
       .map(id => db.theoryQuestions.find(question => question._id === id))
       .filter(Boolean);
+
 
     const results = questions.map(question => {
       const studentAnswer = String(answers[question._id] || '');

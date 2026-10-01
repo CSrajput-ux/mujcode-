@@ -245,8 +245,10 @@ services:
     volumes:
       - ./judge0/judge0.conf:/judge0.conf:ro
     env_file: ./judge0/judge0.conf
-    ports:
-      - "2358:2358"
+    # ⚠️ Security: Never expose Judge0 port 2358 to host in production.
+    # It must be reachable strictly by backend via internal mujcode-net.
+    # ports:
+    #   - "127.0.0.1:2358:2358"
     privileged: true
     depends_on:
       judge0_db:
