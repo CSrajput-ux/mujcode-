@@ -71,9 +71,10 @@ typings/
 
 # dotenv environment variables file
 .env
-.env.test
-.env*.local
-# Note: .env.example is intentionally NOT ignored — it is a committed template
+.env.*
+!.env.example
+!**/.env.example
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
@@ -119,15 +120,39 @@ dist-ssr
 dist-ssr
 *.local
 
-# Project specific
+# Project specific & Uploads
+uploads/
 backend/uploads/
+*.tmp.*
+backend/src/data/*.tmp.*
+backend/all_endpoints.json
+load_test_results.json
 
 # Sensitive data and test scripts
-backend/src/data/db.json
+backend/src/data/*.json
 backend/reset_admin.mjs
 backend/src/data/reset_admin.mjs
 backend/src/data/test_pw.mjs
+backend/test_db_check.mjs
 
 # Judge0 Secrets
 judge0/judge0.conf
 !judge0/judge0.conf.example
+
+# Terraform State & Secrets
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+.terraform/
+.terraform.lock.hcl
+
+# Certificates, Keys, and Kubeconfig
+*.pem
+*.key
+*.crt
+*.cert
+kubeconfig
+kubeconfig*
+*kubeconfig*
+

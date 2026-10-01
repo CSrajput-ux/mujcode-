@@ -1,37 +1,49 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { validateEnvironment } from './config/envValidator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-// Load environment variables from .env file
+// Load environment variables from backend/.env or workspace root .env
 try {
   process.loadEnvFile(path.resolve(rootDir, '.env'));
 } catch (e) {
-  // Ignore if .env file is missing
+  // If backend/.env doesn't exist, try root .env
+  try {
+    process.loadEnvFile(path.resolve(rootDir, '..', '.env'));
+  } catch (e2) {
+    // Handled by validateEnvironment below
+  }
 }
 
+// Validate environment variables strictly with Zod schema
+const validatedEnv = validateEnvironment(process.env);
+
 export const config = {
-  host: process.env.HOST || '0.0.0.0',
-  port: Number(process.env.PORT || 5000),
-  tokenSecret: process.env.TOKEN_SECRET || 'mujcode-local-development-secret',
+  host: validatedEnv.HOST,
+  port: validatedEnv.PORT,
+  nodeEnv: validatedEnv.NODE_ENV,
+  tokenSecret: validatedEnv.TOKEN_SECRET,
+  corsOrigin: validatedEnv.CORS_ORIGIN,
   rootDir,
-  dbFile: path.resolve(rootDir, process.env.DB_FILE || 'src/data/db.json'),
-  facultyFile: path.resolve(rootDir, process.env.FACULTY_FILE || 'src/data/faculty.json'),
-  studentsFile: path.resolve(rootDir, process.env.STUDENTS_FILE || 'src/data/students.json'),
-  uploadDir: path.resolve(rootDir, process.env.UPLOAD_DIR || 'uploads'),
+  dbFile: path.resolve(rootDir, validatedEnv.DB_FILE),
+  facultyFile: path.resolve(rootDir, validatedEnv.FACULTY_FILE),
+  studentsFile: path.resolve(rootDir, validatedEnv.STUDENTS_FILE),
+  uploadDir: path.resolve(rootDir, validatedEnv.UPLOAD_DIR),
   // PostgreSQL Database Configuration (Enabled when POSTGRES_URI is provided)
-  postgresUri: process.env.POSTGRES_URI || '',
+  postgresUri: validatedEnv.POSTGRES_URI,
   // Judge0 CE Configuration
-  judge0Url: process.env.JUDGE0_URL || 'http://localhost:2358',
-  judge0AuthToken: process.env.JUDGE0_AUTH_TOKEN || '',
-  judge0CpuTimeLimit: Number(process.env.JUDGE0_CPU_TIME_LIMIT || 2),
-  judge0MemoryLimit: Number(process.env.JUDGE0_MEMORY_LIMIT || 128000),
-  judge0WallTimeLimit: Number(process.env.JUDGE0_WALL_TIME_LIMIT || 5),
+  judge0Url: validatedEnv.JUDGE0_URL,
+  judge0AuthToken: validatedEnv.JUDGE0_AUTH_TOKEN,
+  judge0CpuTimeLimit: validatedEnv.JUDGE0_CPU_TIME_LIMIT,
+  judge0MemoryLimit: validatedEnv.JUDGE0_MEMORY_LIMIT,
+  judge0WallTimeLimit: validatedEnv.JUDGE0_WALL_TIME_LIMIT,
   // Cloudinary Storage Configuration (for PPT, PDF, Images, Documents)
-  cloudinaryUrl: process.env.CLOUDINARY_URL || '',
-  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
-  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || '',
-  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET || ''
+  cloudinaryUrl: validatedEnv.CLOUDINARY_URL,
+  cloudinaryCloudName: validatedEnv.CLOUDINARY_CLOUD_NAME,
+  cloudinaryApiKey: validatedEnv.CLOUDINARY_API_KEY,
+  cloudinaryApiSecret: validatedEnv.CLOUDINARY_API_SECRET
 };
+
