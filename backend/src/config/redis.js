@@ -165,3 +165,10 @@ export const redis = {
   del:      makeMethod('del'),
   pipeline: pipelineMethod,
 };
+
+export function getRedisStats() {
+  return {
+    isRemoteConnected: Boolean(_client && _client._healthy),
+    inMemoryKeysCount: fallbackStore.store.size
+  };
+}

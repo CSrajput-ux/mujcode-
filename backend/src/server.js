@@ -1,3 +1,5 @@
+process.env.UV_THREADPOOL_SIZE = process.env.UV_THREADPOOL_SIZE || '32';
+
 import cluster from 'node:cluster';
 import os from 'node:os';
 import { createServer } from 'node:http';
@@ -33,24 +35,65 @@ if (cluster.isPrimary) {
     logger.info(`[Cluster] Worker ${worker.process.pid} online`);
   });
 
+  // Inter-worker Cache Synchronization Broker
+  cluster.on('message', (worker, message) => {
+    if (message?.type === 'CACHE_SYNC') {
+      for (const id in cluster.workers) {
+        const w = cluster.workers[id];
+        if (w && w.process.pid !== worker.process.pid) {
+          w.send(message);
+        }
+      }
+    }
+  });
+
 } else {
   // ─── Worker Process ───────────────────────────────────────────────────────────
   const { createApp } = await import('./app.js');
   const { config } = await import('./config.js');
   const { setupSockets } = await import('./sockets/index.js');
   const { connectDB } = await import('./config/db.js');
-  const { flushDbSync, loadDbFromPostgresOrFile } = await import('./lib/storage.js');
+  const { flushDbSync, loadDbFromPostgresOrFile, onWorkerCacheSync } = await import('./lib/storage.js');
   const { initPostgres, closePostgres } = await import('./lib/postgres.js');
+
+  // Receive Cache Synchronization updates from sibling workers via primary broker
+  process.on('message', (message) => {
+    if (message?.type === 'CACHE_SYNC') {
+      onWorkerCacheSync(message);
+    }
+  });
 
   // ─── Crash-Proof Global Exception Handlers ─────────────────────────────────
   process.on('uncaughtException', (err) => {
-    logger.error('[SystemGuard] Uncaught Exception — shutting down:', err.stack || err);
+    // Suppress transient network/socket disconnects from crashing cluster workers
+    if (
+      err?.code === 'ECONNRESET' ||
+      err?.code === 'EPIPE' ||
+      err?.code === 'ETIMEDOUT' ||
+      err?.message?.includes('Connection terminated') ||
+      err?.message?.includes('socket hang up') ||
+      err?.message?.includes('Channel closed')
+    ) {
+      logger.warn(`[SystemGuard] Recovered from transient network exception: ${err.message}`);
+      return;
+    }
+    logger.error('[SystemGuard] Fatal Uncaught Exception — shutting down:', err.stack || err);
     flushDbSync();
     process.exit(1);
   });
 
   process.on('unhandledRejection', (reason) => {
-    logger.error('[SystemGuard] Unhandled Rejection — shutting down:', reason);
+    const msg = typeof reason === 'string' ? reason : (reason?.message || String(reason));
+    if (
+      msg?.includes('Connection terminated') ||
+      msg?.includes('ECONNRESET') ||
+      msg?.includes('ETIMEDOUT') ||
+      msg?.includes('Channel closed')
+    ) {
+      logger.warn(`[SystemGuard] Handled transient rejected promise: ${msg}`);
+      return;
+    }
+    logger.error('[SystemGuard] Fatal Unhandled Rejection — shutting down:', reason);
     flushDbSync();
     process.exit(1);
   });
