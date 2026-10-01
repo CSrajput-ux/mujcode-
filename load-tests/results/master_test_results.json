@@ -1,0 +1,1657 @@
+{
+  "metadata": {
+    "timestamp": "2026-09-30T04:04:33.296Z",
+    "target": "http://127.0.0.1:5000",
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "systemMetricsInitial": {
+    "success": true,
+    "pid": 27164,
+    "uptimeSeconds": 28.8797145,
+    "memory": {
+      "rssMb": 115.12,
+      "heapTotalMb": 39.82,
+      "heapUsedMb": 35.3,
+      "externalMb": 22.84,
+      "arrayBuffersMb": 18.99,
+      "rssBytes": 120713216,
+      "heapTotalBytes": 41754624,
+      "heapUsedBytes": 37012864,
+      "externalBytes": 23950777,
+      "arrayBuffersBytes": 19908289
+    },
+    "cpu": {
+      "userMicroseconds": 781000,
+      "systemMicroseconds": 468000
+    },
+    "eventLoopLagMs": {
+      "min": 19.45,
+      "max": 41.55,
+      "mean": 30.52,
+      "p50": 31.83,
+      "p90": 32.64,
+      "p95": 33.11,
+      "p99": 35.49
+    },
+    "activeHandles": 6,
+    "activeRequests": 0,
+    "postgres": {
+      "isConnected": true,
+      "totalCount": 1,
+      "idleCount": 1,
+      "waitingCount": 0
+    },
+    "redis": {
+      "isRemoteConnected": false,
+      "inMemoryKeysCount": 0
+    }
+  },
+  "graduatedLoad": [
+    {
+      "users": 1,
+      "requests": 258,
+      "successful": 174,
+      "failed": 84,
+      "exact_elapsed_seconds": 5.006,
+      "actual_RPS": 51.54,
+      "p50": 1.38,
+      "p90": 8.83,
+      "p95": 13.56,
+      "p99": 32.35,
+      "max": 36.47,
+      "count5xx": 0,
+      "count4xx": 26,
+      "count429": 58,
+      "timeouts": 0,
+      "errorRatePct": 32.56
+    },
+    {
+      "users": 5,
+      "requests": 931,
+      "successful": 678,
+      "failed": 253,
+      "exact_elapsed_seconds": 5.023,
+      "actual_RPS": 185.35,
+      "p50": 1.72,
+      "p90": 13.65,
+      "p95": 17.35,
+      "p99": 21.3,
+      "max": 32.32,
+      "count5xx": 0,
+      "count4xx": 57,
+      "count429": 196,
+      "timeouts": 0,
+      "errorRatePct": 27.18
+    },
+    {
+      "users": 10,
+      "requests": 1632,
+      "successful": 843,
+      "failed": 789,
+      "exact_elapsed_seconds": 5.024,
+      "actual_RPS": 324.84,
+      "p50": 1.62,
+      "p90": 13.6,
+      "p95": 16.69,
+      "p99": 21.36,
+      "max": 38.61,
+      "count5xx": 0,
+      "count4xx": 97,
+      "count429": 692,
+      "timeouts": 0,
+      "errorRatePct": 48.35
+    },
+    {
+      "users": 25,
+      "requests": 4319,
+      "successful": 3295,
+      "failed": 1024,
+      "exact_elapsed_seconds": 6.043,
+      "actual_RPS": 714.71,
+      "p50": 8.54,
+      "p90": 20.96,
+      "p95": 25.82,
+      "p99": 36.23,
+      "max": 53.19,
+      "count5xx": 0,
+      "count4xx": 316,
+      "count429": 708,
+      "timeouts": 0,
+      "errorRatePct": 23.71
+    },
+    {
+      "users": 50,
+      "requests": 6976,
+      "successful": 5575,
+      "failed": 1401,
+      "exact_elapsed_seconds": 8.057,
+      "actual_RPS": 865.83,
+      "p50": 20.41,
+      "p90": 41,
+      "p95": 48.06,
+      "p99": 63.75,
+      "max": 93.88,
+      "count5xx": 0,
+      "count4xx": 590,
+      "count429": 811,
+      "timeouts": 0,
+      "errorRatePct": 20.08
+    },
+    {
+      "users": 100,
+      "requests": 6175,
+      "successful": 5327,
+      "failed": 848,
+      "exact_elapsed_seconds": 8.081,
+      "actual_RPS": 764.14,
+      "p50": 67.29,
+      "p90": 108.65,
+      "p95": 122.47,
+      "p99": 171.09,
+      "max": 262.1,
+      "count5xx": 0,
+      "count4xx": 499,
+      "count429": 349,
+      "timeouts": 0,
+      "errorRatePct": 13.73
+    },
+    {
+      "users": 250,
+      "requests": 7692,
+      "successful": 6962,
+      "failed": 730,
+      "exact_elapsed_seconds": 10.272,
+      "actual_RPS": 748.83,
+      "p50": 203,
+      "p90": 280.72,
+      "p95": 301.69,
+      "p99": 337.73,
+      "max": 472.19,
+      "count5xx": 0,
+      "count4xx": 650,
+      "count429": 80,
+      "timeouts": 0,
+      "errorRatePct": 9.49
+    },
+    {
+      "users": 350,
+      "requests": 8055,
+      "successful": 7290,
+      "failed": 765,
+      "exact_elapsed_seconds": 10.326,
+      "actual_RPS": 780.07,
+      "p50": 305.33,
+      "p90": 395.17,
+      "p95": 420.75,
+      "p99": 564.79,
+      "max": 786.81,
+      "count5xx": 0,
+      "count4xx": 666,
+      "count429": 99,
+      "timeouts": 0,
+      "errorRatePct": 9.5
+    },
+    {
+      "users": 400,
+      "requests": 9511,
+      "successful": 8731,
+      "failed": 780,
+      "exact_elapsed_seconds": 10.441,
+      "actual_RPS": 910.93,
+      "p50": 296.57,
+      "p90": 383.05,
+      "p95": 407.1,
+      "p99": 442.64,
+      "max": 552.63,
+      "count5xx": 0,
+      "count4xx": 696,
+      "count429": 84,
+      "timeouts": 0,
+      "errorRatePct": 8.2
+    },
+    {
+      "users": 500,
+      "requests": 9277,
+      "successful": 8163,
+      "failed": 1114,
+      "exact_elapsed_seconds": 21.416,
+      "actual_RPS": 433.18,
+      "p50": 448.16,
+      "p90": 576.46,
+      "p95": 647.47,
+      "p99": 2782.61,
+      "max": 11111.49,
+      "count5xx": 33,
+      "count4xx": 1072,
+      "count429": 9,
+      "timeouts": 0,
+      "errorRatePct": 12.01
+    }
+  ],
+  "rampUp": {
+    "rampResults": [
+      {
+        "concurrency": 50,
+        "rps": 708.65,
+        "p50": 28.57,
+        "p90": 53.69,
+        "p95": 60.77,
+        "p99": 75.6,
+        "max": 89.62,
+        "errorRatePct": 9.39
+      },
+      {
+        "concurrency": 100,
+        "rps": 756.33,
+        "p50": 70.68,
+        "p90": 110.53,
+        "p95": 122.61,
+        "p99": 143.65,
+        "max": 173.56,
+        "errorRatePct": 8.8
+      },
+      {
+        "concurrency": 250,
+        "rps": 3.6,
+        "p50": 211.96,
+        "p90": 322.34,
+        "p95": 430.61,
+        "p99": 1195096.92,
+        "max": 1195186.14,
+        "errorRatePct": 13.78
+      },
+      {
+        "concurrency": 350,
+        "rps": 697.92,
+        "p50": 341.3,
+        "p90": 510.06,
+        "p95": 625.29,
+        "p99": 822.27,
+        "max": 1089.27,
+        "errorRatePct": 8.66
+      },
+      {
+        "concurrency": 400,
+        "rps": 802.62,
+        "p50": 371.77,
+        "p90": 470.05,
+        "p95": 497.36,
+        "p99": 665.92,
+        "max": 803.97,
+        "errorRatePct": 7.74
+      },
+      {
+        "concurrency": 500,
+        "rps": 308.17,
+        "p50": 589.97,
+        "p90": 804.48,
+        "p95": 903.84,
+        "p99": 4911.76,
+        "max": 10628.29,
+        "errorRatePct": 12.84
+      }
+    ],
+    "analysis": {
+      "degradationPoint": {
+        "users": 250,
+        "p95": 430.61,
+        "baselineP95": 60.77,
+        "note": "Latency cliff observed at 250 users (p95 rose to 430.61ms vs baseline 60.77ms)"
+      },
+      "saturationPoint": {
+        "users": 500,
+        "rps": 308.17,
+        "throughputCeiling": 802.62,
+        "note": "Throughput ceiling saturated at 500 users (308.17 rps vs ceiling 802.62 rps)"
+      },
+      "throughputCeiling": 802.62,
+      "latencyCliffMs": 430.61
+    }
+  },
+  "spikeTest": {
+    "phase1_preSpike": {
+      "name": "Spike Phase 1 (10 Users Pre-Spike Baseline)",
+      "test_start_timestamp": "2026-09-30T04:27:09.051Z",
+      "test_end_timestamp": "2026-09-30T04:27:14.080Z",
+      "exact_elapsed_ms": 5029,
+      "exact_elapsed_seconds": 5.029,
+      "requests_completed": 1650,
+      "successful_requests": 1506,
+      "requests_failed": 144,
+      "actual_RPS": 328.1,
+      "totalRequests": 1650,
+      "successfulRequests": 1506,
+      "failedRequests": 144,
+      "elapsedSec": 5.029,
+      "rps": 328.1,
+      "min": 0.23,
+      "max": 34.43,
+      "avg": 5.87,
+      "p50": 4.77,
+      "p90": 13.72,
+      "p95": 17.93,
+      "p99": 25.51,
+      "statusCodes": {
+        "200": 1506,
+        "404": 144
+      },
+      "errors": {},
+      "errorRatePct": 8.73
+    },
+    "phase2_midSpike": {
+      "name": "Spike Phase 2 (100 Users Mid-Spike)",
+      "test_start_timestamp": "2026-09-30T04:27:14.080Z",
+      "test_end_timestamp": "2026-09-30T04:27:19.143Z",
+      "exact_elapsed_ms": 5063,
+      "exact_elapsed_seconds": 5.063,
+      "requests_completed": 3786,
+      "successful_requests": 3431,
+      "requests_failed": 355,
+      "actual_RPS": 747.78,
+      "totalRequests": 3786,
+      "successfulRequests": 3431,
+      "failedRequests": 355,
+      "elapsedSec": 5.063,
+      "rps": 747.78,
+      "min": 0.36,
+      "max": 208.62,
+      "avg": 75.44,
+      "p50": 72.92,
+      "p90": 117.76,
+      "p95": 131.36,
+      "p99": 170.02,
+      "statusCodes": {
+        "200": 3431,
+        "404": 355
+      },
+      "errors": {},
+      "errorRatePct": 9.38
+    },
+    "phase3_peakSpike": {
+      "name": "Spike Phase 3 (500 Users Sudden Peak Spike)",
+      "test_start_timestamp": "2026-09-30T04:27:19.143Z",
+      "test_end_timestamp": "2026-09-30T04:27:43.507Z",
+      "exact_elapsed_ms": 24364,
+      "exact_elapsed_seconds": 24.364,
+      "requests_completed": 9618,
+      "successful_requests": 8347,
+      "requests_failed": 1271,
+      "actual_RPS": 394.76,
+      "totalRequests": 9618,
+      "successfulRequests": 8347,
+      "failedRequests": 1271,
+      "elapsedSec": 24.364,
+      "rps": 394.76,
+      "min": 0.5,
+      "max": 10939.47,
+      "avg": 662.04,
+      "p50": 606.18,
+      "p90": 869.73,
+      "p95": 987.25,
+      "p99": 1410.95,
+      "statusCodes": {
+        "200": 8347,
+        "404": 980,
+        "409": 256,
+        "500": 35
+      },
+      "errors": {},
+      "errorRatePct": 13.21
+    },
+    "phase4_postSpikeRecovery": {
+      "name": "Spike Phase 4 (50 Users Post-Spike Recovery Traffic)",
+      "test_start_timestamp": "2026-09-30T04:27:43.509Z",
+      "test_end_timestamp": "2026-09-30T04:27:49.573Z",
+      "exact_elapsed_ms": 6064,
+      "exact_elapsed_seconds": 6.064,
+      "requests_completed": 4966,
+      "successful_requests": 4539,
+      "requests_failed": 427,
+      "actual_RPS": 818.93,
+      "totalRequests": 4966,
+      "successfulRequests": 4539,
+      "failedRequests": 427,
+      "elapsedSec": 6.064,
+      "rps": 818.93,
+      "min": 0.3,
+      "max": 79.76,
+      "avg": 20.5,
+      "p50": 18.81,
+      "p90": 38.41,
+      "p95": 44.6,
+      "p99": 56.72,
+      "statusCodes": {
+        "200": 4539,
+        "404": 427
+      },
+      "errors": {},
+      "errorRatePct": 8.6
+    },
+    "recoveryMetrics": {
+      "baselineP95Ms": 17.93,
+      "peakP95Ms": 987.25,
+      "recoveryP95Ms": 44.6,
+      "exactRecoveryTimeSec": 1.2,
+      "isRecovered": false,
+      "systemMetricsPostSpike": {
+        "success": true,
+        "pid": 27164,
+        "uptimeSeconds": 1425.384816,
+        "memory": {
+          "rssMb": 365.93,
+          "heapTotalMb": 167.66,
+          "heapUsedMb": 37.14,
+          "externalMb": 23.03,
+          "arrayBuffersMb": 19.19,
+          "rssBytes": 383705088,
+          "heapTotalBytes": 175804416,
+          "heapUsedBytes": 38939104,
+          "externalBytes": 24144864,
+          "arrayBuffersBytes": 20117428
+        },
+        "cpu": {
+          "userMicroseconds": 50625000,
+          "systemMicroseconds": 13140000
+        },
+        "eventLoopLagMs": {
+          "min": 0.01,
+          "max": 1195074.65,
+          "mean": 179.57,
+          "p50": 30.18,
+          "p90": 33.05,
+          "p95": 36.24,
+          "p99": 61.34
+        },
+        "activeHandles": 36,
+        "activeRequests": 0,
+        "postgres": {
+          "isConnected": true,
+          "totalCount": 5,
+          "idleCount": 5,
+          "waitingCount": 0
+        },
+        "redis": {
+          "isRemoteConnected": false,
+          "inMemoryKeysCount": 497
+        }
+      }
+    }
+  },
+  "userJourneys": {
+    "studentJourney": {
+      "journeyName": "Student Journey",
+      "totalSteps": 8,
+      "success": true,
+      "elapsedMs": 16.7066,
+      "stepResults": [
+        {
+          "stepName": "1. Auth Token Check / Me",
+          "status": 200,
+          "latencyMs": 0.9138,
+          "ok": true
+        },
+        {
+          "stepName": "2. Dashboard Student Courses",
+          "status": 200,
+          "latencyMs": 0.3464,
+          "ok": true
+        },
+        {
+          "stepName": "3. Problems List",
+          "status": 200,
+          "latencyMs": 4.2245,
+          "ok": true
+        },
+        {
+          "stepName": "4. Search Problem (Array)",
+          "status": 200,
+          "latencyMs": 4.7345,
+          "ok": true
+        },
+        {
+          "stepName": "5. Open Problem Details",
+          "status": 200,
+          "latencyMs": 0.4439,
+          "ok": true
+        },
+        {
+          "stepName": "6. Student Profile",
+          "status": 200,
+          "latencyMs": 0.3046,
+          "ok": true
+        },
+        {
+          "stepName": "7. Student Heatmap",
+          "status": 200,
+          "latencyMs": 0.2984,
+          "ok": true
+        },
+        {
+          "stepName": "8. Session Wrap / Root",
+          "status": 200,
+          "latencyMs": 0.2929,
+          "ok": true
+        }
+      ]
+    },
+    "jobJourney": {
+      "journeyName": "Job Application Journey",
+      "totalSteps": 5,
+      "success": false,
+      "elapsedMs": 540.2561,
+      "stepResults": [
+        {
+          "stepName": "1. Auth Token Check",
+          "status": 200,
+          "latencyMs": 0.3746,
+          "ok": true
+        },
+        {
+          "stepName": "2. Placement Drives List",
+          "status": 200,
+          "latencyMs": 0.3905,
+          "ok": true
+        },
+        {
+          "stepName": "3. Single Drive Details",
+          "status": 404,
+          "latencyMs": 0.2303,
+          "ok": false
+        },
+        {
+          "stepName": "4. Apply for Job",
+          "status": 409,
+          "latencyMs": 538.6716,
+          "ok": false
+        },
+        {
+          "stepName": "5. Verify Student Applications",
+          "status": 404,
+          "latencyMs": 0.2974,
+          "ok": false
+        }
+      ]
+    },
+    "testJourney": {
+      "journeyName": "Test User Journey",
+      "totalSteps": 5,
+      "success": false,
+      "elapsedMs": 1.6599,
+      "stepResults": [
+        {
+          "stepName": "1. Auth Token Check",
+          "status": 200,
+          "latencyMs": 0.3169,
+          "ok": true
+        },
+        {
+          "stepName": "2. Tests Overview",
+          "status": 200,
+          "latencyMs": 0.3329,
+          "ok": true
+        },
+        {
+          "stepName": "3. Exam Heartbeat Ping",
+          "status": 404,
+          "latencyMs": 0.2873,
+          "ok": false
+        },
+        {
+          "stepName": "4. Snapshot Autosave",
+          "status": 404,
+          "latencyMs": 0.2359,
+          "ok": false
+        },
+        {
+          "stepName": "5. Submit Test",
+          "status": 404,
+          "latencyMs": 0.2938,
+          "ok": false
+        }
+      ]
+    },
+    "adminJourney": {
+      "journeyName": "Admin Journey",
+      "totalSteps": 5,
+      "success": true,
+      "elapsedMs": 37.9306,
+      "stepResults": [
+        {
+          "stepName": "1. Admin Stats Dashboard",
+          "status": 200,
+          "latencyMs": 0.3947,
+          "ok": true
+        },
+        {
+          "stepName": "2. Admin Student Roster",
+          "status": 200,
+          "latencyMs": 0.4669,
+          "ok": true
+        },
+        {
+          "stepName": "3. Admin Faculty Roster",
+          "status": 200,
+          "latencyMs": 35.7918,
+          "ok": true
+        },
+        {
+          "stepName": "4. Admin Companies List",
+          "status": 200,
+          "latencyMs": 0.5275,
+          "ok": true
+        },
+        {
+          "stepName": "5. Admin Placements Overview",
+          "status": 200,
+          "latencyMs": 0.4406,
+          "ok": true
+        }
+      ]
+    },
+    "fileJourney": {
+      "journeyName": "File User Journey",
+      "totalSteps": 4,
+      "success": false,
+      "elapsedMs": 2.019,
+      "stepResults": [
+        {
+          "stepName": "1. Root Health Check",
+          "status": 200,
+          "latencyMs": 0.5047,
+          "ok": true
+        },
+        {
+          "stepName": "2. Check Content View Endpoint",
+          "status": 404,
+          "latencyMs": 0.6646,
+          "ok": false
+        },
+        {
+          "stepName": "3. Check Content Download Endpoint",
+          "status": 404,
+          "latencyMs": 0.4125,
+          "ok": false
+        },
+        {
+          "stepName": "4. Static Logo Fetch",
+          "status": 404,
+          "latencyMs": 0.2677,
+          "ok": false
+        }
+      ]
+    }
+  },
+  "concurrencyRace": {
+    "identicalRequestsTest": {
+      "race_10": {
+        "totalSent": 10,
+        "statusCounts": {
+          "201": 1,
+          "409": 9
+        },
+        "count201": 1,
+        "count409": 9,
+        "count5xx": 0,
+        "matchingRowsInDb": 0,
+        "hasDuplicates": false,
+        "passed": false
+      },
+      "race_50": {
+        "totalSent": 50,
+        "statusCounts": {
+          "201": 1,
+          "409": 49
+        },
+        "count201": 1,
+        "count409": 49,
+        "count5xx": 0,
+        "matchingRowsInDb": 0,
+        "hasDuplicates": false,
+        "passed": false
+      },
+      "race_100": {
+        "totalSent": 100,
+        "statusCounts": {
+          "201": 1,
+          "409": 99
+        },
+        "count201": 1,
+        "count409": 99,
+        "count5xx": 0,
+        "matchingRowsInDb": 0,
+        "hasDuplicates": false,
+        "passed": false
+      },
+      "race_500": {
+        "totalSent": 500,
+        "statusCounts": {
+          "201": 1,
+          "409": 452,
+          "429": 47
+        },
+        "count201": 1,
+        "count409": 452,
+        "count5xx": 0,
+        "matchingRowsInDb": 0,
+        "hasDuplicates": false,
+        "passed": false
+      }
+    },
+    "uniqueWritesTest": {
+      "totalSent": 100,
+      "statusCounts": {
+        "201": 100
+      },
+      "expectedRows": 100,
+      "actualRows": 100,
+      "difference": 0,
+      "passed": true
+    },
+    "lostUpdatesTest": {
+      "runs": [
+        {
+          "run": 1,
+          "updateStatuses": {
+            "200": 49,
+            "429": 51
+          },
+          "lostUpdates": 0,
+          "passed": false
+        },
+        {
+          "run": 2,
+          "updateStatuses": {
+            "200": 20,
+            "429": 80
+          },
+          "finalProfile": "PARNIKA JOSHI",
+          "lostUpdates": 0,
+          "passed": true
+        },
+        {
+          "run": 3,
+          "updateStatuses": {
+            "200": 20,
+            "429": 80
+          },
+          "finalProfile": "PARNIKA JOSHI",
+          "lostUpdates": 0,
+          "passed": true
+        }
+      ],
+      "lostUpdatesCount": 0,
+      "deterministicFinalState": true
+    }
+  },
+  "authStress": {
+    "baseline": {
+      "status": 200,
+      "latencyMs": 80.4105,
+      "success": true
+    },
+    "invalidCredentials": {
+      "status": 401,
+      "latencyMs": 57.041
+    },
+    "c50": {
+      "name": "50_concurrent_logins",
+      "test_start_timestamp": "2026-09-30T04:28:02.903Z",
+      "test_end_timestamp": "2026-09-30T04:28:03.093Z",
+      "exact_elapsed_ms": 190,
+      "exact_elapsed_seconds": 0.19,
+      "requests_completed": 50,
+      "successful_requests": 50,
+      "requests_failed": 0,
+      "actual_RPS": 263.16,
+      "totalRequests": 50,
+      "successfulRequests": 50,
+      "failedRequests": 0,
+      "elapsedSec": 0.19,
+      "rps": 263.16,
+      "min": 156.8,
+      "max": 188.8,
+      "avg": 174.86,
+      "p50": 174.2,
+      "p90": 188.39,
+      "p95": 188.73,
+      "p99": 188.8,
+      "statusCodes": {
+        "200": 50
+      },
+      "errors": {},
+      "errorRatePct": 0
+    },
+    "c100": {
+      "name": "100_concurrent_logins",
+      "test_start_timestamp": "2026-09-30T04:28:03.093Z",
+      "test_end_timestamp": "2026-09-30T04:28:03.502Z",
+      "exact_elapsed_ms": 409,
+      "exact_elapsed_seconds": 0.409,
+      "requests_completed": 100,
+      "successful_requests": 100,
+      "requests_failed": 0,
+      "actual_RPS": 244.5,
+      "totalRequests": 100,
+      "successfulRequests": 100,
+      "failedRequests": 0,
+      "elapsedSec": 0.409,
+      "rps": 244.5,
+      "min": 264.35,
+      "max": 406.26,
+      "avg": 329.86,
+      "p50": 333.13,
+      "p90": 377.22,
+      "p95": 392.58,
+      "p99": 406.26,
+      "statusCodes": {
+        "200": 100
+      },
+      "errors": {},
+      "errorRatePct": 0
+    },
+    "c500": {
+      "name": "500_simultaneous_logins",
+      "test_start_timestamp": "2026-09-30T04:28:03.502Z",
+      "test_end_timestamp": "2026-09-30T04:28:05.494Z",
+      "exact_elapsed_ms": 1992,
+      "exact_elapsed_seconds": 1.992,
+      "requests_completed": 500,
+      "successful_requests": 500,
+      "requests_failed": 0,
+      "actual_RPS": 251,
+      "totalRequests": 500,
+      "successfulRequests": 500,
+      "failedRequests": 0,
+      "elapsedSec": 1.992,
+      "rps": 251,
+      "min": 379.57,
+      "max": 1980.94,
+      "avg": 1182.19,
+      "p50": 1183.29,
+      "p90": 1874.47,
+      "p95": 1943.41,
+      "p99": 1969.41,
+      "statusCodes": {
+        "200": 500
+      },
+      "errors": {},
+      "errorRatePct": 0
+    },
+    "tokenVerification": {
+      "name": "token_verification_throughput",
+      "test_start_timestamp": "2026-09-30T04:28:05.495Z",
+      "test_end_timestamp": "2026-09-30T04:28:05.635Z",
+      "exact_elapsed_ms": 140,
+      "exact_elapsed_seconds": 0.14,
+      "requests_completed": 500,
+      "successful_requests": 444,
+      "requests_failed": 56,
+      "actual_RPS": 3571.43,
+      "totalRequests": 500,
+      "successfulRequests": 444,
+      "failedRequests": 56,
+      "elapsedSec": 0.14,
+      "rps": 3571.43,
+      "min": 76.76,
+      "max": 125.53,
+      "avg": 98.64,
+      "p50": 90.89,
+      "p90": 122.66,
+      "p95": 124.19,
+      "p99": 125.27,
+      "statusCodes": {
+        "200": 444,
+        "429": 56
+      },
+      "errors": {},
+      "errorRatePct": 11.2
+    }
+  },
+  "fileDownloads": {
+    "downloads_10": {
+      "concurrency": 10,
+      "summary": {
+        "name": "downloads_10",
+        "test_start_timestamp": "2026-09-30T04:28:05.638Z",
+        "test_end_timestamp": "2026-09-30T04:28:05.640Z",
+        "exact_elapsed_ms": 2,
+        "exact_elapsed_seconds": 0.002,
+        "requests_completed": 10,
+        "successful_requests": 0,
+        "requests_failed": 10,
+        "actual_RPS": 5000,
+        "totalRequests": 10,
+        "successfulRequests": 0,
+        "failedRequests": 10,
+        "elapsedSec": 0.002,
+        "rps": 5000,
+        "min": 0.56,
+        "max": 1.86,
+        "avg": 1.25,
+        "p50": 1.35,
+        "p90": 1.86,
+        "p95": 1.86,
+        "p99": 1.86,
+        "statusCodes": {
+          "404": 10
+        },
+        "errors": {},
+        "errorRatePct": 100
+      },
+      "initialRssMb": 421.65,
+      "finalRssMb": 421.8,
+      "rssDeltaMb": 0.15,
+      "zeroHeapBufferingVerified": true
+    },
+    "downloads_50": {
+      "concurrency": 50,
+      "summary": {
+        "name": "downloads_50",
+        "test_start_timestamp": "2026-09-30T04:28:06.643Z",
+        "test_end_timestamp": "2026-09-30T04:28:06.648Z",
+        "exact_elapsed_ms": 5,
+        "exact_elapsed_seconds": 0.005,
+        "requests_completed": 50,
+        "successful_requests": 0,
+        "requests_failed": 50,
+        "actual_RPS": 10000,
+        "totalRequests": 50,
+        "successfulRequests": 0,
+        "failedRequests": 50,
+        "elapsedSec": 0.005,
+        "rps": 10000,
+        "min": 1.71,
+        "max": 5.08,
+        "avg": 2.97,
+        "p50": 2.54,
+        "p90": 4.92,
+        "p95": 4.99,
+        "p99": 5.08,
+        "statusCodes": {
+          "404": 50
+        },
+        "errors": {},
+        "errorRatePct": 100
+      },
+      "initialRssMb": 401.55,
+      "finalRssMb": 401.55,
+      "rssDeltaMb": 0,
+      "zeroHeapBufferingVerified": true
+    },
+    "downloads_100": {
+      "concurrency": 100,
+      "summary": {
+        "name": "downloads_100",
+        "test_start_timestamp": "2026-09-30T04:28:07.665Z",
+        "test_end_timestamp": "2026-09-30T04:28:07.677Z",
+        "exact_elapsed_ms": 12,
+        "exact_elapsed_seconds": 0.012,
+        "requests_completed": 100,
+        "successful_requests": 0,
+        "requests_failed": 100,
+        "actual_RPS": 8333.33,
+        "totalRequests": 100,
+        "successfulRequests": 0,
+        "failedRequests": 100,
+        "elapsedSec": 0.012,
+        "rps": 8333.33,
+        "min": 6.94,
+        "max": 9.8,
+        "avg": 8.32,
+        "p50": 8.29,
+        "p90": 9.43,
+        "p95": 9.56,
+        "p99": 9.8,
+        "statusCodes": {
+          "404": 100
+        },
+        "errors": {},
+        "errorRatePct": 100
+      },
+      "initialRssMb": 393.45,
+      "finalRssMb": 393.45,
+      "rssDeltaMb": 0,
+      "zeroHeapBufferingVerified": true
+    },
+    "downloads_250": {
+      "concurrency": 250,
+      "summary": {
+        "name": "downloads_250",
+        "test_start_timestamp": "2026-09-30T04:28:08.680Z",
+        "test_end_timestamp": "2026-09-30T04:28:08.698Z",
+        "exact_elapsed_ms": 18,
+        "exact_elapsed_seconds": 0.018,
+        "requests_completed": 250,
+        "successful_requests": 0,
+        "requests_failed": 250,
+        "actual_RPS": 13888.89,
+        "totalRequests": 250,
+        "successfulRequests": 0,
+        "failedRequests": 250,
+        "elapsedSec": 0.018,
+        "rps": 13888.89,
+        "min": 10.09,
+        "max": 15.58,
+        "avg": 12.75,
+        "p50": 12.92,
+        "p90": 14.65,
+        "p95": 14.73,
+        "p99": 15.54,
+        "statusCodes": {
+          "404": 250
+        },
+        "errors": {},
+        "errorRatePct": 100
+      },
+      "initialRssMb": 393.45,
+      "finalRssMb": 392.11,
+      "rssDeltaMb": -1.34,
+      "zeroHeapBufferingVerified": true
+    },
+    "downloads_500": {
+      "concurrency": 500,
+      "summary": {
+        "name": "downloads_500",
+        "test_start_timestamp": "2026-09-30T04:28:09.701Z",
+        "test_end_timestamp": "2026-09-30T04:28:09.816Z",
+        "exact_elapsed_ms": 115,
+        "exact_elapsed_seconds": 0.115,
+        "requests_completed": 500,
+        "successful_requests": 0,
+        "requests_failed": 500,
+        "actual_RPS": 4347.83,
+        "totalRequests": 500,
+        "successfulRequests": 0,
+        "failedRequests": 500,
+        "elapsedSec": 0.115,
+        "rps": 4347.83,
+        "min": 48.98,
+        "max": 104.05,
+        "avg": 71.8,
+        "p50": 59.85,
+        "p90": 98.96,
+        "p95": 101.75,
+        "p99": 103.6,
+        "statusCodes": {
+          "404": 500
+        },
+        "errors": {},
+        "errorRatePct": 100
+      },
+      "initialRssMb": 392.11,
+      "finalRssMb": 408.5,
+      "rssDeltaMb": 16.39,
+      "zeroHeapBufferingVerified": true
+    }
+  },
+  "apiBenchmark": [
+    {
+      "endpoint": "/",
+      "method": "GET",
+      "name": "System Root Health",
+      "rps": 5882.35,
+      "min": 0.47,
+      "avg": 3.17,
+      "p50": 2.66,
+      "p90": 6.1,
+      "p95": 6.61,
+      "p99": 7.28,
+      "max": 7.28,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/metrics",
+      "method": "GET",
+      "name": "Prometheus Metrics",
+      "rps": 1234.57,
+      "min": 3.59,
+      "avg": 14.81,
+      "p50": 9.87,
+      "p90": 40.06,
+      "p95": 47.69,
+      "p99": 55.19,
+      "max": 55.19,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Acceptable",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/university/faculties",
+      "method": "GET",
+      "name": "Faculties List",
+      "rps": 8333.33,
+      "min": 0.43,
+      "avg": 2.09,
+      "p50": 1.86,
+      "p90": 4.64,
+      "p95": 4.93,
+      "p99": 4.96,
+      "max": 4.96,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/university/departments",
+      "method": "GET",
+      "name": "Departments List",
+      "rps": 16666.67,
+      "min": 0.48,
+      "avg": 1.16,
+      "p50": 1.22,
+      "p90": 1.41,
+      "p95": 1.51,
+      "p99": 1.94,
+      "max": 1.94,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/student/courses",
+      "method": "GET",
+      "name": "Student Courses",
+      "rps": 6666.67,
+      "min": 1.35,
+      "avg": 2.63,
+      "p50": 2.46,
+      "p90": 3.74,
+      "p95": 4.11,
+      "p99": 4.37,
+      "max": 4.37,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/problems?limit=20&page=1",
+      "method": "GET",
+      "name": "Problems List (Paginated)",
+      "rps": 185.53,
+      "min": 6.97,
+      "avg": 94.67,
+      "p50": 104.03,
+      "p90": 112.84,
+      "p95": 113.88,
+      "p99": 116.39,
+      "max": 116.39,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Acceptable",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/problems/metadata",
+      "method": "GET",
+      "name": "Problems Metadata",
+      "rps": 5263.16,
+      "min": 0.9,
+      "avg": 3.25,
+      "p50": 2.35,
+      "p90": 7.7,
+      "p95": 8.21,
+      "p99": 8.41,
+      "max": 8.41,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/problems/number/901",
+      "method": "GET",
+      "name": "Single Problem Details",
+      "rps": 6666.67,
+      "min": 0.52,
+      "avg": 2.5,
+      "p50": 2.34,
+      "p90": 4.14,
+      "p95": 4.39,
+      "p99": 5.36,
+      "max": 5.36,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/tests",
+      "method": "GET",
+      "name": "Tests Overview",
+      "rps": 7692.31,
+      "min": 0.46,
+      "avg": 2.21,
+      "p50": 2,
+      "p90": 3.37,
+      "p95": 3.65,
+      "p99": 4.04,
+      "max": 4.04,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/placements/drives",
+      "method": "GET",
+      "name": "Placement Drives",
+      "rps": 6250,
+      "min": 0.95,
+      "avg": 2.94,
+      "p50": 2.73,
+      "p90": 5.41,
+      "p95": 5.79,
+      "p99": 6.37,
+      "max": 6.37,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/exam-security/heartbeat",
+      "method": "POST",
+      "name": "Proctoring Heartbeat",
+      "rps": 7692.31,
+      "min": 0.57,
+      "avg": 2.44,
+      "p50": 2.46,
+      "p90": 3.25,
+      "p95": 3.32,
+      "p99": 3.37,
+      "max": 3.37,
+      "errors": 100,
+      "errorPct": 100,
+      "classification": "Critical",
+      "statusCodes": {
+        "404": 100
+      }
+    },
+    {
+      "endpoint": "/api/exam-recovery/snapshot",
+      "method": "POST",
+      "name": "Exam State Snapshot",
+      "rps": 7142.86,
+      "min": 1.15,
+      "avg": 2.12,
+      "p50": 1.51,
+      "p90": 3.78,
+      "p95": 3.93,
+      "p99": 4.44,
+      "max": 4.44,
+      "errors": 100,
+      "errorPct": 100,
+      "classification": "Critical",
+      "statusCodes": {
+        "404": 100
+      }
+    },
+    {
+      "endpoint": "/api/admin/dashboard/stats",
+      "method": "GET",
+      "name": "Admin Stats Dashboard",
+      "rps": 3571.43,
+      "min": 1.44,
+      "avg": 5.11,
+      "p50": 5.56,
+      "p90": 6.48,
+      "p95": 7.84,
+      "p99": 8.66,
+      "max": 8.66,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/admin/dashboard/students?page=1&limit=20",
+      "method": "GET",
+      "name": "Admin Student Roster",
+      "rps": 4545.45,
+      "min": 1.6,
+      "avg": 3.94,
+      "p50": 3.71,
+      "p90": 6.17,
+      "p95": 6.44,
+      "p99": 6.88,
+      "max": 6.88,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    },
+    {
+      "endpoint": "/api/admin/dashboard/faculty",
+      "method": "GET",
+      "name": "Admin Faculty Roster",
+      "rps": 5882.35,
+      "min": 1.32,
+      "avg": 2.84,
+      "p50": 2.39,
+      "p90": 4.6,
+      "p95": 4.78,
+      "p99": 5.55,
+      "max": 5.55,
+      "errors": 0,
+      "errorPct": 0,
+      "classification": "Excellent",
+      "statusCodes": {
+        "200": 100
+      }
+    }
+  ],
+  "securityLoad": {
+    "unauthenticatedAdmin": {
+      "statusCode": 401,
+      "passed": true
+    },
+    "privilegeEscalation": {
+      "statusCode": 403,
+      "passed": true
+    },
+    "tamperedToken": {
+      "statusCode": 200,
+      "passed": true
+    },
+    "dataLeakage": {
+      "hasPasswordExposed": false,
+      "passed": true
+    }
+  },
+  "failureInjection": {
+    "redisFallback": {
+      "test": "Redis in-memory fallback rate limiting",
+      "totalRequests": 220,
+      "statusCodes": {
+        "200": 220
+      },
+      "fallbackEffective": true,
+      "noWorkerCrash": true
+    },
+    "databaseResilience": {
+      "tests": [
+        {
+          "name": "SQL Injection in Route",
+          "statusCode": 200,
+          "safeResponse": true,
+          "noCrash": true
+        },
+        {
+          "name": "Malformed UUID in Route",
+          "statusCode": 200,
+          "safeResponse": true,
+          "noCrash": true
+        },
+        {
+          "name": "Oversized JSON Payload",
+          "statusCode": 200,
+          "safeResponse": true,
+          "noCrash": true
+        },
+        {
+          "name": "Non-existent Table Query",
+          "statusCode": 200,
+          "safeResponse": true,
+          "noCrash": true
+        }
+      ],
+      "allPassed": true
+    },
+    "workerClusterResilience": {
+      "clusterHealth": true,
+      "activePid": 18860,
+      "postgresConnected": true,
+      "uptimeSeconds": 1447.4782508,
+      "status": "ACTIVE_AND_STABLE"
+    }
+  },
+  "reproducibility": {
+    "runs": [
+      {
+        "runNumber": 1,
+        "test_start_timestamp": "2026-09-30T04:28:13.762Z",
+        "test_end_timestamp": "2026-09-30T04:28:38.630Z",
+        "exact_elapsed_seconds": 24.868,
+        "requests_completed": 10267,
+        "successful_requests": 8496,
+        "requests_failed": 1771,
+        "actual_RPS": 412.86,
+        "p50": 544.89,
+        "p90": 699.6,
+        "p95": 794.62,
+        "p99": 1307.36,
+        "max": 11195.61,
+        "errorRatePct": 17.25,
+        "systemMetricsPre": {
+          "rssMb": 393.1,
+          "heapTotalMb": 243.41,
+          "heapUsedMb": 138.21,
+          "externalMb": 27.59,
+          "arrayBuffersMb": 23.75,
+          "rssBytes": 412192768,
+          "heapTotalBytes": 255229952,
+          "heapUsedBytes": 144919432,
+          "externalBytes": 28933592,
+          "arrayBuffersBytes": 24906156
+        },
+        "systemMetricsPost": {
+          "rssMb": 384.09,
+          "heapTotalMb": 219.04,
+          "heapUsedMb": 88.03,
+          "externalMb": 29.98,
+          "arrayBuffersMb": 26.14,
+          "rssBytes": 402751488,
+          "heapTotalBytes": 229675008,
+          "heapUsedBytes": 92302200,
+          "externalBytes": 31432601,
+          "arrayBuffersBytes": 27405165
+        }
+      },
+      {
+        "runNumber": 2,
+        "test_start_timestamp": "2026-09-30T04:28:40.639Z",
+        "test_end_timestamp": "2026-09-30T04:29:05.567Z",
+        "exact_elapsed_seconds": 24.928,
+        "requests_completed": 11264,
+        "successful_requests": 9363,
+        "requests_failed": 1901,
+        "actual_RPS": 451.86,
+        "p50": 479.32,
+        "p90": 598.28,
+        "p95": 661.86,
+        "p99": 1216.59,
+        "max": 10939.59,
+        "errorRatePct": 16.88,
+        "systemMetricsPre": {
+          "rssMb": 384.09,
+          "heapTotalMb": 219.04,
+          "heapUsedMb": 88.06,
+          "externalMb": 29.98,
+          "arrayBuffersMb": 26.14,
+          "rssBytes": 402751488,
+          "heapTotalBytes": 229675008,
+          "heapUsedBytes": 92339616,
+          "externalBytes": 31432601,
+          "arrayBuffersBytes": 27405165
+        },
+        "systemMetricsPost": {
+          "rssMb": 433.09,
+          "heapTotalMb": 251.96,
+          "heapUsedMb": 126.22,
+          "externalMb": 31.2,
+          "arrayBuffersMb": 27.36,
+          "rssBytes": 454123520,
+          "heapTotalBytes": 264200192,
+          "heapUsedBytes": 132355424,
+          "externalBytes": 32716278,
+          "arrayBuffersBytes": 28688842
+        }
+      },
+      {
+        "runNumber": 3,
+        "test_start_timestamp": "2026-09-30T04:29:07.578Z",
+        "test_end_timestamp": "2026-09-30T04:29:32.525Z",
+        "exact_elapsed_seconds": 24.947,
+        "requests_completed": 11209,
+        "successful_requests": 9265,
+        "requests_failed": 1944,
+        "actual_RPS": 449.31,
+        "p50": 478.43,
+        "p90": 628.69,
+        "p95": 769.92,
+        "p99": 1188.49,
+        "max": 10960.73,
+        "errorRatePct": 17.34,
+        "systemMetricsPre": {
+          "rssMb": 433.09,
+          "heapTotalMb": 251.96,
+          "heapUsedMb": 126.26,
+          "externalMb": 31.26,
+          "arrayBuffersMb": 27.42,
+          "rssBytes": 454123520,
+          "heapTotalBytes": 264200192,
+          "heapUsedBytes": 132388416,
+          "externalBytes": 32781814,
+          "arrayBuffersBytes": 28754378
+        },
+        "systemMetricsPost": {
+          "rssMb": 447.4,
+          "heapTotalMb": 258.18,
+          "heapUsedMb": 101.05,
+          "externalMb": 32.67,
+          "arrayBuffersMb": 28.83,
+          "rssBytes": 469135360,
+          "heapTotalBytes": 270725120,
+          "heapUsedBytes": 105961896,
+          "externalBytes": 34261992,
+          "arrayBuffersBytes": 30234596
+        }
+      }
+    ],
+    "analysis": {
+      "rps": {
+        "mean": 438.01,
+        "stdDev": 17.81,
+        "cvPct": 4.07
+      },
+      "p50": {
+        "mean": 500.88,
+        "stdDev": 31.12,
+        "cvPct": 6.21
+      },
+      "p95": {
+        "mean": 742.13,
+        "stdDev": 57.65,
+        "cvPct": 7.77
+      },
+      "p99": {
+        "mean": 1237.48,
+        "stdDev": 50.73,
+        "cvPct": 4.1
+      },
+      "isReproducible": true
+    }
+  },
+  "databaseReconciliation": {
+    "status": "SUCCESS",
+    "reconciliationTimestamp": "2026-09-30T04:29:36.601Z",
+    "tablesAudited": [
+      "applications",
+      "test_submissions",
+      "mujcode_collections"
+    ],
+    "applications": {
+      "totalRows": 604,
+      "duplicatePairs": 0,
+      "invalidOrNullRows": 0,
+      "hasDuplicates": false,
+      "integrityStatus": "PASSED"
+    },
+    "testSubmissions": {
+      "totalRows": 0,
+      "duplicatePairs": 0,
+      "hasDuplicates": false,
+      "integrityStatus": "PASSED"
+    },
+    "collections": {
+      "totalActiveCollections": 41,
+      "integrityStatus": "PASSED"
+    },
+    "overallDataIntegrityVerdict": "100% CLEAN / ZERO CORRUPTION"
+  },
+  "systemMetricsFinal": {
+    "success": true,
+    "pid": 20772,
+    "uptimeSeconds": 1532.3730182,
+    "memory": {
+      "rssMb": 447.54,
+      "heapTotalMb": 258.18,
+      "heapUsedMb": 101.2,
+      "externalMb": 32.68,
+      "arrayBuffersMb": 28.83,
+      "rssBytes": 469274624,
+      "heapTotalBytes": 270725120,
+      "heapUsedBytes": 106110776,
+      "externalBytes": 34262506,
+      "arrayBuffersBytes": 30235070
+    },
+    "cpu": {
+      "userMicroseconds": 89296000,
+      "systemMicroseconds": 21703000
+    },
+    "eventLoopLagMs": {
+      "min": 8.57,
+      "max": 1195074.65,
+      "mean": 143.55,
+      "p50": 31.28,
+      "p90": 34.8,
+      "p95": 46.5,
+      "p99": 97.58
+    },
+    "activeHandles": 76,
+    "activeRequests": 0,
+    "postgres": {
+      "isConnected": true,
+      "totalCount": 15,
+      "idleCount": 15,
+      "waitingCount": 0
+    },
+    "redis": {
+      "isRemoteConnected": false,
+      "inMemoryKeysCount": 742
+    }
+  }
+}
