@@ -1,3 +1,5 @@
+import { logger } from '../lib/logger.js';
+
 // In-memory active session tracking for Single Device Login (Feature 22)
 // testId -> studentId -> { socketId, ip, loginTime }
 const activeExamSessions = new Map();
@@ -8,22 +10,23 @@ const autoSaveBackup = new Map();
 
 export function setupExamProctorSockets(io) {
   io.on('connection', (socket) => {
-    console.log(`[ExamSocket] Connected: ${socket.id}`);
-
     // 1. Student or Proctor Joins Test Room
-    socket.on('join_test', ({ testId, studentId, studentName, role = 'student' }) => {
-      if (!testId) return;
+    socket.on('join_test', ({ testId }) => {
+      if (!testId || !socket.user) return;
 
-      if (role === 'proctor' || role === 'faculty') {
-        // Faculty joins the proctor alert broadcast room
+      const userRole = socket.userRole;
+      const verifiedUserId = socket.userId;
+      const verifiedUserName = socket.userName;
+
+      // Only verified faculty or admin can join the proctor alert broadcast room
+      if (userRole === 'faculty' || userRole === 'admin') {
         const proctorRoom = `test_${testId}_proctor`;
         socket.join(proctorRoom);
-        console.log(`[ExamSocket] Proctor joined room: ${proctorRoom}`);
+        logger.info(`[ExamSocket] Proctor joined room: ${proctorRoom} (faculty: ${verifiedUserId})`);
         return;
       }
 
-      if (!studentId) return;
-
+      // Students join their specific test room
       const testRoom = `test_${testId}`;
       const proctorRoom = `test_${testId}_proctor`;
       socket.join(testRoom);
@@ -34,53 +37,51 @@ export function setupExamProctorSockets(io) {
       }
       const testSessions = activeExamSessions.get(testId);
 
-      const existingSession = testSessions.get(studentId);
+      const existingSession = testSessions.get(verifiedUserId);
       if (existingSession && existingSession.socketId !== socket.id) {
-        console.warn(`[ExamSocket] Duplicate login detected for student ${studentId}. Evicting old socket ${existingSession.socketId}`);
-        // Notify old socket & disconnect
+        logger.warn(`[ExamSocket] Duplicate login detected for student ${verifiedUserId}. Evicting old socket ${existingSession.socketId}`);
         io.to(existingSession.socketId).emit('force_logout', {
           reason: 'A new session was logged in from another browser/device. Only one active device session is permitted.'
         });
       }
 
-      // Record active student session
-      testSessions.set(studentId, {
+      // Record active student session with verified user ID
+      testSessions.set(verifiedUserId, {
         socketId: socket.id,
-        studentName: studentName || 'Student',
+        studentName: verifiedUserName,
         loginTime: Date.now(),
         ip: socket.handshake.address
       });
 
       socket.testId = testId;
-      socket.studentId = studentId;
-      socket.studentName = studentName;
+      socket.studentId = verifiedUserId;
+      socket.studentName = verifiedUserName;
 
       // Broadcast student joined to Faculty Proctors
       io.to(proctorRoom).emit('student_online', {
         testId,
-        studentId,
-        studentName,
+        studentId: verifiedUserId,
+        studentName: verifiedUserName,
         socketId: socket.id,
         timestamp: Date.now()
       });
     });
 
-    // 2. Exam Heartbeat & Timer Security (Feature 19 & 21)
+    // 2. Exam Heartbeat & Timer Security (derived from verified user)
     socket.on('exam_heartbeat', (payload) => {
-      const { testId, studentId, studentName, cheatingScore = 0, isFullscreen = true, currentQuestionId, timestamp = Date.now() } = payload || {};
-      if (!testId || !studentId) return;
+      if (!socket.testId || !socket.studentId) return;
 
-      const proctorRoom = `test_${testId}_proctor`;
+      const { cheatingScore = 0, isFullscreen = true, currentQuestionId, timestamp = Date.now() } = payload || {};
+      const proctorRoom = `test_${socket.testId}_proctor`;
 
-      // Check timer drift (Feature 19)
       const serverTime = Date.now();
       const timeDrift = Math.abs(serverTime - timestamp);
       const suspiciousDrift = timeDrift > 10000; // 10s difference
 
       io.to(proctorRoom).emit('student_status_update', {
-        testId,
-        studentId,
-        studentName,
+        testId: socket.testId,
+        studentId: socket.studentId,
+        studentName: socket.studentName,
         cheatingScore,
         isFullscreen,
         currentQuestionId,
@@ -89,20 +90,20 @@ export function setupExamProctorSockets(io) {
       });
     });
 
-    // 3. Real-time Security Violation Broadcast (Feature 14 & 15)
+    // 3. Real-time Security Violation Broadcast
     socket.on('violation_event', (payload) => {
-      const { testId, studentId, studentName, type, message, cheatingScore = 0, fullscreenExits = 0 } = payload || {};
-      if (!testId || !studentId) return;
+      if (!socket.testId || !socket.studentId) return;
 
-      const proctorRoom = `test_${testId}_proctor`;
+      const { type, message, cheatingScore = 0, fullscreenExits = 0 } = payload || {};
+      const proctorRoom = `test_${socket.testId}_proctor`;
 
-      console.log(`[ExamSocket] Security Violation (${type}) from ${studentName} [Score: ${cheatingScore}]`);
+      logger.info(`[ExamSocket] Security Violation (${type}) from student ${socket.studentId} [Score: ${cheatingScore}]`);
 
       // Broadcast live alert to Faculty Proctor Dashboard
       io.to(proctorRoom).emit('proctor_alert', {
-        testId,
-        studentId,
-        studentName,
+        testId: socket.testId,
+        studentId: socket.studentId,
+        studentName: socket.studentName,
         type,
         message,
         cheatingScore,
@@ -112,7 +113,7 @@ export function setupExamProctorSockets(io) {
 
       // Server-side enforcement check
       if (cheatingScore >= 50 || fullscreenExits >= 3) {
-        console.warn(`[ExamSocket] Threshold reached for ${studentId}. Issuing force_submit.`);
+        logger.warn(`[ExamSocket] Threshold reached for student ${socket.studentId}. Issuing force_submit.`);
         socket.emit('force_submit', {
           reason: cheatingScore >= 50
             ? `Exam auto-submitted: Exceeded maximum Cheating Score (${cheatingScore}/50)`
@@ -121,26 +122,33 @@ export function setupExamProctorSockets(io) {
       }
     });
 
-    // 4. Auto Save Backup (Feature 13)
+    // 4. Auto Save Backup (locked to verified student ID)
     socket.on('auto_save_answer', (payload) => {
-      const { testId, studentId, questionId, answer, code } = payload || {};
-      if (!testId || !studentId || !questionId) return;
+      if (!socket.testId || !socket.studentId) return;
+      const { questionId, answer, code } = payload || {};
+      if (!questionId) return;
 
-      if (!autoSaveBackup.has(testId)) {
-        autoSaveBackup.set(testId, new Map());
+      if (!autoSaveBackup.has(socket.testId)) {
+        autoSaveBackup.set(socket.testId, new Map());
       }
-      const testCache = autoSaveBackup.get(testId);
+      const testCache = autoSaveBackup.get(socket.testId);
 
-      let studentCache = testCache.get(studentId) || { lastSavedAt: 0, answers: {} };
+      let studentCache = testCache.get(socket.studentId) || { lastSavedAt: 0, answers: {} };
       studentCache.answers[questionId] = { answer, code, updatedAt: Date.now() };
       studentCache.lastSavedAt = Date.now();
-      testCache.set(studentId, studentCache);
+      testCache.set(socket.studentId, studentCache);
 
       socket.emit('save_confirmed', { questionId, timestamp: studentCache.lastSavedAt });
     });
 
-    // 5. Faculty Proctor manual command to student (Warn or Force Submit)
+    // 5. Faculty Proctor manual command to student — STRICT RBAC CHECK
     socket.on('proctor_command', (payload) => {
+      // ONLY faculty or admin can issue proctor commands!
+      if (socket.userRole !== 'faculty' && socket.userRole !== 'admin') {
+        logger.warn(`[SecurityAlert] Unauthorized proctor command attempt by user ${socket.userId} (${socket.userRole})`);
+        return;
+      }
+
       const { testId, studentId, command, reason = 'Proctor intervention' } = payload || {};
       if (!testId || !studentId) return;
 
@@ -150,15 +158,16 @@ export function setupExamProctorSockets(io) {
       if (targetSession && targetSession.socketId) {
         if (command === 'FORCE_SUBMIT') {
           io.to(targetSession.socketId).emit('force_submit', { reason });
+          logger.info(`[ExamSocket] Proctor ${socket.userId} forced submission for student ${studentId}`);
         } else if (command === 'WARN') {
           io.to(targetSession.socketId).emit('proctor_warning', { reason });
+          logger.info(`[ExamSocket] Proctor ${socket.userId} warned student ${studentId}`);
         }
       }
     });
 
     // 6. Disconnect handling
     socket.on('disconnect', () => {
-      console.log(`[ExamSocket] Disconnected: ${socket.id}`);
       if (socket.testId && socket.studentId) {
         const proctorRoom = `test_${socket.testId}_proctor`;
         io.to(proctorRoom).emit('student_offline', {
