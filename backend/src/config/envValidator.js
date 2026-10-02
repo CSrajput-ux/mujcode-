@@ -34,8 +34,8 @@ const envSchema = z.object({
   REDIS_URI: z.string().optional().default(''),
   MONGODB_URI: z.string().optional().default(''),
 
-  // Judge0 CE Configuration
-  JUDGE0_URL: z.string().url().default('http://localhost:2358'),
+  // Judge0 CE Configuration (optional — leave empty to disable code execution)
+  JUDGE0_URL: z.string().optional().default(''),
   JUDGE0_AUTH_TOKEN: z.string().optional().default(''),
   JUDGE0_CPU_TIME_LIMIT: z.coerce.number().min(1).max(15).default(2),
   JUDGE0_MEMORY_LIMIT: z.coerce.number().min(16000).max(512000).default(128000),

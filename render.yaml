@@ -1,0 +1,69 @@
+# ==============================================================================
+# MujCode — Render.com Blueprint
+# ==============================================================================
+# One-click deploy: https://render.com/deploy
+# Docs: https://render.com/docs/blueprint-spec
+#
+# REQUIRED secrets (set in Render Dashboard → Environment):
+#   TOKEN_SECRET, POSTGRES_URI, REDIS_URI, CORS_ORIGIN
+#   CLOUDINARY_URL, CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
+#   MONGODB_URI (optional — only if ATS module needed)
+#   JUDGE0_URL   (if using external Judge0 instance)
+# ==============================================================================
+
+services:
+  # ── Backend API (Node.js) ───────────────────────────────────────────────────
+  - type: web
+    name: mujcode-api
+    runtime: node
+    region: oregon            # Change to: singapore | frankfurt | ohio as needed
+    plan: free                # Upgrade to 'starter' for always-on (no spin-down)
+    rootDir: backend
+    buildCommand: npm ci --omit=optional
+    startCommand: node src/server.js
+    healthCheckPath: /
+    autoDeploy: true          # Auto-deploy on git push to main branch
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000          # Render assigns port 10000 internally
+      - key: HOST
+        value: 0.0.0.0
+      - key: WEB_CONCURRENCY
+        value: 1              # Free tier: 1 worker (upgrade plan for more)
+      - key: DB_FILE
+        value: src/data/db.json
+      - key: UPLOAD_DIR
+        value: uploads
+      - key: JUDGE0_CPU_TIME_LIMIT
+        value: 2
+      - key: JUDGE0_MEMORY_LIMIT
+        value: 128000
+      - key: JUDGE0_WALL_TIME_LIMIT
+        value: 5
+
+      # ── Secrets (set these in Render Dashboard, NOT here) ──────────────────
+      - key: TOKEN_SECRET
+        sync: false           # Must be set manually in Render dashboard
+      - key: CORS_ORIGIN
+        sync: false           # e.g. https://mujcode.vercel.app
+      - key: POSTGRES_URI
+        sync: false           # Neon.tech / Supabase / Render PostgreSQL URL
+      - key: REDIS_URI
+        sync: false           # Upstash Redis URL (rediss://...)
+      - key: CLOUDINARY_URL
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: MONGODB_URI
+        sync: false           # Optional: only for ATS/Placement module
+      - key: JUDGE0_URL
+        sync: false           # External Judge0 URL or leave empty
+      - key: JUDGE0_AUTH_TOKEN
+        sync: false           # Optional: if Judge0 has auth enabled

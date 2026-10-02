@@ -65,16 +65,20 @@ const configuredOrigins = (config.corsOrigin || 'http://localhost:5173')
   .map(o => o.trim().toLowerCase())
   .filter(Boolean);
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 function isAllowedOrigin(origin) {
   if (!origin) return false;
   const lower = origin.toLowerCase();
-  return (
-    configuredOrigins.includes(lower) ||
+  if (configuredOrigins.includes(lower)) return true;
+  // Allow localhost only in development mode — never in production
+  if (isDev && (
     lower === 'http://localhost:5173' ||
     lower === 'http://localhost:3000' ||
     lower === 'http://127.0.0.1:5173' ||
     lower === 'http://127.0.0.1:3000'
-  );
+  )) return true;
+  return false;
 }
 
 function setCors(res, req) {
