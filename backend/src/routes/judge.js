@@ -40,8 +40,6 @@ export function registerJudgeRoutes(router) {
         testCases = problem.testCases;
       }
     }
-
-    const code = req.body.code || '';
     const language = req.body.language || 'python';
     const mode = req.body.mode || 'submit';
 
