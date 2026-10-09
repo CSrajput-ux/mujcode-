@@ -54,7 +54,8 @@ const envSchema = z.object({
   CLOUDINARY_API_SECRET: z.string().optional().default('')
 });
 
-export function validateEnvironment(rawEnv = process.env) {
+export function validateEnvironment(rawEnv = process.env, { allowThrow = false } = {}) {
+  const isTestMode = process.env.NODE_ENV === 'test' || rawEnv.NODE_ENV === 'test' || allowThrow;
   const result = envSchema.safeParse(rawEnv);
 
   if (!result.success) {
@@ -74,7 +75,7 @@ export function validateEnvironment(rawEnv = process.env) {
     process.stderr.write(errorMessage);
     logger.error(errorMessage);
 
-    if (rawEnv.NODE_ENV !== 'test') {
+    if (!isTestMode) {
       process.exit(1);
     }
     throw new Error('Environment configuration validation failed');
@@ -87,7 +88,7 @@ export function validateEnvironment(rawEnv = process.env) {
     const errorMsg = 'FATAL SECURITY ERROR: CORS_ORIGIN cannot be "*" in production when credentials are enabled.\n';
     process.stderr.write(errorMsg);
     logger.error(errorMsg);
-    if (rawEnv.NODE_ENV !== 'test') {
+    if (!isTestMode) {
       process.exit(1);
     }
     throw new Error(errorMsg);

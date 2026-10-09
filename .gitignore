@@ -152,7 +152,23 @@ judge0/judge0.conf
 *.key
 *.crt
 *.cert
+*.pfx
+*.p12
+id_rsa*
+id_ed25519*
 kubeconfig
 kubeconfig*
 *kubeconfig*
+
+# Database Dumps, Archives & Local DB Files
+*.dump
+*.dump.*
+*.sql.gz
+*.tar.gz
+*.bak
+*.sqlite
+*.sqlite3
+*.db
+!frontend/src/**
+
 

@@ -125,4 +125,94 @@ test('Security Audit Verification Suite', async (t) => {
     assert.equal(isTrustedStorageUrl('https://my-bucket.s3.amazonaws.com/assignment.pdf'), true, 'S3 URL must be allowed');
   });
 
+  await t.test('8. Authorization: Negative tests & Cross-user IDOR rejection', async () => {
+    const { requireSelfOrAdmin, requireAdmin, requireFaculty } = await import('../src/lib/requireAuth.js');
+
+    const fakeStudentA = {
+      user: { id: 'student_A', college_id: 'COL_A', role: 'student' }
+    };
+    const fakeStudentB = {
+      user: { id: 'student_B', college_id: 'COL_B', role: 'student' }
+    };
+    const fakeAdmin = {
+      user: { id: 'admin_1', role: 'admin' }
+    };
+
+    let sentCode = null;
+    let sentBody = null;
+    const mockRes = {
+      setHeader: () => {},
+      writeHead: (code) => { sentCode = code; },
+      end: (data) => { sentBody = JSON.parse(data); }
+    };
+
+    // Student A accessing own record -> PASS
+    const ownAccess = requireSelfOrAdmin(fakeStudentA, mockRes, 'student_A');
+    assert.equal(ownAccess, true, 'Student accessing own ID must be permitted');
+
+    // Student A accessing Student B record -> MUST FAIL with 403
+    sentCode = null;
+    const crossAccess = requireSelfOrAdmin(fakeStudentA, mockRes, 'student_B');
+    assert.equal(crossAccess, false, 'Student accessing another student ID must be rejected');
+    assert.equal(sentCode, 403, 'Cross-user ID tampering must return HTTP 403 Forbidden');
+
+    // Student A attempting Admin endpoint -> MUST FAIL with 403
+    sentCode = null;
+    const adminAccess = requireAdmin(fakeStudentA, mockRes);
+    assert.equal(adminAccess, false, 'Student attempting admin endpoint must be rejected');
+    assert.equal(sentCode, 403, 'Unauthorized role escalation must return HTTP 403 Forbidden');
+
+    // Admin accessing Student B record -> PASS
+    const adminOnStudent = requireSelfOrAdmin(fakeAdmin, mockRes, 'student_B');
+    assert.equal(adminOnStudent, true, 'Admin accessing student record must be permitted');
+  });
+
+  await t.test('9. Environment: Production CORS Wildcard Rejection', async () => {
+    const { validateEnvironment } = await import('../src/config/envValidator.js');
+
+    const invalidProdEnv = {
+      NODE_ENV: 'production',
+      TOKEN_SECRET: 'a_very_secure_and_long_secret_key_32_bytes_minimum!',
+      CORS_ORIGIN: '*'
+    };
+
+    assert.throws(
+      () => validateEnvironment(invalidProdEnv, { allowThrow: true }),
+      /CORS_ORIGIN cannot be "\*" in production/,
+      'Production configuration with CORS_ORIGIN=* must throw a fatal validation error'
+    );
+  });
+
+  await t.test('10. Compiler Submission Authorization: Job Status Ownership Guard', async () => {
+    const { CodeExecutionService } = await import('../src/services/CodeExecutionService.js');
+    const { requireSelfOrFacultyOrAdmin } = await import('../src/lib/requireAuth.js');
+
+    const testJobId = 'job_auth_test_123';
+    await CodeExecutionService.enqueueJob(testJobId, 'student_B', async () => ({ status: 'done' }));
+
+    const job = await CodeExecutionService.getJob(testJobId);
+    assert.ok(job, 'Job must be retrievable from store');
+    assert.equal(job.userId, 'student_B', 'Job must preserve submitting userId');
+
+    let sentCode = null;
+    const mockRes = {
+      setHeader: () => {},
+      writeHead: (code) => { sentCode = code; },
+      end: () => {}
+    };
+
+    // Caller student_A attempting to access student_B's job -> FAIL with 403
+    const fakeStudentA = { user: { id: 'student_A', role: 'student' } };
+    const canAccessOther = requireSelfOrFacultyOrAdmin(fakeStudentA, mockRes, job.userId);
+    assert.equal(canAccessOther, false, 'Student A must not access Student B job status');
+    assert.equal(sentCode, 403, 'Must return 403 Forbidden on cross-user job status polling');
+
+    // Caller student_B accessing own job -> PASS
+    const fakeStudentB = { user: { id: 'student_B', role: 'student' } };
+    const canAccessOwn = requireSelfOrFacultyOrAdmin(fakeStudentB, mockRes, job.userId);
+    assert.equal(canAccessOwn, true, 'Student B must access own job status');
+  });
+
 });
+
+

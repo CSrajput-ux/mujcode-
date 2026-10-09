@@ -1,0 +1,9 @@
+﻿.git
+.gitignore
+*.log
+*.tmp
+*.bak
+judge0.conf
+.env
+.env.*
+!.env.example

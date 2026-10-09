@@ -69,8 +69,8 @@ export function registerJudgeRoutes(router) {
     // Generate unique job ID for live frontend polling
     const jobId = `job_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
 
-    // Enqueue asynchronous background execution
-    CodeExecutionService.enqueueJob(jobId, async () => {
+    // Enqueue asynchronous background execution with user ownership
+    CodeExecutionService.enqueueJob(jobId, userId, async () => {
       let executionResult;
 
       try {
@@ -170,18 +170,26 @@ export function registerJudgeRoutes(router) {
   };
 
   /**
-   * POST /api/judge/submit & POST /api/compiler/submissions
+   * POST /api/judge/submit & POST /api/compiler/submit & POST /api/compiler/submissions
    */
   router.post('/api/judge/submit', handleSubmission);
+  router.post('/api/compiler/submit', handleSubmission);
   router.post('/api/compiler/submissions', handleSubmission);
 
   /**
    * GET /api/judge/job-status/:jobId & GET /api/compiler/job-status/:jobId
+   * Protected: Caller must own the job or have faculty/admin privileges
    */
   const handleJobStatus = async (req, res) => {
+    if (!requireAuth(req, res)) return;
+
     const job = await CodeExecutionService.getJob(req.params.jobId);
     if (!job) {
       return sendJson(res, 404, { error: 'Job not found or has expired.' });
+    }
+
+    if (job.userId && !requireSelfOrFacultyOrAdmin(req, res, job.userId)) {
+      return;
     }
 
     const resp = {
@@ -209,11 +217,38 @@ export function registerJudgeRoutes(router) {
 
   /**
    * GET /api/judge/status/:submissionId & GET /api/compiler/submissions/:submissionId
+   * Protected: Caller must own the submission or have faculty/admin privileges
    */
   const handleSubmissionStatus = async (req, res) => {
+    if (!requireAuth(req, res)) return;
+
     try {
       const submission = await CodeExecution.findById(req.params.submissionId).lean();
-      return sendJson(res, submission ? 200 : 404, submission || { error: 'Submission not found' });
+      if (!submission) {
+        return sendJson(res, 404, { error: 'Submission not found' });
+      }
+
+      if (submission.userId && !requireSelfOrFacultyOrAdmin(req, res, submission.userId)) {
+        return;
+      }
+
+      const sanitized = {
+        _id: submission._id,
+        userId: submission.userId,
+        problemId: submission.problemId,
+        problemNumber: submission.problemNumber,
+        language: submission.language,
+        status: submission.status,
+        verdict: submission.verdict,
+        output: submission.output,
+        compileOutput: submission.compileOutput,
+        executionTime: submission.executionTime,
+        memory: submission.memory,
+        createdAt: submission.createdAt,
+        judgedAt: submission.judgedAt
+      };
+
+      return sendJson(res, 200, sanitized);
     } catch (e) {
       return sendJson(res, 500, { error: 'Failed to fetch submission' });
     }

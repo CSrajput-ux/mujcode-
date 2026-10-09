@@ -1,9 +1,9 @@
 # ==============================================================================
-# Self-Hosted Judge0 CE (v1.13.1) Orchestration
+# Self-Hosted Judge0 CE (v1.13.1) Orchestration — Production Hardened
 # ==============================================================================
 # Official repository: https://github.com/judge0/judge0
-# Note: In production, requires Linux cgroup v1 compatibility:
-# systemd.unified_cgroup_hierarchy=0 in /etc/default/grub
+# Prerequisites on Ubuntu Linux host:
+#   systemd.unified_cgroup_hierarchy=0 in /etc/default/grub (for isolate cgroups v1)
 # ==============================================================================
 
 version: '3.8'
@@ -20,10 +20,31 @@ services:
       - "127.0.0.1:2358:2358"
     privileged: true
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - mujcode-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:2358/system_info"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1024M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # ── Judge0 Workers (Code Execution Sandbox) ───────────────────────────────
   workers:
@@ -31,15 +52,29 @@ services:
     restart: unless-stopped
     deploy:
       replicas: 3
+      resources:
+        limits:
+          cpus: "4.0"
+          memory: 2048M
+        reservations:
+          cpus: "1.0"
+          memory: 512M
     command: ["./scripts/workers"]
     volumes:
       - ./judge0.conf:/judge0.conf:ro
     privileged: true
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - mujcode-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # ── Judge0 PostgreSQL Database ────────────────────────────────────────────
   db:
@@ -51,6 +86,22 @@ services:
       - judge0_db_data:/var/lib/postgresql/data
     networks:
       - mujcode-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
 
   # ── Judge0 Redis (Submission Queue) ───────────────────────────────────────
   redis:
@@ -63,6 +114,22 @@ services:
       - judge0_redis_data:/data
     networks:
       - mujcode-net
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a \"$$REDIS_PASSWORD\" ping || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
 
 volumes:
   judge0_db_data:
@@ -74,3 +141,4 @@ networks:
   mujcode-net:
     name: mujcode-network
     external: true
+

@@ -195,12 +195,24 @@ export class CodeExecutionService {
   }
 
   /**
-   * Enqueue background job (tracked in Redis or memory store)
+   * Enqueue background job (tracked in Redis or memory store) with caller ownership
    */
-  static async enqueueJob(jobId, task) {
+  static async enqueueJob(jobId, userIdOrTask, maybeTask) {
+    let userId = null;
+    let task = null;
+
+    if (typeof userIdOrTask === 'function') {
+      task = userIdOrTask;
+      userId = null;
+    } else {
+      userId = userIdOrTask;
+      task = maybeTask;
+    }
+
     const jobKey = `job:${jobId}`;
     const initialJob = {
       jobId,
+      userId: userId ? String(userId) : null,
       status: 'queued',
       queuedAt: Date.now(),
       startedAt: null,
