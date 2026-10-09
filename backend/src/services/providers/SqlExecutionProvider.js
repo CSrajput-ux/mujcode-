@@ -99,9 +99,10 @@ export class SqlExecutionProvider extends BaseExecutionProvider {
       // 1. Fresh ephemeral in-memory SQLite instance
       db = new DatabaseSync(':memory:');
 
-      // Set safety pragmas
+      // Set safety pragmas and strict memory ceiling (prevents OOM on free tier)
       db.exec('PRAGMA foreign_keys = ON;');
       db.exec('PRAGMA query_only = OFF;');
+      db.exec('PRAGMA max_page_count = 5000;'); // ~20 MB max memory ceiling
 
       // 2. Load schema / seed if provided
       if (schemaSql) db.exec(schemaSql);
@@ -127,6 +128,7 @@ export class SqlExecutionProvider extends BaseExecutionProvider {
       let lastResultRows = [];
       let lastColumns = [];
       let totalChanges = 0;
+      const MAX_EXEC_TIME_MS = 2000; // 2 seconds hard execution limit
 
       for (const stmtText of statements) {
         SqlExecutionProvider.validateSqlSafety(stmtText);
@@ -135,9 +137,24 @@ export class SqlExecutionProvider extends BaseExecutionProvider {
 
         if (isSelect) {
           const stmt = db.prepare(stmtText);
-          const allRows = stmt.all();
-          lastResultRows = allRows.slice(0, safeLimit);
-          lastColumns = allRows.length > 0 ? Object.keys(allRows[0]) : [];
+          const rows = [];
+          const iterStart = Date.now();
+
+          // Stream rows iteratively — breaks early to prevent infinite loops (e.g. infinite recursive CTEs)
+          for (const row of stmt.iterate()) {
+            rows.push(row);
+            if (rows.length >= safeLimit) {
+              break;
+            }
+            if (Date.now() - iterStart > MAX_EXEC_TIME_MS) {
+              const err = new Error('Query execution time limit exceeded (2.0s limit)');
+              err.code = 'TIME_LIMIT_EXCEEDED';
+              throw err;
+            }
+          }
+
+          lastResultRows = rows;
+          lastColumns = rows.length > 0 ? Object.keys(rows[0]) : [];
         } else {
           // DDL / DML execution
           const stmt = db.prepare(stmtText);
@@ -169,12 +186,14 @@ export class SqlExecutionProvider extends BaseExecutionProvider {
     } catch (err) {
       const endTime = process.hrtime.bigint();
       const elapsedSeconds = Number(endTime - startTime) / 1e9;
+      const isTimeLimit = err.code === 'TIME_LIMIT_EXCEEDED' || err.message?.includes('time limit exceeded');
+      const isOom = err.message?.includes('database or disk is full');
       const isSyntax = err.code === 'ERR_SQLITE_ERROR' || err.message?.includes('syntax error');
 
       return {
         success: false,
-        status: isSyntax ? 'COMPILATION_ERROR' : 'RUNTIME_ERROR',
-        verdict: isSyntax ? 'Syntax Error' : 'Runtime Error',
+        status: isTimeLimit ? 'TIME_LIMIT_EXCEEDED' : isOom ? 'MEMORY_LIMIT_EXCEEDED' : isSyntax ? 'COMPILATION_ERROR' : 'RUNTIME_ERROR',
+        verdict: isTimeLimit ? 'Time Limit Exceeded' : isOom ? 'Memory Limit Exceeded' : isSyntax ? 'Syntax Error' : 'Runtime Error',
         stdout: '',
         stderr: err.message || 'SQL Execution Error',
         compileOutput: isSyntax ? err.message : '',

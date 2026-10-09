@@ -22,10 +22,13 @@ npm-debug.log*
 dist
 coverage
 
-# Data files (mounted as volumes in production)
-src/data/
-uploads/
+# Data & Temp files (keep base JSON if present, ignore temp snapshots and uploads)
+src/data/*.tmp.*
+src/data/*.mjs
+uploads/*
+!uploads/.gitkeep
 
-# Docs
+# Docs & Tests
+test/
 *.md
 README*

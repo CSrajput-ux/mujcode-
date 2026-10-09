@@ -1,4 +1,5 @@
-process.env.UV_THREADPOOL_SIZE = process.env.UV_THREADPOOL_SIZE || '32';
+// Right-sized threadpool (8 is ideal for free 512MB RAM containers to minimize thread stack allocations)
+process.env.UV_THREADPOOL_SIZE = process.env.UV_THREADPOOL_SIZE || '8';
 
 import cluster from 'node:cluster';
 import os from 'node:os';
@@ -7,14 +8,19 @@ import { fileURLToPath } from 'node:url';
 import { config } from './config.js';
 import { logger } from './lib/logger.js';
 
-// ─── Cluster Mode: Spawn one worker per CPU core ──────────────────────────────
-// This is the single biggest performance lever — multiplies throughput by numCPUs.
-// Each worker handles connections independently (no shared memory bottleneck).
+// ─── Free-Tier & Cluster Sizing ───────────────────────────────────────────────
+// Detect low-memory environments (Render Free, Fly.io Free, Railway = 512MB/1GB).
+// On low memory, strictly default to 1 worker to prevent Linux OOM-killer (exit code 137).
+const totalMemMb = Math.round(os.totalmem() / 1024 / 1024);
+const isLowMemory = totalMemMb <= 1024;
+
 const NUM_WORKERS = process.env.WEB_CONCURRENCY
   ? Math.max(1, parseInt(process.env.WEB_CONCURRENCY, 10))
   : process.env.WORKERS
     ? Math.max(1, parseInt(process.env.WORKERS, 10))
-    : Math.max(1, Math.min(os.cpus().length, 4));
+    : isLowMemory
+      ? 1
+      : Math.max(1, Math.min(os.cpus().length, 4));
 
 if (cluster.isPrimary) {
   cluster.setupPrimary({

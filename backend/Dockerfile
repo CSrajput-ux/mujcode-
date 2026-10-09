@@ -42,14 +42,14 @@ RUN mkdir -p uploads src/data \
 
 USER appuser
 
-EXPOSE 5000
+EXPOSE 5000 10000
 
 ENV NODE_ENV=production
-# Node.js V8 heap tuning and suppress experimental SQLite warning
-ENV NODE_OPTIONS="--max-old-space-size=512 --max-semi-space-size=64 --no-warnings=ExperimentalWarning"
+# Node.js V8 heap tuning for 512MB free tiers (384MB heap + 128MB OS/native reserve) and warning suppression
+ENV NODE_OPTIONS="--max-old-space-size=384 --max-semi-space-size=64 --no-warnings=ExperimentalWarning"
 
 HEALTHCHECK --interval=20s --timeout=5s --start-period=25s --retries=3 \
-  CMD wget -qO- http://127.0.0.1:5000/ || exit 1
+  CMD sh -c "wget -qO- http://127.0.0.1:\${PORT:-5000}/ || exit 1"
 
 # dumb-init: proper PID 1 — forwards signals correctly to Node.js cluster
 # Without this, SIGTERM from Docker won't reach Node worker processes

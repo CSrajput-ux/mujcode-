@@ -130,7 +130,7 @@ export class Judge0ExecutionProvider extends BaseExecutionProvider {
   /**
    * Poll submission until completion or timeout
    */
-  static async pollSubmission(token, maxAttempts = 120, intervalMs = 500) {
+  static async pollSubmission(token, maxAttempts = 40, intervalMs = 500) {
     let attempts = 0;
     while (attempts < maxAttempts) {
       attempts++;
@@ -139,7 +139,9 @@ export class Judge0ExecutionProvider extends BaseExecutionProvider {
       if (result.statusId !== 1 && result.statusId !== 2) return result;
       await new Promise(resolve => setTimeout(resolve, intervalMs));
     }
-    throw new Error(`Submission ${token} timed out after ${maxAttempts} poll attempts.`);
+    const timeoutErr = new Error(`Submission ${token} timed out waiting for sandbox execution.`);
+    timeoutErr.code = 'TIME_LIMIT_EXCEEDED';
+    throw timeoutErr;
   }
 
   /**
@@ -165,23 +167,42 @@ export class Judge0ExecutionProvider extends BaseExecutionProvider {
       memoryLimit
     });
 
-    const submission = await Judge0ExecutionProvider.pollSubmission(token);
-    const { status, verdict } = Judge0ExecutionProvider.normalizeStatus(submission.statusId, submission.statusDescription);
+    try {
+      const submission = await Judge0ExecutionProvider.pollSubmission(token);
+      const { status, verdict } = Judge0ExecutionProvider.normalizeStatus(submission.statusId, submission.statusDescription);
 
-    judge0SubmissionsTotal.inc({ language: String(language).toLowerCase(), status });
+      judge0SubmissionsTotal.inc({ language: String(language).toLowerCase(), status });
 
-    return {
-      success: submission.statusId === 3,
-      status,
-      verdict,
-      token,
-      stdout: submission.stdout || '',
-      stderr: submission.stderr || '',
-      compileOutput: submission.compileOutput || '',
-      time: submission.time,
-      memory: submission.memory,
-      message: submission.message
-    };
+      return {
+        success: submission.statusId === 3,
+        status,
+        verdict,
+        token,
+        stdout: submission.stdout || '',
+        stderr: submission.stderr || '',
+        compileOutput: submission.compileOutput || '',
+        time: submission.time,
+        memory: submission.memory,
+        message: submission.message
+      };
+    } catch (pollErr) {
+      if (pollErr.code === 'TIME_LIMIT_EXCEEDED' || pollErr.message?.includes('timed out')) {
+        judge0SubmissionsTotal.inc({ language: String(language).toLowerCase(), status: 'TIME_LIMIT_EXCEEDED' });
+        return {
+          success: false,
+          status: 'TIME_LIMIT_EXCEEDED',
+          verdict: 'Time Limit Exceeded',
+          token,
+          stdout: '',
+          stderr: 'Time Limit Exceeded: Code execution exceeded the maximum allowed run time.',
+          compileOutput: '',
+          time: Number(timeLimit || config.judge0WallTimeLimit),
+          memory: 0,
+          message: 'Time Limit Exceeded'
+        };
+      }
+      throw pollErr;
+    }
   }
 
   /**
