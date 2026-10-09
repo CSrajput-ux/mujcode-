@@ -60,6 +60,8 @@ jobs:
         run: cd frontend && npm ci
 
       - name: Frontend Type Check & Build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL || 'https://mujcode-1.onrender.com' }}
         run: cd frontend && npm run build
 
   deploy-render:

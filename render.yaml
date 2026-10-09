@@ -16,7 +16,7 @@ services:
   - type: web
     name: mujcode-api
     runtime: node
-    region: oregon            # Change to: singapore | frankfurt | ohio as needed
+    region: singapore         # Best for India/South Asia users
     plan: free                # Upgrade to 'starter' for always-on (no spin-down)
     rootDir: backend
     buildCommand: npm ci --omit=optional
