@@ -45,8 +45,8 @@ USER appuser
 EXPOSE 5000
 
 ENV NODE_ENV=production
-# Node.js V8 heap tuning for container environment
-ENV NODE_OPTIONS="--max-old-space-size=512 --max-semi-space-size=64"
+# Node.js V8 heap tuning and suppress experimental SQLite warning
+ENV NODE_OPTIONS="--max-old-space-size=512 --max-semi-space-size=64 --no-warnings=ExperimentalWarning"
 
 HEALTHCHECK --interval=20s --timeout=5s --start-period=25s --retries=3 \
   CMD wget -qO- http://127.0.0.1:5000/ || exit 1

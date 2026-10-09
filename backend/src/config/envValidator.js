@@ -71,8 +71,8 @@ export function validateEnvironment(rawEnv = process.env) {
       `  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"\n` +
       `══════════════════════════════════════════════════════════════════════\n`;
 
+    process.stderr.write(errorMessage);
     logger.error(errorMessage);
-    console.error(errorMessage);
 
     if (rawEnv.NODE_ENV !== 'test') {
       process.exit(1);
@@ -84,9 +84,9 @@ export function validateEnvironment(rawEnv = process.env) {
 
   // Additional security rule: In production, reject wildcard CORS with credentials
   if (validated.NODE_ENV === 'production' && validated.CORS_ORIGIN === '*') {
-    const errorMsg = 'FATAL SECURITY ERROR: CORS_ORIGIN cannot be "*" in production when credentials are enabled.';
+    const errorMsg = 'FATAL SECURITY ERROR: CORS_ORIGIN cannot be "*" in production when credentials are enabled.\n';
+    process.stderr.write(errorMsg);
     logger.error(errorMsg);
-    console.error(errorMsg);
     if (rawEnv.NODE_ENV !== 'test') {
       process.exit(1);
     }

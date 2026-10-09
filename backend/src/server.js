@@ -4,6 +4,7 @@ import cluster from 'node:cluster';
 import os from 'node:os';
 import { createServer } from 'node:http';
 import { fileURLToPath } from 'node:url';
+import { config } from './config.js';
 import { logger } from './lib/logger.js';
 
 // ─── Cluster Mode: Spawn one worker per CPU core ──────────────────────────────
@@ -20,15 +21,35 @@ if (cluster.isPrimary) {
     exec: fileURLToPath(import.meta.url)
   });
 
-  logger.info(`[Cluster] Primary PID ${process.pid} starting ${NUM_WORKERS} workers...`);
+  logger.info(`[Cluster] Primary PID ${process.pid} starting ${NUM_WORKERS} workers on port ${config.port}...`);
 
   for (let i = 0; i < NUM_WORKERS; i++) {
     cluster.fork();
   }
 
+  let consecutiveCrashes = 0;
+  let lastCrashTime = 0;
+
   cluster.on('exit', (worker, code, signal) => {
-    logger.warn(`[Cluster] Worker ${worker.process.pid} died (${signal || code}). Restarting...`);
-    cluster.fork(); // Auto-restart crashed workers
+    const now = Date.now();
+    if (now - lastCrashTime < 5000) {
+      consecutiveCrashes++;
+    } else {
+      consecutiveCrashes = 1;
+    }
+    lastCrashTime = now;
+
+    logger.warn(`[Cluster] Worker ${worker.process.pid} died (${signal || code}).`);
+
+    if (consecutiveCrashes >= 5) {
+      logger.error(`[Cluster] Critical: Workers crashing rapidly (${consecutiveCrashes} consecutive crashes). Aborting primary.`);
+      process.exit(1);
+    }
+
+    setTimeout(() => {
+      logger.info('[Cluster] Restarting crashed worker...');
+      cluster.fork();
+    }, 1000);
   });
 
   cluster.on('online', (worker) => {
