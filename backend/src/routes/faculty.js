@@ -3,6 +3,7 @@ import { nextId } from '../lib/ids.js';
 import { currentUser } from './helpers.js';
 import { requireAuth, requireFaculty } from '../lib/requireAuth.js';
 import { findFacultyById } from '../lib/fastStore.js';
+import { CodeExecutionService } from '../services/CodeExecutionService.js';
 
 export function registerFacultyRoutes(router) {
   // Returns sections & subjects for the logged-in faculty
@@ -226,14 +227,53 @@ export function registerFacultyRoutes(router) {
     return sendJson(res, 201, question);
   });
 
-  router.post('/api/faculty/questions/run', (req, res, ctx) => {
+  router.post('/api/faculty/questions/run', async (req, res, ctx) => {
     if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
+    const { code, language = 'python', testCases = [] } = req.body;
+
+    let executionResult;
+    try {
+      if (testCases && testCases.length > 0) {
+        const testRes = await CodeExecutionService.executeTestCases({
+          language,
+          sourceCode: code,
+          testCases,
+          isSubmit: false
+        });
+        const failedCase = testRes.results?.find(r => !r.passed);
+        executionResult = {
+          verdict: testRes.passed ? 'Accepted' : (failedCase?.error || 'Wrong Answer'),
+          output: testRes.compilationError || (testRes.passed ? 'All sample test cases passed.' : failedCase?.actualOutput || 'Test case failed.'),
+          results: testRes.results,
+          passed: testRes.passed
+        };
+      } else {
+        const runRes = await CodeExecutionService.runCode({
+          language,
+          sourceCode: code,
+          stdin: req.body.stdin || ''
+        });
+        executionResult = {
+          verdict: runRes.verdict,
+          output: runRes.stdout || runRes.stderr || runRes.compileOutput || (runRes.success ? 'Program executed successfully.' : 'Execution failed.'),
+          passed: runRes.success
+        };
+      }
+    } catch (err) {
+      executionResult = {
+        verdict: 'Execution Error',
+        output: err.message || 'Execution error',
+        passed: false
+      };
+    }
+
     const submission = {
       _id: nextId('facq_sub'),
-      verdict: 'Accepted',
-      output: 'All faculty sample cases passed.',
-      language: req.body.language,
+      verdict: executionResult.verdict,
+      output: executionResult.output,
+      results: executionResult.results,
+      language,
       createdAt: new Date().toISOString()
     };
     db.facultyQuestionSubmissions.unshift(submission);

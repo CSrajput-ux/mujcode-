@@ -8,6 +8,8 @@
     "start": "node --import tsx/esm src/server.js",
     "dev": "tsx watch src/server.js",
     "check": "node --check src/server.js",
+    "test": "node --test test/*.test.mjs",
+    "test:compiler": "node --test test/compiler.test.mjs",
     "test:security": "node --test test/security_audit.test.mjs",
     "db:migrate": "node src/scripts/migrateToPostgres.js"
   },

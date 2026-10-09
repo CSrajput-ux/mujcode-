@@ -135,10 +135,14 @@ nano .env   # fill in your secrets
 docker compose up -d
 ```
 
-### With Judge0 (Code Execution)
+### With Judge0 (Self-Hosted Code Execution)
+See comprehensive guide: [docs/JUDGE0_DEPLOYMENT.md](file:///c:/Users/jkgga/Music/muj%20code%201/docs/JUDGE0_DEPLOYMENT.md)
 ```bash
+# 1. Prepare configuration
 cp judge0/judge0.conf.example judge0/judge0.conf
-# edit judge0/judge0.conf — change POSTGRES_PASSWORD and REDIS_PASSWORD
+# 2. Start Judge0 CE stack (server bound strictly to 127.0.0.1:2358)
+cd judge0 && docker compose up -d && cd ..
+# Or with root profile:
 docker compose --profile judge0 up -d
 ```
 

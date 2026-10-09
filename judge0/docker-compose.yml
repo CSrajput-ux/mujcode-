@@ -17,7 +17,7 @@ services:
     volumes:
       - ./judge0.conf:/judge0.conf:ro
     ports:
-      - "2358:2358"
+      - "127.0.0.1:2358:2358"
     privileged: true
     depends_on:
       - db
@@ -30,7 +30,7 @@ services:
     image: judge0/judge0:1.13.1
     restart: unless-stopped
     deploy:
-      replicas: 10
+      replicas: 3
     command: ["./scripts/workers"]
     volumes:
       - ./judge0.conf:/judge0.conf:ro
@@ -54,10 +54,10 @@ services:
 
   # ── Judge0 Redis (Submission Queue) ───────────────────────────────────────
   redis:
-    image: redis:7-alpine
+    image: redis:7
     container_name: judge0_redis
     restart: unless-stopped
-    command: ["sh", "-c", "docker-entrypoint.sh --appendonly yes --requirepass \"$$REDIS_PASSWORD\""]
+    command: ["sh", "-c", "redis-server --appendonly yes --requirepass \"$$REDIS_PASSWORD\""]
     env_file: judge0.conf
     volumes:
       - judge0_redis_data:/data

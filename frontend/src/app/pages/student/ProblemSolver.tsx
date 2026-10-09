@@ -39,13 +39,15 @@ export default function ProblemSolver() {
     const [feedback, setFeedback] = useState('');
     const [improvement, setImprovement] = useState('');
     const [notes, setNotes] = useState('');
+    const [execMetrics, setExecMetrics] = useState<{ time?: string; memory?: string }>({});
 
     const languages = [
         { id: 'c', name: 'C', template: '#include <stdio.h>\n\nint main() {\n    // Your code here\n    return 0;\n}' },
         { id: 'cpp', name: 'C++', template: '#include <iostream>\nusing namespace std;\n\nint main() {\n    // Your code here\n    return 0;\n}' },
-        { id: 'python', name: 'Python', template: '# Your code here\n' },
         { id: 'java', name: 'Java', template: 'public class Main {\n    public static void main(String[] args) {\n        // Your code here\n    }\n}' },
+        { id: 'python', name: 'Python', template: '# Your code here\n' },
         { id: 'javascript', name: 'JavaScript', template: '// Your code here\n' },
+        { id: 'go', name: 'Go', template: 'package main\n\nimport "fmt"\n\nfunc main() {\n    // Your code here\n    fmt.Println("Hello, World!")\n}' },
         { id: 'sql', name: 'SQL', template: '-- Write your SQL query here\nSELECT * FROM table_name;\n' }
     ];
 
@@ -181,6 +183,14 @@ export default function ProblemSolver() {
                     const result = data.result || {};
                     setVerdict(result.verdict || 'Successful');
                     setOutput(result.output || 'No output');
+                    if (result.executionTime || result.memory) {
+                        setExecMetrics({
+                            time: result.executionTime,
+                            memory: result.memory
+                        });
+                    } else {
+                        setExecMetrics({});
+                    }
                     setRunning(false);
 
                     if (mode === 'submit') {
@@ -624,9 +634,25 @@ export default function ProblemSolver() {
                                     <div className="space-y-3">
                                         {verdict ? (
                                             <div>
-                                                <div className="flex items-center space-x-2 mb-3">
-                                                    {getVerdictIcon()}
-                                                    <span className="font-semibold text-white text-lg">{verdict}</span>
+                                                <div className="flex items-center justify-between mb-3">
+                                                    <div className="flex items-center space-x-2">
+                                                        {getVerdictIcon()}
+                                                        <span className="font-semibold text-white text-lg">{verdict}</span>
+                                                    </div>
+                                                    {(execMetrics.time || execMetrics.memory) && (
+                                                        <div className="flex items-center space-x-3 text-xs text-gray-300">
+                                                            {execMetrics.time && (
+                                                                <span className="bg-gray-700 px-2.5 py-1 rounded font-mono">
+                                                                    ⏱️ Time: {execMetrics.time}
+                                                                </span>
+                                                            )}
+                                                            {execMetrics.memory && (
+                                                                <span className="bg-gray-700 px-2.5 py-1 rounded font-mono">
+                                                                    💾 Memory: {execMetrics.memory}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    )}
                                                 </div>
                                                 <div className="bg-gray-900 p-3 rounded">
                                                     <div className="text-gray-400 text-xs mb-2">Output:</div>

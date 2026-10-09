@@ -223,3 +223,123 @@ docker compose -f docker-compose.yml down
 # Revert configuration or image version, then:
 docker compose -f docker-compose.yml up -d
 ```
+
+---
+
+## 9. Local Windows Development Setup (PowerShell)
+
+To run the full stack locally with self-hosted Judge0 on Windows 10/11 with Docker Desktop:
+
+### Prerequisites:
+- Docker Desktop installed and running with WSL2 backend.
+- Node.js 20+ installed.
+
+### Step-by-Step Launch:
+```powershell
+# 1. Open PowerShell and navigate to project root
+cd "C:\Users\jkgga\Music\muj code 1"
+
+# 2. Start Judge0 CE stack
+cd judge0
+docker compose up -d
+
+# Verify containers are running
+docker compose ps
+# Expected: judge0_server, judge0_db, judge0_redis, judge0-workers-1, judge0-workers-2, judge0-workers-3
+
+# 3. Verify Judge0 health from Windows terminal
+curl.exe http://127.0.0.1:2358/system_info
+
+# 4. Start the backend service
+cd ..\backend
+npm install
+npm run dev
+
+# 5. Start the frontend application
+cd ..\frontend
+npm install
+npm run dev
+```
+
+---
+
+## 10. Windows WSL2 vs. Ubuntu Linux (cgroups v1 vs. cgroups v2)
+
+### The Technical Context:
+Judge0 uses [isolate](https://github.com/ioi/isolate) as its underlying sandboxing engine. `isolate` was built to enforce memory and resource quotas via the Linux **cgroup v1** memory controller (`/sys/fs/cgroup/memory/isolate/...`).
+
+- **On Docker Desktop for Windows (WSL2)**:
+  Docker Desktop uses a unified cgroup v2 Linux kernel. In cgroup v2, the legacy `/sys/fs/cgroup/memory` directory is absent. Without custom configuration, `isolate` crashes attempting to access missing cgroup paths.
+  To resolve this locally, `judge0/judge0.conf` sets:
+  ```ini
+  ENABLE_PER_PROCESS_AND_THREAD_TIME_LIMIT=true
+  ENABLE_PER_PROCESS_AND_THREAD_MEMORY_LIMIT=true
+  ```
+  This instructs Judge0's `isolate_job.rb` to run without `--cg`, falling back to standard Linux `setrlimit(RLIMIT_AS)` and `setrlimit(RLIMIT_NPROC)`.
+  - **What works on Windows WSL2**: Python, C, C++, and SQL run natively with `ACCEPTED` verdicts and precise timing/memory metrics.
+  - **Language runtimes with heavy initial virtual memory allocation**: Node.js/V8 (which allocates a 4GB virtual pointer cage), OpenJDK (which reserves mark stack address space), and Go (which spawns OS-level worker pthreads) encounter `RLIMIT_AS` / `pthread_create` restrictions under WSL2's RLIMIT fallback.
+
+- **On Ubuntu Cloud VPS (Production)**:
+  By adding `systemd.unified_cgroup_hierarchy=0` to `/etc/default/grub`, Ubuntu boots with pure cgroups v1. `isolate` uses true cgroup memory limits rather than address space (`RLIMIT_AS`), allowing Node.js, Java, Go, Python, C, C++, and SQL to all run with full concurrency, strict sandboxing, and zero address-space constraints.
+
+---
+
+## 11. Multi-Language Execution Architecture
+
+MujCode implements a dual-engine execution provider pattern:
+
+```
+[ Frontend: ProblemSolver / CodingRunner ]
+                    │
+                    ▼
+[ Backend Express: /api/compiler/* & /api/judge/* ]
+                    │
+         ExecutionProviderFactory
+         ┌──────────┴──────────┐
+         ▼                     ▼
+Judge0ExecutionProvider     SqlExecutionProvider
+ (C, C++, Java, Python,    (Isolated in-memory
+  JavaScript, Go)           node:sqlite engine)
+         │                     │
+         ▼                     ▼
+ Judge0 CE (127.0.0.1:2358)  Ephemeral Memory DB
+```
+
+### 1. Judge0ExecutionProvider:
+- **C** (Language ID `50`, GCC 9.2.0)
+- **C++** (Language ID `54`, GCC 9.2.0)
+- **Java** (Language ID `62`, OpenJDK 13.0.1)
+- **Python** (Language ID `71`, Python 3.8.1)
+- **JavaScript** (Language ID `63`, Node.js 12.14.0)
+- **Go** (Language ID `60`, Go 1.13.5)
+
+### 2. SqlExecutionProvider:
+- Uses Node.js native `node:sqlite` in-memory database (`:memory:`).
+- Ephemeral lifecycle: Each query runs in a fresh, isolated SQLite instance created and destroyed per request.
+- Security enforcement:
+  - Blocks dangerous SQLite pragmas (`ATTACH`, `PRAGMA writable_schema`, `load_extension`).
+  - Limits execution time (default 2s) and maximum output rows (default 100 rows).
+  - Formats output as structured ASCII tables with headers and column borders.
+
+---
+
+## 12. Production Smoke Tests
+
+Run these commands on your VPS to verify the deployment:
+
+```bash
+# Test Judge0 API
+curl -s http://127.0.0.1:2358/system_info | jq .
+
+# Test Backend Compiler Health
+curl -s http://127.0.0.1:5000/api/compiler/health | jq .
+
+# Test Supported Languages Endpoint
+curl -s http://127.0.0.1:5000/api/compiler/languages | jq .
+
+# Run Backend Automated Test Suite
+cd /opt/mujcode/backend
+npm run test:compiler
+npm run test:security
+```
+

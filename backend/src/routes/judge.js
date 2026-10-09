@@ -16,7 +16,7 @@ export function registerJudgeRoutes(router) {
    * ──────────────────────
    * Asynchronous submission endpoint (used by ProblemSolver).
    */
-  router.post('/api/judge/submit', async (req, res, ctx) => {
+  const handleSubmission = async (req, res, ctx) => {
     if (!requireAuth(req, res)) return;
     if (await codeRateLimiter(req, res)) return;
 
@@ -29,9 +29,10 @@ export function registerJudgeRoutes(router) {
       return sendJson(res, 400, { error: 'Source code exceeds maximum allowed size (64KB)' });
     }
 
-
-    // Fetch problem test cases if problemId is provided
+    // Fetch problem test cases and schema/seed if problemId is provided
     let testCases = [];
+    let schemaSql = req.body.schemaSql || '';
+    let seedSql = req.body.seedSql || '';
     if (req.body.problemId) {
       const problem =
         (db.problems || []).find(item => String(item._id) === String(req.body.problemId) || String(item.id) === String(req.body.problemId) || String(item.number) === String(req.body.problemId)) ||
@@ -39,6 +40,8 @@ export function registerJudgeRoutes(router) {
       if (problem?.testCases && Array.isArray(problem.testCases)) {
         testCases = problem.testCases;
       }
+      if (problem?.schemaSql) schemaSql = problem.schemaSql;
+      if (problem?.seedSql) seedSql = problem.seedSql;
     }
     const language = req.body.language || 'python';
     const mode = req.body.mode || 'submit';
@@ -53,7 +56,7 @@ export function registerJudgeRoutes(router) {
       language,
       status: 'PENDING',
       verdict: 'Pending',
-      output: 'Your submission is queued and being judged by Judge0...',
+      output: 'Your submission is queued and being processed...',
       createdAt: new Date()
     };
 
@@ -76,7 +79,9 @@ export function registerJudgeRoutes(router) {
           const singleRes = await CodeExecutionService.runCode({
             language,
             sourceCode: code,
-            stdin: req.body.stdin || ''
+            stdin: req.body.stdin || '',
+            schemaSql,
+            seedSql
           });
 
           executionResult = {
@@ -86,7 +91,9 @@ export function registerJudgeRoutes(router) {
             compileOutput: singleRes.compileOutput,
             executionTime: singleRes.time ? `${Math.round(singleRes.time * 1000)}ms` : undefined,
             memory: singleRes.memory ? `${singleRes.memory} KB` : undefined,
-            token: singleRes.token
+            token: singleRes.token,
+            columns: singleRes.columns,
+            rows: singleRes.rows
           };
         } else {
           // Multiple test cases execution
@@ -94,6 +101,8 @@ export function registerJudgeRoutes(router) {
             language,
             sourceCode: code,
             testCases,
+            schemaSql,
+            seedSql,
             isSubmit: mode === 'submit'
           });
 
@@ -156,17 +165,20 @@ export function registerJudgeRoutes(router) {
       submissionId,
       jobId,
       status: 'queued',
-      message: 'Your code is queued. Poll /api/judge/job-status/:jobId for live result.'
+      message: 'Your code is queued. Poll /api/compiler/job-status/:jobId or /api/judge/job-status/:jobId for live result.'
     });
-  });
+  };
 
   /**
-   * GET /api/judge/job-status/:jobId
-   * ─────────────────────────────────
-   * Live status of an async job from in-memory tracker.
-   * Returns: queued | running | done | error
+   * POST /api/judge/submit & POST /api/compiler/submissions
    */
-  router.get('/api/judge/job-status/:jobId', async (req, res) => {
+  router.post('/api/judge/submit', handleSubmission);
+  router.post('/api/compiler/submissions', handleSubmission);
+
+  /**
+   * GET /api/judge/job-status/:jobId & GET /api/compiler/job-status/:jobId
+   */
+  const handleJobStatus = async (req, res) => {
     const job = await CodeExecutionService.getJob(req.params.jobId);
     if (!job) {
       return sendJson(res, 404, { error: 'Job not found or has expired.' });
@@ -190,21 +202,25 @@ export function registerJudgeRoutes(router) {
     }
 
     return sendJson(res, 200, resp);
-  });
+  };
+
+  router.get('/api/judge/job-status/:jobId', handleJobStatus);
+  router.get('/api/compiler/job-status/:jobId', handleJobStatus);
 
   /**
-   * GET /api/judge/status/:submissionId
-   * ─────────────────────────────────────
-   * Fetch stored submission by submissionId from database.
+   * GET /api/judge/status/:submissionId & GET /api/compiler/submissions/:submissionId
    */
-  router.get('/api/judge/status/:submissionId', async (req, res) => {
+  const handleSubmissionStatus = async (req, res) => {
     try {
       const submission = await CodeExecution.findById(req.params.submissionId).lean();
       return sendJson(res, submission ? 200 : 404, submission || { error: 'Submission not found' });
     } catch (e) {
       return sendJson(res, 500, { error: 'Failed to fetch submission' });
     }
-  });
+  };
+
+  router.get('/api/judge/status/:submissionId', handleSubmissionStatus);
+  router.get('/api/compiler/submissions/:submissionId', handleSubmissionStatus);
 
   /**
    * GET /api/judge/submissions/:userId/:problemNumber
@@ -438,30 +454,77 @@ export function registerJudgeRoutes(router) {
   });
 
   /**
-   * GET /api/judge/languages
-   * ───────────────────────
-   * Returns the list of languages supported by the connected Judge0 instance.
-   * Fetches live from Judge0 CE at runtime — most accurate, no hardcoded IDs.
+   * POST /api/compiler/sql/execute
+   * ──────────────────────────────
+   * Direct isolated in-memory SQL execution endpoint.
    */
-  router.get('/api/judge/languages', async (req, res) => {
+  router.post('/api/compiler/sql/execute', async (req, res) => {
+    if (!requireAuth(req, res)) return;
+    if (await codeRateLimiter(req, res)) return;
+
+    const { query, schemaSql = '', seedSql = '', rowLimit = 100, timeLimit = 2 } = req.body;
+
+    if (!query || !String(query).trim()) {
+      return sendJson(res, 400, { error: 'SQL query cannot be empty' });
+    }
+    if (String(query).length > MAX_CODE_BYTES) {
+      return sendJson(res, 400, { error: 'SQL query exceeds maximum allowed size (64KB)' });
+    }
+
     try {
-      const languages = await CodeExecutionService.getSupportedLanguages();
-      return sendJson(res, 200, { success: true, languages });
+      const result = await CodeExecutionService.executeSql({
+        query,
+        schemaSql,
+        seedSql,
+        rowLimit,
+        timeLimit
+      });
+
+      return sendJson(res, 200, result);
     } catch (err) {
-      logger.warn(`[Judge0] /languages error: ${err.message}`);
-      return sendJson(res, 503, { error: 'Judge0 is unavailable. Code execution is disabled.', detail: err.message });
+      logger.error('[api/compiler/sql/execute] Error:', err);
+      return sendJson(res, 500, {
+        success: false,
+        error: err.message || 'SQL execution failed',
+        status: 'EXECUTION_ERROR'
+      });
     }
   });
 
   /**
-   * GET /api/judge/health
-   * ─────────────────────
-   * Check Judge0 connection status and latency.
+   * GET /api/judge/languages & GET /api/compiler/languages
+   * ───────────────────────────────────────────────────────
+   * Returns supported languages across Judge0 and SQL providers.
    */
-  router.get('/api/judge/health', async (req, res) => {
-    const health = await Judge0Service.checkHealth();
-    return sendJson(res, health.healthy ? 200 : 503, health);
-  });
+  const handleLanguages = async (req, res) => {
+    try {
+      const languages = await CodeExecutionService.getSupportedLanguages();
+      return sendJson(res, 200, { success: true, languages });
+    } catch (err) {
+      logger.warn(`[Compiler] /languages error: ${err.message}`);
+      return sendJson(res, 503, { error: 'Execution engine unavailable', detail: err.message });
+    }
+  };
 
+  router.get('/api/judge/languages', handleLanguages);
+  router.get('/api/compiler/languages', handleLanguages);
+
+  /**
+   * GET /api/judge/health & GET /api/compiler/health
+   * ────────────────────────────────────────────────
+   * Check connection status of Judge0 CE and isolated SQL engine.
+   */
+  const handleHealth = async (req, res) => {
+    const health = await CodeExecutionService.checkHealth();
+    return sendJson(res, health.healthy ? 200 : 503, {
+      service: 'mujcode-compiler-service',
+      healthy: health.healthy,
+      providers: health.providers,
+      timestamp: new Date().toISOString()
+    });
+  };
+
+  router.get('/api/judge/health', handleHealth);
+  router.get('/api/compiler/health', handleHealth);
 }
 
