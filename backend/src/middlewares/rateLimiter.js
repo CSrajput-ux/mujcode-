@@ -37,9 +37,14 @@ export function getClientIp(req) {
     remote.startsWith('172.31.') ||
     remote.startsWith('192.168.');
 
-  if (isPrivateOrLoopback && req.headers['x-forwarded-for']) {
-    const parts = req.headers['x-forwarded-for'].split(',');
-    return parts[0].trim();
+  if (isPrivateOrLoopback) {
+    if (req.headers['x-real-ip']) {
+      return String(req.headers['x-real-ip']).trim();
+    }
+    if (req.headers['x-forwarded-for']) {
+      const parts = req.headers['x-forwarded-for'].split(',');
+      return parts[0].trim();
+    }
   }
   return remote;
 }
@@ -69,7 +74,18 @@ async function checkLimit(key, maxRequests, windowSecs, res, customMessage) {
 
     return false;
   } catch (err) {
-    // Fail open in case of unexpected cache failures
+    // Resilient fallback: attempt direct increment before failing open
+    try {
+      const count = await redis.incr(key);
+      await redis.expire(key, windowSecs, 'NX');
+      if (count > maxRequests) {
+        sendJson(res, 429, {
+          error: 'Too Many Requests',
+          message: customMessage || 'Rate limit exceeded. Please try again later.'
+        });
+        return true;
+      }
+    } catch {}
     return false;
   }
 }

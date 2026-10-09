@@ -26,11 +26,11 @@ export function getPostgresPool() {
     pool = new Pool({
       connectionString: cleanUri,
       ssl: isSsl ? { rejectUnauthorized: false } : undefined,
-      max: 30,                          // Increased from 20 for higher concurrency
-      min: 2,                           // Keep 2 warm connections ready
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 15000,   // 15s to accommodate Neon serverless wake/pooler
-      statement_timeout: 10000,         // Kill queries that run > 10 seconds
+      max: config.postgresPoolMax || 5,                         // Configurable per-worker pool size (default 5)
+      min: config.postgresPoolMin !== undefined ? config.postgresPoolMin : 1, // Keep warm connection ready
+      idleTimeoutMillis: config.postgresIdleTimeoutMs || 30000,
+      connectionTimeoutMillis: config.postgresConnectionTimeoutMs || 10000,
+      statement_timeout: config.postgresStatementTimeoutMs || 10000,
       allowExitOnIdle: true,
     });
 
@@ -369,6 +369,25 @@ export async function getTestSubmissionsPg(testId) {
     return res.rows;
   } catch (err) {
     logger.error('[PostgreSQL] Error fetching test submissions:', err.message);
+    return null;
+  }
+}
+
+/**
+ * Retrieve test submissions for a specific student from authoritative PostgreSQL table
+ */
+export async function getStudentTestSubmissionsPg(studentId) {
+  const p = getPostgresPool();
+  if (!p || !isConnected) return null;
+  try {
+    const res = await p.query(
+      `SELECT id, test_id as "testId", student_id as "studentId", student_name as "studentName", roll_number as "rollNumber", branch, section, score, max_score as "maxScore", status, answers, submitted_at as "submittedAt"
+       FROM test_submissions WHERE student_id = $1 ORDER BY submitted_at DESC`,
+      [studentId]
+    );
+    return res.rows;
+  } catch (err) {
+    logger.error('[PostgreSQL] Error fetching student test submissions:', err.message);
     return null;
   }
 }

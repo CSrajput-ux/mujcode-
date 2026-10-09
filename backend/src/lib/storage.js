@@ -11,6 +11,7 @@ import {
 import {
   isPostgresConnected,
   saveAllToPostgres,
+  saveCollectionToPostgres,
   loadAllFromPostgres
 } from './postgres.js';
 import { logger } from './logger.js';
@@ -26,14 +27,16 @@ let dbCache = null;
 let saveTimeout = null;
 let isDirty = false;
 let isFlushing = false;
+const dirtyCollections = new Set();
 
 // Initialize the storage worker for background file snapshots
 const worker = new Worker(path.join(__dirname, 'storageWorker.js'));
+worker.unref();
 
 worker.on('message', (msg) => {
   if (msg.type === 'SUCCESS') {
     isFlushing = false;
-    if (isDirty) scheduleSave();
+    if (isDirty || dirtyCollections.size > 0) scheduleSave();
   } else if (msg.type === 'ERROR') {
     logger.error('[StorageEngine] Worker flush error:', msg.error);
     isFlushing = false;
@@ -132,39 +135,64 @@ export function onWorkerCacheSync(message) {
   logger.info(`[ClusterSync] Worker ${process.pid} synchronized collection "${message.collection || 'all'}".`);
 }
 
-export function saveDb(db) {
+export function saveDb(db, collection = null) {
   dbCache = db;
   isDirty = true;
+  if (collection) {
+    dirtyCollections.add(collection);
+  } else {
+    dirtyCollections.add('all');
+  }
+
   // Keep O(1) indices updated immediately
-  rebuildFastIndices(db.faculty || [], db.students || []);
-  broadcastCacheSync('all', db);
+  if (!collection || collection === 'faculty' || collection === 'students' || collection === 'all') {
+    rebuildFastIndices(db.faculty || [], db.students || []);
+  }
+
+  broadcastCacheSync(collection || 'all', collection ? db[collection] : db);
   scheduleSave();
   return db;
 }
 
 function scheduleSave() {
   if (saveTimeout || isFlushing) return;
+  const debounceMs = config.saveDebounceMs !== undefined ? config.saveDebounceMs : 100;
   saveTimeout = setTimeout(() => {
     saveTimeout = null;
     flushDbAsync();
-  }, 5000); // 5s debounce — prevents structured clone buffer memory bloat under burst traffic
+  }, debounceMs); // Responsive debounce (100ms default) — prevents multi-worker data loss
 }
 
 async function flushDbAsync() {
-  if (!isDirty || !dbCache || isFlushing) return;
+  if ((dirtyCollections.size === 0 && !isDirty) || !dbCache || isFlushing) return;
 
   isFlushing = true;
+  const toFlush = new Set(dirtyCollections);
+  dirtyCollections.clear();
   isDirty = false;
 
-  // 1. Fire-and-forget PostgreSQL save — completely non-blocking
-  //    Does NOT hold isFlushing lock (PG is independent of disk snapshot)
+  // 1. PostgreSQL save — granular collection persistence or full-state fallback
   if (isPostgresConnected()) {
-    saveAllToPostgres(dbCache).catch((err) => {
+    try {
+      if (toFlush.has('all')) {
+        await saveAllToPostgres(dbCache);
+      } else {
+        for (const col of toFlush) {
+          if (dbCache[col] !== undefined) {
+            await saveCollectionToPostgres(col, dbCache[col]);
+          }
+        }
+      }
+    } catch (err) {
       logger.error('[StorageEngine] Async PostgreSQL flush error:', err.message);
-    });
+      // Re-queue failed collections so they retry on next cycle rather than silently dropping
+      for (const col of toFlush) {
+        dirtyCollections.add(col);
+      }
+    }
   }
 
-  // 2. Disk snapshot via worker thread — tracks completion via isFlushing
+  // 2. Disk snapshot via worker thread
   worker.postMessage({
     type: 'FLUSH',
     payload: {
@@ -178,7 +206,7 @@ async function flushDbAsync() {
 }
 
 export function flushDbSync() {
-  if (!isDirty || !dbCache) return;
+  if (!dbCache || (!isDirty && dirtyCollections.size === 0)) return;
   try {
     ensureFile();
     const dir = path.dirname(config.dbFile);
@@ -199,6 +227,7 @@ export function flushDbSync() {
     }
 
     isDirty = false;
+    dirtyCollections.clear();
   } catch (err) {
     logger.error('[StorageEngine] Error flushing DB to disk:', err.message);
   } finally {

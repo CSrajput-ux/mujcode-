@@ -105,7 +105,7 @@ if (cluster.isPrimary) {
   const server = createServer(app);
 
   // ─── High-Concurrency HTTP Configuration ─────────────────────────────────────
-  server.maxConnections    = 50000;   // Per-worker limit
+  server.maxConnections    = parseInt(process.env.MAX_CONNECTIONS || '4096', 10);   // Right-sized per-worker limit
   server.keepAliveTimeout  = 65000;
   server.headersTimeout    = 66000;
   server.requestTimeout    = 30000;

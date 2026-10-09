@@ -3,7 +3,7 @@ import { nextId } from '../lib/ids.js';
 import { Submission } from '../models/Submission.js';
 import { computeTestStatus, currentStudent, getQuestionsForTest, studentSafeTest } from './helpers.js';
 import { requireAuth, requireAnyRole, requireFaculty, requireSelfOrFacultyOrAdmin } from '../lib/requireAuth.js';
-import { saveTestSubmissionPg, getTestSubmissionsPg, isPostgresConnected } from '../lib/postgres.js';
+import { saveTestSubmissionPg, getTestSubmissionsPg, getStudentTestSubmissionsPg, isPostgresConnected } from '../lib/postgres.js';
 
 function testWithQuestions(db, test, studentId = null) {
   const questions = getQuestionsForTest(db, test._id);
@@ -368,6 +368,15 @@ export function registerTestsRoutes(router) {
 
   router.get('/api/tests/submissions/:studentId', async (req, res, ctx) => {
     if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
+    
+    // Check authoritative PostgreSQL table first
+    if (isPostgresConnected()) {
+      const pgSubs = await getStudentTestSubmissionsPg(req.params.studentId);
+      if (pgSubs && pgSubs.length > 0) {
+        return sendJson(res, 200, pgSubs);
+      }
+    }
+
     try {
       const submissions = await Submission.find({ studentId: req.params.studentId }).lean();
       if (submissions && submissions.length > 0) {

@@ -1,8 +1,10 @@
 import { Server } from 'socket.io';
+import { createAdapter } from '@socket.io/redis-adapter';
 import { setupExamProctorSockets } from './examProctor.js';
 import { verifyToken } from '../lib/auth.js';
 import { config } from '../config.js';
 import { logger } from '../lib/logger.js';
+import { getRawRedisClient } from '../config/redis.js';
 
 export function setupSockets(server) {
   // Parse allowed origins
@@ -18,6 +20,19 @@ export function setupSockets(server) {
       credentials: true
     }
   });
+
+  // ── Multi-Instance Distributed Redis Adapter ────────────────────────────────
+  const rawClient = getRawRedisClient();
+  if (rawClient && process.env.REDIS_URI) {
+    try {
+      const pubClient = rawClient.duplicate();
+      const subClient = rawClient.duplicate();
+      io.adapter(createAdapter(pubClient, subClient));
+      logger.info('[Socket.IO] Attached distributed Redis adapter for multi-instance broadcast.');
+    } catch (err) {
+      logger.warn(`[Socket.IO] Failed to attach Redis adapter: ${err.message}. Using local in-memory adapter.`);
+    }
+  }
 
   // ── Connection Authentication Guard ─────────────────────────────────────────
   // Enforces that every socket connection MUST present a valid, unexpired token

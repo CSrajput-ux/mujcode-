@@ -34,6 +34,12 @@ export const config = {
   uploadDir: path.resolve(rootDir, validatedEnv.UPLOAD_DIR),
   // PostgreSQL Database Configuration (Enabled when POSTGRES_URI is provided)
   postgresUri: validatedEnv.POSTGRES_URI,
+  postgresPoolMax: validatedEnv.POSTGRES_POOL_MAX,
+  postgresPoolMin: validatedEnv.POSTGRES_POOL_MIN,
+  postgresIdleTimeoutMs: validatedEnv.POSTGRES_IDLE_TIMEOUT_MS,
+  postgresConnectionTimeoutMs: validatedEnv.POSTGRES_CONNECTION_TIMEOUT_MS,
+  postgresStatementTimeoutMs: validatedEnv.POSTGRES_STATEMENT_TIMEOUT_MS,
+  saveDebounceMs: validatedEnv.SAVE_DEBOUNCE_MS,
   // Judge0 CE Configuration
   judge0Url: validatedEnv.JUDGE0_URL,
   judge0AuthToken: validatedEnv.JUDGE0_AUTH_TOKEN,

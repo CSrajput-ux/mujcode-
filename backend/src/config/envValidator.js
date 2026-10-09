@@ -29,8 +29,14 @@ const envSchema = z.object({
   STUDENTS_FILE: z.string().default('src/data/students.json'),
   UPLOAD_DIR: z.string().default('uploads'),
 
-  // Database URIs
+  // Database URIs and Connection Limits
   POSTGRES_URI: z.string().optional().default(''),
+  POSTGRES_POOL_MAX: z.coerce.number().int().min(1).max(100).default(5),
+  POSTGRES_POOL_MIN: z.coerce.number().int().min(0).max(20).default(1),
+  POSTGRES_IDLE_TIMEOUT_MS: z.coerce.number().int().min(1000).max(120000).default(30000),
+  POSTGRES_CONNECTION_TIMEOUT_MS: z.coerce.number().int().min(1000).max(60000).default(10000),
+  POSTGRES_STATEMENT_TIMEOUT_MS: z.coerce.number().int().min(1000).max(60000).default(10000),
+  SAVE_DEBOUNCE_MS: z.coerce.number().int().min(10).max(10000).default(100),
   REDIS_URI: z.string().optional().default(''),
   MONGODB_URI: z.string().optional().default(''),
 

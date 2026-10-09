@@ -109,15 +109,33 @@ if (rawRedisUri) {
       connectTimeout:       3000,
       commandTimeout:       2000,
       retryStrategy(times) {
-        if (times > 3) return null;
+        if (times > 5) return null;
         return Math.min(times * 500, 2000);
       }
     });
 
     _client.on('connect', () => logger.info('[Redis] Connected to remote Redis.'));
-    _client.on('error',   () => { _client._healthy = false; });
-    _client.on('ready',   () => { _client._healthy = true;  });
+    _client.on('ready',   () => {
+      _client._healthy = true;
+      logger.info('[Redis] Remote Redis client ready.');
+    });
+    _client.on('error',   (err) => {
+      _client._healthy = false;
+      logger.warn(`[Redis] Connection/runtime error: ${err.message}`);
+    });
+    _client.on('close',   () => {
+      _client._healthy = false;
+    });
+    _client.on('reconnecting', () => {
+      logger.info('[Redis] Reconnecting to remote Redis...');
+    });
+
     _client._healthy = false;
+
+    // Trigger initial connection asynchronously (lazyConnect: true requires explicit connect call)
+    _client.connect().catch((err) => {
+      logger.warn(`[Redis] Initial connection deferred (${err.message}). Using in-memory fallback until ready.`);
+    });
   } catch (err) {
     logger.warn(`[Redis] Init failed (${err.message}). Using in-memory fallback.`);
     _client = null;
@@ -148,7 +166,18 @@ function makeMethod(methodName) {
 function pipelineMethod() {
   if (_client && _client._healthy) {
     try {
-      return _client.pipeline();
+      const realPipe = _client.pipeline();
+      const origExec = realPipe.exec.bind(realPipe);
+      realPipe.exec = async () => {
+        try {
+          return await origExec();
+        } catch (err) {
+          logger.warn(`[Redis] Remote pipeline exec error (${err.message}). Falling back to in-memory.`);
+          // If remote pipeline fails, return empty result or fallback
+          return [];
+        }
+      };
+      return realPipe;
     } catch {
       // fall through
     }
@@ -166,9 +195,25 @@ export const redis = {
   pipeline: pipelineMethod,
 };
 
+export function getRawRedisClient() {
+  return _client;
+}
+
+export async function closeRedis() {
+  if (_client) {
+    try {
+      _client.disconnect();
+      _client._healthy = false;
+    } catch {}
+  }
+}
+
 export function getRedisStats() {
+  const isRemote = Boolean(_client && _client._healthy);
   return {
-    isRemoteConnected: Boolean(_client && _client._healthy),
+    mode: isRemote ? 'remote' : 'in-memory-fallback',
+    isRemoteConnected: isRemote,
+    status: _client ? _client.status : 'disabled',
     inMemoryKeysCount: fallbackStore.store.size
   };
 }
