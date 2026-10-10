@@ -18,6 +18,7 @@ import CreateAssessmentPage from './Assessments/CreateAssessmentPage';
 import CandidatesPage from './Candidates/CandidatesPage';
 import CompanyAnalyticsPage from './Analytics/CompanyAnalyticsPage';
 import ResultsPage from './Results/ResultsPage';
+import { apiClient } from '../../services/apiClient';
 
 export default function CompanyDashboard() {
   const navigate = useNavigate();
@@ -34,10 +35,9 @@ export default function CompanyDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/dashboard/stats')
-      .then(res => res.json())
-      .then(data => {
-        if (!data.error) setDashboardData(data);
+    apiClient.get('/api/v1/company/dashboard/stats')
+      .then(res => {
+        if (res.data && !res.data.error) setDashboardData(res.data);
       })
       .catch(console.error)
       .finally(() => setLoading(false));

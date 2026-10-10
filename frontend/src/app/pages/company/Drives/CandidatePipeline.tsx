@@ -3,6 +3,7 @@ import { Card, CardContent } from '../../../components/ui/card';
 import { Button } from '../../../components/ui/button';
 import { Badge } from '../../../components/ui/badge';
 import { ArrowLeft, GripVertical, CheckCircle, Clock, Search, XCircle, FileText, Video } from 'lucide-react';
+import { apiClient } from '../../../services/apiClient';
 
 interface CandidatePipelineProps {
   drive: any;
@@ -19,15 +20,18 @@ export default function CandidatePipeline({ drive, onBack }: CandidatePipelinePr
     fetchApplications();
   }, [drive._id]);
 
-  const fetchApplications = () => {
+  const fetchApplications = async () => {
     setLoading(true);
-    fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/v1/company/drives/${drive._id}/applications`)
-      .then(res => res.json())
-      .then(data => {
-        if (!data.error) setApplications(data.applications || []);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    try {
+      const res = await apiClient.get(`/api/v1/company/drives/${drive._id}/applications`);
+      if (res.data?.applications) {
+        setApplications(res.data.applications);
+      }
+    } catch (err) {
+      console.error('Failed to load applications:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDragStart = (e: React.DragEvent, appId: string) => {
@@ -50,11 +54,7 @@ export default function CandidatePipeline({ drive, onBack }: CandidatePipelinePr
 
     // Update Backend
     try {
-      await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/v1/company/applications/${appId}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
-      });
+      await apiClient.patch(`/api/v1/company/applications/${appId}/status`, { status: newStatus });
     } catch (error) {
       console.error(error);
       fetchApplications(); // Revert on failure

@@ -5,6 +5,7 @@ import { Badge } from '../../../components/ui/badge';
 import { Briefcase, Plus, Users, Calendar, CheckCircle } from 'lucide-react';
 import CreateDriveModal from './CreateDriveModal';
 import CandidatePipeline from './CandidatePipeline';
+import { apiClient } from '../../../services/apiClient';
 
 export default function DriveManagementPage() {
   const [drives, setDrives] = useState<any[]>([]);
@@ -12,15 +13,18 @@ export default function DriveManagementPage() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedDrive, setSelectedDrive] = useState<any | null>(null);
 
-  const fetchDrives = () => {
+  const fetchDrives = async () => {
     setLoading(true);
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/drives')
-      .then(res => res.json())
-      .then(data => {
-        if (!data.error) setDrives(data.drives || []);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    try {
+      const res = await apiClient.get('/api/v1/company/drives');
+      if (res.data?.drives) {
+        setDrives(res.data.drives);
+      }
+    } catch (err) {
+      console.error('Failed to fetch drives:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

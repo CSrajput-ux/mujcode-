@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Button } from '../../../components/ui/button';
 import { BookOpen, Clock, Code2, Save, Plus } from 'lucide-react';
+import { apiClient } from '../../../services/apiClient';
 
 export default function CreateAssessmentPage({ onBack }: { onBack?: () => void }) {
   const [drives, setDrives] = useState([]);
@@ -19,10 +20,9 @@ export default function CreateAssessmentPage({ onBack }: { onBack?: () => void }
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/drives')
-      .then(res => res.json())
-      .then(data => {
-        if (!data.error) setDrives(data.drives || []);
+    apiClient.get('/api/v1/company/drives')
+      .then(res => {
+        if (res.data?.drives) setDrives(res.data.drives);
       })
       .catch(console.error);
   }, []);
@@ -31,12 +31,8 @@ export default function CreateAssessmentPage({ onBack }: { onBack?: () => void }
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/assessments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-      if (res.ok) {
+      const res = await apiClient.post('/api/v1/company/assessments', formData);
+      if (res.status === 200 || res.status === 201) {
         setSuccess(true);
         setTimeout(() => setSuccess(false), 3000);
       }

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { X, Save } from 'lucide-react';
 import { Button } from '../../../components/ui/button';
+import { apiClient } from '../../../services/apiClient';
+import { toast } from 'sonner';
 
 interface CreateDriveModalProps {
   isOpen: boolean;
@@ -25,10 +27,14 @@ export default function CreateDriveModal({ isOpen, onClose, onSuccess }: CreateD
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.title.trim()) {
+      toast.error('Drive Title is required');
+      return;
+    }
     setLoading(true);
     try {
       const payload = {
-        title: formData.title,
+        title: formData.title.trim(),
         description: formData.description,
         deadline: formData.deadline,
         locationType: formData.locationType,
@@ -37,19 +43,17 @@ export default function CreateDriveModal({ isOpen, onClose, onSuccess }: CreateD
         eligibility: { minCgpa: Number(formData.minCgpa), maxBacklogs: Number(formData.maxBacklogs) }
       };
 
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/v1/company/drives', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (res.ok) {
+      const res = await apiClient.post('/api/v1/company/drives', payload);
+      if (res.status === 200 || res.status === 201) {
+        toast.success('Recruitment drive published successfully!');
         onSuccess();
       } else {
-        alert('Failed to create drive');
+        toast.error('Failed to create drive');
       }
-    } catch (error) {
-      console.error(error);
-      alert('Failed to create drive');
+    } catch (error: any) {
+      console.error('Create drive error:', error);
+      const msg = error.response?.data?.error || error.response?.data?.message || error.message || 'Failed to create drive';
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
