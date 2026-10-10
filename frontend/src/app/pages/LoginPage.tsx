@@ -36,7 +36,10 @@ export default function LoginPage() {
     setLoading(true);
 
     const role = roles.find(r => r.value === selectedRole);
-    if (!role) return;
+    if (!role) {
+      setLoading(false);
+      return;
+    }
 
     // Map inputs to backend expectation (collegeId is the unified ID field)
     let loginId = credentials.collegeId;
@@ -44,17 +47,23 @@ export default function LoginPage() {
       loginId = credentials.username; // Use username field for others
     }
 
+    const apiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '');
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 12000);
+
     try {
-      const response = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/auth/login', {
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: loginId,
           password: credentials.password,
           role: selectedRole
-        })
+        }),
+        signal: controller.signal
       });
 
+      clearTimeout(timeoutId);
       const data = await response.json();
 
       if (response.ok) {
@@ -72,11 +81,16 @@ export default function LoginPage() {
           navigate(role.route);
         }
       } else {
-        setError(data.error || 'Login failed');
+        setError(data.error || data.message || 'Login failed. Please check your credentials.');
       }
-    } catch (err) {
+    } catch (err: any) {
+      clearTimeout(timeoutId);
       console.error('Login error:', err);
-      setError('Network error. Is backend running?');
+      if (err?.name === 'AbortError') {
+        setError('Server request timed out. Please check backend connection.');
+      } else {
+        setError('Network error. Unable to connect to backend server.');
+      }
     } finally {
       setLoading(false);
     }

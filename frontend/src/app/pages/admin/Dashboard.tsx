@@ -60,7 +60,9 @@ export default function AdminDashboard() {
       const data = await getDashboardData();
 
       if (data.success) {
-        setActivityLogs(data.data.activityLogs || []);
+        // Strictly only show activities performed by companies
+        const companyLogs = (data.data.activityLogs || []).filter((l: any) => l.type === 'company' || l.role === 'company' || l.category === 'company');
+        setActivityLogs(companyLogs);
         setSystemHealth(data.data.systemHealth || null);
         setUptime(data.data.uptime || null);
         setPlatformStats(data.data.platformStats || null);
@@ -293,47 +295,60 @@ export default function AdminDashboard() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Recent Activity */}
-            <Card className="shadow-md">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Activity className="w-5 h-5 text-[#FF7A00]" />
-                  <span>Recent Activity</span>
+            {/* Recent Activity (Companies Only) */}
+            <Card className="shadow-md border border-gray-100 flex flex-col">
+              <CardHeader className="border-b border-gray-50 pb-3">
+                <CardTitle className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <Building2 className="w-5 h-5 text-[#FF7A00]" />
+                    <span>Company Recent Activity</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {activityLogs && activityLogs.length > 0 && (
+                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                        {activityLogs.length} updates
+                      </span>
+                    )}
+                    <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-orange-50 text-[#FF7A00] border border-orange-200">
+                      Hiring Partners
+                    </span>
+                  </div>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                {systemLoading ? (
-                  [1, 2, 3, 4].map((i) => (
-                    <div key={i} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg animate-pulse">
-                      <div className="w-2 h-2 rounded-full bg-gray-300 mt-2"></div>
-                      <div className="flex-1 space-y-2">
-                        <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-                        <div className="h-3 bg-gray-200 rounded w-full"></div>
-                        <div className="h-3 bg-gray-200 rounded w-1/4"></div>
+              <CardContent className="pt-4 flex-1">
+                <div className="max-h-[360px] overflow-y-auto space-y-3 pr-1.5 custom-scrollbar">
+                  {systemLoading ? (
+                    [1, 2, 3, 4].map((i) => (
+                      <div key={i} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg animate-pulse">
+                        <div className="w-8 h-8 rounded-lg bg-gray-200"></div>
+                        <div className="flex-1 space-y-2">
+                          <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                          <div className="h-3 bg-gray-200 rounded w-full"></div>
+                          <div className="h-3 bg-gray-200 rounded w-1/4"></div>
+                        </div>
                       </div>
-                    </div>
-                  ))
-                ) : activityLogs && activityLogs.length > 0 ? (
-                  activityLogs.map((log: any, index: number) => (
-                    <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                      <div className={`w-2 h-2 rounded-full mt-2 ${log.type === 'student' ? 'bg-blue-500' :
-                        log.type === 'faculty' ? 'bg-green-500' :
-                          log.type === 'company' ? 'bg-purple-500' :
-                            'bg-orange-500'
-                        }`} />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-900">{log.message}</p>
-                        <p className="text-sm text-gray-600 mt-1">{log.detail}</p>
-                        <p className="text-xs text-gray-500 mt-1">{formatTimeAgo(log.createdAt)}</p>
+                    ))
+                  ) : activityLogs && activityLogs.length > 0 ? (
+                    activityLogs.map((log: any, index: number) => (
+                      <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50/80 rounded-xl hover:bg-gray-100 transition-colors border border-gray-100">
+                        <div className="w-8 h-8 rounded-lg bg-orange-100/70 text-[#FF7A00] flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                          <Building2 className="w-4 h-4" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-gray-900 truncate">{log.message}</p>
+                          <p className="text-xs text-gray-600 mt-0.5 line-clamp-2 leading-relaxed">{log.detail}</p>
+                          <p className="text-[11px] text-gray-400 mt-1 font-medium">{formatTimeAgo(log.createdAt)}</p>
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-10 text-gray-500">
+                      <Building2 className="w-12 h-12 mx-auto mb-2 text-gray-300" />
+                      <p className="text-sm font-medium text-gray-700">No recent company activity</p>
+                      <p className="text-xs text-gray-400 mt-1">Actions taken by recruiting partners and placement drives will appear here.</p>
                     </div>
-                  ))
-                ) : (
-                  <div className="text-center py-8 text-gray-500">
-                    <Activity className="w-12 h-12 mx-auto mb-2 opacity-30" />
-                    <p className="text-sm">No recent activity</p>
-                  </div>
-                )}
+                  )}
+                </div>
               </CardContent>
             </Card>
 
