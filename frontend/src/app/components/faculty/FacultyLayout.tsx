@@ -61,39 +61,39 @@ export default function FacultyLayout({ children }: FacultyLayoutProps) {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Top Navbar */}
-            <nav className="bg-white shadow-sm fixed top-0 left-0 right-0 z-40">
-                <div className="px-4 sm:px-6 lg:px-8">
+            <nav className="bg-white shadow-xs border-b border-gray-100 fixed top-0 left-0 right-0 z-40">
+                <div className="px-4 sm:px-6">
                     <div className="flex items-center justify-between h-16">
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-3">
                             <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden text-gray-600 hover:text-[#FF7A00]">
-                                {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                                {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                             </button>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2.5">
                                 <img src={logoImage} alt="MujCode Logo" className="w-8 h-8" />
-                                <span className="text-2xl font-bold text-gray-900">MujCode</span>
-                                <span className="hidden sm:inline-block px-2 py-1 bg-orange-100 text-orange-700 text-[10px] rounded-full font-bold uppercase tracking-wider">FACULTY</span>
+                                <span className="text-xl font-bold text-gray-900 tracking-tight">MujCode</span>
+                                <span className="hidden sm:inline-block px-2 py-0.5 bg-orange-100 text-orange-700 text-[10px] rounded-full font-bold uppercase tracking-wider">FACULTY</span>
                             </div>
                         </div>
 
                         <Popover>
                             <PopoverTrigger asChild>
-                                <div className="flex items-center space-x-4 cursor-pointer hover:opacity-80 transition-opacity">
+                                <div className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity">
                                     <div className="text-right hidden sm:block">
                                         <div className="text-sm font-semibold text-gray-900">{user?.name || 'Faculty Member'}</div>
-                                        <div className="text-[10px] text-gray-500 font-medium uppercase tracking-tighter">{user?.department || 'Department of CSE'}</div>
+                                        <div className="text-[11px] text-gray-500 font-medium uppercase tracking-tight">{user?.department || 'Department of CSE'}</div>
                                     </div>
-                                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white font-bold shadow-md border-2 border-white">
+                                    <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-xs border-2 border-white">
                                         {user?.name ? getInitials(user.name) : 'FM'}
                                     </div>
                                 </div>
                             </PopoverTrigger>
                             <PopoverContent className="w-72 p-0 mr-4 shadow-2xl border-none overflow-hidden" align="end">
-                                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-6 text-white relative">
+                                <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-5 text-white relative">
                                     <div className="absolute right-0 top-0 p-4 opacity-10">
                                         <Shield className="w-16 h-16" />
                                     </div>
                                     <div className="flex items-center space-x-3 relative z-10">
-                                        <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center text-xl font-bold backdrop-blur-md shadow-sm">
+                                        <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-lg font-bold backdrop-blur-md shadow-xs">
                                             {user?.name ? getInitials(user.name) : 'FM'}
                                         </div>
                                         <div className="overflow-hidden">
@@ -103,10 +103,10 @@ export default function FacultyLayout({ children }: FacultyLayoutProps) {
                                     </div>
                                 </div>
 
-                                <div className="p-4 space-y-1">
+                                <div className="p-3 space-y-1">
                                     <button
                                         onClick={() => setProfileOpen(true)}
-                                        className="w-full flex items-center space-x-3 text-xs p-2.5 rounded-lg hover:bg-gray-50 transition-colors text-gray-600"
+                                        className="w-full flex items-center space-x-3 text-xs p-2 rounded-lg hover:bg-gray-50 transition-colors text-gray-600"
                                     >
                                         <Building className="w-4 h-4" />
                                         <span>View Profile</span>
@@ -114,15 +114,15 @@ export default function FacultyLayout({ children }: FacultyLayoutProps) {
 
                                     <button
                                         onClick={() => setEditProfileOpen(true)}
-                                        className="w-full flex items-center space-x-3 text-xs p-2.5 rounded-lg hover:bg-gray-50 transition-colors text-gray-600"
+                                        className="w-full flex items-center space-x-3 text-xs p-2 rounded-lg hover:bg-gray-50 transition-colors text-gray-600"
                                     >
                                         <Settings className="w-4 h-4" />
-                                        <span>Edit Profile</span> {/* Changed label from "Edit Assignments" to "Edit Profile" */}
+                                        <span>Edit Profile</span>
                                     </button>
                                 </div>
 
                                 <div className="p-2 border-t border-gray-50">
-                                    <button onClick={() => navigate('/')} className="w-full flex items-center justify-center space-x-2 text-red-600 hover:bg-red-50 py-2.5 rounded-lg transition-colors text-xs font-bold">
+                                    <button onClick={() => navigate('/')} className="w-full flex items-center justify-center space-x-2 text-red-600 hover:bg-red-50 py-2 rounded-lg transition-colors text-xs font-bold">
                                         <LogOut className="w-4 h-4" />
                                         <span>Sign Out</span>
                                     </button>
@@ -135,26 +135,26 @@ export default function FacultyLayout({ children }: FacultyLayoutProps) {
 
             <div className="flex pt-16">
                 {/* Sidebar */}
-                <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 fixed lg:sticky top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-white shadow-lg transition-transform duration-300 z-30 overflow-y-auto`}>
-                    <nav className="p-6 space-y-2">
+                <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 fixed lg:sticky top-16 left-0 h-[calc(100vh-4rem)] w-60 bg-white border-r border-gray-100 shadow-2xs transition-transform duration-300 z-30 overflow-y-auto`}>
+                    <nav className="p-3.5 space-y-1.5">
                         {menuItems.map((item, index) => (
                             <button
                                 key={index}
                                 onClick={() => navigate(item.path)}
-                                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all ${location.pathname === item.path
-                                    ? 'bg-[#FF7A00] text-white shadow-lg shadow-orange-100'
-                                    : 'text-gray-600 hover:bg-gray-50'
+                                className={`w-full flex items-center space-x-3 px-3.5 py-2.5 rounded-lg transition-all ${location.pathname === item.path
+                                    ? 'bg-[#FF7A00] text-white shadow-xs font-semibold'
+                                    : 'text-gray-600 hover:bg-gray-50 font-medium'
                                     }`}
                             >
                                 <div className={`${location.pathname === item.path ? 'text-white' : 'text-gray-400'}`}>{item.icon}</div>
-                                <span className="font-semibold text-sm">{item.label}</span>
+                                <span className="text-sm">{item.label}</span>
                             </button>
                         ))}
                     </nav>
                 </aside>
 
                 {/* Main Content */}
-                <main className="flex-1 p-6 sm:p-8 lg:p-10">
+                <main className="flex-1 p-5 sm:p-6 lg:p-7 min-w-0 overflow-x-hidden">
                     {children}
                 </main>
             </div>

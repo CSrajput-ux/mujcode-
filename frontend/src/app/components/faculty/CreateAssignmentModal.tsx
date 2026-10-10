@@ -117,17 +117,17 @@ export default function CreateAssignmentModal({ open, onOpenChange, onCreated }:
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[580px]">
-                <DialogHeader>
-                    <DialogTitle>Create Assignment / Task</DialogTitle>
+            <DialogContent className="sm:max-w-[540px] p-6">
+                <DialogHeader className="pb-1.5">
+                    <DialogTitle className="text-lg font-bold">Create Assignment / Task</DialogTitle>
                 </DialogHeader>
 
-                <div className="grid gap-4 py-4">
+                <div className="grid gap-3.5 py-2">
                     {/* Type */}
-                    <div className="grid gap-2">
-                        <Label>Type</Label>
+                    <div className="grid gap-1.5">
+                        <Label className="text-xs sm:text-sm font-semibold">Type</Label>
                         <Select value={formData.type} onValueChange={(v) => setFormData({ ...formData, type: v })}>
-                            <SelectTrigger><SelectValue /></SelectTrigger>
+                            <SelectTrigger className="h-10 text-sm"><SelectValue /></SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="Assignment">Assignment</SelectItem>
                                 <SelectItem value="CaseStudy">Case Study</SelectItem>
@@ -138,79 +138,84 @@ export default function CreateAssignmentModal({ open, onOpenChange, onCreated }:
                     </div>
 
                     {/* ✅ Section → Subject (cascading) */}
-                    <div className="grid gap-2">
-                        <Label>Section *</Label>
-                        <Select value={formData.section} onValueChange={handleSectionChange}>
-                            <SelectTrigger>
-                                <SelectValue placeholder={assignmentsLoading ? 'Loading...' : 'Select Section'} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {sections.length > 0 ? sections.map(s => (
-                                    <SelectItem key={s} value={s}>Section {s}</SelectItem>
-                                )) : (
-                                    <SelectItem value="_none" disabled>No sections assigned</SelectItem>
-                                )}
-                            </SelectContent>
-                        </Select>
-                        {formData.section && autoBranch && (
-                            <p className="text-xs text-gray-400">Branch: {autoBranch} • auto-detected</p>
-                        )}
-                    </div>
+                    <div className="grid grid-cols-2 gap-3.5">
+                        <div className="grid gap-1.5">
+                            <Label className="text-xs sm:text-sm font-semibold">Section *</Label>
+                            <Select value={formData.section} onValueChange={handleSectionChange}>
+                                <SelectTrigger className="h-10 text-sm">
+                                    <SelectValue placeholder={assignmentsLoading ? 'Loading...' : 'Select Section'} />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {sections.length > 0 ? sections.map(s => (
+                                        <SelectItem key={s} value={s}>Section {s}</SelectItem>
+                                    )) : (
+                                        <SelectItem value="_none" disabled>No sections assigned</SelectItem>
+                                    )}
+                                </SelectContent>
+                            </Select>
+                            {formData.section && autoBranch && (
+                                <p className="text-xs text-gray-500">Branch: {autoBranch}</p>
+                            )}
+                        </div>
 
-                    {/* Subject — auto from section */}
-                    <div className="grid gap-2">
-                        <Label>Subject *</Label>
-                        <Select
-                            value={formData.subject}
-                            onValueChange={(v) => setFormData({ ...formData, subject: v })}
-                            disabled={!formData.section}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder={
-                                    !formData.section
-                                        ? 'Select Section first'
-                                        : availableSubjects.length === 0
-                                            ? 'No subjects found'
-                                            : 'Select Subject'
-                                } />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {availableSubjects.length > 0 ? availableSubjects.map(sub => (
-                                    <SelectItem key={sub} value={sub}>{sub}</SelectItem>
-                                )) : (
-                                    <SelectItem value="_none" disabled>No subjects for this section</SelectItem>
-                                )}
-                            </SelectContent>
-                        </Select>
+                        {/* Subject — auto from section */}
+                        <div className="grid gap-1.5">
+                            <Label className="text-xs sm:text-sm font-semibold">Subject *</Label>
+                            <Select
+                                value={formData.subject}
+                                onValueChange={(v) => setFormData({ ...formData, subject: v })}
+                                disabled={!formData.section}
+                            >
+                                <SelectTrigger className="h-10 text-sm">
+                                    <SelectValue placeholder={
+                                        !formData.section
+                                            ? 'Select Section first'
+                                            : availableSubjects.length === 0
+                                                ? 'No subjects found'
+                                                : 'Select Subject'
+                                    } />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {availableSubjects.length > 0 ? availableSubjects.map(sub => (
+                                        <SelectItem key={sub} value={sub}>{sub}</SelectItem>
+                                    )) : (
+                                        <SelectItem value="_none" disabled>No subjects for this section</SelectItem>
+                                    )}
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
 
                     {/* Title */}
-                    <div className="grid gap-2">
-                        <Label>Title *</Label>
+                    <div className="grid gap-1.5">
+                        <Label className="text-xs sm:text-sm font-semibold">Title *</Label>
                         <Input
                             placeholder="Assignment Title"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                            className="h-10 text-sm"
                         />
                     </div>
 
                     {/* Description */}
-                    <div className="grid gap-2">
-                        <Label>Description</Label>
+                    <div className="grid gap-1.5">
+                        <Label className="text-xs sm:text-sm font-semibold">Description</Label>
                         <Textarea
                             placeholder="Instructions..."
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                            className="min-h-[70px] text-sm p-3"
                         />
                     </div>
 
                     {/* Upload */}
-                    <div className="grid gap-2">
-                        <Label>Upload File (PDF/DOC)</Label>
+                    <div className="grid gap-1.5">
+                        <Label className="text-xs sm:text-sm font-semibold">Upload File (PDF/DOC)</Label>
                         <Input 
                             type="file" 
                             accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg"
                             onChange={(e) => setSelectedFile(e.target.files ? e.target.files[0] : null)}
+                            className="h-10 text-sm file:text-xs file:font-semibold"
                         />
                         {selectedFile && (
                             <p className="text-xs text-green-600 font-medium flex items-center">
@@ -220,19 +225,20 @@ export default function CreateAssignmentModal({ open, onOpenChange, onCreated }:
                     </div>
 
                     {/* Due Date */}
-                    <div className="grid gap-2">
-                        <Label>Due Date</Label>
+                    <div className="grid gap-1.5">
+                        <Label className="text-xs sm:text-sm font-semibold">Due Date</Label>
                         <Input
                             type="date"
                             value={formData.dueDate}
                             onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
+                            className="h-10 text-sm"
                         />
                     </div>
                 </div>
 
-                <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-                    <Button className="bg-[#FF7A00] hover:bg-[#FF6A00]" onClick={handleCreate} disabled={loading}>
+                <DialogFooter className="pt-2">
+                    <Button variant="outline" size="sm" className="h-10 text-sm font-semibold" onClick={() => onOpenChange(false)}>Cancel</Button>
+                    <Button className="bg-[#FF7A00] hover:bg-[#FF6A00] h-10 text-sm font-semibold px-5" onClick={handleCreate} disabled={loading}>
                         {loading ? 'Creating...' : 'Assign Task'}
                     </Button>
                 </DialogFooter>

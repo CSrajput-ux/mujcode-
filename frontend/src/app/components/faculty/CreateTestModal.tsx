@@ -76,28 +76,29 @@ export default function CreateTestModal({ open, onOpenChange }: CreateTestModalP
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[580px]">
-                <DialogHeader>
-                    <DialogTitle>Create New Test / Quiz</DialogTitle>
+            <DialogContent className="sm:max-w-[540px] p-6">
+                <DialogHeader className="pb-1.5">
+                    <DialogTitle className="text-lg font-bold">Create New Test / Quiz</DialogTitle>
                 </DialogHeader>
 
-                <div className="grid gap-4 py-4">
+                <div className="grid gap-3.5 py-2">
                     {/* Test Title */}
-                    <div className="grid gap-2">
-                        <Label>Test Title *</Label>
+                    <div className="grid gap-1.5">
+                        <Label className="text-xs sm:text-sm font-semibold">Test Title *</Label>
                         <Input
                             placeholder="e.g. Data Structures Mid-Term"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                            className="h-10 text-sm"
                         />
                     </div>
 
                     {/* Test Type + Category */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="grid gap-2">
-                            <Label>Test Type *</Label>
+                    <div className="grid grid-cols-2 gap-3.5">
+                        <div className="grid gap-1.5">
+                            <Label className="text-xs sm:text-sm font-semibold">Test Type *</Label>
                             <Select value={formData.testType} onValueChange={(v: 'MCQ' | 'Coding' | 'Theory') => setFormData({ ...formData, testType: v })}>
-                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                <SelectTrigger className="h-10 text-sm"><SelectValue /></SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="MCQ">📝 MCQ (Multiple Choice)</SelectItem>
                                     <SelectItem value="Coding">💻 Coding (Programming)</SelectItem>
@@ -105,10 +106,10 @@ export default function CreateTestModal({ open, onOpenChange }: CreateTestModalP
                                 </SelectContent>
                             </Select>
                         </div>
-                        <div className="grid gap-2">
-                            <Label>Category</Label>
+                        <div className="grid gap-1.5">
+                            <Label className="text-xs sm:text-sm font-semibold">Category</Label>
                             <Select value={formData.type} onValueChange={(v) => setFormData({ ...formData, type: v })}>
-                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                <SelectTrigger className="h-10 text-sm"><SelectValue /></SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="Quiz">Quiz</SelectItem>
                                     <SelectItem value="Assessment">Assessment</SelectItem>
@@ -119,33 +120,36 @@ export default function CreateTestModal({ open, onOpenChange }: CreateTestModalP
                     </div>
 
                     {/* Marks + Duration */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="grid gap-2">
-                            <Label>Total Marks</Label>
+                    <div className="grid grid-cols-2 gap-3.5">
+                        <div className="grid gap-1.5">
+                            <Label className="text-xs sm:text-sm font-semibold">Total Marks</Label>
                             <Input type="number" value={formData.totalMarks}
-                                onChange={(e) => setFormData({ ...formData, totalMarks: Number(e.target.value) })} />
+                                onChange={(e) => setFormData({ ...formData, totalMarks: Number(e.target.value) })}
+                                className="h-10 text-sm" />
                         </div>
-                        <div className="grid gap-2">
-                            <Label>Duration (mins)</Label>
+                        <div className="grid gap-1.5">
+                            <Label className="text-xs sm:text-sm font-semibold">Duration (mins)</Label>
                             <Input type="number" value={formData.duration}
-                                onChange={(e) => setFormData({ ...formData, duration: Number(e.target.value) })} />
+                                onChange={(e) => setFormData({ ...formData, duration: Number(e.target.value) })}
+                                className="h-10 text-sm" />
                         </div>
                     </div>
 
                     {/* Schedule */}
-                    <div className="grid gap-2">
-                        <Label>Schedule Date & Time *</Label>
+                    <div className="grid gap-1.5">
+                        <Label className="text-xs sm:text-sm font-semibold">Schedule Date & Time *</Label>
                         <Input type="datetime-local" value={formData.startTime}
-                            onChange={(e) => setFormData({ ...formData, startTime: e.target.value })} />
+                            onChange={(e) => setFormData({ ...formData, startTime: e.target.value })}
+                            className="h-10 text-sm" />
                     </div>
 
                     {/* ✅ Section → Subject (cascading) */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-3.5">
                         {/* Section */}
-                        <div className="grid gap-2">
-                            <Label>Section *</Label>
+                        <div className="grid gap-1.5">
+                            <Label className="text-xs sm:text-sm font-semibold">Section *</Label>
                             <Select value={formData.section} onValueChange={handleSectionChange}>
-                                <SelectTrigger>
+                                <SelectTrigger className="h-10 text-sm">
                                     <SelectValue placeholder={assignmentsLoading ? 'Loading...' : 'Select Section'} />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -159,10 +163,10 @@ export default function CreateTestModal({ open, onOpenChange }: CreateTestModalP
                         </div>
 
                         {/* Semester */}
-                        <div className="grid gap-2">
-                            <Label>Semester *</Label>
+                        <div className="grid gap-1.5">
+                            <Label className="text-xs sm:text-sm font-semibold">Semester *</Label>
                             <Select value={formData.semester} onValueChange={(v) => setFormData({ ...formData, semester: v })}>
-                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                <SelectTrigger className="h-10 text-sm"><SelectValue placeholder="Select" /></SelectTrigger>
                                 <SelectContent>
                                     {[1,2,3,4,5,6,7,8].map(n => (
                                         <SelectItem key={n} value={String(n)}>{n}</SelectItem>
@@ -173,14 +177,14 @@ export default function CreateTestModal({ open, onOpenChange }: CreateTestModalP
                     </div>
 
                     {/* Subject — auto from section */}
-                    <div className="grid gap-2">
-                        <Label>Subject *</Label>
+                    <div className="grid gap-1.5">
+                        <Label className="text-xs sm:text-sm font-semibold">Subject *</Label>
                         <Select
                             value={formData.subject}
                             onValueChange={(v) => setFormData({ ...formData, subject: v })}
                             disabled={!formData.section}
                         >
-                            <SelectTrigger>
+                            <SelectTrigger className="h-10 text-sm">
                                 <SelectValue placeholder={
                                     !formData.section
                                         ? 'Select Section first'
@@ -198,21 +202,21 @@ export default function CreateTestModal({ open, onOpenChange }: CreateTestModalP
                             </SelectContent>
                         </Select>
                         {formData.section && autoBranch && (
-                            <p className="text-xs text-gray-400">Branch: {autoBranch} (auto-detected)</p>
+                            <p className="text-xs text-gray-500">Branch: {autoBranch} (auto-detected)</p>
                         )}
                     </div>
 
                     {/* Info */}
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm">
+                    <div className="bg-blue-50/80 border border-blue-100 rounded-xl p-3 text-xs sm:text-sm">
                         <p className="text-blue-900">
                             <strong>Next Step:</strong> After creating the test, you'll be redirected to the test builder where you can add questions.
                         </p>
                     </div>
                 </div>
 
-                <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-                    <Button className="bg-indigo-600 hover:bg-indigo-700" onClick={handleCreate} disabled={loading}>
+                <DialogFooter className="pt-2">
+                    <Button variant="outline" size="sm" className="h-10 text-sm font-semibold" onClick={() => onOpenChange(false)}>Cancel</Button>
+                    <Button className="bg-[#FF7A00] hover:bg-[#FF6A00] h-10 text-sm font-semibold px-5" onClick={handleCreate} disabled={loading}>
                         {loading ? 'Creating...' : 'Create Test'}
                     </Button>
                 </DialogFooter>
