@@ -90,13 +90,10 @@ export function registerAssignmentsRoutes(router) {
     }
 
     // Always derive student identity from verified token — NEVER trust client body
-    const userId = req.user.id;
-    const student = (db.students || []).find(s => s.id === userId || s.college_id === req.user.college_id)
-      || (db.users || []).find(u => u.id === userId);
-
-    if (!student) {
-      return sendJson(res, 403, { error: 'Student record not found' });
-    }
+    const userId = req.user.id || req.user._id;
+    const student = (db.students || []).find(s => s.id === userId || s._id === userId || (req.user.college_id && s.college_id === req.user.college_id) || (req.user.email && s.email === req.user.email))
+      || (db.users || []).find(u => u.id === userId || u._id === userId || (req.user.email && u.email === req.user.email))
+      || req.user;
 
     if (!db.assignmentSubmissions) {
       db.assignmentSubmissions = [];
@@ -110,35 +107,46 @@ export function registerAssignmentsRoutes(router) {
     let fileName = '';
     let fileType = '';
 
-    const file = req.body.files?.[0];
+    const file = req.body.files?.[0] || req.body.file;
     if (file) {
       try {
-        fileName = file.filename || 'submission.pdf';
+        fileName = file.filename || file.name || 'submission.pdf';
         const safeName = safeFilename(fileName);
         const filename = `${assignmentId}-${userId}-${safeName}`;
-        fileUrl = await CloudinaryService.uploadFile(file.buffer, filename, file.contentType || 'application/octet-stream');
-        fileType = file.contentType || 'application/pdf';
+        fileUrl = await CloudinaryService.uploadFile(file.buffer, filename, file.contentType || file.type || 'application/octet-stream');
+        fileType = file.contentType || file.type || 'application/pdf';
       } catch (err) {
-        logger.error('[AssignmentSubmit] Cloudinary upload error:', err);
+        logger.error('[AssignmentSubmit] File upload error:', err);
         return sendJson(res, 500, { error: 'File upload failed' });
       }
     }
+
+    const regNo = student.college_id || student.regNo || student.registrationNumber || req.user.college_id || student.rollNumber || student.roll_no || 'N/A';
+    const studentName = student.name || student.fullName || req.user.name || req.user.email || 'Student';
 
     const submission = {
       _id: nextId('sub'),
       assignmentId,
       studentId: String(userId),
-      studentName: student.name || student.fullName || req.user.email || 'Student',
+      studentName,
+      regNo,
+      registrationNumber: regNo,
+      college_id: regNo,
+      rollNumber: regNo,
+      section: student.section || assignment.section || 'A',
       fileUrl,
       fileName,
+      files: fileUrl ? [fileUrl] : [],
       fileType,
       submittedOn: new Date().toISOString().slice(0, 10),
+      submittedAt: new Date().toISOString(),
       createdAt: new Date().toISOString(),
       grade: 'Pending',
+      marks: 0,
       score: 0,
       title: assignment.title,
       subject: assignment.subject,
-      type: assignment.type,
+      type: assignment.type || 'Assignment',
       status: 'Submitted'
     };
 
@@ -308,7 +316,40 @@ export function registerAssignmentsRoutes(router) {
   // Faculty: View submissions for an assignment (RESTRICTED TO FACULTY / ADMIN)
   router.get('/api/assignments/:assignmentId/submissions', (req, res, ctx) => {
     if (!requireFaculty(req, res)) return;
-    const submissions = (ctx.getDb().assignmentSubmissions || []).filter(sub => sub.assignmentId === req.params.assignmentId);
+    const db = ctx.getDb();
+    const students = db.students || [];
+    const users = db.users || [];
+
+    const submissions = (db.assignmentSubmissions || [])
+      .filter(sub => sub.assignmentId === req.params.assignmentId)
+      .map(sub => {
+        const student = students.find(s => s.id === sub.studentId || s._id === sub.studentId || (s.college_id && s.college_id === sub.studentId))
+          || users.find(u => u.id === sub.studentId || u._id === sub.studentId || (u.college_id && u.college_id === sub.studentId));
+
+        const regNo = sub.regNo || sub.registrationNumber || sub.college_id || student?.college_id || student?.regNo || student?.registrationNumber || sub.rollNumber || student?.rollNumber || '-';
+        const studentName = (sub.studentName && sub.studentName !== 'Student') ? sub.studentName : (student?.name || student?.fullName || sub.studentName || 'Student');
+
+        let filesList = [];
+        if (Array.isArray(sub.files) && sub.files.length > 0) {
+          filesList = sub.files;
+        } else if (sub.fileUrl) {
+          filesList = [sub.fileUrl];
+        }
+
+        return {
+          ...sub,
+          regNo,
+          registrationNumber: regNo,
+          college_id: regNo,
+          rollNumber: regNo,
+          studentName,
+          files: filesList,
+          fileUrl: sub.fileUrl || (filesList[0] || ''),
+          submittedAt: sub.submittedAt || sub.createdAt || (sub.submittedOn ? new Date(sub.submittedOn).toISOString() : null),
+          marks: sub.marks !== undefined ? sub.marks : (sub.score !== undefined ? sub.score : undefined)
+        };
+      });
+
     return sendJson(res, 200, submissions);
   });
 

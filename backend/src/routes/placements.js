@@ -48,7 +48,8 @@ export function registerPlacementsRoutes(router) {
   });
 
   router.get('/api/placements/companies', (req, res, ctx) => {
-    return sendJson(res, 200, ctx.getDb().companies);
+    const db = ctx.getDb();
+    return sendJson(res, 200, Array.isArray(db.companies) ? db.companies : []);
   });
 
   router.post('/api/placements/apply', async (req, res, ctx) => {

@@ -143,10 +143,68 @@ export function dashboardStats(db) {
   };
 }
 
+export function getCompanyActivityLogs(db) {
+  const companyLogs = [];
+
+  // 1. Logs from db.activityLogs strictly of type 'company'
+  if (Array.isArray(db.activityLogs)) {
+    for (const log of db.activityLogs) {
+      if (log.type === 'company' || log.role === 'company' || log.category === 'company') {
+        companyLogs.push({
+          type: 'company',
+          message: log.message || 'Company Action',
+          detail: log.detail || '',
+          createdAt: log.createdAt || log.timestamp || new Date().toISOString()
+        });
+      }
+    }
+  }
+
+  // 2. Derive activities from Placement Drives (created/scheduled by companies)
+  if (Array.isArray(db.placementDrives)) {
+    for (const drive of db.placementDrives) {
+      const comp = (db.companies || []).find(c =>
+        String(c.id) === String(drive.companyId) || c._id === drive.companyId
+      );
+      const companyName = comp ? comp.name : (drive.companyName || 'Corporate Partner');
+      companyLogs.push({
+        type: 'company',
+        message: drive.status === 'Active' || drive.status === 'Scheduled' ? 'Placement drive scheduled' : 'Placement drive updated',
+        detail: `${drive.title} (${companyName})`,
+        createdAt: drive.createdAt || drive.updatedAt || drive.driveDate || new Date().toISOString()
+      });
+    }
+  }
+
+  // 3. Derive activities from Partner Company Onboarding
+  if (Array.isArray(db.companies)) {
+    for (const comp of db.companies) {
+      companyLogs.push({
+        type: 'company',
+        message: 'Partner company onboarded',
+        detail: `${comp.name} registered with ${comp.loginEmail ? 'system portal access' : 'hiring catalog'}`,
+        createdAt: comp.createdAt || new Date().toISOString()
+      });
+    }
+  }
+
+  // Sort descending by date and return top unique company activities
+  const seen = new Set();
+  return companyLogs
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .filter(item => {
+      const key = `${item.message}_${item.detail}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 50);
+}
+
 export function systemHealth(ctx, db) {
   const uptimeSeconds = Math.floor((Date.now() - ctx.startedAt.getTime()) / 1000);
   return {
-    activityLogs: db.activityLogs.slice(0, 10),
+    activityLogs: getCompanyActivityLogs(db),
     systemHealth: {
       success: true,
       health: {

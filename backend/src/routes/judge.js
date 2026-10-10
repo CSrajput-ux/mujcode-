@@ -44,6 +44,15 @@ export function registerJudgeRoutes(router) {
       if (problem?.seedSql) seedSql = problem.seedSql;
     }
     const language = req.body.language || 'python';
+    try {
+      CodeExecutionService.resolveLanguageId(language);
+    } catch (langErr) {
+      return sendJson(res, 400, {
+        error: 'Unsupported language',
+        message: langErr.message,
+        supportedLanguages: ['c', 'cpp', 'java', 'python', 'javascript', 'go', 'sql']
+      });
+    }
     const mode = req.body.mode || 'submit';
 
     // Create a placeholder record in MongoDB for immediate persistence
@@ -262,18 +271,39 @@ export function registerJudgeRoutes(router) {
    * ──────────────────────────────────────────────────
    * Fetch submission history for a specific user and problem (Protected: self, faculty, admin).
    */
-  router.get('/api/judge/submissions/:userId/:problemNumber', async (req, res) => {
+  router.get('/api/judge/submissions/:userId/:problemNumber', async (req, res, ctx) => {
     if (!requireSelfOrFacultyOrAdmin(req, res, req.params.userId)) return;
     const param = req.params.problemNumber;
     try {
-      const submissions = await CodeExecution.find({
-        userId: req.params.userId,
-        $or: [
-          { problemId: param },
-          { problemNumber: isNaN(Number(param)) ? param : Number(param) }
-        ]
-      }).sort({ createdAt: -1 }).lean();
-      return sendJson(res, 200, { submissions });
+      let submissions = [];
+      try {
+        submissions = await CodeExecution.find({
+          userId: req.params.userId,
+          $or: [
+            { problemId: param },
+            { problemNumber: isNaN(Number(param)) ? param : Number(param) }
+          ]
+        }).sort({ createdAt: -1 }).lean();
+      } catch (mongoErr) {
+        submissions = [];
+      }
+
+      if (!submissions || submissions.length === 0) {
+        const db = ctx?.getDb ? ctx.getDb() : null;
+        if (db && db.problemSubmissions) {
+          const userParam = String(req.params.userId);
+          const student = (db.students || []).find(s => s.id === userParam || s.college_id === userParam);
+          const userIds = new Set([userParam, student?.id, student?.college_id].filter(Boolean));
+
+          submissions = db.problemSubmissions.filter(sub => {
+            const matchesUser = userIds.has(String(sub.userId));
+            const matchesProb = String(sub.problemId) === String(param) || String(sub.problemNumber) === String(param);
+            return matchesUser && matchesProb;
+          }).sort((a, b) => new Date(b.createdAt || b.judgedAt || 0).getTime() - new Date(a.createdAt || a.judgedAt || 0).getTime());
+        }
+      }
+
+      return sendJson(res, 200, { submissions: submissions || [] });
     } catch (e) {
       return sendJson(res, 500, { error: 'Failed to fetch submissions' });
     }
