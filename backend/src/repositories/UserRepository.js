@@ -13,8 +13,13 @@ export class UserRepository {
   }
 
   _db() {
-    // Prefer ctx if available (keeps same in-memory cache), else load fresh
-    return this.ctx?.getDb ? this.ctx.getDb() : loadDb();
+    let db = this.ctx?.getDb ? this.ctx.getDb() : loadDb();
+    if (!db || !Array.isArray(db.users) || db.users.length === 0) {
+      db = loadDb(true);
+    }
+    if (!db) db = {};
+    if (!Array.isArray(db.users)) db.users = [];
+    return db;
   }
 
   _save(db) {
@@ -26,14 +31,16 @@ export class UserRepository {
   }
 
   async findAll() {
-    return this._db().users;
+    const db = this._db();
+    return Array.isArray(db.users) ? db.users : [];
   }
 
   // Finds a user by email/college_id and optionally role
   async findByEmailAndRole(identifier, role) {
     const db = this._db();
     const clean = String(identifier || '').trim().toLowerCase();
-    return db.users.find(u => {
+    const users = Array.isArray(db.users) ? db.users : [];
+    return users.find(u => {
       const matchEmail = u.email?.toLowerCase() === clean;
       const matchCollegeId = String(u.college_id || u.collegeId || '').trim().toLowerCase() === clean;
       const matchRole = !role || u.role?.toLowerCase() === String(role).toLowerCase();
@@ -45,7 +52,8 @@ export class UserRepository {
   async findAllByEmail(identifier) {
     const db = this._db();
     const clean = String(identifier || '').trim().toLowerCase();
-    return db.users.filter(u => {
+    const users = Array.isArray(db.users) ? db.users : [];
+    return users.filter(u => {
       const matchEmail = u.email?.toLowerCase() === clean;
       const matchCollegeId = String(u.college_id || u.collegeId || '').trim().toLowerCase() === clean;
       return matchEmail || matchCollegeId;
@@ -55,6 +63,7 @@ export class UserRepository {
   // Updates a single user and persists to disk
   async save(user) {
     const db = this._db();
+    if (!Array.isArray(db.users)) db.users = [];
     const idx = db.users.findIndex(u => u.id === user.id || u.id === user._id);
     if (idx !== -1) {
       db.users[idx] = { ...db.users[idx], ...user };
@@ -68,6 +77,7 @@ export class UserRepository {
   // Updates multiple users in one go
   async saveMany(users) {
     const db = this._db();
+    if (!Array.isArray(db.users)) db.users = [];
     for (const user of users) {
       const idx = db.users.findIndex(u => u.id === user.id || u.id === user._id);
       if (idx !== -1) {

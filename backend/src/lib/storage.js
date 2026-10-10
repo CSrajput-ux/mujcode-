@@ -52,11 +52,12 @@ export function setDbCache(cache) {
   dbCache = cache;
   if (!dbCache.faculty) dbCache.faculty = [];
   if (!dbCache.students) dbCache.students = [];
+  if (!dbCache.users) dbCache.users = [];
   rebuildFastIndices(dbCache.faculty, dbCache.students);
 }
 
-export function loadDb() {
-  if (dbCache) {
+export function loadDb(forceReload = false) {
+  if (dbCache && !forceReload) {
     return dbCache;
   }
 
@@ -66,6 +67,7 @@ export function loadDb() {
 
   if (!dbCache.faculty) dbCache.faculty = [];
   if (!dbCache.students) dbCache.students = [];
+  if (!dbCache.users) dbCache.users = [];
 
   // Sync with dedicated JSON files if missing or empty
   if (!fs.existsSync(config.facultyFile) || fs.statSync(config.facultyFile).size <= 5) {
@@ -82,10 +84,26 @@ export function loadDb() {
 }
 
 export async function loadDbFromPostgresOrFile() {
+  const diskDb = loadDb(true);
   if (isPostgresConnected()) {
     try {
       const pgData = await loadAllFromPostgres();
       if (pgData && Object.keys(pgData).length > 0) {
+        // Merge disk snapshot collections with pgData so latest writes to placementDrives / activityLogs aren't lost
+        for (const [key, val] of Object.entries(diskDb)) {
+          if (!pgData[key]) {
+            pgData[key] = val;
+          } else if (Array.isArray(val) && Array.isArray(pgData[key])) {
+            const existingIds = new Set(pgData[key].map(item => String(item._id || item.id || JSON.stringify(item))));
+            for (const item of val) {
+              const id = String(item._id || item.id || JSON.stringify(item));
+              if (!existingIds.has(id)) {
+                pgData[key].push(item);
+                existingIds.add(id);
+              }
+            }
+          }
+        }
         setDbCache(pgData);
         logger.info(`[StorageEngine] Successfully hydrated in-memory store from PostgreSQL (${Object.keys(pgData).length} collections).`);
         return dbCache;
@@ -95,7 +113,7 @@ export async function loadDbFromPostgresOrFile() {
     }
   }
 
-  return loadDb();
+  return diskDb;
 }
 
 export function loadFaculty() {

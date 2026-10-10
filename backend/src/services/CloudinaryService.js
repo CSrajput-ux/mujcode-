@@ -83,8 +83,19 @@ export class CloudinaryService {
           },
           (error, result) => {
             if (error) {
-              logger.error("[CloudinaryService] Upload failed:", error);
-              return reject(new Error(error.message || "Cloudinary upload failed"));
+              logger.warn("[CloudinaryService] Cloudinary upload failed, using local storage fallback:", error.message || error);
+              try {
+                const uploadDir = config.uploadDir;
+                fs.mkdirSync(uploadDir, { recursive: true });
+                const filePath = path.join(uploadDir, filename);
+                fs.writeFileSync(filePath, buffer);
+                const localUrl = `/uploads/${filename}`;
+                logger.info(`[Storage] Saved locally to: ${localUrl}`);
+                return resolve(localUrl);
+              } catch (localErr) {
+                logger.error("[CloudinaryService] Local fallback also failed:", localErr);
+                return reject(new Error(error.message || "Upload failed"));
+              }
             }
             logger.info(`[CloudinaryService] File uploaded successfully to CDN: ${result.secure_url}`);
             resolve(result.secure_url);

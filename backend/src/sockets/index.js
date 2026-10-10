@@ -23,15 +23,22 @@ export function setupSockets(server) {
 
   // ── Multi-Instance Distributed Redis Adapter ────────────────────────────────
   const rawClient = getRawRedisClient();
-  if (rawClient && process.env.REDIS_URI) {
+  const isRedisReady = rawClient && rawClient.status === 'ready' && rawClient._healthy;
+  if (isRedisReady && process.env.REDIS_URI) {
     try {
-      const pubClient = rawClient.duplicate();
-      const subClient = rawClient.duplicate();
+      const pubClient = rawClient.duplicate({ enableOfflineQueue: true });
+      const subClient = rawClient.duplicate({ enableOfflineQueue: true });
+
+      pubClient.on('error', (err) => logger.warn(`[Socket.IO] Redis pubClient error: ${err.message}`));
+      subClient.on('error', (err) => logger.warn(`[Socket.IO] Redis subClient error: ${err.message}`));
+
       io.adapter(createAdapter(pubClient, subClient));
       logger.info('[Socket.IO] Attached distributed Redis adapter for multi-instance broadcast.');
     } catch (err) {
-      logger.warn(`[Socket.IO] Failed to attach Redis adapter: ${err.message}. Using local in-memory adapter.`);
+      logger.warn(`[Socket.IO] Failed to attach Redis adapter: ${err.message}. Using default in-memory adapter.`);
     }
+  } else {
+    logger.info('[Socket.IO] Using standard in-memory adapter (Redis not connected or single-node mode).');
   }
 
   // ── Connection Authentication Guard ─────────────────────────────────────────
@@ -101,14 +108,67 @@ export function setupSockets(server) {
       if (!roomId) return;
       socket.join(roomId);
       socket.roomId = roomId;
+      socket.isCamOn = false;
+      socket.isMicOn = false;
+
+      // Send list of current room participants to newly joined user
+      const roomSockets = liveNamespace.adapter.rooms.get(roomId);
+      const existingUsers = [];
+      if (roomSockets) {
+        for (const sId of roomSockets) {
+          if (sId !== socket.id) {
+            const targetSocket = liveNamespace.sockets.get(sId);
+            if (targetSocket) {
+              existingUsers.push({
+                socketId: targetSocket.id,
+                userId: targetSocket.userId,
+                userName: targetSocket.userName,
+                role: targetSocket.userRole,
+                isCamOn: targetSocket.isCamOn || false,
+                isMicOn: targetSocket.isMicOn || false
+              });
+            }
+          }
+        }
+      }
+      socket.emit('room-users', { users: existingUsers });
 
       // Notify others in the room using token-derived identity
       socket.to(roomId).emit('user-joined', {
         userId: socket.userId,
         userName: socket.userName,
         role: socket.userRole,
-        socketId: socket.id
+        socketId: socket.id,
+        isCamOn: false,
+        isMicOn: false
       });
+    });
+
+    // Toggle Camera / Mic state
+    socket.on('toggle-media', (payload) => {
+      if (payload?.isCamOn !== undefined) socket.isCamOn = !!payload.isCamOn;
+      if (payload?.isMicOn !== undefined) socket.isMicOn = !!payload.isMicOn;
+      if (socket.roomId) {
+        socket.to(socket.roomId).emit('user-media-state', {
+          socketId: socket.id,
+          userId: socket.userId,
+          userName: socket.userName,
+          isCamOn: socket.isCamOn,
+          isMicOn: socket.isMicOn
+        });
+      }
+    });
+
+    // Raise / Lower Hand
+    socket.on('raise-hand', (payload) => {
+      if (socket.roomId) {
+        liveNamespace.to(socket.roomId).emit('user-hand-raised', {
+          socketId: socket.id,
+          userId: socket.userId,
+          userName: socket.userName,
+          raised: !!payload?.raised
+        });
+      }
     });
 
     // WebRTC Signaling
@@ -122,6 +182,7 @@ export function setupSockets(server) {
       });
     });
 
+    // WebRTC Signaling Answer
     socket.on('answer', (payload) => {
       if (!payload?.target) return;
       socket.to(payload.target).emit('answer', {
@@ -130,6 +191,7 @@ export function setupSockets(server) {
       });
     });
 
+    // WebRTC ICE Candidate
     socket.on('ice-candidate', (payload) => {
       if (!payload?.target) return;
       socket.to(payload.target).emit('ice-candidate', {
@@ -155,22 +217,24 @@ export function setupSockets(server) {
       if (socket.roomId) socket.to(socket.roomId).emit('whiteboard-draw', payload);
     });
 
+    // Clear Whiteboard (Faculty/Admin only)
     socket.on('whiteboard-clear', (payload) => {
-      // Only faculty or admin can clear whiteboard
       if (socket.userRole === 'faculty' || socket.userRole === 'admin') {
         if (socket.roomId) socket.to(socket.roomId).emit('whiteboard-clear', payload);
       }
     });
 
+    // Change Whiteboard Page
     socket.on('whiteboard-page-change', (payload) => {
       if (socket.roomId) socket.to(socket.roomId).emit('whiteboard-page-change', payload);
     });
 
+    // Add Whiteboard Page
     socket.on('whiteboard-add-page', (payload) => {
       if (socket.roomId) socket.to(socket.roomId).emit('whiteboard-add-page', payload);
     });
 
-    // Faculty screen share notification
+    // Faculty Screen Share Notification
     socket.on('faculty-screen-share', (payload) => {
       if (socket.userRole === 'faculty' || socket.userRole === 'admin') {
         if (socket.roomId) socket.to(socket.roomId).emit('faculty-screen-share', payload);
