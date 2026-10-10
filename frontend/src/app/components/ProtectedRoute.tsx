@@ -7,7 +7,7 @@ import { toast } from 'sonner';
  * Higher Order Component to protect routes based on permissions
  * @param requiredFeature The feature identifier that must NOT be blocked
  */
-export const ProtectedRoute = ({ requiredFeature, children }: { requiredFeature: string, children: JSX.Element }) => {
+export const ProtectedRoute = ({ requiredFeature, children }: { requiredFeature?: string, children: JSX.Element }) => {
     const [loading, setLoading] = useState(true);
     const [isBlocked, setIsBlocked] = useState(false);
     const [blockReason, setBlockReason] = useState('');
@@ -26,7 +26,7 @@ export const ProtectedRoute = ({ requiredFeature, children }: { requiredFeature:
 
                 if (res.ok) {
                     const data = await res.json();
-                    if (data.blockedFeatures.includes(requiredFeature)) {
+                    if (requiredFeature && data.blockedFeatures.includes(requiredFeature)) {
                         setIsBlocked(true);
                         // Find reason from details if available
                         const detail = data.details.find((d: any) => d.blockedFeatures.includes(requiredFeature));

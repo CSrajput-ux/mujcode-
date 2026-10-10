@@ -36,6 +36,7 @@ const BulkUpload = lazy(() => import('./pages/admin/BulkUpload'));
 const Faculty = lazy(() => import('./pages/admin/Faculty'));
 const AddFaculty = lazy(() => import('./pages/admin/AddFaculty'));
 const Companies = lazy(() => import('./pages/admin/Companies'));
+const AddCompany = lazy(() => import('./pages/admin/AddCompany'));
 const Placements = lazy(() => import('./pages/admin/Placements'));
 const AddPlacement = lazy(() => import('./pages/admin/AddPlacement'));
 const ManageRoles = lazy(() => import('./pages/admin/ManageRoles'));
@@ -129,6 +130,12 @@ export default function App() {
             </ProtectedRoute>
           } />
 
+          {/* Live Classroom Interactive Room */}
+          <Route path="/live-class/:roomId" element={
+            <ProtectedRoute>
+              <LiveClassroomPage />
+            </ProtectedRoute>
+          } />
 
           {/* Faculty Routes */}
           <Route path="/faculty/*" element={
@@ -161,6 +168,7 @@ export default function App() {
 
           {/* Admin - Companies & Placements */}
           <Route path="/admin/companies" element={<Companies />} />
+          <Route path="/admin/companies/add" element={<AddCompany />} />
           <Route path="/admin/placements" element={<Placements />} />
           <Route path="/admin/placements/add" element={<AddPlacement />} />
           <Route path="/admin/system/roles" element={<ManageRoles />} />
