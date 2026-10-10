@@ -16,7 +16,13 @@ import { getClientIp } from '../src/middlewares/rateLimiter.js';
 import { config } from '../src/config.js';
 
 test('Storage, Scalability & Resource Management Test Suite', async (t) => {
+  const initialDbSnapshot = JSON.parse(JSON.stringify(loadDb()));
+
   t.after(async () => {
+    // Restore persistent database snapshot
+    setDbCache(initialDbSnapshot);
+    saveDb(initialDbSnapshot);
+
     await closeRedis();
     await closePostgres();
     // Flush any pending save timeout
