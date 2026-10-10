@@ -1,0 +1,21 @@
+{
+  "name": "mujcode-compiler-engine",
+  "version": "1.0.0",
+  "description": "Lightweight, secure, multi-language execution engine for MUJCODE supporting C, C++, Java, Python, JavaScript, Go, and SQL.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/*.test.js",
+    "test:matrix": "node --test test/language_matrix.test.js",
+    "test:security": "node --test test/security.test.js",
+    "benchmark": "node test/benchmark.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {}
+}

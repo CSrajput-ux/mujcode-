@@ -1,0 +1,46 @@
+# ==============================================================================
+# MUJCODE Compiler Engine — Standalone Docker Compose Service
+# Runs on Port 2359 (separate from Judge0 on 2358 for zero-risk non-destructive rollout)
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  compiler_engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mujcode-compiler-engine:1.0.0
+    container_name: mujcode_compiler_engine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:2359:2359"
+    environment:
+      PORT: 2359
+      HOST: "0.0.0.0"
+      WORKER_CONCURRENCY: 4
+      MAX_QUEUE_CAPACITY: 100
+      SANDBOX_WORK_DIR: /tmp/mujbox
+    volumes:
+      - ./src:/app/src:ro
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1536M
+        reservations:
+          cpus: "0.5"
+          memory: 256M
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:2359/health || exit 1"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
