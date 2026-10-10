@@ -97,26 +97,26 @@ export default function CoursePermissionPanel({ facultyCourses, facultySections 
     };
 
     return (
-        <div className="space-y-6">
-            <Card className="border-gray-200 shadow-xl border-t-4 border-t-orange-500">
-                <CardHeader>
-                    <CardTitle className="text-xl flex items-center gap-3">
+        <div className="space-y-4">
+            <Card className="border-gray-200 shadow-sm border-t-4 border-t-orange-500">
+                <CardHeader className="p-4 sm:p-5 pb-3">
+                    <CardTitle className="text-base sm:text-lg flex items-center gap-2.5">
                         <div className="p-2 bg-orange-100 rounded-lg text-orange-600">
-                            <BookOpen className="w-6 h-6" />
+                            <BookOpen className="w-5 h-5" />
                         </div>
                         Course-Level Restrictions
                     </CardTitle>
-                    <CardDescription className="text-gray-500">
+                    <CardDescription className="text-xs sm:text-sm text-gray-500">
                         Restrict access to specific course materials for entire sections.
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
+                <CardContent className="p-4 sm:p-5 pt-1 space-y-4">
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-gray-700">Select Course</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-1.5">
+                            <label className="text-xs sm:text-sm font-semibold text-gray-700">Select Course</label>
                             <Select value={selectedCourse} onValueChange={setSelectedCourse}>
-                                <SelectTrigger className="bg-white border-gray-200 h-11">
+                                <SelectTrigger className="bg-white border-gray-200 h-10 text-sm">
                                     <SelectValue placeholder="Select one of your courses..." />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -127,10 +127,10 @@ export default function CoursePermissionPanel({ facultyCourses, facultySections 
                             </Select>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-bold text-gray-700">Target Section</label>
+                        <div className="space-y-1.5">
+                            <label className="text-xs sm:text-sm font-semibold text-gray-700">Target Section</label>
                             <Select value={selectedSection} onValueChange={setSelectedSection}>
-                                <SelectTrigger className="bg-white border-gray-200 h-11">
+                                <SelectTrigger className="bg-white border-gray-200 h-10 text-sm">
                                     <SelectValue placeholder="Select Target Section" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -143,20 +143,20 @@ export default function CoursePermissionPanel({ facultyCourses, facultySections 
                         </div>
                     </div>
 
-                    <div className="bg-orange-50/50 p-6 rounded-xl border border-orange-100/50 space-y-4">
-                        <h4 className="text-sm font-bold text-orange-800 uppercase tracking-widest flex items-center gap-2">
+                    <div className="bg-orange-50/50 p-4 rounded-xl border border-orange-100/60 space-y-3">
+                        <h4 className="text-xs font-bold text-orange-800 uppercase tracking-wider flex items-center gap-1.5">
                             <ShieldAlert className="w-4 h-4" />
                             Restrictions to Apply
                         </h4>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
                             {COURSE_FEATURES.map(feature => (
                                 <div
                                     key={feature.id}
                                     className={`
-                                        flex items-center space-x-3 p-3 rounded-lg border transition-all cursor-pointer
+                                        flex items-center space-x-2.5 p-2.5 rounded-lg border transition-all cursor-pointer
                                         ${featuresToBlock.includes(feature.id)
-                                            ? 'bg-red-50 border-red-200 shadow-sm'
+                                            ? 'bg-red-50 border-red-200 shadow-xs'
                                             : 'bg-white border-transparent hover:bg-gray-50 border-dashed border-gray-200'}
                                     `}
                                     onClick={() => toggleFeature(feature.id)}
@@ -175,22 +175,22 @@ export default function CoursePermissionPanel({ facultyCourses, facultySections 
                         </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-bold text-gray-700">Detailed Reason</label>
+                    <div className="space-y-1.5">
+                        <label className="text-xs sm:text-sm font-semibold text-gray-700">Detailed Reason</label>
                         <textarea
                             value={blockReason}
                             onChange={(e) => setBlockReason(e.target.value)}
                             placeholder="Please provide a reason for this restriction (visible to students)..."
-                            className="w-full text-sm border border-gray-200 rounded-xl p-3 bg-gray-50 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none min-h-[80px]"
+                            className="w-full text-sm border border-gray-200 rounded-lg p-3 bg-gray-50 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none min-h-[70px]"
                         />
                     </div>
 
                 </CardContent>
-                <CardFooter className="bg-gray-50/50 flex justify-end p-6 rounded-b-xl">
+                <CardFooter className="bg-gray-50/50 flex justify-end p-4 px-5 rounded-b-lg">
                     <Button
                         onClick={handleBlock}
                         disabled={loading || !selectedCourse || featuresToBlock.length === 0}
-                        className="bg-gray-900 hover:bg-black text-white font-bold px-6 h-11 rounded-xl shadow-lg shadow-gray-200 disabled:opacity-50 disabled:shadow-none"
+                        className="bg-gray-900 hover:bg-black text-white font-semibold px-5 h-10 text-sm rounded-lg shadow-sm disabled:opacity-50"
                     >
                         {loading ? 'Applying...' : 'Apply Course Restrictions'}
                     </Button>

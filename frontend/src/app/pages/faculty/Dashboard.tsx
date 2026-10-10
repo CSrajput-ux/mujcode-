@@ -40,10 +40,10 @@ export default function FacultyDashboard() {
   }, []);
 
   const stats = [
-    { icon: <FileText className="w-6 h-6" />, label: 'Tests Created', value: dashboardStats.testsCreated.toString(), color: 'bg-blue-500' },
-    { icon: <Users className="w-6 h-6" />, label: 'Students', value: dashboardStats.totalStudents.toString(), color: 'bg-green-500' },
-    { icon: <BookOpen className="w-6 h-6" />, label: 'Sections', value: dashboardStats.sections, color: 'bg-purple-500' },
-    { icon: <Award className="w-6 h-6" />, label: 'Dept', value: dashboardStats.department, color: 'bg-[#FF7A00]' },
+    { icon: <FileText className="w-5 h-5" />, label: 'Tests Created', value: dashboardStats.testsCreated.toString(), color: 'bg-blue-500' },
+    { icon: <Users className="w-5 h-5" />, label: 'Students', value: dashboardStats.totalStudents.toString(), color: 'bg-green-500' },
+    { icon: <BookOpen className="w-5 h-5" />, label: 'Sections', value: dashboardStats.sections, color: 'bg-purple-500' },
+    { icon: <Award className="w-5 h-5" />, label: 'Dept', value: dashboardStats.department, color: 'bg-[#FF7A00]' },
   ];
 
   const recentActivities: any[] = [];
@@ -52,21 +52,21 @@ export default function FacultyDashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Faculty Dashboard</h1>
-        <p className="text-gray-600">Manage your courses, students, and assessments</p>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Faculty Dashboard</h1>
+        <p className="text-sm text-gray-500 mt-1">Manage your courses, students, and assessments</p>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {stats.map((stat, index) => (
-          <Card key={index} className="border-none shadow-md">
-            <CardContent className="p-6">
+          <Card key={index} className="border border-gray-100 shadow-xs rounded-xl bg-white hover:border-orange-200 transition-all">
+            <CardContent className="p-5">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
-                  <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                  <p className="text-sm text-gray-500 font-medium mb-1">{stat.label}</p>
+                  <p className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">{stat.value}</p>
                 </div>
-                <div className={`${stat.color} p-3 rounded-lg text-white`}>
+                <div className={`${stat.color} p-2.5 rounded-xl text-white shadow-xs`}>
                   {stat.icon}
                 </div>
               </div>
@@ -75,37 +75,37 @@ export default function FacultyDashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Pending Approvals */}
-        <Card className="shadow-md">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Clock className="w-5 h-5 text-[#FF7A00]" />
+        <Card className="border border-gray-100 shadow-xs rounded-xl bg-white">
+          <CardHeader className="py-3.5 px-5 border-b border-gray-100 bg-gray-50/40">
+            <CardTitle className="text-base font-semibold flex items-center space-x-2.5 text-gray-800">
+              <Clock className="w-4.5 h-4.5 text-[#FF7A00]" />
               <span>Pending Approvals</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="p-5 space-y-3">
             {pendingApprovals.length === 0 ? (
-              <div className="text-center py-6 text-gray-500 text-sm">
+              <div className="text-center py-8 text-gray-400 text-sm">
                 No pending approvals at this time.
               </div>
             ) : (
               pendingApprovals.map((approval, index) => (
-                <div key={index} className="p-3 bg-gray-50 rounded-lg">
+                <div key={index} className="p-3 bg-gray-50/70 rounded-xl border border-gray-100 text-sm">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <p className="font-medium text-gray-900">{approval.student}</p>
-                      <p className="text-sm text-gray-600">{approval.request}</p>
+                      <p className="font-semibold text-gray-900">{approval.student}</p>
+                      <p className="text-xs text-gray-500">{approval.request}</p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-gray-500">{approval.time}</span>
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-xs text-gray-400">{approval.time}</span>
                     <div className="flex space-x-2">
-                      <Button size="sm" className="bg-green-500 hover:bg-green-600">
-                        <CheckCircle className="w-3 h-3 mr-1" />
+                      <Button size="sm" className="h-8 text-xs font-semibold px-3 bg-green-500 hover:bg-green-600">
+                        <CheckCircle className="w-3.5 h-3.5 mr-1" />
                         Approve
                       </Button>
-                      <Button size="sm" variant="outline">Deny</Button>
+                      <Button size="sm" variant="outline" className="h-8 text-xs font-semibold px-3">Deny</Button>
                     </div>
                   </div>
                 </div>
@@ -115,28 +115,28 @@ export default function FacultyDashboard() {
         </Card>
 
         {/* Recent Activities */}
-        <Card className="shadow-md">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <BarChart3 className="w-5 h-5 text-[#FF7A00]" />
+        <Card className="border border-gray-100 shadow-xs rounded-xl bg-white">
+          <CardHeader className="py-3.5 px-5 border-b border-gray-100 bg-gray-50/40">
+            <CardTitle className="text-base font-semibold flex items-center space-x-2.5 text-gray-800">
+              <BarChart3 className="w-4.5 h-4.5 text-[#FF7A00]" />
               <span>Recent Activity</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="p-5 space-y-3">
             {recentActivities.length === 0 ? (
-              <div className="text-center py-6 text-gray-500 text-sm">
+              <div className="text-center py-8 text-gray-400 text-sm">
                 No recent activity.
               </div>
             ) : (
               recentActivities.map((activity, index) => (
-                <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-2 h-2 bg-[#FF7A00] rounded-full mt-2" />
-                  <div className="flex-1">
+                <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50/70 rounded-xl border border-gray-100">
+                  <div className="w-2 h-2 bg-[#FF7A00] rounded-full mt-1.5" />
+                  <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-900">
-                      <span className="font-medium">{activity.action}</span>
-                      <span className="text-gray-600">: {activity.item}</span>
+                      <span className="font-semibold">{activity.action}</span>
+                      <span className="text-gray-500">: {activity.item}</span>
                     </p>
-                    <p className="text-xs text-gray-500 mt-1">{activity.time}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">{activity.time}</p>
                   </div>
                 </div>
               ))
