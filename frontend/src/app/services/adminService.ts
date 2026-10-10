@@ -102,13 +102,33 @@ export const getCompanies = async (params?: {
     return response.data.data;
 };
 
+export const getCompany = async (id: string | number) => {
+    const response = await apiClient.get(`${BASE_URL}/dashboard/companies/${id}`);
+    return response.data.data;
+};
+
 export const createCompany = async (data: any) => {
     const response = await apiClient.post(`${BASE_URL}/dashboard/companies`, data);
     return response.data;
 };
 
-export const updateCompany = async (id: string, data: any) => {
+export const updateCompany = async (id: string | number, data: any) => {
     const response = await apiClient.put(`${BASE_URL}/dashboard/companies/${id}`, data);
+    return response.data;
+};
+
+export const deleteCompany = async (id: string | number) => {
+    const response = await apiClient.delete(`${BASE_URL}/dashboard/companies/${id}`);
+    return response.data;
+};
+
+export const updateCompanyCredentials = async (id: string | number, data: { loginEmail: string; password: string; contactPersonName?: string }) => {
+    const response = await apiClient.post(`${BASE_URL}/dashboard/companies/${id}/credentials`, data);
+    return response.data;
+};
+
+export const toggleCompanyStatus = async (id: string | number, isActive?: boolean) => {
+    const response = await apiClient.patch(`${BASE_URL}/dashboard/companies/${id}/status`, { isActive });
     return response.data;
 };
 

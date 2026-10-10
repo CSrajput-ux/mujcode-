@@ -3,10 +3,33 @@ import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Play, Send, CheckCircle2, XCircle, Clock, ArrowLeft, Save, MessageSquare, Lightbulb } from 'lucide-react';
+import { Play, Send, CheckCircle2, XCircle, Clock, ArrowLeft, Save, MessageSquare, Lightbulb, Copy, Check } from 'lucide-react';
 import { Textarea } from '../../components/ui/textarea';
 import apiClient from '../../services/apiClient';
 import { toast } from 'sonner';
+
+function renderFormattedText(text?: string) {
+    if (!text) return null;
+    const parts = text.split(/(`[^`]+`)/g);
+    return (
+        <>
+            {parts.map((part, i) => {
+                if (part.startsWith('`') && part.endsWith('`') && part.length > 2) {
+                    const code = part.slice(1, -1);
+                    return (
+                        <code
+                            key={i}
+                            className="inline-block px-1.5 py-0.5 mx-0.5 rounded bg-[#27272a] text-[#f47067] font-mono text-xs border border-zinc-700/50"
+                        >
+                            {code}
+                        </code>
+                    );
+                }
+                return <span key={i}>{part}</span>;
+            })}
+        </>
+    );
+}
 
 export default function ProblemSolver() {
     const { id } = useParams();
@@ -14,6 +37,7 @@ export default function ProblemSolver() {
     const [problem, setProblem] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('description');
+    const [copiedExample, setCopiedExample] = useState(false);
 
     // Editor state
     const [code, setCode] = useState('');
@@ -78,7 +102,13 @@ export default function ProblemSolver() {
     const fetchProblem = async () => {
         try {
             const res = await apiClient.get(`/api/problems/number/${id}`);
-            setProblem(res.data.problem);
+            const prob = res.data.problem;
+            setProblem(prob);
+            if (prob?.category === 'C' || prob?.courseId?.includes('c_')) {
+                setLanguage('c');
+                const cTemplate = languages.find(l => l.id === 'c')?.template || '';
+                if (!code) setCode(cTemplate);
+            }
             setLoading(false);
         } catch (error) {
             console.error('Error fetching problem:', error);
@@ -234,11 +264,11 @@ export default function ProblemSolver() {
 
 
     const getDifficultyColor = (difficulty: string) => {
-        switch (difficulty) {
-            case 'Easy': return 'bg-green-100 text-green-700';
-            case 'Medium': return 'bg-yellow-100 text-yellow-700';
-            case 'Hard': return 'bg-red-100 text-red-700';
-            default: return 'bg-gray-100 text-gray-700';
+        switch (difficulty?.toLowerCase()) {
+            case 'easy': return 'bg-emerald-950/80 text-emerald-400 border border-emerald-800/60';
+            case 'medium': return 'bg-amber-950/80 text-amber-400 border border-amber-800/60';
+            case 'hard': return 'bg-rose-950/80 text-rose-400 border border-rose-800/60';
+            default: return 'bg-zinc-800 text-zinc-300 border border-zinc-700';
         }
     };
 
@@ -252,11 +282,19 @@ export default function ProblemSolver() {
         }
     };
 
+    const handleCopyExample = (text: string) => {
+        if (!text) return;
+        navigator.clipboard.writeText(text);
+        setCopiedExample(true);
+        setTimeout(() => setCopiedExample(false), 2000);
+        toast.success("Example copied to clipboard!");
+    };
+
     if (loading) {
         return (
             <StudentLayout>
-                <div className="flex items-center justify-center h-screen">
-                    <div className="text-lg text-gray-500">Loading problem...</div>
+                <div className="flex items-center justify-center h-screen bg-[#121316]">
+                    <div className="text-lg text-zinc-400 font-serif">Loading problem...</div>
                 </div>
             </StudentLayout>
         );
@@ -265,28 +303,48 @@ export default function ProblemSolver() {
     if (!problem) {
         return (
             <StudentLayout>
-                <div className="flex items-center justify-center h-screen">
-                    <div className="text-lg text-red-500">Problem not found</div>
+                <div className="flex items-center justify-center h-screen bg-[#121316]">
+                    <div className="text-lg text-rose-400 font-serif">Problem not found</div>
                 </div>
             </StudentLayout>
         );
     }
 
+    const exampleContent = problem?.example || (
+        problem?.sampleInput || problem?.sampleOutput 
+            ? `${problem.sampleInput ? `Input:\n${problem.sampleInput}\n\n` : ''}Output:\n${problem.sampleOutput || ''}`.trim()
+            : (problem?.examples && problem.examples[0] 
+                ? `${problem.examples[0].input ? `Input:\n${problem.examples[0].input}\n\n` : ''}Output:\n${problem.examples[0].output}`.trim() 
+                : '')
+    );
+
+    const displayTestCases = (problem?.testCases && problem.testCases.length > 0)
+        ? problem.testCases
+        : ((problem?.examples && problem.examples.length > 0)
+            ? problem.examples.map((ex: any) => ({ input: ex.input, expectedOutput: ex.output }))
+            : (problem?.sampleOutput ? [{ input: problem.sampleInput || '', expectedOutput: problem.sampleOutput }] : []));
+
+    const questionHeading = problem?.questionIndex 
+        ? `Question ${problem.questionIndex}: ${problem.title}`
+        : (problem?.number >= 3001 && problem?.number <= 3150 
+            ? `Question ${((problem.number - 3001) % 10) + 1}: ${problem.title}`
+            : `Question ${problem?.number}: ${problem?.title}`);
+
     return (
         <StudentLayout>
-            <div className="h-screen flex flex-col">
+            <div className="h-screen flex flex-col bg-[#121316]">
                 {/* Header */}
-                <div className="bg-white border-b px-6 py-3 flex items-center justify-between">
+                <div className="bg-[#121316] border-b border-zinc-800 px-6 py-3 flex items-center justify-between text-white flex-shrink-0">
                     <div className="flex items-center space-x-4">
                         <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => navigate(-1)}
-                            className="mr-2"
+                            className="mr-2 text-zinc-400 hover:text-white hover:bg-zinc-800"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </Button>
-                        <h1 className="text-xl font-bold">#{problem.number}. {problem.title}</h1>
+                        <h1 className="text-xl font-bold text-white">#{problem.number}. {problem.title}</h1>
                         <Badge className={getDifficultyColor(problem.difficulty)}>
                             {problem.difficulty}
                         </Badge>
@@ -296,15 +354,15 @@ export default function ProblemSolver() {
                             onClick={handleRun}
                             disabled={isRunning}
                             variant="outline"
-                            className="flex items-center space-x-2"
+                            className="bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700 hover:text-white flex items-center space-x-2"
                         >
-                            <Play className="w-4 h-4" />
+                            <Play className="w-4 h-4 text-emerald-400" />
                             <span>Run</span>
                         </Button>
                         <Button
                             onClick={handleSubmit}
                             disabled={isRunning}
-                            className="bg-[#FF7A00] hover:bg-[#FF6A00] flex items-center space-x-2"
+                            className="bg-[#FF7A00] hover:bg-[#FF6A00] text-white flex items-center space-x-2 font-medium"
                         >
                             <Send className="w-4 h-4" />
                             <span>Submit</span>
@@ -315,16 +373,16 @@ export default function ProblemSolver() {
                 {/* Main Content - Split View */}
                 <div className="flex-1 flex overflow-hidden">
                     {/* Left Panel - Problem Description */}
-                    <div className="w-2/5 border-r bg-white overflow-y-auto">
+                    <div className="w-2/5 md:w-[45%] border-r border-zinc-800 bg-[#141518] flex flex-col overflow-hidden text-zinc-200">
                         {/* Tabs */}
-                        <div className="border-b flex">
+                        <div className="border-b border-zinc-800 bg-[#121316] flex flex-shrink-0 px-2">
                             {['description', 'editorial', 'solutions', 'submissions'].map(tab => (
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
-                                    className={`px-4 py-3 text-sm font-medium capitalize ${activeTab === tab
-                                        ? 'border-b-2 border-[#FF7A00] text-[#FF7A00]'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                    className={`px-4 py-3 text-sm font-medium capitalize transition-colors ${activeTab === tab
+                                        ? 'border-b-2 border-[#FF7A00] text-white font-semibold'
+                                        : 'text-zinc-400 hover:text-zinc-200'
                                         }`}
                                 >
                                     {tab}
@@ -333,68 +391,134 @@ export default function ProblemSolver() {
                         </div>
 
                         {/* Tab Content */}
-                        <div className="p-6">
+                        <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#141518]">
                             {activeTab === 'description' && (
-                                <div className="space-y-6">
-                                    <div>
-                                        <h2 className="text-lg font-semibold mb-2">Description</h2>
-                                        <p className="text-gray-700 whitespace-pre-wrap">{problem.description}</p>
+                                <div className="space-y-6 font-serif text-[#e4e4e7]">
+                                    {/* Question Title */}
+                                    <h2 className="text-xl md:text-2xl font-serif font-bold text-white tracking-tight">
+                                        {questionHeading}
+                                    </h2>
+
+                                    {/* Difficulty */}
+                                    <div className="text-sm md:text-base text-zinc-300 font-serif">
+                                        <strong className="font-bold text-white">Difficulty:</strong>{' '}
+                                        <span className="font-normal text-zinc-300">{problem.difficulty}</span>
                                     </div>
 
-                                    {problem.examples && problem.examples.length > 0 && (
-                                        <div>
-                                            <h3 className="font-semibold mb-2">Examples</h3>
-                                            {problem.examples.map((example: any, idx: number) => (
-                                                <div key={idx} className="bg-gray-50 p-4 rounded mb-3">
-                                                    <div className="mb-2">
-                                                        <span className="font-medium">Input:</span>
-                                                        <pre className="bg-white p-2 rounded mt-1">{example.input}</pre>
-                                                    </div>
-                                                    <div>
-                                                        <span className="font-medium">Output:</span>
-                                                        <pre className="bg-white p-2 rounded mt-1">{example.output}</pre>
-                                                    </div>
-                                                    {example.explanation && (
-                                                        <div className="mt-2">
-                                                            <span className="font-medium">Explanation:</span>
-                                                            <p className="text-gray-600 mt-1">{example.explanation}</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            ))}
+                                    {/* Problem Description */}
+                                    <div className="text-sm md:text-base leading-relaxed text-zinc-300 font-serif">
+                                        <strong className="font-bold text-white">Problem Description:</strong>{' '}
+                                        <span>{renderFormattedText(problem.description)}</span>
+                                    </div>
+
+                                    {/* Input Format */}
+                                    {problem.inputFormat && (
+                                        <div className="text-sm md:text-base leading-relaxed text-zinc-300 font-serif">
+                                            <strong className="font-bold text-white">Input Format:</strong>{' '}
+                                            <span>{renderFormattedText(problem.inputFormat)}</span>
                                         </div>
                                     )}
 
+                                    {/* Output Format */}
+                                    {problem.outputFormat && (
+                                        <div className="text-sm md:text-base leading-relaxed text-zinc-300 font-serif">
+                                            <strong className="font-bold text-white">Output Format:</strong>{' '}
+                                            <span>{renderFormattedText(problem.outputFormat)}</span>
+                                        </div>
+                                    )}
+
+                                    {/* Constraints */}
                                     {problem.constraints && (
-                                        <div>
-                                            <h3 className="font-semibold mb-2">Constraints</h3>
-                                            {Array.isArray(problem.constraints) ? (
-                                                <ul className="list-disc list-inside text-gray-700 space-y-1">
-                                                    {problem.constraints.map((constraint: string, idx: number) => (
-                                                        <li key={idx}>{constraint}</li>
-                                                    ))}
-                                                </ul>
-                                            ) : (
-                                                <p className="text-gray-700 whitespace-pre-line">{problem.constraints}</p>
-                                            )}
+                                        <div className="text-sm md:text-base leading-relaxed text-zinc-300 font-serif">
+                                            <strong className="font-bold text-white">Constraints:</strong>{' '}
+                                            <span>{renderFormattedText(Array.isArray(problem.constraints) ? problem.constraints.join(', ') : problem.constraints)}</span>
+                                        </div>
+                                    )}
+
+                                    {/* Example Block with Copy Button */}
+                                    {exampleContent && (
+                                        <div className="space-y-2 font-serif">
+                                            <strong className="font-bold text-white text-sm md:text-base block">Example:</strong>
+                                            <div className="relative bg-[#191a1e] border border-zinc-800 rounded-lg p-4 font-mono text-sm text-zinc-200">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleCopyExample(exampleContent)}
+                                                    className="absolute top-3 right-3 p-1.5 rounded bg-zinc-800/80 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors"
+                                                    title="Copy example"
+                                                >
+                                                    {copiedExample ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                                                </button>
+                                                <pre className="font-mono text-xs md:text-sm whitespace-pre-wrap leading-relaxed text-zinc-200 pr-8">
+                                                    {exampleContent}
+                                                </pre>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Test Cases Table */}
+                                    {displayTestCases.length > 0 && (
+                                        <div className="space-y-3 font-serif">
+                                            <strong className="font-bold text-white text-sm md:text-base block">Test Cases:</strong>
+                                            <div className="overflow-x-auto">
+                                                <table className="w-full text-left font-serif text-sm border-collapse">
+                                                    <thead>
+                                                        <tr className="border-b border-zinc-700/60 text-white font-bold">
+                                                            <th className="py-2.5 pr-4 font-bold text-xs md:text-sm w-10">#</th>
+                                                            <th className="py-2.5 px-4 font-bold text-xs md:text-sm">Input</th>
+                                                            <th className="py-2.5 pl-4 font-bold text-xs md:text-sm">Expected Output</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody className="divide-y divide-zinc-800/60">
+                                                        {displayTestCases.map((tc: any, idx: number) => (
+                                                            <tr key={idx} className="hover:bg-zinc-800/20">
+                                                                <td className="py-3 pr-4 text-zinc-300 font-serif text-xs md:text-sm align-middle">
+                                                                    {idx + 1}
+                                                                </td>
+                                                                <td className="py-3 px-4 align-middle">
+                                                                    {tc.input && tc.input !== '(none)' && tc.input !== 'none' ? (
+                                                                        <code className="inline-block px-2 py-0.5 rounded bg-[#27272a] text-[#f47067] font-mono text-xs border border-zinc-700/50 whitespace-pre">
+                                                                            {tc.input}
+                                                                        </code>
+                                                                    ) : (
+                                                                        <span className="text-zinc-500 italic text-xs font-mono">(none)</span>
+                                                                    )}
+                                                                </td>
+                                                                <td className="py-3 pl-4 align-middle">
+                                                                    <code className="inline-block px-2 py-0.5 rounded bg-[#27272a] text-[#f47067] font-mono text-xs border border-zinc-700/50 whitespace-pre">
+                                                                        {tc.expectedOutput || tc.output}
+                                                                    </code>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Hint */}
+                                    {problem.hint && (
+                                        <div className="text-sm md:text-base leading-relaxed text-zinc-300 font-serif pt-1">
+                                            <strong className="font-bold text-white">Hint:</strong>{' '}
+                                            <span>{renderFormattedText(problem.hint)}</span>
                                         </div>
                                     )}
                                 </div>
                             )}
 
                             {activeTab === 'editorial' && (
-                                <div className="space-y-8">
+                                <div className="space-y-6 text-zinc-200">
                                     {/* Personal Notes */}
-                                    <div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
-                                        <div className="flex items-center space-x-2 mb-4 text-blue-800">
+                                    <div className="bg-[#18191d] p-6 rounded-lg border border-zinc-800">
+                                        <div className="flex items-center space-x-2 mb-4 text-blue-400">
                                             <Save className="w-5 h-5" />
-                                            <h3 className="font-semibold text-lg">Personal Notes</h3>
+                                            <h3 className="font-semibold text-lg text-white">Personal Notes</h3>
                                         </div>
                                         <Textarea
                                             value={notes}
                                             onChange={(e) => setNotes(e.target.value)}
                                             placeholder="Write your personal notes, logic, or reminders here..."
-                                            className="bg-white border-blue-200 focus:border-blue-400 min-h-[150px] mb-4"
+                                            className="bg-[#121316] border-zinc-700 text-white placeholder-zinc-500 focus:border-blue-400 min-h-[150px] mb-4"
                                         />
                                         <Button
                                             onClick={() => {
@@ -408,17 +532,17 @@ export default function ProblemSolver() {
                                     </div>
 
                                     {/* Improvement Suggestions */}
-                                    <div className="bg-yellow-50 p-6 rounded-lg border border-yellow-100">
-                                        <div className="flex items-center space-x-2 mb-4 text-yellow-800">
+                                    <div className="bg-[#18191d] p-6 rounded-lg border border-zinc-800">
+                                        <div className="flex items-center space-x-2 mb-4 text-amber-400">
                                             <Lightbulb className="w-5 h-5" />
-                                            <h3 className="font-semibold text-lg">Suggest Improvement</h3>
+                                            <h3 className="font-semibold text-lg text-white">Suggest Improvement</h3>
                                         </div>
-                                        <p className="text-sm text-yellow-700 mb-3">Found an issue with the problem or test cases? Let us know!</p>
+                                        <p className="text-sm text-zinc-400 mb-3">Found an issue with the problem or test cases? Let us know!</p>
                                         <Textarea
                                             value={improvement}
                                             onChange={(e) => setImprovement(e.target.value)}
                                             placeholder="Describe the issue or improvement..."
-                                            className="bg-white border-yellow-200 focus:border-yellow-400 min-h-[100px] mb-4"
+                                            className="bg-[#121316] border-zinc-700 text-white placeholder-zinc-500 focus:border-amber-400 min-h-[100px] mb-4"
                                         />
                                         <Button
                                             onClick={() => {
@@ -426,23 +550,23 @@ export default function ProblemSolver() {
                                                 toast.success("Suggestion submitted! Thank you.");
                                                 setImprovement('');
                                             }}
-                                            className="bg-yellow-600 hover:bg-yellow-700 text-white"
+                                            className="bg-amber-600 hover:bg-amber-700 text-white"
                                         >
                                             Submit Suggestion
                                         </Button>
                                     </div>
 
                                     {/* Feedback */}
-                                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
-                                        <div className="flex items-center space-x-2 mb-4 text-gray-800">
+                                    <div className="bg-[#18191d] p-6 rounded-lg border border-zinc-800">
+                                        <div className="flex items-center space-x-2 mb-4 text-zinc-300">
                                             <MessageSquare className="w-5 h-5" />
-                                            <h3 className="font-semibold text-lg">Editorial Feedback</h3>
+                                            <h3 className="font-semibold text-lg text-white">Editorial Feedback</h3>
                                         </div>
                                         <Textarea
                                             value={feedback}
                                             onChange={(e) => setFeedback(e.target.value)}
                                             placeholder="Was this editorial helpful? Any confusion?"
-                                            className="bg-white border-gray-300 focus:border-gray-400 min-h-[100px] mb-4"
+                                            className="bg-[#121316] border-zinc-700 text-white placeholder-zinc-500 focus:border-zinc-500 min-h-[100px] mb-4"
                                         />
                                         <Button
                                             onClick={() => {
@@ -451,7 +575,7 @@ export default function ProblemSolver() {
                                                 setFeedback('');
                                             }}
                                             variant="outline"
-                                            className="border-gray-400 text-gray-700 hover:bg-gray-100"
+                                            className="bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700 hover:text-white"
                                         >
                                             Submit Feedback
                                         </Button>
@@ -460,7 +584,7 @@ export default function ProblemSolver() {
                             )}
 
                             {activeTab === 'solutions' && (
-                                <div className="text-center text-gray-500 py-12">
+                                <div className="text-center text-zinc-400 py-12">
                                     Community solutions coming soon!
                                 </div>
                             )}
@@ -468,41 +592,40 @@ export default function ProblemSolver() {
                             {activeTab === 'submissions' && (
                                 <div className="space-y-4">
                                     {loadingSubmissions ? (
-                                        <div className="text-center text-gray-500 py-12">
+                                        <div className="text-center text-zinc-400 py-12">
                                             Loading submissions...
                                         </div>
                                     ) : submissions.length === 0 ? (
-                                        <div className="text-center text-gray-500 py-12">
+                                        <div className="text-center text-zinc-400 py-12">
                                             No submissions yet. Submit your code to see history here!
                                         </div>
                                     ) : (
                                         submissions.map((submission: any, idx: number) => (
-                                            <div key={idx} className="border rounded-lg p-4 bg-gray-50 space-y-3">
+                                            <div key={idx} className="border border-zinc-800 rounded-lg p-4 bg-[#18191d] space-y-3">
                                                 {/* Header with verdict and time */}
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center space-x-2">
                                                         {submission.verdict === 'Accepted' ? (
-                                                            <CheckCircle2 className="w-5 h-5 text-green-500" />
+                                                            <CheckCircle2 className="w-5 h-5 text-emerald-400" />
                                                         ) : (
-                                                            <XCircle className="w-5 h-5 text-red-500" />
+                                                            <XCircle className="w-5 h-5 text-rose-400" />
                                                         )}
-                                                        <span className={`font-semibold ${submission.verdict === 'Accepted' ? 'text-green-600' : 'text-red-600'
-                                                            }`}>
+                                                        <span className={`font-semibold ${submission.verdict === 'Accepted' ? 'text-emerald-400' : 'text-rose-400'}`}>
                                                             {submission.verdict}
                                                         </span>
-                                                        <span className="text-sm text-gray-500">
+                                                        <span className="text-sm text-zinc-400">
                                                             • {submission.language}
                                                         </span>
                                                     </div>
-                                                    <span className="text-xs text-gray-500">
+                                                    <span className="text-xs text-zinc-500">
                                                         {new Date(submission.createdAt).toLocaleString()}
                                                     </span>
                                                 </div>
 
                                                 {/* Code */}
                                                 <div>
-                                                    <div className="text-sm font-medium text-gray-700 mb-1">Code:</div>
-                                                    <pre className="bg-gray-900 text-white p-3 rounded text-xs overflow-x-auto">
+                                                    <div className="text-sm font-medium text-zinc-300 mb-1">Code:</div>
+                                                    <pre className="bg-[#121316] border border-zinc-800 text-zinc-200 p-3 rounded text-xs overflow-x-auto">
                                                         <code>{submission.code}</code>
                                                     </pre>
                                                 </div>
@@ -510,10 +633,10 @@ export default function ProblemSolver() {
                                                 {/* Output */}
                                                 {submission.output && (
                                                     <div>
-                                                        <div className="text-sm font-medium text-gray-700 mb-1">Output:</div>
-                                                        <pre className={`p-3 rounded text-xs whitespace-pre-wrap ${submission.verdict === 'Accepted'
-                                                            ? 'bg-green-50 text-green-800'
-                                                            : 'bg-red-50 text-red-800'
+                                                        <div className="text-sm font-medium text-zinc-300 mb-1">Output:</div>
+                                                        <pre className={`p-3 rounded text-xs whitespace-pre-wrap border ${submission.verdict === 'Accepted'
+                                                            ? 'bg-emerald-950/40 border-emerald-900/60 text-emerald-300'
+                                                            : 'bg-rose-950/40 border-rose-900/60 text-rose-300'
                                                             }`}>
                                                             {submission.output}
                                                         </pre>

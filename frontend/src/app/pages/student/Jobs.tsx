@@ -4,6 +4,7 @@ import { Card, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
 import { Input } from '../../components/ui/input';
+import apiClient from '../../services/apiClient';
 import { 
   Briefcase, 
   Building2, 
@@ -37,14 +38,13 @@ export default function Jobs() {
     try {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       const studentId = user.id || '';
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/v1/student/ats/drives?studentId=${studentId}`);
-      const data = await res.json();
-      if (!data.error) {
-        setDrives(data.drives || []);
-        setApplications(data.applications || []);
+      const res = await apiClient.get(`/api/v1/student/ats/drives?studentId=${studentId}`);
+      if (res.data) {
+        setDrives(res.data.drives || []);
+        setApplications(res.data.applications || []);
       }
     } catch (error) {
-      console.error(error);
+      console.error('Error loading drives:', error);
     } finally {
       setLoading(false);
     }
@@ -68,22 +68,19 @@ export default function Jobs() {
         }
       };
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/v1/student/ats/drives/${drive._id}/apply`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
+      const res = await apiClient.post(`/api/v1/student/ats/drives/${drive._id}/apply`, payload);
+      const data = res.data;
       
-      if (res.ok) {
-        alert(`Application Submitted Successfully!\nStatus: ${data.application.status}\nNotes: ${data.application.notes}`);
+      if (res.status === 200 || res.status === 201) {
+        alert(`Application Submitted Successfully!\nStatus: ${data.application?.status || 'Submitted'}\nNotes: ${data.application?.notes || 'Application received'}`);
         fetchDrives(); // Refresh to show "Applied"
       } else {
-        alert(`Failed to apply: ${data.error}`);
+        alert(`Failed to apply: ${data?.error || 'Unknown error'}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      alert('An error occurred during application');
+      const msg = error.response?.data?.error || error.message || 'Failed to submit application';
+      alert(`Failed to apply: ${msg}`);
     } finally {
       setApplying(null);
     }
@@ -99,13 +96,14 @@ export default function Jobs() {
   // Filters
   const filteredDrives = drives.filter(drive => {
     const query = searchQuery.toLowerCase();
-    const titleMatch = drive.title.toLowerCase().includes(query);
-    const companyMatch = drive.companyId?.name?.toLowerCase().includes(query) || false;
+    const titleMatch = (drive.title || '').toLowerCase().includes(query);
+    const companyName = drive.companyId?.name || drive.companyName || '';
+    const companyMatch = companyName.toLowerCase().includes(query);
     
     const matchesSearch = titleMatch || companyMatch;
     
     if (activeTab === 'applied') {
-      const hasApplied = applications.some(app => app.driveId === drive._id);
+      const hasApplied = applications.some(app => String(app.driveId) === String(drive._id) || String(app.driveId) === String(drive.id));
       return matchesSearch && hasApplied;
     }
     
@@ -248,7 +246,7 @@ export default function Jobs() {
             ))
           ) : filteredDrives.length > 0 ? (
             filteredDrives.map(drive => {
-              const userApp = applications.find(app => app.driveId === drive._id);
+              const userApp = applications.find(app => String(app.driveId) === String(drive._id) || String(app.driveId) === String(drive.id));
               const hasApplied = !!userApp;
               
               // Verify eligibility locally for frontend alerts
@@ -278,7 +276,7 @@ export default function Jobs() {
                           {drive.companyId?.logo ? (
                             <img 
                               src={drive.companyId.logo} 
-                              alt={drive.companyId.name} 
+                              alt={drive.companyId.name || drive.companyName} 
                               className="max-w-full max-h-full object-contain"
                               onError={(e) => {
                                 (e.target as HTMLElement).style.display = 'none';
@@ -306,7 +304,7 @@ export default function Jobs() {
                           {drive.title}
                         </h3>
                         <p className="text-sm font-bold text-gray-400 mt-0.5">
-                          {drive.companyId?.name || 'Unknown Company'} • {drive.companyId?.industry || 'Technology'}
+                          {drive.companyId?.name || drive.companyName || 'Corporate Partner'} • {drive.companyId?.industry || 'Technology'}
                         </p>
                       </div>
                     </div>
@@ -315,7 +313,11 @@ export default function Jobs() {
                     <div className="space-y-2.5 py-4 border-y border-slate-50">
                       <div className="flex items-center text-sm font-bold text-slate-600">
                         <IndianRupee className="w-4 h-4 mr-2.5 text-orange-500" />
-                        CTC: {drive.salary?.ctc ? `${drive.salary.ctc} LPA` : 'N/A'}
+                        CTC: {drive.salary?.ctc ? (
+                          String(drive.salary.ctc).toLowerCase().includes('lpa') 
+                            ? drive.salary.ctc.toUpperCase() 
+                            : `${drive.salary.ctc} LPA`
+                        ) : 'N/A'}
                         {drive.salary?.stipend && (
                           <span className="text-xs text-slate-400 font-medium ml-1">
                             (Stipend: ₹{drive.salary.stipend}/mo)

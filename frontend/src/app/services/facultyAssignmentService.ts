@@ -21,12 +21,19 @@ export interface Submission {
     assignmentId: string;
     studentId: string;
     studentName: string;
-    rollNumber: string;
+    rollNumber?: string;
+    regNo?: string;
+    registrationNumber?: string;
+    college_id?: string;
+    fileUrl?: string;
+    fileName?: string;
     files: string[];
     status: 'Pending' | 'Submitted' | 'Graded' | 'Late';
     marks?: number;
+    score?: number;
     feedback?: string;
     submittedAt?: string;
+    submittedOn?: string;
 }
 
 export const getFacultyAssignments = async (): Promise<Assignment[]> => {
