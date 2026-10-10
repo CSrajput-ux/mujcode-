@@ -8,7 +8,10 @@ export const useSocket = (roomId: string, userId: string, userName: string, role
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
+    const token = localStorage.getItem('token') || '';
     socketRef.current = io(SOCKET_URL, {
+      auth: { token },
+      withCredentials: true,
       transports: ['websocket', 'polling']
     });
 
