@@ -18,22 +18,22 @@ export function KPICard({ title, value, trend, trendLabel, icon }: KPICardProps)
     const isPositive = trend && trend >= 0;
 
     return (
-        <Card>
-            <CardContent className="p-6">
+        <Card className="shadow-xs border-gray-100">
+            <CardContent className="p-5">
                 <div className="flex justify-between items-start">
                     <div>
                         <p className="text-sm font-medium text-gray-500">{title}</p>
-                        <h3 className="text-2xl font-bold mt-2">{value}</h3>
+                        <h3 className="text-2xl sm:text-3xl font-extrabold mt-1 text-gray-900 tracking-tight">{value}</h3>
                     </div>
-                    {icon && <div className="p-2 bg-orange-100 rounded-lg text-[#FF7A00]">{icon}</div>}
+                    {icon && <div className="p-2.5 bg-orange-50 rounded-xl text-[#FF7A00]">{icon}</div>}
                 </div>
                 {trend !== undefined && (
-                    <div className="flex items-center mt-4">
-                        <span className={`flex items-center text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                            {isPositive ? <ArrowUp className="w-4 h-4 mr-1" /> : <ArrowDown className="w-4 h-4 mr-1" />}
+                    <div className="flex items-center mt-3">
+                        <span className={`flex items-center text-xs sm:text-sm font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                            {isPositive ? <ArrowUp className="w-4 h-4 mr-0.5" /> : <ArrowDown className="w-4 h-4 mr-0.5" />}
                             {Math.abs(trend)}%
                         </span>
-                        <span className="text-xs text-gray-500 ml-2">{trendLabel || 'vs last month'}</span>
+                        <span className="text-xs text-gray-400 ml-1.5">{trendLabel || 'vs last month'}</span>
                     </div>
                 )}
             </CardContent>
@@ -44,16 +44,16 @@ export function KPICard({ title, value, trend, trendLabel, icon }: KPICardProps)
 // --- PERFORMANCE CHART (Line) ---
 export function PerformanceChart({ data }: { data: any[] }) {
     return (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={280}>
             <LineChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                <YAxis axisLine={false} tickLine={false} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 13 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 13 }} />
                 <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="Section A" stroke="#FF7A00" strokeWidth={2} />
-                <Line type="monotone" dataKey="Section B" stroke="#3b82f6" strokeWidth={2} />
-                <Line type="monotone" dataKey="Section C" stroke="#10b981" strokeWidth={2} />
+                <Legend wrapperStyle={{ fontSize: '13px' }} />
+                <Line type="monotone" dataKey="Section A" stroke="#FF7A00" strokeWidth={2.5} />
+                <Line type="monotone" dataKey="Section B" stroke="#3b82f6" strokeWidth={2.5} />
+                <Line type="monotone" dataKey="Section C" stroke="#10b981" strokeWidth={2.5} />
             </LineChart>
         </ResponsiveContainer>
     );
@@ -62,13 +62,13 @@ export function PerformanceChart({ data }: { data: any[] }) {
 // --- ACTIVITY CHART (Bar) ---
 export function ActivityChart({ data }: { data: any[] }) {
     return (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={280}>
             <BarChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                <YAxis axisLine={false} tickLine={false} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 13 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 13 }} />
                 <Tooltip />
-                <Bar dataKey="value" fill="#FF7A00" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="value" fill="#FF7A00" radius={[5, 5, 0, 0]} />
             </BarChart>
         </ResponsiveContainer>
     );
@@ -77,14 +77,14 @@ export function ActivityChart({ data }: { data: any[] }) {
 // --- SUCCESS PIE CHART ---
 export function SuccessPieChart({ data }: { data: any[] }) {
     return (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={280}>
             <PieChart>
                 <Pie
                     data={data}
                     cx="50%"
                     cy="50%"
                     innerRadius={60}
-                    outerRadius={80}
+                    outerRadius={85}
                     paddingAngle={5}
                     dataKey="value"
                 >
@@ -93,7 +93,7 @@ export function SuccessPieChart({ data }: { data: any[] }) {
                     ))}
                 </Pie>
                 <Tooltip />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: '13px' }} />
             </PieChart>
         </ResponsiveContainer>
     );

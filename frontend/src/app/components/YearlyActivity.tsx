@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { TrendingUp } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { useState, useEffect } from 'react';
+import apiClient from '../services/apiClient';
 
 export default function YearlyActivity() {
     const [activityData, setActivityData] = useState<Record<string, number>>({});
@@ -26,10 +27,10 @@ export default function YearlyActivity() {
                     return;
                 }
 
-                const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/heatmap/${userId}`);
-                const data = await res.json();
+                const res = await apiClient.get(`/api/student/heatmap/${userId}`);
+                const data = res.data;
 
-                if (res.ok && Array.isArray(data)) {
+                if (Array.isArray(data)) {
                     // Convert activity array to record for easy lookup
                     const activityMap: Record<string, number> = {};
                     data.forEach((item: any) => {
