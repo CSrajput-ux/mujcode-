@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const driveSchema = new mongoose.Schema({
-  companyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Company', required: true },
+  companyId: { type: mongoose.Schema.Types.Mixed, required: true },
   title: { type: String, required: true },
   description: { type: String },
   status: { 

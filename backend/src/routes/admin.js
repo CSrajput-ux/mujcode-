@@ -3,21 +3,26 @@ import { z } from 'zod';
 import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { includesText, paginate } from '../lib/pagination.js';
-import { dashboardStats, enrichDrive, studentForAdmin, systemHealth } from './helpers.js';
-import { requireAdmin, requireAuth } from '../lib/requireAuth.js';
+import { dashboardStats, enrichDrive, studentForAdmin, systemHealth, getCompanyActivityLogs } from './helpers.js';
+import { requireAdmin, requireAuth, requireAnyRole } from '../lib/requireAuth.js';
 import { validateSchema } from '../lib/validation.js';
 import { ActivityLog } from '../models/ActivityLog.js';
 import { findStudentById, findFacultyById } from '../lib/fastStore.js';
+import mongoose from 'mongoose';
 
 // --- Zod Validation Schemas ---
 const companySchema = z.object({
   name: z.string().min(1, 'Company name is required'),
   industry: z.string().min(1, 'Industry is required'),
-  location: z.string().optional(),
-  contactEmail: z.string().email('Invalid email').optional().or(z.literal('')),
-  website: z.string().url('Invalid URL').optional().or(z.literal('')),
-  logoUrl: z.string().url('Invalid logo URL').optional().or(z.literal('')),
-  isActive: z.boolean().optional()
+  location: z.string().optional().default(''),
+  contactEmail: z.string().optional().or(z.literal('')),
+  website: z.string().optional().or(z.literal('')),
+  logoUrl: z.string().optional().or(z.literal('')),
+  description: z.string().optional().default(''),
+  isActive: z.boolean().optional().default(true),
+  loginEmail: z.string().optional().or(z.literal('')),
+  password: z.string().optional().or(z.literal('')),
+  contactPersonName: z.string().optional().default('')
 });
 
 const placementDriveSchema = z.object({
@@ -71,6 +76,7 @@ function filteredFaculty(db, query) {
 }
 
 function filteredCompanies(db, query) {
+  if (!Array.isArray(db.companies)) db.companies = [];
   return db.companies.filter(company =>
     includesText(`${company.name} ${company.industry}`, query.search) &&
     (!query.industry || company.industry === query.industry)
@@ -105,38 +111,106 @@ export function registerAdminRoutes(router) {
   });
 
   router.get('/api/admin/dashboard/companies', (req, res, ctx) => {
-    if (!requireAdmin(req, res)) return;
-    const data = filteredCompanies(ctx.getDb(), req.query);
+    if (!requireAnyRole(req, res, 'admin', 'faculty')) return;
+    const db = ctx.getDb();
+    if (!Array.isArray(db.companies)) db.companies = [];
+    const data = filteredCompanies(db, req.query);
     const page = paginate(data, req.query);
     return ok(res, { data: { companies: page.items, pagination: page.pagination } });
   });
 
-  router.post('/api/admin/dashboard/companies', (req, res, ctx) => {
-    if (!requireAdmin(req, res)) return;
+  router.post('/api/admin/dashboard/companies', async (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'admin', 'faculty')) return;
     if (!validateSchema(req, res, companySchema)) return;
     const db = ctx.getDb();
-    const id = (db.companies.at(-1)?.id || 0) + 1;
+    if (!Array.isArray(db.companies)) db.companies = [];
+    if (!Array.isArray(db.users)) db.users = [];
+
+    const id = (db.companies.reduce((max, c) => Math.max(max, Number(c.id) || 0), 0)) + 1;
+    const cleanLoginEmail = req.body.loginEmail ? String(req.body.loginEmail).trim().toLowerCase() : '';
+    const plainPassword = req.body.password ? String(req.body.password).trim() : '';
+    const contactPersonName = req.body.contactPersonName ? String(req.body.contactPersonName).trim() : '';
+
     const company = {
       id,
       _id: `company_${id}`,
-      name: req.body.name || 'New Company',
-      industry: req.body.industry || 'Technology',
+      name: String(req.body.name || 'New Company').trim(),
+      industry: String(req.body.industry || 'Technology').trim(),
       location: req.body.location || '',
       contactEmail: req.body.contactEmail || '',
+      loginEmail: cleanLoginEmail || (req.body.contactEmail ? String(req.body.contactEmail).trim().toLowerCase() : ''),
       website: req.body.website || '',
       logoUrl: req.body.logoUrl || '',
-      isActive: req.body.isActive ?? true
+      description: req.body.description || '',
+      isActive: req.body.isActive ?? true,
+      createdAt: new Date().toISOString()
     };
-    db.companies.push(company);
+
+    let createdUser = null;
+    if (cleanLoginEmail && plainPassword) {
+      const hashedPassword = await bcrypt.hash(plainPassword, 10);
+      let existingUser = db.users.find(u => u.email?.toLowerCase() === cleanLoginEmail);
+      if (existingUser) {
+        existingUser.role = 'company';
+        existingUser.companyId = company._id;
+        existingUser.password = hashedPassword;
+        existingUser.isActive = true;
+        existingUser.isPasswordChanged = true;
+        if (contactPersonName) existingUser.name = contactPersonName;
+        createdUser = existingUser;
+      } else {
+        const userNumericId = (db.users.reduce((max, u) => Math.max(max, Number(u.id) || 0), 100)) + 1;
+        createdUser = {
+          id: userNumericId,
+          _id: `usr_${Date.now()}_${userNumericId}`,
+          companyId: company._id,
+          name: contactPersonName || `${company.name} Campus Admin`,
+          email: cleanLoginEmail,
+          role: 'company',
+          password: hashedPassword,
+          isActive: true,
+          isPasswordChanged: true,
+          createdAt: new Date().toISOString()
+        };
+        db.users.push(createdUser);
+      }
+    }
+
+    db.companies.unshift(company);
     ctx.saveDb(db);
-    return sendJson(res, 201, company);
+
+    // Sync to MongoDB ATS if connected
+    if (mongoose.connection && mongoose.connection.readyState === 1) {
+      try {
+        const { Company } = await import('../modules/ats/models/Company.js');
+        const atsCompany = new Company({
+          name: company.name,
+          industry: company.industry,
+          logo: company.logoUrl || '',
+          adminIds: [String(createdUser?.id || req.user?.id || 'admin')]
+        });
+        await atsCompany.save();
+      } catch (err) {
+        console.warn('[AdminCompany] Mongo ATS sync warning:', err.message);
+      }
+    }
+
+    return sendJson(res, 201, {
+      ...company,
+      credentialsCreated: Boolean(createdUser),
+      account: createdUser ? { email: createdUser.email, role: createdUser.role } : null
+    });
   });
 
-  router.put('/api/admin/dashboard/companies/:id', (req, res, ctx) => {
-    if (!requireAdmin(req, res)) return;
+  router.put('/api/admin/dashboard/companies/:id', async (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'admin', 'faculty')) return;
     const db = ctx.getDb();
+    if (!Array.isArray(db.companies)) db.companies = [];
+    if (!Array.isArray(db.users)) db.users = [];
+
     const company = db.companies.find(item => String(item.id) === req.params.id || item._id === req.params.id);
     if (!company) return sendJson(res, 404, { error: 'Company not found' });
+
     // Fix mass assignment (CRIT-7) by explicitly selecting fields
     const updates = {
       name: req.body.name,
@@ -145,12 +219,192 @@ export function registerAdminRoutes(router) {
       contactEmail: req.body.contactEmail,
       website: req.body.website,
       logoUrl: req.body.logoUrl,
+      description: req.body.description,
       isActive: req.body.isActive
     };
     Object.keys(updates).forEach(key => updates[key] === undefined && delete updates[key]);
     Object.assign(company, updates);
+
+    // If login email and password are provided in update, sync user credentials
+    if (req.body.loginEmail && req.body.password) {
+      const cleanEmail = String(req.body.loginEmail).trim().toLowerCase();
+      const plainPassword = String(req.body.password).trim();
+      const hashedPassword = await bcrypt.hash(plainPassword, 10);
+      let user = db.users.find(u => u.email?.toLowerCase() === cleanEmail);
+      if (user) {
+        user.role = 'company';
+        user.companyId = company._id;
+        user.password = hashedPassword;
+        user.isActive = true;
+        user.isPasswordChanged = true;
+      } else {
+        const userNumericId = (db.users.reduce((max, u) => Math.max(max, Number(u.id) || 0), 100)) + 1;
+        user = {
+          id: userNumericId,
+          _id: `usr_${Date.now()}_${userNumericId}`,
+          companyId: company._id,
+          name: `${company.name} Campus Admin`,
+          email: cleanEmail,
+          role: 'company',
+          password: hashedPassword,
+          isActive: true,
+          isPasswordChanged: true,
+          createdAt: new Date().toISOString()
+        };
+        db.users.push(user);
+      }
+      company.loginEmail = cleanEmail;
+    }
+
     ctx.saveDb(db);
     return ok(res, { data: company });
+  });
+
+  router.post('/api/admin/dashboard/companies/:id/credentials', async (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'admin', 'faculty')) return;
+    const db = ctx.getDb();
+    if (!Array.isArray(db.companies)) db.companies = [];
+    if (!Array.isArray(db.users)) db.users = [];
+
+    const company = db.companies.find(item => String(item.id) === req.params.id || item._id === req.params.id);
+    if (!company) return sendJson(res, 404, { error: 'Company not found' });
+
+    const { loginEmail, password, contactPersonName } = req.body;
+    if (!loginEmail || !password) {
+      return sendJson(res, 400, { error: 'Both loginEmail and password are required' });
+    }
+
+    const cleanEmail = String(loginEmail).trim().toLowerCase();
+    const hashedPassword = await bcrypt.hash(String(password).trim(), 10);
+
+    let user = db.users.find(u => u.email?.toLowerCase() === cleanEmail);
+    if (user) {
+      user.role = 'company';
+      user.companyId = company._id;
+      user.password = hashedPassword;
+      user.isActive = true;
+      user.isPasswordChanged = true;
+      if (contactPersonName) user.name = contactPersonName.trim();
+    } else {
+      const userNumericId = (db.users.reduce((max, u) => Math.max(max, Number(u.id) || 0), 100)) + 1;
+      user = {
+        id: userNumericId,
+        _id: `usr_${Date.now()}_${userNumericId}`,
+        companyId: company._id,
+        name: contactPersonName?.trim() || `${company.name} Campus Admin`,
+        email: cleanEmail,
+        role: 'company',
+        password: hashedPassword,
+        isActive: true,
+        isPasswordChanged: true,
+        createdAt: new Date().toISOString()
+      };
+      db.users.push(user);
+    }
+
+    company.loginEmail = cleanEmail;
+    ctx.saveDb(db);
+    return sendJson(res, 200, { success: true, message: 'Company login credentials generated successfully', loginEmail: cleanEmail });
+  });
+
+  router.get('/api/admin/dashboard/companies/:id', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'admin', 'faculty')) return;
+    const db = ctx.getDb();
+    if (!Array.isArray(db.companies)) db.companies = [];
+    const company = db.companies.find(item => String(item.id) === req.params.id || item._id === req.params.id);
+    if (!company) return sendJson(res, 404, { error: 'Company not found' });
+
+    const placementDrives = (db.placementDrives || []).filter(drive =>
+      String(drive.companyId) === String(company.id) || String(drive.companyId) === company._id
+    );
+
+    const userAccount = (db.users || []).find(u =>
+      (company.loginEmail && u.email?.toLowerCase() === company.loginEmail.toLowerCase()) ||
+      String(u.companyId) === String(company.id) ||
+      String(u.companyId) === company._id
+    );
+
+    return ok(res, {
+      data: {
+        ...company,
+        placementDrives,
+        userAccount: userAccount ? {
+          id: userAccount.id,
+          name: userAccount.name,
+          email: userAccount.email,
+          role: userAccount.role,
+          isActive: userAccount.isActive
+        } : null
+      }
+    });
+  });
+
+  router.delete('/api/admin/dashboard/companies/:id', async (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'admin', 'faculty')) return;
+    const db = ctx.getDb();
+    if (!Array.isArray(db.companies)) db.companies = [];
+    const index = db.companies.findIndex(item => String(item.id) === req.params.id || item._id === req.params.id);
+    if (index === -1) return sendJson(res, 404, { error: 'Company not found' });
+
+    const [deletedCompany] = db.companies.splice(index, 1);
+
+    // Deactivate/remove associated user accounts from db.users
+    if (Array.isArray(db.users)) {
+      db.users = db.users.filter(u =>
+        String(u.companyId) !== String(deletedCompany.id) &&
+        String(u.companyId) !== deletedCompany._id &&
+        (!deletedCompany.loginEmail || u.email?.toLowerCase() !== deletedCompany.loginEmail.toLowerCase())
+      );
+    }
+
+    // If MongoDB ATS is connected, clean up from MongoDB ATS Company collection
+    if (mongoose.connection && mongoose.connection.readyState === 1) {
+      try {
+        const { Company } = await import('../modules/ats/models/Company.js');
+        await Company.deleteMany({
+          $or: [
+            { _id: deletedCompany._id },
+            { name: deletedCompany.name }
+          ]
+        });
+      } catch (err) {
+        console.warn('[AdminCompany] Mongo ATS delete warning:', err.message);
+      }
+    }
+
+    ctx.saveDb(db);
+    return sendJson(res, 200, {
+      success: true,
+      message: `Company "${deletedCompany.name}" deleted successfully`,
+      company: deletedCompany
+    });
+  });
+
+  router.patch('/api/admin/dashboard/companies/:id/status', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'admin', 'faculty')) return;
+    const db = ctx.getDb();
+    if (!Array.isArray(db.companies)) db.companies = [];
+    const company = db.companies.find(item => String(item.id) === req.params.id || item._id === req.params.id);
+    if (!company) return sendJson(res, 404, { error: 'Company not found' });
+
+    company.isActive = typeof req.body.isActive === 'boolean' ? req.body.isActive : !company.isActive;
+
+    // Sync user status as well
+    if (Array.isArray(db.users)) {
+      const user = db.users.find(u =>
+        (company.loginEmail && u.email?.toLowerCase() === company.loginEmail.toLowerCase()) ||
+        String(u.companyId) === String(company.id) ||
+        String(u.companyId) === company._id
+      );
+      if (user) user.isActive = company.isActive;
+    }
+
+    ctx.saveDb(db);
+    return sendJson(res, 200, {
+      success: true,
+      company,
+      message: `Company status changed to ${company.isActive ? 'Active' : 'Inactive'}`
+    });
   });
 
   router.get('/api/admin/dashboard/placements', (req, res, ctx) => {
@@ -523,14 +777,9 @@ export function registerAdminRoutes(router) {
 
   router.get('/api/admin/system/activity-logs', async (req, res, ctx) => {
     if (!requireAdmin(req, res)) return;
-    const limit = Number(req.query.limit || 10);
-    const query = req.query.type ? { type: req.query.type } : {};
-    try {
-      const logs = await ActivityLog.find(query).sort({ timestamp: -1 }).limit(limit).lean();
-      return ok(res, { data: logs });
-    } catch (e) {
-      return sendJson(res, 500, { error: 'Failed to fetch activity logs' });
-    }
+    const db = ctx.getDb();
+    const logs = getCompanyActivityLogs(db);
+    return ok(res, { data: logs });
   });
 
   router.get('/api/admin/system/health', (req, res, ctx) => {
