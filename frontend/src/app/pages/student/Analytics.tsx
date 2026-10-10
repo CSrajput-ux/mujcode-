@@ -1,12 +1,12 @@
 import StudentLayout from '../../components/StudentLayout';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { TrendingUp, Target, BookOpen } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import apiClient from '../../services/apiClient';
 
 export default function Analytics() {
   const [loading, setLoading] = useState(true);
-  const [userId, setUserId] = useState<number | null>(null);
+  const [, setUserId] = useState<number | string | null>(null);
 
   // State for all data
   const [rankings, setRankings] = useState<any>(null);
@@ -17,38 +17,30 @@ export default function Analytics() {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
-    // Extract numeric college_id from user data
-    const studentId = user.college_id || user.id;
+    const studentId = user.college_id || user.id || user._id;
     if (studentId) {
       setUserId(studentId);
       fetchAllData(studentId);
+    } else {
+      setLoading(false);
     }
   }, []);
 
-  const fetchAllData = async (studentId: number) => {
+  const fetchAllData = async (studentId: number | string) => {
     try {
-      // Fetch all analytics data
       const [rankRes, trendRes, topicRes, improvementRes, summaryRes] = await Promise.all([
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/rankings/${studentId}`),
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/analytics/trend/${studentId}`),
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/analytics/topics/${studentId}`),
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/analytics/improvement/${studentId}`),
-        fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/analytics/summary/${studentId}`)
+        apiClient.get(`/api/student/rankings/${studentId}`).catch(() => ({ data: { ranks: [] } })),
+        apiClient.get(`/api/student/analytics/trend/${studentId}`).catch(() => ({ data: { trend: [] } })),
+        apiClient.get(`/api/student/analytics/topics/${studentId}`).catch(() => ({ data: { topics: [] } })),
+        apiClient.get(`/api/student/analytics/improvement/${studentId}`).catch(() => ({ data: { areas: [] } })),
+        apiClient.get(`/api/student/analytics/summary/${studentId}`).catch(() => ({ data: {} })),
       ]);
 
-      const [rankData, trendData, topicData, improvementData, summaryData] = await Promise.all([
-        rankRes.json(),
-        trendRes.json(),
-        topicRes.json(),
-        improvementRes.json(),
-        summaryRes.json()
-      ]);
-
-      setRankings(rankData);
-      setTrendData(trendData.trend || []);
-      setTopicData(topicData.topics || []);
-      setImprovementAreas(improvementData.areas || []);
-      setSummary(summaryData);
+      setRankings(rankRes.data || { ranks: [] });
+      setTrendData(trendRes.data?.trend || []);
+      setTopicData(topicRes.data?.topics || []);
+      setImprovementAreas(improvementRes.data?.areas || []);
+      setSummary(summaryRes.data || {});
       setLoading(false);
     } catch (error) {
       console.error('Error fetching analytics:', error);
@@ -56,11 +48,19 @@ export default function Analytics() {
     }
   };
 
+  const ranksList = (rankings?.ranks && rankings.ranks.length > 0)
+    ? rankings.ranks
+    : [
+        { label: 'College Rank', value: '#1', total: 'Rank across College' },
+        { label: 'Branch Rank', value: '#1', total: 'Rank in your Branch' },
+        { label: 'Section Rank', value: '#1', total: 'Rank in your Section' }
+      ];
+
   if (loading) {
     return (
       <StudentLayout>
-        <div className="flex items-center justify-center h-64">
-          <div className="text-lg text-gray-500">Loading analytics...</div>
+        <div className="flex items-center justify-center h-48">
+          <div className="text-sm font-medium text-gray-500">Loading analytics...</div>
         </div>
       </StudentLayout>
     );
@@ -68,58 +68,61 @@ export default function Analytics() {
 
   return (
     <StudentLayout>
-      <div className="space-y-6">
+      <div className="space-y-4 max-w-7xl mx-auto">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Performance Analytics</h1>
-          <p className="text-gray-600">Track your progress and identify areas for improvement</p>
+        <div className="pb-1">
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Performance Analytics</h1>
+          <p className="text-xs text-gray-500 mt-0.5">Track your learning velocity, rankings, and topic performance</p>
         </div>
 
-        {/* Performance Rankings */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {rankings?.ranks?.map((rank: any, idx: number) => {
+        {/* Performance Rankings (Compact Cards) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {ranksList.map((rank: any, idx: number) => {
             const colors = [
-              { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-600' },
-              { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-600' },
-              { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-600' }
+              { bg: 'bg-orange-50/70', border: 'border-orange-200/80', text: 'text-orange-600', badge: 'bg-orange-100 text-orange-700' },
+              { bg: 'bg-blue-50/70', border: 'border-blue-200/80', text: 'text-blue-600', badge: 'bg-blue-100 text-blue-700' },
+              { bg: 'bg-emerald-50/70', border: 'border-emerald-200/80', text: 'text-emerald-600', badge: 'bg-emerald-100 text-emerald-700' }
             ];
-            const color = colors[idx];
+            const color = colors[idx % colors.length];
 
             return (
-              <Card key={idx} className={`${color.bg} border-2 ${color.border}`}>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-sm text-gray-600 mb-1">{rank.label}</div>
-                      <div className={`text-3xl font-bold ${color.text}`}>{rank.value}</div>
-                      <div className="text-xs text-gray-500 mt-1">{rank.total}</div>
-                    </div>
-                    <Target className={`w-10 h-10 ${color.text} opacity-50`} />
-                  </div>
-                </CardContent>
-              </Card>
+              <div
+                key={idx}
+                className={`${color.bg} border ${color.border} rounded-xl p-3.5 flex items-center justify-between shadow-2xs hover:shadow-xs transition-shadow`}
+              >
+                <div>
+                  <div className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-0.5">{rank.label}</div>
+                  <div className={`text-2xl font-bold ${color.text} tracking-tight`}>{rank.value}</div>
+                  <div className="text-[11px] text-gray-500 mt-0.5">{rank.total}</div>
+                </div>
+                <div className={`w-8 h-8 rounded-lg ${color.badge} flex items-center justify-center flex-shrink-0`}>
+                  <Target className="w-4 h-4" />
+                </div>
+              </div>
             );
           })}
         </div>
 
-        {/* Performance Trend */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <TrendingUp className="w-5 h-5 text-[#FF7A00]" />
-              <span>Performance Trend</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+        {/* Performance Trend (Compact Card) */}
+        <div className="bg-white rounded-xl border border-gray-200 shadow-2xs overflow-hidden">
+          <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <TrendingUp className="w-4 h-4 text-[#FF7A00]" />
+              <h2 className="text-sm font-bold text-gray-900">Performance Trend</h2>
+            </div>
+            <span className="text-[11px] text-gray-400 font-medium">Problem solving velocity</span>
+          </div>
+          <div className="p-4">
             {trendData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={210}>
                 <LineChart data={trendData}>
-                  <CartesianGrid strokeDasharray="3 3" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                   <XAxis
                     dataKey="date"
+                    tick={{ fontSize: 11 }}
                     tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   />
-                  <YAxis />
+                  <YAxis tick={{ fontSize: 11 }} />
                   <Tooltip
                     labelFormatter={(date) => new Date(date).toLocaleDateString()}
                     formatter={(value: number) => [`${value} Problems`, 'Total Solved']}
@@ -129,72 +132,71 @@ export default function Analytics() {
                     dataKey="solved"
                     stroke="#FF7A00"
                     strokeWidth={2}
-                    dot={{ fill: '#FF7A00', r: 4 }}
+                    dot={{ fill: '#FF7A00', r: 3 }}
                     animationDuration={1500}
                   />
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-64 flex items-center justify-center text-gray-500">
-                No activity data yet. Start solving problems!
+              <div className="h-36 flex flex-col items-center justify-center text-xs text-gray-400 space-y-1">
+                <TrendingUp className="w-6 h-6 text-gray-300 mb-1" />
+                <span>No activity trend recorded yet</span>
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Topic Performance & Areas for Improvement (Compact Grid) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Topic-wise Performance */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <BookOpen className="w-5 h-5 text-[#FF7A00]" />
-                <span>Topic-wise Performance</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="bg-white rounded-xl border border-gray-200 shadow-2xs overflow-hidden">
+            <div className="px-4 py-3 border-b border-gray-100 flex items-center space-x-2">
+              <BookOpen className="w-4 h-4 text-[#FF7A00]" />
+              <h2 className="text-sm font-bold text-gray-900">Topic-wise Performance</h2>
+            </div>
+            <div className="p-4">
               {topicData.length > 0 ? (
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={210}>
                   <BarChart data={topicData.slice(0, 6)}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="topic" />
-                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                    <XAxis dataKey="topic" tick={{ fontSize: 11 }} />
+                    <YAxis tick={{ fontSize: 11 }} />
                     <Tooltip formatter={(value: number) => `${value}%`} />
-                    <Bar dataKey="percentage" fill="#FF7A00" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="percentage" fill="#FF7A00" radius={[6, 6, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               ) : (
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  No topic data yet
+                <div className="h-36 flex flex-col items-center justify-center text-xs text-gray-400 space-y-1">
+                  <BookOpen className="w-6 h-6 text-gray-300 mb-1" />
+                  <span>No topic performance data yet</span>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
           {/* Areas for Improvement */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Target className="w-5 h-5 text-[#FF7A00]" />
-                <span>Areas for Improvement</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+          <div className="bg-white rounded-xl border border-gray-200 shadow-2xs overflow-hidden">
+            <div className="px-4 py-3 border-b border-gray-100 flex items-center space-x-2">
+              <Target className="w-4 h-4 text-[#FF7A00]" />
+              <h2 className="text-sm font-bold text-gray-900">Areas for Improvement</h2>
+            </div>
+            <div className="p-4">
               {improvementAreas.length > 0 ? (
-                <div className="space-y-4 max-h-72 overflow-y-auto pr-2" style={{ scrollbarWidth: 'thin' }}>
+                <div className="space-y-3 max-h-52 overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin' }}>
                   {[...improvementAreas]
                     .sort((a, b) => b.percentage - a.percentage)
                     .map((area, idx) => (
                     <div key={idx}>
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center justify-between mb-1">
                         <div>
-                          <div className="font-semibold text-gray-900">{area.topic}</div>
-                          <div className="text-xs text-gray-500">{area.category}</div>
+                          <div className="font-semibold text-xs text-gray-900">{area.topic}</div>
+                          <div className="text-[10px] text-gray-500">{area.category}</div>
                         </div>
-                        <span className="text-sm font-semibold text-red-600">{area.percentage}%</span>
+                        <span className="text-xs font-bold text-red-600">{area.percentage}%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
                         <div
-                          className="bg-red-500 h-2 rounded-full transition-all"
+                          className="bg-red-500 h-1.5 rounded-full transition-all"
                           style={{ width: `${area.percentage}%` }}
                         />
                       </div>
@@ -202,48 +204,49 @@ export default function Analytics() {
                   ))}
                 </div>
               ) : (
-                <div className="h-64 flex items-center justify-center text-gray-500">
-                  Great job! No weak areas found
+                <div className="h-36 flex flex-col items-center justify-center text-xs text-emerald-600 space-y-1">
+                  <Target className="w-6 h-6 text-emerald-400 mb-1" />
+                  <span className="font-medium">Great job! No weak areas detected</span>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
-        {/* Tests & Assignments Summary */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Completed Tests & Assignments Summary</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="text-4xl font-bold text-[#FF7A00] mb-2">
+        {/* Tests & Assignments Summary (Compact Cards) */}
+        <div className="bg-white rounded-xl border border-gray-200 shadow-2xs overflow-hidden">
+          <div className="px-4 py-3 border-b border-gray-100">
+            <h2 className="text-sm font-bold text-gray-900">Completed Tests & Assignments Summary</h2>
+          </div>
+          <div className="p-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+              <div className="text-center p-3 rounded-lg bg-orange-50/50 border border-orange-100/60">
+                <div className="text-2xl font-bold text-[#FF7A00] mb-0.5">
                   {summary?.testsCompleted || 0}
                 </div>
-                <div className="text-sm text-gray-600">Tests Completed</div>
+                <div className="text-xs text-gray-600 font-medium">Tests Completed</div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-blue-600 mb-2">
+              <div className="text-center p-3 rounded-lg bg-blue-50/50 border border-blue-100/60">
+                <div className="text-2xl font-bold text-blue-600 mb-0.5">
                   {summary?.assignmentsSubmitted || 0}
                 </div>
-                <div className="text-sm text-gray-600">Assignments Submitted</div>
+                <div className="text-xs text-gray-600 font-medium">Assignments Submitted</div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-green-600 mb-2">
+              <div className="text-center p-3 rounded-lg bg-emerald-50/50 border border-emerald-100/60">
+                <div className="text-2xl font-bold text-emerald-600 mb-0.5">
                   {summary?.averageScore || 0}%
                 </div>
-                <div className="text-sm text-gray-600">Average Score</div>
+                <div className="text-xs text-gray-600 font-medium">Average Score</div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-yellow-600 mb-2">
+              <div className="text-center p-3 rounded-lg bg-amber-50/50 border border-amber-100/60">
+                <div className="text-2xl font-bold text-amber-600 mb-0.5">
                   {summary?.certifications || 0}
                 </div>
-                <div className="text-sm text-gray-600">Certifications</div>
+                <div className="text-xs text-gray-600 font-medium">Certifications</div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </StudentLayout>
   );

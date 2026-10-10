@@ -5,6 +5,7 @@ import { Badge } from '../../components/ui/badge';
 import { Input } from '../../components/ui/input';
 import { Code2, Database, Globe, Target, Search } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import apiClient from '../../services/apiClient';
 
 export default function Courses() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -26,47 +27,48 @@ export default function Courses() {
   const fetchCourses = async () => {
     try {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
-      console.log('Current user:', user);
+      const studentId = user.college_id || user.id;
 
-      // Extract numeric college_id from user data
-      const studentId = user.college_id || user.id || 'guest';
+      let coursesList: any[] = [];
 
-      // Try student-specific endpoint first, fallback to general courses
-      let apiUrl = `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/courses/${studentId}`;
-      console.log('🔍 Fetching courses for student:', studentId, 'from:', apiUrl);
-
-      let res = await fetch(apiUrl);
-      console.log('📊 Response status:', res.status);
-
-      // If student endpoint fails, try getting all courses
-      if (!res.ok) {
-        console.warn('⚠️ Student endpoint failed, trying general courses endpoint...');
-        apiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/student/courses';
-        res = await fetch(apiUrl);
+      // 1. Try student-specific endpoint if studentId is available
+      if (studentId) {
+        try {
+          const res = await apiClient.get(`/api/student/courses/${studentId}`);
+          if (res.data?.courses && Array.isArray(res.data.courses) && res.data.courses.length > 0) {
+            coursesList = res.data.courses;
+          }
+        } catch {
+          // Fallback to general endpoint
+        }
       }
 
-      const data = await res.json();
-      console.log('📦 Received courses data:', data);
-
-      if (res.ok && data.courses) {
-        // Ensure all courses have progress data (default to 0 for non-enrolled)
-        const coursesWithDefaults = data.courses.map((course: any) => ({
-          ...course,
-          progress: course.progress || 0,
-          problemsSolved: course.problemsSolved || 0,
-          status: course.status || 'not-started',
-          enrolled: course.enrolled || false
-        }));
-        console.log('✅ Final courses list:', coursesWithDefaults.length);
-        setCourses(coursesWithDefaults);
-        setFilteredCourses(coursesWithDefaults);
-      } else {
-        console.error('❌ Failed to load courses or empty data:', data);
-        setCourses([]);
+      // 2. Fallback to general courses catalog
+      if (coursesList.length === 0) {
+        try {
+          const res = await apiClient.get('/api/student/courses');
+          if (res.data?.courses && Array.isArray(res.data.courses)) {
+            coursesList = res.data.courses;
+          }
+        } catch (e) {
+          console.error('Failed to load courses from general endpoint:', e);
+        }
       }
+
+      const coursesWithDefaults = coursesList.map((course: any) => ({
+        ...course,
+        progress: course.progress || 0,
+        problemsSolved: course.problemsSolved || 0,
+        status: course.status || 'not-started',
+        enrolled: course.enrolled || false
+      }));
+
+      setCourses(coursesWithDefaults);
+      setFilteredCourses(coursesWithDefaults);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching courses:', error);
+      setCourses([]);
       setLoading(false);
     }
   };
@@ -90,11 +92,12 @@ export default function Courses() {
   };
 
   const getIcon = (iconName: string) => {
+    const iconClass = "w-5 h-5 text-[#FF7A00]";
     switch (iconName) {
-      case 'database': return <Database className="w-10 h-10 text-[#FF7A00]" />;
-      case 'globe': return <Globe className="w-10 h-10 text-[#FF7A00]" />;
-      case 'target': return <Target className="w-10 h-10 text-[#FF7A00]" />;
-      default: return <Code2 className="w-10 h-10 text-[#FF7A00]" />;
+      case 'database': return <Database className={iconClass} />;
+      case 'globe': return <Globe className={iconClass} />;
+      case 'target': return <Target className={iconClass} />;
+      default: return <Code2 className={iconClass} />;
     }
   };
 
@@ -169,8 +172,8 @@ export default function Courses() {
                 <Card key={course._id} className="hover:shadow-lg transition-shadow h-full flex flex-col">
                   <CardContent className="p-6 flex flex-col h-full">
                     {/* Header with Icon and Status */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="p-3 bg-orange-50 rounded-lg">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="p-2 bg-orange-50/80 border border-orange-100/80 rounded-lg flex items-center justify-center">
                         {getIcon(course.icon)}
                       </div>
                       {course.status !== 'not-started' && (

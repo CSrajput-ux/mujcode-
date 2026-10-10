@@ -21,69 +21,16 @@ export default function Assignments() {
   const [pageLoading, setPageLoading] = useState(true);
 
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
-  const [uploadTarget, setUploadTarget] = useState<{ id: string, type: 'assignment' | 'research' | 'casestudy' } | null>(null);
+  const [uploadTarget, setUploadTarget] = useState<{ id: string, type: string, title?: string } | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewItem, setPreviewItem] = useState<any | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  // Fetch assignments from backend on mount
-  useEffect(() => {
-    const fetchAssignments = async () => {
-      try {
-        setPageLoading(true);
-        const res = await apiClient.get('/api/assignments/student/my');
-        const all: any[] = res.data || [];
-        const subRes = await apiClient.get('/api/assignments/student/submitted');
-        const submitted = subRes.data || [];
-        setSubmittedAssignments(submitted);
-        const submittedIds = submitted.map((s: any) => s.assignmentId || s.id || s._id);
-
-        setPendingAssignments(all.filter((a: any) => (a.type === 'Assignment' || !a.type) && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
-        setResearchPapers(all.filter((a: any) => a.type === 'Research' && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
-        setCaseStudies(all.filter((a: any) => a.type === 'CaseStudy' && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
-      } catch (err) {
-        console.error('Failed to fetch assignments:', err);
-        // fallback: show empty
-        setPendingAssignments([]);
-        setResearchPapers([]);
-        setCaseStudies([]);
-        setSubmittedAssignments([]);
-      } finally {
-        setPageLoading(false);
-      }
-    };
-    fetchAssignments();
-  }, []);
-
-  const handleUploadSubmit = async () => {
-    if (!selectedFile || !uploadTarget) {
-      toast.error("Please select a file to upload.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('files', selectedFile);
-
+  const fetchAssignments = async () => {
     try {
-      const loadingId = toast.loading("Submitting assignment...");
-      
-      await apiClient.post(`/api/assignments/${uploadTarget.id}/submit`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      toast.dismiss(loadingId);
-      toast.success("Document submitted successfully!");
-
-      setUploadModalOpen(false);
-      setSelectedFile(null);
-      setUploadTarget(null);
-
-      // Re-fetch assignments
       setPageLoading(true);
       const res = await apiClient.get('/api/assignments/student/my');
       const all: any[] = res.data || [];
-      
       const subRes = await apiClient.get('/api/assignments/student/submitted');
       const submitted = subRes.data || [];
       setSubmittedAssignments(submitted);
@@ -92,13 +39,73 @@ export default function Assignments() {
       setPendingAssignments(all.filter((a: any) => (a.type === 'Assignment' || !a.type) && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
       setResearchPapers(all.filter((a: any) => a.type === 'Research' && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
       setCaseStudies(all.filter((a: any) => a.type === 'CaseStudy' && !submittedIds.includes(a._id) && !submittedIds.includes(a.id)));
-      
     } catch (err) {
-      console.error('Submit error:', err);
-      toast.dismiss();
-      toast.error("Failed to submit assignment.");
+      console.error('Failed to fetch assignments:', err);
+      setPendingAssignments([]);
+      setResearchPapers([]);
+      setCaseStudies([]);
+      setSubmittedAssignments([]);
     } finally {
       setPageLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  const handleUploadSubmit = async () => {
+    if (!selectedFile) {
+      toast.error("Please select a file to upload.");
+      return;
+    }
+
+    const targetId = uploadTarget?.id;
+    if (!targetId) {
+      toast.error("Assignment information missing. Please re-open the dialog.");
+      return;
+    }
+
+    setSubmitting(true);
+    const formData = new FormData();
+    formData.append('files', selectedFile);
+    formData.append('file', selectedFile);
+
+    const loadingId = toast.loading("Submitting assignment...");
+
+    try {
+      const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '');
+      const token = localStorage.getItem('token');
+
+      const res = await fetch(`${baseUrl}/api/assignments/${targetId}/submit`, {
+        method: 'POST',
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        credentials: 'include',
+        body: formData
+      });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || `Server responded with ${res.status}`);
+      }
+
+      toast.dismiss(loadingId);
+      toast.success("Document submitted successfully!");
+
+      setUploadModalOpen(false);
+      setSelectedFile(null);
+      setUploadTarget(null);
+
+      // Re-fetch assignments to update UI
+      await fetchAssignments();
+    } catch (err: any) {
+      console.error('Submit error:', err);
+      toast.dismiss(loadingId);
+      toast.error(err.message || "Failed to submit assignment.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -220,7 +227,7 @@ export default function Assignments() {
                         <Button
                           className="bg-[#FF7A00] hover:bg-[#FF6A00] gap-1.5 font-medium shadow-sm"
                           size="sm"
-                          onClick={() => { setUploadTarget({ id: assignmentId, type: 'assignment' }); setUploadModalOpen(true); }}
+                          onClick={() => { setUploadTarget({ id: assignmentId, type: 'assignment', title: assignment.title }); setUploadModalOpen(true); }}
                         >
                           <Upload className="w-4 h-4" />
                           Submit
@@ -331,7 +338,14 @@ export default function Assignments() {
                         </Button>
                       </a>
                     )}
-                    <Button className="flex-1 bg-[#FF7A00] hover:bg-[#FF6A00]" onClick={() => { setUploadTarget({ id: paper.id, type: 'research' }); setUploadModalOpen(true); }}>
+                    <Button 
+                      className="flex-1 bg-[#FF7A00] hover:bg-[#FF6A00]" 
+                      onClick={() => { 
+                        const paperId = paper._id || paper.id;
+                        setUploadTarget({ id: paperId, type: 'research', title: paper.title }); 
+                        setUploadModalOpen(true); 
+                      }}
+                    >
                       <Upload className="w-4 h-4 mr-2" />
                       Submit Paper
                     </Button>
@@ -386,7 +400,11 @@ export default function Assignments() {
                       </a>
                     )}
                     <Button
-                      onClick={() => { setUploadTarget({ id: study.id, type: 'casestudy' }); setUploadModalOpen(true); }}
+                      onClick={() => { 
+                        const studyId = study._id || study.id;
+                        setUploadTarget({ id: studyId, type: 'casestudy', title: study.title }); 
+                        setUploadModalOpen(true); 
+                      }}
                       className="flex-1 bg-[#FF7A00] hover:bg-[#FF6A00]"
                     >
                       <Upload className="w-4 h-4 mr-2" />
@@ -429,12 +447,20 @@ export default function Assignments() {
       />
 
       {/* Upload File Modal */}
-      <Dialog open={uploadModalOpen} onOpenChange={setUploadModalOpen}>
+      <Dialog open={uploadModalOpen} onOpenChange={(open) => {
+        if (!submitting) {
+          setUploadModalOpen(open);
+          if (!open) {
+            setSelectedFile(null);
+            setUploadTarget(null);
+          }
+        }
+      }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Submit Document</DialogTitle>
             <DialogDescription>
-              Upload your document file (.doc, .docx, .pdf). 
+              {uploadTarget?.title ? `Submitting for: ${uploadTarget.title}` : 'Upload your document file (.doc, .docx, .pdf).'}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -443,22 +469,31 @@ export default function Assignments() {
               <Input 
                 id="file-upload" 
                 type="file" 
-                accept=".doc,.docx,.pdf,.mp4" 
+                accept=".doc,.docx,.pdf,.mp4,.png,.jpg,.jpeg" 
+                disabled={submitting}
                 onChange={(e) => setSelectedFile(e.target.files ? e.target.files[0] : null)}
               />
             </div>
             {selectedFile && (
               <p className="text-sm text-green-600 font-medium flex items-center">
-                <FileText className="w-4 h-4 mr-1" /> {selectedFile.name}
+                <FileText className="w-4 h-4 mr-1" /> {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)
               </p>
             )}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => { setUploadModalOpen(false); setSelectedFile(null); }}>
+            <Button 
+              variant="outline" 
+              disabled={submitting}
+              onClick={() => { setUploadModalOpen(false); setSelectedFile(null); setUploadTarget(null); }}
+            >
               Cancel
             </Button>
-            <Button className="bg-[#FF7A00] hover:bg-[#FF6A00] text-white" onClick={handleUploadSubmit}>
-              Upload Document
+            <Button 
+              className="bg-[#FF7A00] hover:bg-[#FF6A00] text-white" 
+              onClick={handleUploadSubmit}
+              disabled={submitting || !selectedFile}
+            >
+              {submitting ? 'Uploading...' : 'Upload Document'}
             </Button>
           </DialogFooter>
         </DialogContent>

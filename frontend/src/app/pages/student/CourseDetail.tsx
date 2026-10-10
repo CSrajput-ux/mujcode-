@@ -2,11 +2,30 @@ import StudentLayout from '../../components/StudentLayout';
 import { Card, CardContent } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
+import { Input } from '../../components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
-import { Code2, Database, Globe, Target, ArrowLeft, CheckCircle2, Circle, FileText, BookOpen, Presentation, Download, Eye } from 'lucide-react';
+import { 
+    Code2, 
+    Database, 
+    Globe, 
+    Target, 
+    ArrowLeft, 
+    CheckCircle2, 
+    Circle, 
+    FileText, 
+    BookOpen, 
+    Presentation, 
+    Download, 
+    Eye,
+    Layers,
+    Search,
+    Sparkles,
+    Check
+} from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import apiClient from '../../services/apiClient';
 import DocumentPreviewModal from '../../components/DocumentPreviewModal';
 
 interface Problem {
@@ -17,6 +36,19 @@ interface Problem {
     category: string;
     points: number;
     solved: boolean;
+    moduleNumber?: number;
+    moduleTitle?: string;
+    moduleTopic?: string;
+    topics?: string;
+}
+
+interface CourseModule {
+    moduleNumber: number;
+    title: string;
+    level?: string;
+    topics?: string;
+    problemCount: number;
+    problemIds?: string[];
 }
 
 interface Course {
@@ -27,6 +59,7 @@ interface Course {
     difficulty: string;
     totalProblems: number;
     icon: string;
+    modules?: CourseModule[];
 }
 
 interface ContentItem {
@@ -50,6 +83,11 @@ export default function CourseDetail() {
     const [loading, setLoading] = useState(true);
     const [solvedCount, setSolvedCount] = useState(0);
     const [previewItem, setPreviewItem] = useState<ContentItem | null>(null);
+    const [activeTab, setActiveTab] = useState<string>(
+        new URLSearchParams(window.location.search).get('tab') || 'modules'
+    );
+    const [selectedModule, setSelectedModule] = useState<number | 'all'>('all');
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         fetchCourseDetails();
@@ -60,11 +98,10 @@ export default function CourseDetail() {
             const user = JSON.parse(localStorage.getItem('user') || '{}');
             const studentId = user.college_id || user.id || '';
 
-            const apiUrl = `${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/course/${courseId}/details?studentId=${studentId}`;
-            const res = await fetch(apiUrl);
-            const data = await res.json();
+            const res = await apiClient.get(`/api/student/course/${courseId}/details?studentId=${studentId}`);
+            const data = res.data;
 
-            if (res.ok) {
+            if (data && data.course) {
                 setCourse(data.course);
                 setProblems(data.problems || []);
                 setSolvedCount(data.solvedCount || 0);
@@ -89,7 +126,7 @@ export default function CourseDetail() {
             const token = localStorage.getItem('token');
             const response = await axios.get((import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + '/api/content', {
                 headers: { Authorization: `Bearer ${token}` },
-                params: { subject } // Filter by subject matching course title
+                params: { subject }
             });
             setCourseContent(response.data);
         } catch (error) {
@@ -98,7 +135,7 @@ export default function CourseDetail() {
     };
 
     const getIcon = (iconName: string) => {
-        const iconClass = "w-12 h-12 text-[#FF7A00]";
+        const iconClass = "w-6 h-6 text-[#FF7A00]";
         switch (iconName) {
             case 'database': return <Database className={iconClass} />;
             case 'globe': return <Globe className={iconClass} />;
@@ -115,6 +152,12 @@ export default function CourseDetail() {
 
     const handleProblemClick = (problem: Problem) => {
         navigate(`/student/problems/${problem._id}`);
+    };
+
+    const handleSelectModuleForPractice = (moduleNum: number) => {
+        setSelectedModule(moduleNum);
+        setActiveTab('problems');
+        window.scrollTo({ top: 380, behavior: 'smooth' });
     };
 
     const renderContentList = (type: 'module' | 'ppt' | 'pyq', emptyMsg: string) => {
@@ -134,7 +177,7 @@ export default function CourseDetail() {
         return (
             <div className="grid gap-3">
                 {filtered.map((item) => (
-                    <div key={item._id} className="bg-white p-4 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-all flex items-center justify-between group">
+                    <div key={item._id} className="bg-white p-4 rounded-lg border border-gray-100 shadow-xs hover:shadow-md transition-all flex items-center justify-between group">
                         <div className="flex items-center gap-4">
                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${type === 'module' ? 'bg-blue-50 text-blue-500' :
                                 type === 'ppt' ? 'bg-orange-50 text-orange-500' : 'bg-green-50 text-green-500'
@@ -197,6 +240,30 @@ export default function CourseDetail() {
     }
 
     const progress = problems.length > 0 ? Math.round((solvedCount / problems.length) * 100) : 0;
+    const hasModules = (course.modules && course.modules.length > 0) || problems.some(p => p.moduleNumber);
+
+    // Group problems by module number
+    const moduleMap: Record<number, Problem[]> = {};
+    problems.forEach(p => {
+        const modNum = p.moduleNumber || 1;
+        if (!moduleMap[modNum]) moduleMap[modNum] = [];
+        moduleMap[modNum].push(p);
+    });
+
+    // Filter problems by search query and selected module
+    const filteredProblems = problems.filter(p => {
+        const matchModule = selectedModule === 'all' || p.moduleNumber === selectedModule;
+        const matchSearch = !searchQuery || 
+            p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            String(p.number).includes(searchQuery) ||
+            (p.topics && p.topics.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchModule && matchSearch;
+    });
+
+    // Group filtered problems for rendering
+    const displayedModuleNums = selectedModule === 'all' 
+        ? Object.keys(moduleMap).map(Number).sort((a, b) => a - b)
+        : [selectedModule];
 
     return (
         <StudentLayout>
@@ -210,37 +277,46 @@ export default function CourseDetail() {
                     <ArrowLeft className="w-4 h-4 mr-2" /> Back to Courses
                 </Button>
 
-                {/* Course Header */}
-                <Card className="border-orange-200 bg-gradient-to-r from-orange-50 to-white">
+                {/* Course Header Banner */}
+                <Card className="border-orange-200 bg-gradient-to-r from-orange-50 via-white to-amber-50 shadow-xs">
                     <CardContent className="p-6">
                         <div className="flex items-start space-x-4">
-                            <div className="p-4 bg-white rounded-xl shadow-sm">
+                            <div className="p-3 bg-white border border-orange-100 rounded-xl shadow-xs flex-shrink-0">
                                 {getIcon(course.icon)}
                             </div>
                             <div className="flex-1">
-                                <h1 className="text-2xl font-bold text-gray-900 mb-2">{course.title}</h1>
-                                <p className="text-gray-600 mb-3">{course.description}</p>
-                                <div className="flex items-center gap-3 mb-4">
-                                    <Badge variant="outline" className="text-sm">{course.category}</Badge>
-                                    <Badge className={`${difficultyColors[course.difficulty]} text-sm`}>
+                                <div className="flex flex-wrap items-center gap-2.5 mb-2">
+                                    <h1 className="text-2xl font-bold text-gray-900">{course.title}</h1>
+                                    <Badge variant="outline" className="text-xs">{course.category}</Badge>
+                                    <Badge className={`${difficultyColors[course.difficulty] || 'bg-gray-100 text-gray-700'} text-xs`}>
                                         {course.difficulty}
                                     </Badge>
+                                    {hasModules && (
+                                        <Badge className="bg-purple-100 text-purple-700 border-purple-200 text-xs">
+                                            {course.modules?.length || Object.keys(moduleMap).length} Modules
+                                        </Badge>
+                                    )}
                                 </div>
+                                <p className="text-sm text-gray-600 mb-4 max-w-3xl leading-relaxed">{course.description}</p>
 
-                                {/* Progress Bar */}
-                                <div className="max-w-md">
-                                    <div className="flex items-center justify-between mb-1 text-sm">
-                                        <span className="text-gray-600">Progress</span>
-                                        <span className="font-semibold text-[#FF7A00]">{progress}%</span>
+                                {/* Progress Bar & Stats */}
+                                <div className="max-w-md bg-white/80 p-3 rounded-lg border border-orange-100/70">
+                                    <div className="flex items-center justify-between mb-1.5 text-xs">
+                                        <span className="font-semibold text-gray-700 flex items-center gap-1.5">
+                                            <Sparkles className="w-3.5 h-3.5 text-[#FF7A00]" />
+                                            Course Completion
+                                        </span>
+                                        <span className="font-bold text-[#FF7A00]">{progress}%</span>
                                     </div>
-                                    <div className="w-full bg-gray-200 rounded-full h-3">
+                                    <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
                                         <div
-                                            className="bg-[#FF7A00] h-3 rounded-full transition-all"
+                                            className="bg-[#FF7A00] h-2 rounded-full transition-all duration-500"
                                             style={{ width: `${progress}%` }}
                                         />
                                     </div>
-                                    <div className="text-sm text-gray-500 mt-1">
-                                        {solvedCount} / {problems.length} problems solved
+                                    <div className="text-[11px] text-gray-500 mt-1 flex justify-between">
+                                        <span>{solvedCount} / {problems.length} problems solved</span>
+                                        <span>{problems.length - solvedCount} remaining</span>
                                     </div>
                                 </div>
                             </div>
@@ -249,107 +325,311 @@ export default function CourseDetail() {
                 </Card>
 
                 {/* Content Tabs */}
-                <Tabs defaultValue={new URLSearchParams(window.location.search).get('tab') || 'modules'} className="w-full">
-                    <TabsList className="grid w-full grid-cols-4 mb-6">
-                        <TabsTrigger value="problems" className="gap-2">
-                            <Code2 className="w-4 h-4" /> Problems
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                    <TabsList className="grid w-full grid-cols-4 mb-6 bg-gray-100/80 p-1 rounded-xl">
+                        <TabsTrigger value="modules" className="gap-2 data-[state=active]:bg-white data-[state=active]:shadow-xs">
+                            <BookOpen className="w-4 h-4 text-[#FF7A00]" />
+                            <span className="font-semibold">Curriculum Modules</span>
                         </TabsTrigger>
-                        <TabsTrigger value="modules" className="gap-2">
-                            <BookOpen className="w-4 h-4" /> Modules
+                        <TabsTrigger value="problems" className="gap-2 data-[state=active]:bg-white data-[state=active]:shadow-xs">
+                            <Code2 className="w-4 h-4 text-[#FF7A00]" />
+                            <span className="font-semibold">Practice Problems</span>
                         </TabsTrigger>
-                        <TabsTrigger value="ppts" className="gap-2">
-                            <Presentation className="w-4 h-4" /> PPTs
+                        <TabsTrigger value="ppts" className="gap-2 data-[state=active]:bg-white data-[state=active]:shadow-xs">
+                            <Presentation className="w-4 h-4 text-purple-600" />
+                            <span className="font-semibold">PPTs & Notes</span>
                         </TabsTrigger>
-                        <TabsTrigger value="pyqs" className="gap-2">
-                            <FileText className="w-4 h-4" /> PYQs
+                        <TabsTrigger value="pyqs" className="gap-2 data-[state=active]:bg-white data-[state=active]:shadow-xs">
+                            <FileText className="w-4 h-4 text-blue-600" />
+                            <span className="font-semibold">PYQs</span>
                         </TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="problems" className="space-y-4">
+                    {/* ─── TAB 1: CURRICULUM MODULES (15 MODULES) ───────────────── */}
+                    <TabsContent value="modules" className="space-y-6">
                         <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-bold text-gray-900">Practice Problems</h2>
-                            <span className="text-sm text-gray-500">{problems.length} problems</span>
+                            <div>
+                                <h2 className="text-xl font-bold text-gray-900">Course Curriculum & Modules</h2>
+                                <p className="text-sm text-gray-500 mt-0.5">
+                                    Structured zero-to-advanced pathway across {course.modules?.length || 15} comprehensive modules.
+                                </p>
+                            </div>
+                            <Button 
+                                className="bg-[#FF7A00] hover:bg-[#FF6A00] text-xs font-semibold gap-1.5"
+                                onClick={() => setActiveTab('problems')}
+                            >
+                                <Code2 className="w-4 h-4" /> View All Problems
+                            </Button>
                         </div>
-                        <div className="grid gap-3">
-                            {problems.length === 0 ? (
-                                <Card className="p-8 text-center text-gray-500">
-                                    No problems found for this course yet.
-                                </Card>
-                            ) : (
-                                problems.map((problem) => (
-                                    <Card
-                                        key={problem._id}
-                                        className={`cursor-pointer transition-all hover:shadow-md hover:border-orange-300 ${problem.solved ? 'bg-green-50 border-green-200' : 'bg-white'}`}
-                                        onClick={() => handleProblemClick(problem)}
+
+                        {/* Interactive Modules Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {(course.modules && course.modules.length > 0 ? course.modules : Array.from({ length: 15 }, (_, i) => ({
+                                moduleNumber: i + 1,
+                                title: `Module ${i + 1}`,
+                                level: i < 5 ? 'Beginner' : i < 10 ? 'Intermediate' : 'Advanced',
+                                topics: '',
+                                problemCount: 10
+                            }))).map((mod) => {
+                                const modProblems = moduleMap[mod.moduleNumber] || [];
+                                const modSolved = modProblems.filter(p => p.solved).length;
+                                const modTotal = modProblems.length || mod.problemCount || 10;
+                                const modPct = modTotal > 0 ? Math.round((modSolved / modTotal) * 100) : 0;
+                                const isCompleted = modSolved > 0 && modSolved === modTotal;
+
+                                return (
+                                    <div 
+                                        key={mod.moduleNumber} 
+                                        className="bg-white rounded-xl border border-gray-100 shadow-xs hover:shadow-md hover:border-orange-200 transition-all p-5 flex flex-col justify-between group"
                                     >
-                                        <CardContent className="p-4">
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center space-x-4">
-                                                    <div className="flex-shrink-0">
-                                                        {problem.solved ? (
-                                                            <CheckCircle2 className="w-6 h-6 text-green-500" />
-                                                        ) : (
-                                                            <Circle className="w-6 h-6 text-gray-300" />
-                                                        )}
-                                                    </div>
-                                                    <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                                                        <span className="font-bold text-gray-700">#{problem.number}</span>
-                                                    </div>
-                                                    <div>
-                                                        <h3 className="font-semibold text-gray-900">{problem.title}</h3>
-                                                        <div className="flex items-center gap-2 mt-1">
-                                                            <Badge className={`${difficultyColors[problem.difficulty]} text-xs`}>
-                                                                {problem.difficulty}
-                                                            </Badge>
-                                                            <span className="text-xs text-gray-500">{problem.points} pts</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <Button
-                                                    className={`${problem.solved ? 'bg-green-600 hover:bg-green-700' : 'bg-[#FF7A00] hover:bg-[#FF6A00]'}`}
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleProblemClick(problem);
-                                                    }}
-                                                >
-                                                    {problem.solved ? '✓ Review' : '▶ Solve'}
-                                                </Button>
+                                        <div>
+                                            {/* Header */}
+                                            <div className="flex items-center justify-between mb-3">
+                                                <span className="px-2.5 py-1 bg-orange-50 text-[#FF7A00] border border-orange-200/70 text-xs font-bold rounded-lg flex items-center gap-1.5">
+                                                    <Layers className="w-3.5 h-3.5" />
+                                                    Module {String(mod.moduleNumber).padStart(2, '0')}
+                                                </span>
+                                                <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${
+                                                    mod.level === 'Advanced' ? 'bg-red-50 text-red-600 border border-red-200' :
+                                                    mod.level === 'Intermediate' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                                                    'bg-green-50 text-green-700 border border-green-200'
+                                                }`}>
+                                                    {mod.level || 'Beginner'}
+                                                </span>
                                             </div>
-                                        </CardContent>
-                                    </Card>
-                                ))
+
+                                            {/* Title */}
+                                            <h3 className="font-bold text-gray-900 text-base mb-2 group-hover:text-[#FF7A00] transition-colors leading-snug">
+                                                {mod.title}
+                                            </h3>
+
+                                            {/* Topics */}
+                                            {mod.topics && (
+                                                <p className="text-xs text-gray-500 line-clamp-2 mb-4 leading-relaxed">
+                                                    {mod.topics}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        {/* Bottom Progress & Practice Button */}
+                                        <div className="pt-3 border-t border-gray-100 mt-2 space-y-3">
+                                            <div>
+                                                <div className="flex items-center justify-between text-xs mb-1">
+                                                    <span className="text-gray-500">Progress</span>
+                                                    <span className="font-semibold text-gray-800">{modSolved} / {modTotal} solved ({modPct}%)</span>
+                                                </div>
+                                                <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                                    <div 
+                                                        className={`h-full rounded-full transition-all duration-500 ${isCompleted ? 'bg-green-500' : 'bg-[#FF7A00]'}`}
+                                                        style={{ width: `${modPct}%` }}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className={`w-full text-xs font-semibold gap-1.5 transition-colors ${
+                                                    isCompleted 
+                                                        ? 'border-green-300 text-green-700 hover:bg-green-50' 
+                                                        : 'border-orange-200 text-[#FF7A00] hover:bg-orange-50 hover:border-[#FF7A00]'
+                                                }`}
+                                                onClick={() => handleSelectModuleForPractice(mod.moduleNumber)}
+                                            >
+                                                {isCompleted ? (
+                                                    <><Check className="w-3.5 h-3.5" /> Module Completed</>
+                                                ) : (
+                                                    <><Code2 className="w-3.5 h-3.5" /> Practice {modTotal} Problems</>
+                                                )}
+                                            </Button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </TabsContent>
+
+                    {/* ─── TAB 2: PRACTICE PROBLEMS (MODULE-WISE VIEW) ──────────── */}
+                    <TabsContent value="problems" className="space-y-5">
+                        {/* Filter Bar */}
+                        <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-xs space-y-3">
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                                <div>
+                                    <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                        <Code2 className="w-5 h-5 text-[#FF7A00]" />
+                                        <span>Coding Problems</span>
+                                    </h2>
+                                    <p className="text-xs text-gray-500">
+                                        Showing {filteredProblems.length} of {problems.length} problems across modules
+                                    </p>
+                                </div>
+                                <div className="relative w-full sm:w-72">
+                                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                    <Input
+                                        placeholder="Search problem title or #ID..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="pl-9 h-9 text-xs"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Module Selector Pills */}
+                            {hasModules && (
+                                <div className="pt-2 border-t border-gray-100 flex items-center gap-1.5 overflow-x-auto pb-1 [scrollbar-width:thin]">
+                                    <Button
+                                        size="sm"
+                                        variant={selectedModule === 'all' ? 'default' : 'outline'}
+                                        className={`h-7 px-3 text-xs rounded-full flex-shrink-0 ${
+                                            selectedModule === 'all' ? 'bg-[#FF7A00] hover:bg-[#FF6A00]' : 'text-gray-600'
+                                        }`}
+                                        onClick={() => setSelectedModule('all')}
+                                    >
+                                        All Modules ({problems.length})
+                                    </Button>
+                                    {(course.modules && course.modules.length > 0 ? course.modules : Array.from({ length: 15 }, (_, i) => ({
+                                        moduleNumber: i + 1,
+                                        title: `Module ${i + 1}`,
+                                        problemCount: 10
+                                    }))).map((mod) => {
+                                        const modCount = moduleMap[mod.moduleNumber]?.length || mod.problemCount || 10;
+                                        const modSolved = (moduleMap[mod.moduleNumber] || []).filter(p => p.solved).length;
+                                        const isSelected = selectedModule === mod.moduleNumber;
+
+                                        return (
+                                            <Button
+                                                key={mod.moduleNumber}
+                                                size="sm"
+                                                variant={isSelected ? 'default' : 'outline'}
+                                                className={`h-7 px-3 text-xs rounded-full flex-shrink-0 transition-colors ${
+                                                    isSelected ? 'bg-[#FF7A00] hover:bg-[#FF6A00]' : 'text-gray-600 hover:border-orange-300'
+                                                }`}
+                                                onClick={() => setSelectedModule(mod.moduleNumber)}
+                                            >
+                                                M{mod.moduleNumber}: {mod.title.split(':')[0].slice(0, 15)} ({modSolved}/{modCount})
+                                            </Button>
+                                        );
+                                    })}
+                                </div>
                             )}
                         </div>
-                        <Card className="border-blue-200 bg-blue-50">
-                            <CardContent className="p-4">
-                                <div className="flex items-start space-x-3">
-                                    <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <span className="text-white font-bold text-sm">💡</span>
-                                    </div>
-                                    <div>
-                                        <h4 className="font-semibold text-gray-900 mb-1">Tip</h4>
-                                        <p className="text-sm text-gray-600">
-                                            Click on any problem to open the code editor. Write your solution and submit to earn points!
-                                        </p>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+
+                        {/* Problems Grouped by Module */}
+                        {filteredProblems.length === 0 ? (
+                            <Card className="p-12 text-center text-gray-500">
+                                No problems found matching your criteria.
+                            </Card>
+                        ) : (
+                            <div className="space-y-6">
+                                {displayedModuleNums.map((modNum) => {
+                                    const modProblems = filteredProblems.filter(p => (p.moduleNumber || 1) === modNum);
+                                    if (modProblems.length === 0) return null;
+
+                                    const modInfo = course.modules?.find(m => m.moduleNumber === modNum);
+                                    const modTitle = modInfo?.title || modProblems[0]?.moduleTitle || `Module ${modNum}`;
+                                    const modTopics = modInfo?.topics || modProblems[0]?.topics || '';
+                                    const modSolvedCount = modProblems.filter(p => p.solved).length;
+
+                                    return (
+                                        <div key={modNum} className="space-y-3">
+                                            {/* Module Section Header */}
+                                            <div className="bg-gradient-to-r from-orange-50/90 via-amber-50/40 to-transparent p-3.5 px-4 rounded-xl border border-orange-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                                <div>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="px-2 py-0.5 bg-[#FF7A00] text-white text-[11px] font-bold rounded-md">
+                                                            Module {String(modNum).padStart(2, '0')}
+                                                        </span>
+                                                        <h3 className="text-base font-bold text-gray-900">{modTitle}</h3>
+                                                    </div>
+                                                    {modTopics && (
+                                                        <p className="text-xs text-gray-500 mt-1 line-clamp-1">
+                                                            <strong className="text-gray-700">Topics:</strong> {modTopics}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center gap-2 flex-shrink-0">
+                                                    <span className="px-2.5 py-1 bg-white border border-orange-200 text-xs font-semibold text-gray-700 rounded-lg shadow-2xs">
+                                                        {modSolvedCount} / {modProblems.length} Solved
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {/* Module Problem Cards */}
+                                            <div className="grid gap-2.5">
+                                                {modProblems.map((problem) => (
+                                                    <div
+                                                        key={problem._id}
+                                                        className={`p-3.5 px-4 rounded-xl border transition-all cursor-pointer flex items-center justify-between hover:shadow-md hover:border-orange-300 ${
+                                                            problem.solved 
+                                                                ? 'bg-emerald-50/40 border-emerald-200' 
+                                                                : 'bg-white border-gray-100'
+                                                        }`}
+                                                        onClick={() => handleProblemClick(problem)}
+                                                    >
+                                                        <div className="flex items-center space-x-3.5 min-w-0">
+                                                            <div className="flex-shrink-0">
+                                                                {problem.solved ? (
+                                                                    <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                                                                ) : (
+                                                                    <Circle className="w-5 h-5 text-gray-300" />
+                                                                )}
+                                                            </div>
+                                                            <div className="w-12 h-9 bg-gray-50 border border-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                                <span className="font-bold text-xs text-gray-700">#{problem.number}</span>
+                                                            </div>
+                                                            <div className="overflow-hidden min-w-0">
+                                                                <h4 className="font-semibold text-sm text-gray-900 truncate">
+                                                                    {problem.title}
+                                                                </h4>
+                                                                <div className="flex items-center gap-2 mt-0.5">
+                                                                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                                                                        problem.difficulty === 'Hard' ? 'bg-red-50 text-red-600 border border-red-200' :
+                                                                        problem.difficulty === 'Medium' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                                                                        'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                                                    }`}>
+                                                                        {problem.difficulty}
+                                                                    </span>
+                                                                    <span className="text-[11px] text-gray-400 font-medium">
+                                                                        {problem.points} pts
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <Button
+                                                            size="sm"
+                                                            className={`flex-shrink-0 ml-3 text-xs font-semibold ${
+                                                                problem.solved 
+                                                                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white' 
+                                                                    : 'bg-[#FF7A00] hover:bg-[#FF6A00] text-white'
+                                                            }`}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleProblemClick(problem);
+                                                            }}
+                                                        >
+                                                            {problem.solved ? '✓ Solved' : '▶ Solve'}
+                                                        </Button>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
                     </TabsContent>
 
-                    <TabsContent value="modules" className="space-y-4">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Learning Modules</h2>
-                        {renderContentList('module', 'No learning modules available for this course.')}
-                    </TabsContent>
-
+                    {/* ─── TAB 3: PPTS & PRESENTATIONS ───────────────────────────── */}
                     <TabsContent value="ppts" className="space-y-4">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Class Presentations</h2>
-                        {renderContentList('ppt', 'No presentations available for this course.')}
+                        <h2 className="text-xl font-bold text-gray-900 mb-4">Class Presentations & Slides</h2>
+                        {renderContentList('ppt', 'No presentations uploaded for this course yet.')}
                     </TabsContent>
 
+                    {/* ─── TAB 4: PREVIOUS YEAR QUESTIONS (PYQS) ─────────────────── */}
                     <TabsContent value="pyqs" className="space-y-4">
-                        <h2 className="text-xl font-bold text-gray-900 mb-4">Previous Year Questions</h2>
-                        {renderContentList('pyq', 'No PYQs available for this course.')}
+                        <h2 className="text-xl font-bold text-gray-900 mb-4">Previous Year Exam Questions</h2>
+                        {renderContentList('pyq', 'No previous year questions uploaded for this course yet.')}
                     </TabsContent>
                 </Tabs>
             </div>

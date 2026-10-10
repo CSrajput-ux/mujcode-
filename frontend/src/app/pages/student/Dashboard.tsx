@@ -9,6 +9,7 @@ import {
   Clock
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import apiClient from '../../services/apiClient';
 
 export default function Dashboard() {
   const [ranks, setRanks] = useState([
@@ -19,6 +20,8 @@ export default function Dashboard() {
   const [loadingRanks, setLoadingRanks] = useState(true);
   const [mentors, setMentors] = useState<{ name: string, subject: string, avatar: string, department: string }[]>([]);
   const [loadingMentors, setLoadingMentors] = useState(true);
+  const [upcomingTests, setUpcomingTests] = useState<{ title: string, type: string, date: string, time: string }[]>([]);
+  const [loadingTests, setLoadingTests] = useState(true);
 
   useEffect(() => {
     const fetchRankings = async () => {
@@ -31,11 +34,9 @@ export default function Dashboard() {
           return;
         }
 
-        const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/rankings/${userId}`);
-        const data = await res.json();
-
-        if (res.ok && data.ranks) {
-          setRanks(data.ranks);
+        const res = await apiClient.get(`/api/student/rankings/${userId}`);
+        if (res.data && res.data.ranks) {
+          setRanks(res.data.ranks);
         }
         setLoadingRanks(false);
       } catch (error) {
@@ -47,12 +48,9 @@ export default function Dashboard() {
     const fetchMentors = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
-
-        const res = await fetch(`${import.meta.env.VITE_API_URL || (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/+$/, '') + ''}/api/student/mentors/${user.id}`);
-        const data = await res.json();
-
-        if (res.ok && Array.isArray(data)) {
-          const mappedMentors = data.map((f: any) => ({
+        const res = await apiClient.get(`/api/student/mentors/${user.id}`);
+        if (res.data && Array.isArray(res.data)) {
+          const mappedMentors = res.data.map((f: any) => ({
             name: f.name,
             subject: f.subject || 'Mentor',
             avatar: f.name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2),
@@ -67,42 +65,60 @@ export default function Dashboard() {
       }
     };
 
+    const fetchUpcomingTests = async () => {
+      try {
+        const res = await apiClient.get('/api/tests');
+        if (res.data && Array.isArray(res.data)) {
+          const mapped = res.data.slice(0, 3).map((t: any) => ({
+            title: t.title,
+            type: t.testType || t.type || 'Quiz',
+            date: t.startTime ? new Date(t.startTime).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Today',
+            time: t.duration ? `${t.duration} mins` : '45 mins'
+          }));
+          setUpcomingTests(mapped);
+        }
+        setLoadingTests(false);
+      } catch (error) {
+        console.error('Error fetching upcoming tests:', error);
+        setLoadingTests(false);
+      }
+    };
+
     fetchRankings();
     fetchMentors();
+    fetchUpcomingTests();
   }, []);
-
-  const upcomingTests: any[] = [];
 
   return (
     <StudentLayout>
-      <div className="space-y-6">
+      <div className="space-y-4">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
             Welcome back, {JSON.parse(localStorage.getItem('user') || '{}').name?.split(' ')[0] || 'Student'}! 👋
           </h1>
-          <p className="text-gray-600">Here's your learning progress overview</p>
+          <p className="text-sm text-gray-500">Here's your learning progress overview</p>
         </div>
 
         {/* New LeetCode-style Stats & Badges */}
         <StudentStats />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Ranks */}
-          <Card className="shadow-md border-t-4 border-t-[#FF7A00]">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Trophy className="w-5 h-5 text-[#FF7A00]" />
-                <span className="text-lg">Your Rankings</span>
+          <Card className="h-[265px] flex flex-col shadow-sm border-t-4 border-t-[#FF7A00]">
+            <CardHeader className="py-2.5 px-4 border-b border-gray-100 flex-shrink-0">
+              <CardTitle className="flex items-center space-x-2 text-base font-semibold">
+                <Trophy className="w-4 h-4 text-[#FF7A00]" />
+                <span>Your Rankings</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="flex-1 overflow-y-auto p-3 space-y-2 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full">
               {ranks.map((rank, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-orange-50/50 rounded-lg border border-orange-100/50">
-                  <span className="text-gray-700 font-medium">{rank.label}</span>
+                <div key={index} className="flex items-center justify-between p-2 px-3 bg-orange-50/40 rounded-lg border border-orange-100/50">
+                  <span className="text-xs text-gray-700 font-medium">{rank.label}</span>
                   <div className="text-right">
-                    <span className="text-xl font-bold text-[#FF7A00]">{rank.value}</span>
-                    <span className="text-sm text-gray-500 ml-1">{rank.total}</span>
+                    <span className="text-base font-bold text-[#FF7A00]">{rank.value}</span>
+                    <span className="text-xs text-gray-500 ml-1">{rank.total}</span>
                   </div>
                 </div>
               ))}
@@ -110,34 +126,34 @@ export default function Dashboard() {
           </Card>
 
           {/* Faculty Mentors */}
-          <Card className="shadow-md border-t-4 border-t-purple-500">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Users className="w-5 h-5 text-purple-600" />
-                <span className="text-lg">Faculty Mentors</span>
+          <Card className="h-[265px] flex flex-col shadow-sm border-t-4 border-t-purple-500">
+            <CardHeader className="py-2.5 px-4 border-b border-gray-100 flex-shrink-0">
+              <CardTitle className="flex items-center space-x-2 text-base font-semibold">
+                <Users className="w-4 h-4 text-purple-600" />
+                <span>Faculty Mentors</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="flex-1 overflow-y-auto p-3 space-y-2 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-300">
               {loadingMentors ? (
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {[1, 2, 3].map(i => (
-                    <div key={i} className="h-16 bg-gray-50 rounded-lg animate-pulse" />
+                    <div key={i} className="h-12 bg-gray-50 rounded-lg animate-pulse" />
                   ))}
                 </div>
               ) : mentors.length > 0 ? (
                 mentors.map((mentor, index) => (
-                  <div key={index} className="flex items-center space-x-3 p-3 bg-purple-50/50 rounded-lg border border-purple-100/50 hover:bg-purple-100 transition-colors group">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold shadow-sm transition-transform group-hover:scale-110">
+                  <div key={index} className="flex items-center space-x-2.5 p-2 px-3 bg-purple-50/40 rounded-lg border border-purple-100/50 hover:bg-purple-100/60 transition-colors group">
+                    <div className="w-8 h-8 flex-shrink-0 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-sm transition-transform group-hover:scale-105">
                       {mentor.avatar}
                     </div>
-                    <div className="overflow-hidden">
-                      <p className="font-bold text-gray-900 truncate text-sm">{mentor.name}</p>
-                      <p className="text-[11px] text-purple-600 font-semibold truncate uppercase">{mentor.subject}</p>
+                    <div className="overflow-hidden min-w-0 flex-1">
+                      <p className="font-bold text-gray-900 truncate text-xs">{mentor.name}</p>
+                      <p className="text-[10px] text-purple-600 font-semibold truncate uppercase tracking-wider">{mentor.subject}</p>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="text-center py-8 text-gray-400 italic text-sm border-2 border-dashed border-gray-100 rounded-xl">
+                <div className="text-center py-6 text-gray-400 italic text-xs border-2 border-dashed border-gray-100 rounded-lg">
                   No faculty assigned for your section yet.
                 </div>
               )}
@@ -145,23 +161,23 @@ export default function Dashboard() {
           </Card>
 
           {/* Upcoming Tests */}
-          <Card className="shadow-md border-t-4 border-t-[#FF7A00]">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Calendar className="w-5 h-5 text-[#FF7A00]" />
-                <span className="text-lg">Upcoming Tests</span>
+          <Card className="h-[265px] flex flex-col shadow-sm border-t-4 border-t-[#FF7A00]">
+            <CardHeader className="py-2.5 px-4 border-b border-gray-100 flex-shrink-0">
+              <CardTitle className="flex items-center space-x-2 text-base font-semibold">
+                <Calendar className="w-4 h-4 text-[#FF7A00]" />
+                <span>Upcoming Tests</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="flex-1 overflow-y-auto p-3 space-y-2 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-300">
               {upcomingTests.map((test, index) => (
-                <div key={index} className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-                  <div className="flex items-start justify-between mb-2">
-                    <p className="font-bold text-gray-900 text-sm truncate pr-2">{test.title}</p>
-                    <span className="px-2 py-0.5 bg-[#FF7A00] text-white text-[10px] rounded-full font-bold">
+                <div key={index} className="p-2 px-3 bg-gray-50/70 rounded-lg border border-gray-100 hover:bg-gray-100/60 transition-colors">
+                  <div className="flex items-start justify-between mb-1">
+                    <p className="font-bold text-gray-900 text-xs truncate pr-2">{test.title}</p>
+                    <span className="px-1.5 py-0.5 bg-[#FF7A00] text-white text-[9px] rounded font-bold flex-shrink-0">
                       {test.type}
                     </span>
                   </div>
-                  <div className="flex items-center space-x-4 text-[11px] text-gray-500 font-medium">
+                  <div className="flex items-center space-x-3 text-[10px] text-gray-500 font-medium">
                     <span className="flex items-center">
                       <Calendar className="w-3 h-3 mr-1 text-[#FF7A00]" />
                       {test.date}
