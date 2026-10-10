@@ -44,7 +44,7 @@ services:
       NODE_ENV: production
       WEB_CONCURRENCY: ${WEB_CONCURRENCY:-2}
       TOKEN_SECRET: ${TOKEN_SECRET:?TOKEN_SECRET is required — set it in .env}
-      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173,http://localhost:80}
       DB_FILE: /app/src/data/db.json
       UPLOAD_DIR: /app/uploads
       POSTGRES_URI: ${POSTGRES_URI:-postgres://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/mujcode_db}
@@ -52,6 +52,8 @@ services:
       REDIS_URI: redis://redis:6379
       JUDGE0_URL: ${JUDGE0_URL:-http://judge0_server:2358}
       JUDGE0_AUTH_TOKEN: ${JUDGE0_AUTH_TOKEN:-}
+      COMPILER_ENGINE_URL: ${COMPILER_ENGINE_URL:-}
+
       JUDGE0_CPU_TIME_LIMIT: ${JUDGE0_CPU_TIME_LIMIT:-2}
       JUDGE0_MEMORY_LIMIT: ${JUDGE0_MEMORY_LIMIT:-128000}
       JUDGE0_WALL_TIME_LIMIT: ${JUDGE0_WALL_TIME_LIMIT:-5}

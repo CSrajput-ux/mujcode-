@@ -67,3 +67,6 @@ services:
         sync: false           # External Judge0 URL or leave empty
       - key: JUDGE0_AUTH_TOKEN
         sync: false           # Optional: if Judge0 has auth enabled
+      - key: COMPILER_ENGINE_URL
+        sync: false           # Optional: internal compiler engine runner URL
+
