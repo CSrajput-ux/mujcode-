@@ -26,12 +26,23 @@ function fromBase64(str) {
  * The application interacts with Judge0 exclusively through this service.
  */
 export class Judge0Service {
+  static getBaseUrl() {
+    if (process.env.USE_LEGACY_JUDGE0 === 'true' && config.judge0Url) {
+      return config.judge0Url.replace(/\/+$/, '');
+    }
+    if (process.env.COMPILER_ENGINE_URL) {
+      return process.env.COMPILER_ENGINE_URL.replace(/\/+$/, '');
+    }
+    // Dedicated MUJCODE Compiler Engine on Port 2359
+    return 'http://127.0.0.1:2359';
+  }
+
   /**
    * Internal HTTP request helper with timeout and optional auth headers
    */
   static async request(endpoint, options = {}) {
-    const baseUrl = config.judge0Url.replace(/\/+$/, '');
-    const url = `${baseUrl}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+    let baseUrl = this.getBaseUrl();
+    let url = `${baseUrl}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
     
     const headers = {
       'Content-Type': 'application/json',
@@ -97,7 +108,9 @@ export class Judge0Service {
     callbackUrl = null
   }) {
     const safeCpu = Math.min(5, Math.max(0.5, Number(cpuTimeLimit || config.judge0CpuTimeLimit)));
-    const safeMem = Math.min(262144, Math.max(16384, Number(memoryLimit || config.judge0MemoryLimit)));
+    const isJava = Number(languageId) === 62;
+    const defaultMem = isJava ? 1048576 : Number(config.judge0MemoryLimit || 262144);
+    const safeMem = Math.min(2048000, Math.max(16384, Number(memoryLimit || defaultMem)));
     const safeWall = Math.min(10, Math.max(1, Number(wallTimeLimit || config.judge0WallTimeLimit)));
 
     const payload = {

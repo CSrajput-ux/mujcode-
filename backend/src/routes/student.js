@@ -46,9 +46,11 @@ function updateStudentProfile(db, id, profile, isAdmin = false) {
 }
 
 function solvedSet(db, studentId) {
+  const student = (db.students || []).find(s => s.id === studentId || s.college_id === studentId);
+  const allowedIds = new Set([studentId, String(studentId), student?.id, student?.college_id].filter(Boolean));
   return new Set(
-    db.problemSubmissions
-      .filter(sub => (sub.userId === studentId || sub.userId === String(studentId)) && sub.verdict === 'Accepted')
+    (db.problemSubmissions || [])
+      .filter(sub => allowedIds.has(String(sub.userId)) && sub.verdict === 'Accepted')
       .flatMap(sub => [String(sub.problemId), String(sub.problemNumber)].filter(Boolean))
   );
 }
@@ -72,18 +74,36 @@ function restrictionsFor(db, student) {
 
 export function registerStudentRoutes(router) {
   router.get('/api/student/courses', (req, res, ctx) => {
-    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
-    return sendJson(res, 200, { courses: db.courses.map(publicCourse) });
+    return sendJson(res, 200, { courses: (db.courses || []).map(publicCourse) });
   });
 
   router.get('/api/student/courses/:studentId', (req, res, ctx) => {
     if (!requireSelfOrFacultyOrAdmin(req, res, req.params.studentId)) return;
     const db = ctx.getDb();
     const { student } = userAndStudent(db, req.params.studentId);
+    const solved = solvedSet(db, student ? student.id : req.params.studentId);
     let courses = db.courses
       .filter(course => !student || !course.branch || course.branch === student.branch)
-      .map(publicCourse);
+      .map(course => {
+        const pub = publicCourse(course);
+        const targetCourseId = course._id;
+        const isCCourse = targetCourseId === 'c_programming_fundamentals' || targetCourseId === 'c_fundamentals_questions' || (course.title || '').toLowerCase().includes('c programming');
+        const courseProblems = (db.problems || []).filter(p => {
+          if (isCCourse) return p.courseId === 'c_programming_fundamentals' || p.courseId === 'c_fundamentals_questions';
+          return p.courseId === targetCourseId;
+        });
+        const total = courseProblems.length || course.totalProblems || 0;
+        const solvedCount = courseProblems.filter(p => solved.has(String(p._id)) || solved.has(String(p.number))).length;
+        const progress = total > 0 ? Math.round((solvedCount / total) * 100) : (pub.progress || 0);
+        return {
+          ...pub,
+          totalProblems: total,
+          problemsSolved: solvedCount,
+          progress: progress,
+          completed: progress === 100
+        };
+      });
 
     if (student && student.subjects && student.subjects.length > 0) {
       const existingTitles = new Set(courses.map(c => (c.courseName || c.title || '').toLowerCase()));
@@ -128,9 +148,18 @@ export function registerStudentRoutes(router) {
         description: 'Uploaded Semester Course'
       };
     }
-    const solved = solvedSet(db, currentStudent(db, req)?.id || req.user.id);
+    const targetCourseId = course?._id || req.params.courseId;
+    const isCCourse = targetCourseId === 'c_programming_fundamentals' || targetCourseId === 'c_fundamentals_questions' || (course?.title || '').toLowerCase().includes('c programming');
+
+    const studentParam = req.query?.studentId || currentStudent(db, req)?.id || req.user?.id;
+    const solved = solvedSet(db, studentParam);
     const problems = db.problems
-      .filter(problem => problem.courseId === req.params.courseId)
+      .filter(problem => {
+        if (isCCourse) {
+          return problem.courseId === 'c_programming_fundamentals' || problem.courseId === 'c_fundamentals_questions';
+        }
+        return problem.courseId === targetCourseId || problem.courseId === req.params.courseId;
+      })
       .map(problem => ({
         _id: problem._id,
         number: problem.number,
@@ -138,12 +167,17 @@ export function registerStudentRoutes(router) {
         difficulty: problem.difficulty,
         category: problem.category,
         points: problem.points,
+        moduleNumber: problem.moduleNumber || 1,
+        moduleTitle: problem.moduleTitle || '',
+        moduleTopic: problem.moduleTopic || '',
+        topics: problem.topics || '',
         solved: solved.has(String(problem._id)) || solved.has(String(problem.number))
       }));
 
     return sendJson(res, 200, {
       course: course ? publicCourse(course) : null,
       problems,
+      modules: course?.modules || [],
       solvedCount: problems.filter(problem => problem.solved).length
     });
   });
@@ -246,13 +280,15 @@ export function registerStudentRoutes(router) {
     });
 
     const userSolvedSets = {};
-    db.problemSubmissions.forEach(sub => {
+    (db.problemSubmissions || []).forEach(sub => {
       if (sub.verdict === 'Accepted') {
         const uId = sub.userId;
-        if (!userSolvedSets[uId]) {
-          userSolvedSets[uId] = new Set();
+        const s = db.students.find(x => x.id === uId || x.college_id === uId);
+        const resolvedId = s ? s.id : uId;
+        if (!userSolvedSets[resolvedId]) {
+          userSolvedSets[resolvedId] = new Set();
         }
-        userSolvedSets[uId].add(sub.problemId);
+        userSolvedSets[resolvedId].add(String(sub.problemId || sub.problemNumber));
       }
     });
 

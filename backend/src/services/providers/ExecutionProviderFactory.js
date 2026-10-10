@@ -1,8 +1,10 @@
 import { Judge0ExecutionProvider } from './Judge0ExecutionProvider.js';
 import { SqlExecutionProvider } from './SqlExecutionProvider.js';
+import { LocalExecutionProvider } from './LocalExecutionProvider.js';
 
 const judge0Provider = new Judge0ExecutionProvider();
 const sqlProvider = new SqlExecutionProvider();
+const localProvider = new LocalExecutionProvider();
 
 export class ExecutionProviderFactory {
   /**
@@ -17,6 +19,17 @@ export class ExecutionProviderFactory {
   }
 
   /**
+   * Determine if a given language is Java
+   * @param {string} language
+   * @returns {boolean}
+   */
+  static isJava(language) {
+    if (!language) return false;
+    const clean = String(language).toLowerCase().trim();
+    return clean === 'java' || clean === 'java13' || clean === '62';
+  }
+
+  /**
    * Return appropriate execution provider for the given language
    * @param {string} language
    * @returns {import('./BaseExecutionProvider.js').BaseExecutionProvider}
@@ -25,7 +38,19 @@ export class ExecutionProviderFactory {
     if (this.isSql(language)) {
       return sqlProvider;
     }
+    if (this.isJava(language)) {
+      // Local provider executes Java using the host's native OpenJDK / Oracle JDK with optimal heap flags (-Xms32m -Xmx256m),
+      // completely eliminating Judge0's Linux isolate virtual memory limit (RLIMIT_AS) collision on WSL2/Docker Desktop.
+      return localProvider;
+    }
     return judge0Provider;
+  }
+
+  /**
+   * Return direct reference to Local provider
+   */
+  static getLocalProvider() {
+    return localProvider;
   }
 
   /**

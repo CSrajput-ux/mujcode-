@@ -24,25 +24,37 @@ export class CodeExecutionService {
       return 82; // Judge0 legacy SQLite ID
     }
 
+    const approvedIds = new Set([50, 54, 62, 71, 63, 60, 82]);
     const asNum = Number(clean);
     if (!isNaN(asNum) && asNum > 0 && Number.isInteger(asNum)) {
+      if (!approvedIds.has(asNum)) {
+        throw new Error(`Unsupported language ID: ${asNum}. MUJCODE Compiler Engine supports strictly 7 language families.`);
+      }
       return asNum;
     }
 
     const id = JUDGE0_LANGUAGE_MAP[clean];
-    if (!id) {
-      const supported = [...new Set(Object.keys(LANGUAGE_MAP))].sort().join(', ');
-      throw new Error(`Unsupported language: '${langStr}'.\nSupported aliases: ${supported}`);
+    if (!id || !approvedIds.has(id)) {
+      const supported = ['c', 'cpp', 'java', 'python', 'javascript', 'go', 'sql'].join(', ');
+      throw new Error(`Unsupported language: '${langStr}'.\nSupported languages: ${supported}`);
     }
     return id;
   }
 
   /**
    * Return all supported language names (for frontend language selector).
-   * Combines SQL isolated runner + Judge0 languages.
+   * Exposes strictly the 7 approved language families.
    */
   static async getSupportedLanguages() {
-    return ExecutionProviderFactory.getAllSupportedLanguages();
+    return [
+      { id: 50, name: 'C (GCC)', language: 'c', extension: '.c' },
+      { id: 54, name: 'C++ (G++)', language: 'cpp', extension: '.cpp' },
+      { id: 62, name: 'Java (OpenJDK)', language: 'java', extension: '.java' },
+      { id: 71, name: 'Python (Python 3)', language: 'python', extension: '.py' },
+      { id: 63, name: 'JavaScript (Node.js)', language: 'javascript', extension: '.js' },
+      { id: 60, name: 'Go (Golang)', language: 'go', extension: '.go' },
+      { id: 82, name: 'SQL (Isolated Engine)', language: 'sql', extension: '.sql' }
+    ];
   }
 
   /**

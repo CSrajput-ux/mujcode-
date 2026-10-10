@@ -1,7 +1,10 @@
 import { BaseExecutionProvider } from './BaseExecutionProvider.js';
 import { Judge0Service } from '../Judge0Service.js';
+import { LocalExecutionProvider } from './LocalExecutionProvider.js';
 import { logger } from '../../lib/logger.js';
 import { judge0SubmissionsTotal } from '../../lib/metrics.js';
+
+const localProvider = new LocalExecutionProvider();
 
 // ─── Judge0 CE v1.13.1 — Verified Language ID Map ─────────────────────────────
 // Source: https://github.com/judge0/judge0/blob/v1.13.1/db/languages/active.rb
@@ -158,18 +161,27 @@ export class Judge0ExecutionProvider extends BaseExecutionProvider {
       throw new Error('Stdin exceeds 1 MB limit');
     }
 
-    const languageId = Judge0ExecutionProvider.resolveLanguageId(language);
-    const { token } = await Judge0Service.createSubmission({
-      sourceCode,
-      languageId,
-      stdin,
-      cpuTimeLimit: timeLimit,
-      memoryLimit
-    });
-
     try {
+      const languageId = Judge0ExecutionProvider.resolveLanguageId(language);
+      const { token } = await Judge0Service.createSubmission({
+        sourceCode,
+        languageId,
+        stdin,
+        cpuTimeLimit: timeLimit,
+        memoryLimit
+      });
+
       const submission = await Judge0ExecutionProvider.pollSubmission(token);
       const { status, verdict } = Judge0ExecutionProvider.normalizeStatus(submission.statusId, submission.statusDescription);
+
+      const isJvmHeapError = (submission.compileOutput && (submission.compileOutput.includes('Error occurred during initialization of VM') || submission.compileOutput.includes('Could not reserve enough space') || submission.compileOutput.includes('metaspace'))) ||
+                             (submission.stderr && (submission.stderr.includes('Error occurred during initialization of VM') || submission.stderr.includes('Could not reserve enough space') || submission.stderr.includes('metaspace'))) ||
+                             (submission.stdout && (submission.stdout.includes('Error occurred during initialization of VM') || submission.stdout.includes('Could not reserve enough space')));
+
+      if (isJvmHeapError) {
+        logger.warn(`[Judge0ExecutionProvider] Detected VM heap reservation limitation in sandbox for ${language}. Falling back to native local compiler.`);
+        return localProvider.runCode({ language, sourceCode, stdin, timeLimit, memoryLimit });
+      }
 
       judge0SubmissionsTotal.inc({ language: String(language).toLowerCase(), status });
 
@@ -185,23 +197,26 @@ export class Judge0ExecutionProvider extends BaseExecutionProvider {
         memory: submission.memory,
         message: submission.message
       };
-    } catch (pollErr) {
-      if (pollErr.code === 'TIME_LIMIT_EXCEEDED' || pollErr.message?.includes('timed out')) {
+    } catch (err) {
+      if (err.code === 'TIME_LIMIT_EXCEEDED' || (err.message && err.message.includes('timed out') && !err.message.includes('Judge0 request timed out'))) {
         judge0SubmissionsTotal.inc({ language: String(language).toLowerCase(), status: 'TIME_LIMIT_EXCEEDED' });
         return {
           success: false,
           status: 'TIME_LIMIT_EXCEEDED',
           verdict: 'Time Limit Exceeded',
-          token,
+          token: null,
           stdout: '',
           stderr: 'Time Limit Exceeded: Code execution exceeded the maximum allowed run time.',
           compileOutput: '',
-          time: Number(timeLimit || config.judge0WallTimeLimit),
+          time: Number(timeLimit || 5),
           memory: 0,
           message: 'Time Limit Exceeded'
         };
       }
-      throw pollErr;
+
+      // If Judge0 is down / unreachable / ECONNREFUSED, fallback seamlessly to native compiler!
+      logger.warn(`[Judge0ExecutionProvider] Judge0 unavailable (${err.message}). Using native local compiler fallback.`);
+      return localProvider.runCode({ language, sourceCode, stdin, timeLimit, memoryLimit });
     }
   }
 
@@ -238,6 +253,13 @@ export class Judge0ExecutionProvider extends BaseExecutionProvider {
       throw new Error('Source code exceeds 100 KB limit');
     }
 
+    // Fast health probe — if Judge0 is offline, route to native compiler immediately
+    const health = await Judge0Service.checkHealth().catch(() => ({ healthy: false }));
+    if (!health.healthy) {
+      logger.warn(`[Judge0ExecutionProvider] Judge0 is unreachable (${health.error || 'offline'}). Running test cases natively.`);
+      return localProvider.executeTestCases({ language, sourceCode, testCases, timeLimit, isSubmit });
+    }
+
     const languageId = Judge0ExecutionProvider.resolveLanguageId(language);
     const cases = testCases.length ? testCases : [{ input: '', expectedOutput: '', marks: 1 }];
     let compilationError = null;
@@ -265,6 +287,17 @@ export class Judge0ExecutionProvider extends BaseExecutionProvider {
           .catch(err => ({ _error: err.message, index: i }));
       })
     );
+
+    const hasJvmHeapFailure = polledResults.some(sub =>
+      (sub.compileOutput && (sub.compileOutput.includes('Error occurred during initialization of VM') || sub.compileOutput.includes('Could not reserve enough space') || sub.compileOutput.includes('metaspace'))) ||
+      (sub.stderr && (sub.stderr.includes('Error occurred during initialization of VM') || sub.stderr.includes('Could not reserve enough space') || sub.stderr.includes('metaspace'))) ||
+      (sub.stdout && (sub.stdout.includes('Error occurred during initialization of VM') || sub.stdout.includes('Could not reserve enough space')))
+    );
+
+    if (hasJvmHeapFailure) {
+      logger.warn(`[Judge0ExecutionProvider] Detected VM heap reservation limitation in sandbox test cases for ${language}. Falling back to native local compiler.`);
+      return localProvider.executeTestCases({ language, sourceCode, testCases, timeLimit, isSubmit });
+    }
 
     const results = [];
     for (let i = 0; i < cases.length; i++) {
@@ -372,9 +405,18 @@ export class Judge0ExecutionProvider extends BaseExecutionProvider {
   }
 
   /**
-   * Health check for Judge0
+   * Health check for Judge0 with automatic local fallback
    */
   async checkHealth() {
-    return Judge0Service.checkHealth();
+    const jHealth = await Judge0Service.checkHealth().catch(err => ({ healthy: false, error: err.message }));
+    if (jHealth.healthy) return jHealth;
+    const lHealth = await localProvider.checkHealth();
+    return {
+      healthy: true,
+      latencyMs: lHealth.latencyMs,
+      mode: 'native-local',
+      judge0: jHealth,
+      compilers: lHealth.compilers
+    };
   }
 }
