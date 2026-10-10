@@ -116,36 +116,36 @@ export default function FacultyPermissions() {
     const sections = Array.from(new Set(facultyProfile?.teachingAssignments.map(a => a.section) || []));
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-200 pb-8">
+        <div className="space-y-5 animate-in fade-in duration-300 max-w-7xl mx-auto">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-200 pb-4">
                 <div>
-                    <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
-                        <ShieldCheck className="w-8 h-8 text-[#FF7A00]" />
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
+                        <ShieldCheck className="w-7 h-7 text-[#FF7A00]" />
                         Permission Controls
                     </h1>
-                    <p className="text-gray-500 mt-2 font-medium">Manage student access and course restrictions in real-time.</p>
+                    <p className="text-sm text-gray-500 mt-1">Manage student access and course restrictions in real-time.</p>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">My Sections</span>
-                    <div className="flex gap-2">
+                    <div className="flex gap-1.5">
                         {sections.map(s => (
-                            <Badge key={s} variant="outline" className="bg-white border-orange-200 text-orange-700 font-bold">{s}</Badge>
+                            <Badge key={s} variant="outline" className="bg-white border-orange-200 text-orange-700 font-bold text-xs px-2.5 py-0.5">{s}</Badge>
                         ))}
                     </div>
                 </div>
             </div>
 
-            <Tabs defaultValue="students" value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-                <TabsList className="bg-white p-1 rounded-xl shadow-sm border border-gray-200 grid grid-cols-3 w-full md:w-[600px]">
-                    <TabsTrigger value="students" className="rounded-lg data-[state=active]:bg-orange-50 data-[state=active]:text-orange-700 font-bold">
-                        <User className="w-4 h-4 mr-2" /> Student Controls
+            <Tabs defaultValue="students" value={activeTab} onValueChange={setActiveTab} className="space-y-5">
+                <TabsList className="bg-white p-1 rounded-xl shadow-xs border border-gray-200 grid grid-cols-3 w-full md:w-[540px] h-10">
+                    <TabsTrigger value="students" className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-orange-50 data-[state=active]:text-orange-700 font-semibold py-1.5">
+                        <User className="w-4 h-4 mr-1.5" /> Student Controls
                     </TabsTrigger>
-                    <TabsTrigger value="courses" className="rounded-lg data-[state=active]:bg-orange-50 data-[state=active]:text-orange-700 font-bold">
-                        <BookOpen className="w-4 h-4 mr-2" /> Course Controls
+                    <TabsTrigger value="courses" className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-orange-50 data-[state=active]:text-orange-700 font-semibold py-1.5">
+                        <BookOpen className="w-4 h-4 mr-1.5" /> Course Controls
                     </TabsTrigger>
-                    <TabsTrigger value="active" className="rounded-lg data-[state=active]:bg-orange-50 data-[state=active]:text-orange-700 font-bold">
-                        <ShieldAlert className="w-4 h-4 mr-2" /> Active Blocks ({activeBlocks.length})
+                    <TabsTrigger value="active" className="rounded-lg text-xs sm:text-sm data-[state=active]:bg-orange-50 data-[state=active]:text-orange-700 font-semibold py-1.5">
+                        <ShieldAlert className="w-4 h-4 mr-1.5" /> Active Blocks ({activeBlocks.length})
                     </TabsTrigger>
                 </TabsList>
 
@@ -160,41 +160,42 @@ export default function FacultyPermissions() {
                 <TabsContent value="active">
                     <div className="grid grid-cols-1 gap-4">
                         {activeBlocks.length === 0 ? (
-                            <div className="text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                                <ShieldCheck className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                                <h3 className="text-lg font-bold text-gray-900">No Active Restrictions</h3>
-                                <p className="text-gray-500">All your students have full access.</p>
+                            <div className="text-center py-12 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+                                <ShieldCheck className="w-12 h-12 text-green-500 mx-auto mb-3" />
+                                <h3 className="text-base font-bold text-gray-900">No Active Restrictions</h3>
+                                <p className="text-sm text-gray-500">All your students have full access.</p>
                             </div>
                         ) : (
                             activeBlocks.map(block => (
-                                <Card key={block._id} className="border-l-4 border-l-red-500 shadow-sm hover:shadow-md transition-shadow">
-                                    <div className="flex flex-col md:flex-row justify-between p-6 gap-4">
+                                <Card key={block._id} className="border-l-4 border-l-red-500 shadow-xs hover:shadow-md transition-shadow">
+                                    <div className="flex flex-col md:flex-row justify-between p-4 sm:p-5 gap-4">
                                         <div className="space-y-2">
                                             <div className="flex items-center gap-2">
-                                                <Badge variant="outline" className="uppercase text-[10px] tracking-wider font-bold bg-gray-100 text-gray-600">
+                                                <Badge variant="outline" className="uppercase text-[11px] tracking-wider font-bold bg-gray-100 text-gray-600 px-2 py-0.5">
                                                     {block.scope}
                                                 </Badge>
-                                                <h3 className="text-lg font-bold text-gray-900">{block.targetName}</h3>
+                                                <h3 className="text-base font-bold text-gray-900">{block.targetName}</h3>
                                                 {block.section !== 'NA' && (
-                                                    <Badge className="bg-orange-100 text-orange-700 border-none">Section {block.section}</Badge>
+                                                    <Badge className="bg-orange-100 text-orange-700 border-none text-xs px-2 py-0.5">Section {block.section}</Badge>
                                                 )}
                                             </div>
                                             <p className="text-sm text-gray-600">
-                                                <span className="font-bold">Reason:</span> {block.reason}
+                                                <span className="font-semibold">Reason:</span> {block.reason}
                                             </p>
                                             <div className="flex gap-2 flex-wrap">
                                                 {block.blockedFeatures.map(f => (
-                                                    <span key={f} className="text-xs bg-red-50 text-red-600 px-2 py-1 rounded font-medium border border-red-100">
+                                                    <span key={f} className="text-xs bg-red-50 text-red-600 px-2 py-0.5 rounded font-medium border border-red-100">
                                                         {f}
                                                     </span>
                                                 ))}
                                             </div>
                                         </div>
-                                        <div className="flex flex-col items-end gap-2 justify-center">
+                                        <div className="flex flex-col md:items-end gap-2 justify-center">
                                             <Button
                                                 onClick={() => handleRevoke(block._id)}
                                                 variant="outline"
-                                                className="border-red-200 text-red-600 hover:bg-red-50 font-bold"
+                                                size="sm"
+                                                className="border-red-200 text-red-600 hover:bg-red-50 font-semibold h-9 text-xs sm:text-sm px-3.5"
                                             >
                                                 Revoke Restriction
                                             </Button>

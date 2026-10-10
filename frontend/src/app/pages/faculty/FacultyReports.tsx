@@ -52,8 +52,8 @@ export default function FacultyReports() {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Reports & Analytics</h1>
-                <p className="text-gray-600">Insights on student performance and engagement.</p>
+                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 mb-1">Reports & Analytics</h1>
+                <p className="text-sm text-gray-500 mt-1">Insights on student performance and engagement.</p>
             </div>
 
             <FilterBar
@@ -62,68 +62,68 @@ export default function FacultyReports() {
             />
 
             {/* SECTION 1: OVERALL PERFORMANCE SUMMARY (KPIs) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
                 <KPICard
                     title="Total Students"
                     value={stats?.totalStudents || 0}
-                    icon={<Users className="w-6 h-6" />}
+                    icon={<Users className="w-5 h-5" />}
                 />
                 <KPICard
                     title="Active Students"
                     value={stats ? `${stats.activeStudentsPct}%` : '0%'}
                     trend={5}
                     trendLabel="vs last week"
-                    icon={<CheckCircle className="w-6 h-6" />}
+                    icon={<CheckCircle className="w-5 h-5" />}
                 />
                 <KPICard
                     title="Avg Daily Submissions"
                     value={stats?.avgDailySubmissions || 0}
                     trend={-2}
                     trendLabel="vs last week"
-                    icon={<Clock className="w-6 h-6" />}
+                    icon={<Clock className="w-5 h-5" />}
                 />
                 <KPICard
                     title="Overall Success Rate"
                     value={stats ? `${stats.overallSuccessRate}%` : '0%'}
                     trend={stats?.growthTrend}
-                    icon={<TrendingUp className="w-6 h-6" />}
+                    icon={<TrendingUp className="w-5 h-5" />}
                 />
             </div>
 
             {/* SECTION 2: SECTION-WISE PERFORMANCE GRAPH */}
-            <div className="bg-white p-6 rounded-lg shadow-sm border">
-                <h3 className="text-lg font-bold text-gray-900 mb-6">Section Performance Over Time</h3>
+            <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-xs border border-gray-100">
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-4">Section Performance Over Time</h3>
                 <PerformanceChart data={sectionData} />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {/* SECTION 3: AVERAGE DAILY STUDENT ACTIVITY */}
-                <div className="bg-white p-6 rounded-lg shadow-sm border">
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">Average Daily Student Activity</h3>
-                    <p className="text-sm text-gray-500 mb-6">Based on assignments, quizzes, and research work.</p>
+                <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-xs border border-gray-100">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1">Average Daily Student Activity</h3>
+                    <p className="text-xs sm:text-sm text-gray-500 mb-4">Based on assignments, quizzes, and research work.</p>
                     <ActivityChart data={activityData} />
                 </div>
 
                 {/* SECTION 5: STUDENT SUCCESS RATE */}
-                <div className="bg-white p-6 rounded-lg shadow-sm border">
-                    <h3 className="text-lg font-bold text-gray-900 mb-6">Student Success Rate</h3>
+                <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-xs border border-gray-100">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-4">Student Success Rate</h3>
                     <SuccessPieChart data={successData} />
                 </div>
             </div>
 
             {/* SECTION 6: INSIGHT & RECOMMENDATION PANEL */}
-            <div className="bg-blue-50 border border-blue-100 p-6 rounded-lg">
+            <div className="bg-blue-50/70 border border-blue-100 p-5 sm:p-6 rounded-2xl">
                 <div className="flex items-start gap-4">
-                    <div className="p-3 bg-white rounded-full text-blue-600 shadow-sm">
-                        <Lightbulb className="w-6 h-6" />
+                    <div className="p-2.5 bg-white rounded-xl text-blue-600 shadow-xs">
+                        <Lightbulb className="w-5 h-5" />
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold text-gray-900 mb-2">Automated Insights</h3>
-                        <ul className="space-y-2 text-blue-900">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">Automated Insights</h3>
+                        <ul className="space-y-2 text-sm text-blue-900">
                             {insights.length > 0 ? (
                                 insights.map((insight, idx) => (
                                     <li key={idx} className="flex items-center gap-2">
-                                        <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full"></span>
                                         {insight}
                                     </li>
                                 ))

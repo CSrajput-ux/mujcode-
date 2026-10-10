@@ -93,17 +93,16 @@ export default function FacultyTests() {
         <>
             {viewMode === 'list' && (
                 <div className="space-y-6">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2">Tests & Quiz</h1>
-                        <p className="text-gray-600">Manage, monitor and analyze student performance</p>
-                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Tests & Quiz</h1>
+                            <p className="text-sm text-gray-500 mt-1">Manage, monitor and analyze student performance</p>
+                        </div>
 
-                    <div className="flex justify-end mb-4 pr-4">
                         <Button
                             onClick={() => setCreateModalOpen(true)}
-                            className="bg-[#FF7A00] hover:bg-[#FF6A00] flex items-center gap-2 h-10 min-w-[170px] justify-center"
+                            className="bg-[#FF7A00] hover:bg-[#FF6A00] text-sm font-semibold h-10 px-5 flex items-center gap-2 shadow-xs self-start sm:self-auto"
                         >
-                            {/* <Plus className="w-4 h-4" /> */}
                             Create Test / Quiz
                         </Button>
                     </div>
@@ -116,16 +115,16 @@ export default function FacultyTests() {
                     <CreateTestModal open={createModalOpen} onOpenChange={setCreateModalOpen} />
 
                     <Tabs defaultValue="tests" className="space-y-6">
-                        <TabsList className="bg-gray-100 p-1">
-                            <TabsTrigger value="tests" className="data-[state=active]:bg-[#FF7A00] data-[state=active]:text-white px-8">Tests</TabsTrigger>
-                            <TabsTrigger value="quizzes" className="data-[state=active]:bg-[#FF7A00] data-[state=active]:text-white px-8">Quizzes</TabsTrigger>
+                        <TabsList className="bg-gray-100 p-1 h-10 rounded-lg">
+                            <TabsTrigger value="tests" className="data-[state=active]:bg-[#FF7A00] data-[state=active]:text-white px-5 py-1.5 text-sm font-medium rounded-md">Tests</TabsTrigger>
+                            <TabsTrigger value="quizzes" className="data-[state=active]:bg-[#FF7A00] data-[state=active]:text-white px-5 py-1.5 text-sm font-medium rounded-md">Quizzes</TabsTrigger>
                         </TabsList>
 
                         <TabsContent value="tests" className="space-y-6">
                             {/* Grouping Logic Visualization (Mocked for UI structure) */}
-                            <div className="mb-6">
-                                <h2 className="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">2nd Year / Section A</h2>
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="mb-4">
+                                <h2 className="text-base font-bold text-gray-800 mb-3 border-b border-gray-100 pb-2">2nd Year / Section A</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                                     {testList.map(test => (
                                         <TestCard
                                             key={test._id}

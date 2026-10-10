@@ -132,21 +132,21 @@ export default function StudentPermissionPanel({ facultySections }: StudentPermi
     };
 
     return (
-        <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 {/* 1. Select Students */}
                 <Card className="border-gray-200 shadow-sm">
-                    <CardHeader>
-                        <CardTitle className="text-lg flex items-center gap-2">
+                    <CardHeader className="p-4 sm:p-5 pb-2.5">
+                        <CardTitle className="text-base font-bold flex items-center gap-2 text-gray-900">
                             <User className="w-5 h-5 text-blue-600" />
                             Select Students
                         </CardTitle>
-                        <CardDescription>Choose section first, then select students to restrict.</CardDescription>
+                        <CardDescription className="text-xs sm:text-sm">Choose section first, then select students to restrict.</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="p-4 sm:p-5 pt-1 space-y-3.5">
                         <Select value={selectedSection} onValueChange={setSelectedSection}>
-                            <SelectTrigger>
+                            <SelectTrigger className="h-10 text-sm">
                                 <SelectValue placeholder="Select Section" />
                             </SelectTrigger>
                             <SelectContent>
@@ -158,9 +158,9 @@ export default function StudentPermissionPanel({ facultySections }: StudentPermi
                         </Select>
 
                         {selectedSection !== 'all' && (
-                            <div className="border rounded-lg p-2 h-64 overflow-y-auto space-y-1 bg-gray-50">
-                                {loading && <p className="text-center text-sm text-gray-500 py-4">Loading students...</p>}
-                                {!loading && students.length === 0 && <p className="text-center text-sm text-gray-500 py-4">No students found.</p>}
+                            <div className="border rounded-lg p-2 h-60 overflow-y-auto space-y-1 bg-gray-50 text-sm">
+                                {loading && <p className="text-center text-xs text-gray-500 py-3">Loading students...</p>}
+                                {!loading && students.length === 0 && <p className="text-center text-xs text-gray-500 py-3">No students found.</p>}
                                 {students.map(student => (
                                     <div
                                         key={student.college_id}
@@ -168,7 +168,7 @@ export default function StudentPermissionPanel({ facultySections }: StudentPermi
                                         className={`p-2 rounded-md flex items-center justify-between cursor-pointer transition-colors ${selectedStudents.includes(student.college_id) ? 'bg-blue-100 border-blue-200' : 'hover:bg-white'}`}
                                     >
                                         <div className="flex flex-col">
-                                            <span className="font-bold text-sm text-gray-800">{student.fullName}</span>
+                                            <span className="font-semibold text-sm text-gray-800">{student.fullName}</span>
                                             <span className="text-xs text-gray-500">{student.college_id}</span>
                                         </div>
                                         {selectedStudents.includes(student.college_id) && <Check className="w-4 h-4 text-blue-600" />}
@@ -182,17 +182,17 @@ export default function StudentPermissionPanel({ facultySections }: StudentPermi
 
                 {/* 2. Select Restrictions */}
                 <Card className="border-gray-200 shadow-sm">
-                    <CardHeader>
-                        <CardTitle className="text-lg flex items-center gap-2">
+                    <CardHeader className="p-4 sm:p-5 pb-2.5">
+                        <CardTitle className="text-base font-bold flex items-center gap-2 text-gray-900">
                             <Lock className="w-5 h-5 text-red-600" />
                             Configure Restrictions
                         </CardTitle>
-                        <CardDescription>What features should be blocked for selected students?</CardDescription>
+                        <CardDescription className="text-xs sm:text-sm">What features should be blocked for selected students?</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-6">
-                        <div className="space-y-3">
+                    <CardContent className="p-4 sm:p-5 pt-1 space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 bg-gray-50/70 p-3 rounded-lg border border-gray-100">
                             {FEATURES.map(feature => (
-                                <div key={feature.id} className="flex items-center space-x-2">
+                                <div key={feature.id} className="flex items-center space-x-2.5">
                                     <Checkbox
                                         id={feature.id}
                                         checked={featuresToBlock.includes(feature.id)}
@@ -200,7 +200,7 @@ export default function StudentPermissionPanel({ facultySections }: StudentPermi
                                     />
                                     <label
                                         htmlFor={feature.id}
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer text-gray-700"
                                     >
                                         {feature.label}
                                     </label>
@@ -208,20 +208,20 @@ export default function StudentPermissionPanel({ facultySections }: StudentPermi
                             ))}
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">Reason for Restriction</label>
+                        <div className="space-y-1.5">
+                            <label className="text-xs sm:text-sm font-semibold text-gray-700">Reason for Restriction</label>
                             <input
                                 type="text"
                                 value={blockReason}
                                 onChange={(e) => setBlockReason(e.target.value)}
                                 placeholder="e.g. Disciplinary Action, Fees Pending..."
-                                className="w-full text-sm border rounded-md p-2 bg-gray-50 focus:ring-2 focus:ring-red-100 outline-none"
+                                className="w-full text-sm border rounded-md p-2.5 h-10 bg-gray-50 focus:ring-2 focus:ring-red-100 outline-none"
                             />
                         </div>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="p-4 sm:p-5 pt-0">
                         <Button
-                            className="w-full bg-red-600 hover:bg-red-700 text-white font-bold"
+                            className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold h-10 text-sm"
                             onClick={handleBlock}
                             disabled={selectedStudents.length === 0 || featuresToBlock.length === 0}
                         >
