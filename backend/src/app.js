@@ -98,7 +98,7 @@ function setCors(res, req) {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('X-XSS-Protection', '1; mode=block');
-  res.setHeader('Permissions-Policy', 'screen-wake-lock=*, camera=(), microphone=(), geolocation=()');
+  res.setHeader('Permissions-Policy', 'screen-wake-lock=*, camera=(self), microphone=(self), geolocation=()');
 
   if (isEmbeddable(req.url)) {
     res.setHeader('Content-Security-Policy', "frame-ancestors 'self'");

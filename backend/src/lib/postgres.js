@@ -27,7 +27,7 @@ export function getPostgresPool() {
       connectionString: cleanUri,
       ssl: isSsl ? { rejectUnauthorized: false } : undefined,
       max: config.postgresPoolMax || 5,                         // Configurable per-worker pool size (default 5)
-      min: config.postgresPoolMin !== undefined ? config.postgresPoolMin : 1, // Keep warm connection ready
+      min: config.postgresPoolMin !== undefined ? config.postgresPoolMin : 0, // 0 prevents eager idle socket errors on network hiccups
       idleTimeoutMillis: config.postgresIdleTimeoutMs || 30000,
       connectionTimeoutMillis: config.postgresConnectionTimeoutMs || 10000,
       statement_timeout: config.postgresStatementTimeoutMs || 10000,

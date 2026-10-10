@@ -1,5 +1,16 @@
+// MUJCode Production Cluster Server - ATS & Compiler Engine Enabled
 // Right-sized threadpool (8 is ideal for free 512MB RAM containers to minimize thread stack allocations)
 process.env.UV_THREADPOOL_SIZE = process.env.UV_THREADPOOL_SIZE || '8';
+
+import dns from 'node:dns';
+
+// Fix Windows loopback DNS resolver default (prevents querySrv ECONNREFUSED and ENOTFOUND)
+try {
+  const currentServers = dns.getServers();
+  if (!currentServers || currentServers.length === 0 || (currentServers.length === 1 && currentServers[0] === '127.0.0.1')) {
+    dns.setServers(['8.8.8.8', '1.1.1.1']);
+  }
+} catch {}
 
 import cluster from 'node:cluster';
 import os from 'node:os';

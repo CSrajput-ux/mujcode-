@@ -4,8 +4,8 @@ import { redis } from '../config/redis.js';
 import { logger } from './logger.js';
 
 // ─── Token Expiration Standards ───────────────────────────────────────────────
-export const ACCESS_TOKEN_EXPIRY_MS = 15 * 60 * 1000;          // 15 minutes (short-lived)
-export const REFRESH_TOKEN_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000; // 7 days (long-lived)
+export const ACCESS_TOKEN_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000;          // 7 days
+export const REFRESH_TOKEN_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
 const ISSUER = 'mujcode';
 const AUDIENCE = 'mujcode-app';
@@ -39,9 +39,12 @@ export function signToken(user, customExpiryMs = ACCESS_TOKEN_EXPIRY_MS) {
 
   const payload = {
     id: user.id || user._id,
+    name: user.name || user.fullName || '',
     email: user.email,
     role: user.role,
+    facultyId: user.facultyId || undefined,
     college_id: user.college_id || user.collegeId,
+    companyId: user.companyId || (user.role === 'company' ? (user.id || user._id) : undefined),
     jti: crypto.randomUUID(),
     iss: ISSUER,
     aud: AUDIENCE,
