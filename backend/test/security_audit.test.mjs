@@ -181,6 +181,11 @@ test('Security Audit Verification Suite', async (t) => {
       /CORS_ORIGIN cannot be "\*" in production/,
       'Production configuration with CORS_ORIGIN=* must throw a fatal validation error'
     );
+
+    const { isAllowedOrigin } = await import('../src/lib/cors.js');
+    assert.equal(isAllowedOrigin('https://www.mujcode.in'), true, 'www.mujcode.in must be accepted');
+    assert.equal(isAllowedOrigin('https://mujcode.in'), true, 'mujcode.in must be accepted');
+    assert.equal(isAllowedOrigin('https://evil-attacker.com'), false, 'Unregistered external domain must be rejected');
   });
 
   await t.test('10. Compiler Submission Authorization: Job Status Ownership Guard', async () => {

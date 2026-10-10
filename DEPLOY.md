@@ -79,7 +79,7 @@ Save the output as `TOKEN_SECRET`.
    | `PORT` | `10000` |
    | `HOST` | `0.0.0.0` |
    | `TOKEN_SECRET` | *(your generated secret)* |
-   | `CORS_ORIGIN` | `https://your-app.vercel.app` |
+   | `CORS_ORIGIN` | `https://www.mujcode.in,https://mujcode.in,https://your-app.vercel.app` |
    | `POSTGRES_URI` | *(Neon.tech connection string)* |
    | `REDIS_URI` | *(Upstash Redis URL)* |
    | `MONGODB_URI` | *(Atlas URL — optional)* |

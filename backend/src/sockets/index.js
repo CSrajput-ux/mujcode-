@@ -6,16 +6,18 @@ import { config } from '../config.js';
 import { logger } from '../lib/logger.js';
 import { getRawRedisClient } from '../config/redis.js';
 
-export function setupSockets(server) {
-  // Parse allowed origins
-  const allowedOrigins = (config.corsOrigin || 'http://localhost:5173')
-    .split(',')
-    .map(s => s.trim())
-    .filter(Boolean);
+import { isAllowedOrigin } from '../lib/cors.js';
 
+export function setupSockets(server) {
   const io = new Server(server, {
     cors: {
-      origin: allowedOrigins.length === 1 && allowedOrigins[0] !== '*' ? allowedOrigins[0] : allowedOrigins,
+      origin: (origin, callback) => {
+        if (!origin || isAllowedOrigin(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('CORS not allowed'));
+        }
+      },
       methods: ['GET', 'POST'],
       credentials: true
     }

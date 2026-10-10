@@ -60,38 +60,10 @@ function isEmbeddable(url) {
   return false;
 }
 
-const configuredOrigins = (config.corsOrigin || 'http://localhost:5173')
-  .split(',')
-  .map(o => o.trim().toLowerCase())
-  .filter(Boolean);
-
-const isDev = process.env.NODE_ENV !== 'production';
-
-function isAllowedOrigin(origin) {
-  if (!origin) return false;
-  const lower = origin.toLowerCase();
-  if (configuredOrigins.includes(lower)) return true;
-  // Allow localhost only in development mode — never in production
-  if (isDev && (
-    lower === 'http://localhost:5173' ||
-    lower === 'http://localhost:3000' ||
-    lower === 'http://127.0.0.1:5173' ||
-    lower === 'http://127.0.0.1:3000'
-  )) return true;
-  return false;
-}
+import { setCorsHeaders } from './lib/cors.js';
 
 function setCors(res, req) {
-  const requestOrigin = req.headers.origin;
-  const allowed = isAllowedOrigin(requestOrigin);
-  const originToSet = allowed ? requestOrigin : (configuredOrigins[0] || 'http://localhost:5173');
-
-  res.setHeader('Access-Control-Allow-Origin', originToSet);
-  res.setHeader('Vary', 'Origin');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-auth-token');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Max-Age', '86400');
+  setCorsHeaders(res, req);
 
   // Modern Security Headers (Phase 7)
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
