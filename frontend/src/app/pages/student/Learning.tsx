@@ -276,7 +276,7 @@ export default function Learning() {
                     return (
                       <Card 
                         key={index} 
-                        onClick={() => navigate(`/student/courses/${encodeURIComponent(course._id || course.courseCode || course.courseName)}?tab=modules`)}
+                        onClick={() => navigate(`/student/learning/course/${encodeURIComponent(course.courseName)}`)}
                         className="shadow-md hover:shadow-lg transition-shadow cursor-pointer"
                       >
                         <CardContent className="p-6">
@@ -321,7 +321,7 @@ export default function Learning() {
                             <Button 
                               onClick={(e) => {
                                 e.stopPropagation();
-                                navigate(`/student/courses/${encodeURIComponent(course._id || course.courseCode || course.courseName)}?tab=modules`);
+                                navigate(`/student/learning/course/${encodeURIComponent(course.courseName)}`);
                               }}
                               className="bg-[#FF7A00] hover:bg-[#FF6A00]"
                             >
