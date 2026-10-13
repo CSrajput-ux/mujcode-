@@ -55,7 +55,20 @@ export default function Courses() {
         }
       }
 
-      const coursesWithDefaults = coursesList.map((course: any) => ({
+      // Exclude semester-specific curriculum courses (they belong only in the Learning section)
+      const isSemesterCourse = (c: any) => {
+        if (!c) return false;
+        if (c._id && String(c._id).startsWith('custom_sub_')) return true;
+        if (c.isSemesterCourse || c.courseType === 'Semester' || c.courseType === 'Theory' || c.courseType === 'Lab' || c.isAcademic) return true;
+        if (c.courseCode && (String(c.courseCode).startsWith('SUB-') || String(c.courseCode).startsWith('TH-') || String(c.courseCode).startsWith('LAB-'))) return true;
+        if (c.semester && !c.category) return true;
+        if (c.category === 'Semester' || c.category === 'Academic') return true;
+        return false;
+      };
+
+      const codingCourses = coursesList.filter((course: any) => !isSemesterCourse(course));
+
+      const coursesWithDefaults = codingCourses.map((course: any) => ({
         ...course,
         progress: course.progress || 0,
         problemsSolved: course.problemsSolved || 0,

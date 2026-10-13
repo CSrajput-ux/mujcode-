@@ -75,7 +75,10 @@ function restrictionsFor(db, student) {
 export function registerStudentRoutes(router) {
   router.get('/api/student/courses', (req, res, ctx) => {
     const db = ctx.getDb();
-    return sendJson(res, 200, { courses: (db.courses || []).map(publicCourse) });
+    const courses = (db.courses || [])
+      .filter(course => !course.isSemesterCourse && course.courseType !== 'Semester' && course.courseType !== 'Theory' && course.courseType !== 'Lab' && !course.isAcademic && (!course.semester || course.category))
+      .map(publicCourse);
+    return sendJson(res, 200, { courses });
   });
 
   router.get('/api/student/courses/:studentId', (req, res, ctx) => {
@@ -83,8 +86,17 @@ export function registerStudentRoutes(router) {
     const db = ctx.getDb();
     const { student } = userAndStudent(db, req.params.studentId);
     const solved = solvedSet(db, student ? student.id : req.params.studentId);
-    let courses = db.courses
-      .filter(course => !student || !course.branch || course.branch === student.branch)
+    // Platform coding courses only (semester courses belong exclusively in /api/academic/my-courses / Learning section)
+    const courses = (db.courses || [])
+      .filter(course => {
+        if (course.isSemesterCourse || course.courseType === 'Semester' || course.courseType === 'Theory' || course.courseType === 'Lab' || course.isAcademic) {
+          return false;
+        }
+        if (course.semester && !course.category) {
+          return false;
+        }
+        return !student || !course.branch || course.branch === student.branch;
+      })
       .map(course => {
         const pub = publicCourse(course);
         const targetCourseId = course._id;
@@ -104,27 +116,6 @@ export function registerStudentRoutes(router) {
           completed: progress === 100
         };
       });
-
-    if (student && student.subjects && student.subjects.length > 0) {
-      const existingTitles = new Set(courses.map(c => (c.courseName || c.title || '').toLowerCase()));
-      const customCourses = student.subjects
-        .filter(sub => !existingTitles.has((sub || '').toLowerCase()))
-        .map((sub, i) => ({
-          _id: `custom_sub_${student.id}_${i}`,
-          title: sub,
-          courseName: sub,
-          category: 'General',
-          difficulty: 'Medium',
-          icon: 'book',
-          status: 'ongoing',
-          progress: 0,
-          totalProblems: 0,
-          problemsSolved: 0,
-          courseCode: `SUB-${i + 100}`,
-          enrolled: true
-        }));
-      courses = [...customCourses, ...courses];
-    }
 
     return sendJson(res, 200, { courses });
   });
