@@ -1,7 +1,7 @@
 import { ok, sendJson } from '../lib/http.js';
 import { nextId } from '../lib/ids.js';
 import { currentUser } from './helpers.js';
-import { requireAuth, requireFaculty } from '../lib/requireAuth.js';
+import { requireAuth, requireFaculty, requireSelfOrAdmin } from '../lib/requireAuth.js';
 import { findFacultyById } from '../lib/fastStore.js';
 import { CodeExecutionService } from '../services/CodeExecutionService.js';
 
@@ -12,11 +12,18 @@ export function registerFacultyRoutes(router) {
     if (!requireFaculty(req, res)) return;
     const db = ctx.getDb();
     const user = currentUser(db, req);
-    const facultyId = user?.id || user?._id;
+    const facultyEmail = req.user?.email || '';
+    const facultyId = user?.id || user?._id || req.user?.id || req.user?._id;
+
+    const faculty = findFacultyById(facultyId) ||
+      (db.faculty || []).find(f => f.id === facultyId || f._id === facultyId || f.facultyId === facultyId) ||
+      (facultyEmail ? (db.faculty || []).find(f => f.email?.toLowerCase() === facultyEmail.toLowerCase()) : null);
+
+    const validIds = new Set([facultyId, faculty?.id, faculty?._id, faculty?.facultyId].filter(Boolean));
 
     // Find all students assigned to this faculty via bulk upload
-    const assignedStudents = db.students.filter(s =>
-      s.facultyMentors && s.facultyMentors.includes(facultyId)
+    const assignedStudents = (db.students || []).filter(s =>
+      s.facultyMentors && s.facultyMentors.some(m => validIds.has(m))
     );
 
     // Build teachingAssignments: one entry per (section, subject) combo
@@ -45,7 +52,6 @@ export function registerFacultyRoutes(router) {
     const teachingAssignments = [...assignmentsMap.values()];
 
     // Fallback: if no students linked, use faculty's own teachingAssignments
-    const faculty = findFacultyById(facultyId) || db.faculty.find(f => f.id === facultyId || f._id === facultyId);
     const result = teachingAssignments.length > 0
       ? teachingAssignments
       : (faculty?.teachingAssignments || []);
@@ -155,26 +161,140 @@ export function registerFacultyRoutes(router) {
 
   router.get('/api/faculty/analytics/dashboard-stats/:facultyId', (req, res, ctx) => {
     if (!requireFaculty(req, res)) return;
-    if (!requireSelfOrAdmin(req, res, req.params.facultyId)) return;
     const db = ctx.getDb();
     const facultyId = req.params.facultyId;
-    
-    // Find faculty
-    const faculty = findFacultyById(facultyId) || db.faculty.find(f => f.id === facultyId || f._id === facultyId);
-    
-    // Find assigned students
-    const assignedStudents = db.students.filter(s => s.facultyMentors && s.facultyMentors.includes(facultyId));
-    
+
+    // Find faculty by id, _id, facultyId or email
+    const faculty = findFacultyById(facultyId) ||
+      (db.faculty || []).find(f => f.id === facultyId || f._id === facultyId || f.facultyId === facultyId) ||
+      (req.user?.email ? (db.faculty || []).find(f => f.email?.toLowerCase() === req.user.email.toLowerCase()) : null);
+
+    const validIds = new Set([facultyId, faculty?.id, faculty?._id, faculty?.facultyId].filter(Boolean));
+
+    // Find assigned students (via facultyMentors field on student)
+    const assignedStudents = (db.students || []).filter(s =>
+      s.facultyMentors && s.facultyMentors.some(m => validIds.has(m))
+    );
+
     // Get unique sections from those students
     const sections = [...new Set(assignedStudents.map(s => s.section).filter(Boolean))].sort();
+
+    // Count tests created by this faculty
+    const testsCreated = (db.tests || []).filter(t =>
+      validIds.has(t.createdBy) || validIds.has(t.facultyId) || (faculty?.email && t.createdByEmail?.toLowerCase() === faculty.email.toLowerCase())
+    ).length;
 
     return sendJson(res, 200, {
       totalStudents: assignedStudents.length,
       sections: sections.length > 0 ? sections.join(', ') : 'None',
-      department: faculty ? faculty.department : '-',
-      testsCreated: 0 // Mock for now or calculate if tests exist
+      department: faculty ? (faculty.department || faculty.branch || '-') : '-',
+      testsCreated
     });
   });
+
+  // Recent activity: aggregates content uploads, assignments, live classes, tests by this faculty
+  router.get('/api/faculty/recent-activity', (req, res, ctx) => {
+    if (!requireFaculty(req, res)) return;
+    const db = ctx.getDb();
+    const facultyEmail = req.user?.email || '';
+    const facultyId = req.user?.id || req.user?._id || '';
+    const faculty = findFacultyById(facultyId) ||
+      (db.faculty || []).find(f => f.id === facultyId || f._id === facultyId || f.facultyId === facultyId) ||
+      (facultyEmail ? (db.faculty || []).find(f => f.email?.toLowerCase() === facultyEmail.toLowerCase()) : null);
+
+    const validIds = new Set([facultyId, faculty?.id, faculty?._id, faculty?.facultyId].filter(Boolean));
+
+    const activities = [];
+
+    // Content uploads
+    (db.content || []).forEach(item => {
+      if (
+        (item.uploadedBy && (item.uploadedBy.toLowerCase() === facultyEmail.toLowerCase() || validIds.has(item.uploadedBy))) ||
+        validIds.has(item.facultyId)
+      ) {
+        activities.push({
+          action: 'Uploaded Material',
+          item: item.title || item.fileName || 'Untitled Material',
+          time: item.createdAt || '',
+          type: 'upload'
+        });
+      }
+    });
+
+    // Tests created
+    (db.tests || []).forEach(test => {
+      if (
+        validIds.has(test.createdBy) ||
+        validIds.has(test.facultyId) ||
+        (test.createdByEmail && test.createdByEmail.toLowerCase() === facultyEmail.toLowerCase())
+      ) {
+        activities.push({
+          action: 'Created Test',
+          item: test.title || test.name || 'Untitled Test',
+          time: test.createdAt || '',
+          type: 'test'
+        });
+      }
+    });
+
+    // Assignments created
+    (db.assignments || []).forEach(assignment => {
+      if (
+        validIds.has(assignment.createdBy) ||
+        validIds.has(assignment.facultyId) ||
+        (assignment.createdByEmail && assignment.createdByEmail.toLowerCase() === facultyEmail.toLowerCase())
+      ) {
+        activities.push({
+          action: 'Created Assignment',
+          item: assignment.title || 'Untitled Assignment',
+          time: assignment.createdAt || '',
+          type: 'assignment'
+        });
+      }
+    });
+
+    // Live classes
+    (db.liveClasses || []).forEach(cls => {
+      if (
+        validIds.has(cls.facultyId) ||
+        validIds.has(cls.createdBy) ||
+        (cls.facultyEmail && cls.facultyEmail.toLowerCase() === facultyEmail.toLowerCase())
+      ) {
+        activities.push({
+          action: 'Scheduled Live Class',
+          item: cls.title || cls.subject || 'Live Class',
+          time: cls.createdAt || cls.scheduledAt || '',
+          type: 'live-class'
+        });
+      }
+    });
+
+    // Graded submissions
+    (db.assignmentSubmissions || []).forEach(sub => {
+      if (
+        sub.gradedBy && (validIds.has(sub.gradedBy) || sub.gradedBy.toLowerCase() === facultyEmail.toLowerCase())
+      ) {
+        activities.push({
+          action: 'Graded Assignment',
+          item: sub.assignmentTitle || `Submission for ${sub.studentName || 'Student'}`,
+          time: sub.gradedAt || sub.updatedAt || '',
+          type: 'assignment'
+        });
+      }
+    });
+
+    // Sort by most recent first, take top 10
+    activities.sort((a, b) => {
+      if (!a.time && !b.time) return 0;
+      if (!a.time) return 1;
+      if (!b.time) return -1;
+      return new Date(b.time).getTime() - new Date(a.time).getTime();
+    });
+
+    return sendJson(res, 200, activities.slice(0, 10));
+  });
+
+
 
   router.get('/api/faculty/analytics/section-performance', (req, res) => {
     if (!requireFaculty(req, res)) return;

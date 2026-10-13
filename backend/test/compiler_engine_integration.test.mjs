@@ -4,6 +4,17 @@ import assert from 'node:assert/strict';
 const ENGINE_URL = process.env.COMPILER_ENGINE_URL || 'http://127.0.0.1:2359';
 
 test('MUJCODE Compiler Engine — Live Integration Test Suite (7 Languages)', async (t) => {
+  // Check if live engine is running
+  try {
+    const probe = await fetch(`${ENGINE_URL}/health`, { signal: AbortSignal.timeout(1500) });
+    if (!probe.ok) {
+      t.skip(`Compiler Engine health check failed (${probe.status}). Start engine before running live tests.`);
+      return;
+    }
+  } catch {
+    t.skip(`Compiler Engine is offline at ${ENGINE_URL}. Start it with 'npm run dev:compiler' for live integration testing.`);
+    return;
+  }
 
   // ── 1. Healthcheck ──────────────────────────────────────────────────────────
   await t.test('1. Engine Health Check', async () => {
