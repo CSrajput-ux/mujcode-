@@ -18,6 +18,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import FacultyProfileModal from './FacultyProfileModal';
 import EditFacultyProfileModal from './EditFacultyProfileModal'; // Added import for EditFacultyProfileModal
 import logoImage from '@/assets/image-removebg-preview.png';
+import { formatDepartmentHeader } from '../../utils/departmentUtils';
 
 interface FacultyLayoutProps {
     children: React.ReactNode;
@@ -80,7 +81,9 @@ export default function FacultyLayout({ children }: FacultyLayoutProps) {
                                 <div className="flex items-center space-x-3 cursor-pointer hover:opacity-80 transition-opacity">
                                     <div className="text-right hidden sm:block">
                                         <div className="text-sm font-semibold text-gray-900">{user?.name || 'Faculty Member'}</div>
-                                        <div className="text-[11px] text-gray-500 font-medium uppercase tracking-tight">{user?.department || 'Department of CSE'}</div>
+                                        <div className="text-[11px] text-gray-500 font-medium uppercase tracking-tight" title={user?.department || 'Department of Computer Science & Engineering'}>
+                                            {formatDepartmentHeader(user?.department)}
+                                        </div>
                                     </div>
                                     <div className="w-9 h-9 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-xs border-2 border-white">
                                         {user?.name ? getInitials(user.name) : 'FM'}

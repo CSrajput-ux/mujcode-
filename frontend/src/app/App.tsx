@@ -10,6 +10,7 @@ const StudentProblems = lazy(() => import('./pages/student/Problems'));
 const StudentAnalytics = lazy(() => import('./pages/student/Analytics'));
 const StudentTests = lazy(() => import('./pages/student/Tests'));
 const StudentLearning = lazy(() => import('./pages/student/Learning'));
+const SemesterCourseResources = lazy(() => import('./pages/student/SemesterCourseResources'));
 const StudentAssignments = lazy(() => import('./pages/student/Assignments'));
 const MCQTestList = lazy(() => import('./pages/student/MCQTestList'));
 const MCQTestRunner = lazy(() => import('./pages/student/MCQTestRunner'));
@@ -117,6 +118,11 @@ export default function App() {
           <Route path="/student/learning" element={
             <ProtectedRoute requiredFeature="learning">
               <StudentLearning />
+            </ProtectedRoute>
+          } />
+          <Route path="/student/learning/course/:courseName" element={
+            <ProtectedRoute requiredFeature="learning">
+              <SemesterCourseResources />
             </ProtectedRoute>
           } />
           <Route path="/student/assignments" element={
