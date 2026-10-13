@@ -6,7 +6,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "node --test test/*.test.js",
+    "test": "node --test --test-concurrency=1 test/*.test.js",
     "test:matrix": "node --test test/language_matrix.test.js",
     "test:security": "node --test test/security.test.js",
     "benchmark": "node test/benchmark.js"

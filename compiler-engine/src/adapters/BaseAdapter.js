@@ -18,7 +18,7 @@ export class BaseAdapter {
   cleanWorkspace(workDir) {
     if (workDir && fs.existsSync(workDir)) {
       try {
-        fs.rmSync(workDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 50 });
+        fs.rmSync(workDir, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 });
       } catch {}
     }
   }
