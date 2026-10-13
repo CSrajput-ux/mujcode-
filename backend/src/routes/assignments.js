@@ -210,7 +210,6 @@ export function registerAssignmentsRoutes(router) {
 
   // Download assignment file (AUTHENTICATED + SSRF-SAFE)
   router.get('/api/assignments/download/:id', async (req, res, ctx) => {
-    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const item = (db.assignments || []).find(a => a._id === req.params.id || a.id === req.params.id);
     if (!item || !item.fileUrl) {
@@ -268,7 +267,6 @@ export function registerAssignmentsRoutes(router) {
 
   // View assignment file inline (AUTHENTICATED + SSRF-SAFE)
   router.get('/api/assignments/view/:id', async (req, res, ctx) => {
-    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
     const item = (db.assignments || []).find(a => a._id === req.params.id || a.id === req.params.id);
     if (!item || !item.fileUrl) {

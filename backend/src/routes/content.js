@@ -61,9 +61,8 @@ function isTrustedStorageUrl(urlString) {
 
   // View file inline (perfect for PDF preview modal, images, docs)
   router.get('/api/content/view/:id', async (req, res, ctx) => {
-    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
-    const item = (db.content || []).find(c => c._id === req.params.id);
+    const item = (db.content || []).find(c => c._id === req.params.id || c.id === req.params.id);
     if (!item || !item.fileUrl) {
       return sendJson(res, 404, { error: 'Content file not found' });
     }
@@ -121,9 +120,8 @@ function isTrustedStorageUrl(urlString) {
 
   // Download file with proper original filename and extension
   router.get('/api/content/download/:id', async (req, res, ctx) => {
-    if (!requireAuth(req, res)) return;
     const db = ctx.getDb();
-    const item = (db.content || []).find(c => c._id === req.params.id);
+    const item = (db.content || []).find(c => c._id === req.params.id || c.id === req.params.id);
     if (!item || !item.fileUrl) {
       return sendJson(res, 404, { error: 'Content file not found' });
     }

@@ -9,6 +9,8 @@ import { validateSchema } from '../lib/validation.js';
 import { ActivityLog } from '../models/ActivityLog.js';
 import { findStudentById, findFacultyById } from '../lib/fastStore.js';
 import mongoose from 'mongoose';
+import XLSX from 'xlsx';
+import { logger } from '../lib/logger.js';
 
 // --- Zod Validation Schemas ---
 const companySchema = z.object({
@@ -58,7 +60,7 @@ const facultySchema = z.object({
 
 
 function filteredStudents(db, query) {
-  return db.students
+  return (db.students || [])
     .map(studentForAdmin)
     .filter(student =>
       includesText(`${student.fullName} ${student.User?.name} ${student.User?.email} ${student.rollNumber}`, query.search) &&
@@ -476,94 +478,198 @@ export function registerAdminRoutes(router) {
   router.post('/api/admin/students/bulk-upload', async (req, res, ctx) => {
     if (!requireAdmin(req, res)) return;
     const db = ctx.getDb();
+    if (!db.users) db.users = [];
+    if (!db.students) db.students = [];
+
     const file = req.body.files?.find(f => f.fieldname === 'file');
     if (!file) return sendJson(res, 400, { error: 'No file uploaded' });
 
     let facultyIds = [];
     try {
       if (req.body.facultyIds) {
-        facultyIds = JSON.parse(req.body.facultyIds);
+        facultyIds = typeof req.body.facultyIds === 'string' ? JSON.parse(req.body.facultyIds) : req.body.facultyIds;
       }
     } catch (e) { }
+    if (!Array.isArray(facultyIds)) facultyIds = [];
 
-    const text = file.buffer.toString('utf8');
-    const lines = text.split(/\r?\n/).filter(line => line.trim());
-    if (lines.length <= 1) return ok(res, { message: 'No data to import', imported: 0 });
+    let rawRows = [];
 
-    const headers = lines[0].split(',').map(h => h.trim());
+    // 1. Try parsing using XLSX (seamlessly handles .xlsx, .xls, and .csv)
+    try {
+      const workbook = XLSX.read(file.buffer, { type: 'buffer' });
+      if (workbook.SheetNames && workbook.SheetNames.length > 0) {
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        rawRows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+      }
+    } catch (xlsxErr) {
+      logger.warn(`[BulkUpload] XLSX read failed: ${xlsxErr.message}. Attempting fallback CSV parser.`);
+    }
+
+    // 2. Fallback text CSV parsing if XLSX didn't produce rows
+    if (!rawRows || rawRows.length === 0) {
+      try {
+        const text = file.buffer.toString('utf8').replace(/^\uFEFF/, '');
+        const lines = text.split(/\r?\n/).filter(line => line.trim());
+        if (lines.length > 1) {
+          const firstLine = lines[0];
+          const delimiter = firstLine.includes('\t') ? '\t' : (firstLine.includes(';') && !firstLine.includes(',') ? ';' : ',');
+          const headers = lines[0].split(delimiter).map(h => h.trim().replace(/^["']|["']$/g, ''));
+          for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(delimiter).map(v => v.trim().replace(/^["']|["']$/g, ''));
+            const row = {};
+            headers.forEach((h, idx) => {
+              row[h] = values[idx] || '';
+            });
+            rawRows.push(row);
+          }
+        }
+      } catch (csvErr) {
+        logger.error(`[BulkUpload] CSV fallback parser failed: ${csvErr.message}`);
+      }
+    }
+
+    if (!rawRows || rawRows.length === 0) {
+      return ok(res, { message: 'No data to import', imported: 0, added: 0, updated: 0 });
+    }
+
+    function normalizeRow(row) {
+      const norm = {};
+      for (const [k, v] of Object.entries(row)) {
+        if (!k) continue;
+        const cleanKey = String(k).trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+        norm[cleanKey] = typeof v === 'string' ? v.trim() : String(v ?? '').trim();
+      }
+      return {
+        name: norm.name || norm.fullname || norm.studentname || 'Student',
+        email: (norm.email || norm.studentemail || norm.mail || '').toLowerCase(),
+        rollNumber: norm.rollnumber || norm.rollno || norm.collegeid || norm.regno || norm.registrationno || '',
+        branch: norm.branch || norm.department || norm.dept || 'CSE',
+        section: norm.section || norm.sec || 'A',
+        year: String(norm.year || '1').trim(),
+        semester: Number(norm.semester || norm.sem || 1),
+        theorySubjects: (norm.theorysubjects || norm.subjects || '').split(';').map(s => s.trim()).filter(Boolean),
+        labSubjects: (norm.labsubjects || '').split(';').map(s => s.trim()).filter(Boolean)
+      };
+    }
 
     let imported = 0;
+    let added = 0;
+    let updated = 0;
     const newStudents = [];
     const newUsers = [];
 
-    for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(',').map(v => v.trim());
-      const row = {};
-      headers.forEach((h, idx) => {
-        row[h] = values[idx] || '';
-      });
+    for (const rawRow of rawRows) {
+      const row = normalizeRow(rawRow);
+      if (!row.email || !row.rollNumber) continue;
 
-      if (!row.Email || !row.RollNumber) continue;
+      // Find existing student by rollNumber or email
+      let existingStudent = db.students.find(s =>
+        (s.college_id && String(s.college_id).trim() === row.rollNumber) ||
+        (s.rollNumber && String(s.rollNumber).trim() === row.rollNumber) ||
+        (s.email && s.email.toLowerCase() === row.email) ||
+        (s.User?.email && s.User.email.toLowerCase() === row.email)
+      );
 
-      if (db.users.find(u => u.email.toLowerCase() === row.Email.toLowerCase())) continue;
+      let existingUser = db.users.find(u =>
+        (u.email && u.email.toLowerCase() === row.email) ||
+        (u.college_id && String(u.college_id).trim() === row.rollNumber)
+      );
 
-      const id = nextId('stu');
-
-      const user = {
-        id,
-        name: row.Name || 'Student',
-        email: row.Email.toLowerCase(),
-        password: row.RollNumber,
-        role: 'student',
-        isPasswordChanged: false,
-        isActive: true,
-        college_id: row.RollNumber,
-        branch: row.Branch || 'CSE',
-        section: row.Section || 'A',
-        year: row.Year || '1',
-        semester: Number(row.Semester || 1)
-      };
-
-      const student = {
-        id,
-        _id: id,
-        fullName: user.name,
-        college_id: user.college_id,
-        rollNumber: user.college_id,
-        branch: user.branch,
-        section: user.section,
-        year: String(user.year),
-        semester: user.semester,
-        facultyMentors: facultyIds,
-        // Legacy single subjects list (backward compatible)
-        subjects: row.Subjects ? row.Subjects.split(';').map(s => s.trim()).filter(Boolean) : [],
-        // New: separate theory and lab subjects
-        theorySubjects: row.TheorySubjects ? row.TheorySubjects.split(';').map(s => s.trim()).filter(Boolean) : [],
-        labSubjects: row.LabSubjects ? row.LabSubjects.split(';').map(s => s.trim()).filter(Boolean) : [],
-        User: {
-          name: user.name,
-          email: user.email,
-          isActive: true
+      if (existingStudent) {
+        // Update existing student mentors, subjects, branch, section, etc.
+        existingStudent.fullName = row.name || existingStudent.fullName;
+        existingStudent.branch = row.branch || existingStudent.branch;
+        existingStudent.section = row.section || existingStudent.section;
+        existingStudent.year = String(row.year || existingStudent.year);
+        existingStudent.semester = row.semester || existingStudent.semester;
+        if (facultyIds.length > 0) {
+          const merged = new Set([...(existingStudent.facultyMentors || []), ...facultyIds]);
+          existingStudent.facultyMentors = Array.from(merged);
         }
-      };
+        if (row.theorySubjects.length > 0) {
+          existingStudent.theorySubjects = row.theorySubjects;
+        }
+        if (row.labSubjects.length > 0) {
+          existingStudent.labSubjects = row.labSubjects;
+        }
+        if (row.theorySubjects.length > 0 || row.labSubjects.length > 0) {
+          existingStudent.subjects = [...(row.theorySubjects || []), ...(row.labSubjects || [])];
+        }
 
-      newUsers.push(user);
-      newStudents.push(student);
-      imported++;
+        if (existingUser) {
+          existingUser.name = row.name || existingUser.name;
+          existingUser.branch = row.branch || existingUser.branch;
+          existingUser.section = row.section || existingUser.section;
+          existingUser.year = row.year || existingUser.year;
+          existingUser.semester = row.semester || existingUser.semester;
+        }
+
+        updated++;
+        imported++;
+      } else {
+        const id = nextId('stu');
+        const user = {
+          id,
+          name: row.name,
+          email: row.email,
+          password: row.rollNumber,
+          role: 'student',
+          isPasswordChanged: false,
+          isActive: true,
+          college_id: row.rollNumber,
+          branch: row.branch,
+          section: row.section,
+          year: row.year,
+          semester: row.semester
+        };
+
+        const student = {
+          id,
+          _id: id,
+          fullName: row.name,
+          college_id: row.rollNumber,
+          rollNumber: row.rollNumber,
+          branch: row.branch,
+          section: row.section,
+          year: String(row.year),
+          semester: row.semester,
+          facultyMentors: facultyIds,
+          subjects: [...row.theorySubjects, ...row.labSubjects],
+          theorySubjects: row.theorySubjects,
+          labSubjects: row.labSubjects,
+          User: {
+            name: row.name,
+            email: row.email,
+            isActive: true
+          }
+        };
+
+        newUsers.push(user);
+        newStudents.push(student);
+        added++;
+        imported++;
+      }
     }
 
-    // Hash all passwords concurrently
-    await Promise.all(newUsers.map(async (u) => {
-      u.password = await bcrypt.hash(u.password, 12);
-    }));
-
-    if (imported > 0) {
+    if (newUsers.length > 0) {
+      await Promise.all(newUsers.map(async (u) => {
+        u.password = await bcrypt.hash(u.password, 12);
+      }));
       db.users.push(...newUsers);
       db.students.push(...newStudents);
+    }
+
+    if (imported > 0) {
       ctx.saveDb(db);
     }
 
-    return ok(res, { message: `Successfully imported ${imported} students`, imported });
+    const message = updated > 0 && added > 0
+      ? `Successfully imported ${imported} students (${added} new, ${updated} updated with mentors)`
+      : updated > 0
+        ? `Successfully updated ${updated} students with assigned faculty mentors and subjects`
+        : `Successfully imported ${imported} students`;
+
+    return ok(res, { message, imported, added, updated });
   });
 
   router.get('/api/admin/students', (req, res, ctx) => {

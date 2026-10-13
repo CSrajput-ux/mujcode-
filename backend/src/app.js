@@ -194,7 +194,8 @@ export async function createApp() {
         || req.headers['x-auth-token']
       : req.headers['x-auth-token'];
 
-    req.user = verifyToken(req.headers.authorization, token);
+    const queryToken = req.query?.token;
+    req.user = verifyToken(req.headers.authorization, token || queryToken);
 
     try {
       // ── Prometheus metrics endpoint ─────────────────────────────────────────

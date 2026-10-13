@@ -32,8 +32,9 @@ const NUM_WORKERS = process.env.WEB_CONCURRENCY
     : isLowMemory
       ? 1
       : Math.max(1, Math.min(os.cpus().length, 4));
+const shouldUseCluster = process.env.NODE_ENV === 'production' && !isLowMemory && (NUM_WORKERS > 1);
 
-if (cluster.isPrimary) {
+if (shouldUseCluster && cluster.isPrimary) {
   cluster.setupPrimary({
     exec: fileURLToPath(import.meta.url)
   });
