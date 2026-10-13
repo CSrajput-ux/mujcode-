@@ -227,10 +227,10 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0
           fixed top-16 left-0 h-[calc(100vh-4rem)] 
-          w-64 bg-white shadow-lg transition-transform duration-300 z-30
+          w-56 xl:w-64 bg-white shadow-lg transition-transform duration-300 z-30
           overflow-y-auto
         `}>
-          <nav className="p-4 space-y-2">
+          <nav className="p-3 xl:p-4 space-y-1.5 xl:space-y-2">
             {menuItems.map((item, index) => {
               const isBlocked = blockedFeatures.includes(item.id);
               return (
@@ -243,7 +243,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                   }}
                   disabled={isBlocked}
                   className={`
-                  w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all
+                  w-full flex items-center space-x-2.5 xl:space-x-3 px-3 xl:px-4 py-2.5 xl:py-3 rounded-lg transition-all text-xs xl:text-sm
                   ${location.pathname === item.path
                       ? 'bg-[#FF7A00] text-white shadow-md'
                       : isBlocked
@@ -252,18 +252,18 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
                     }
                 `}
                 >
-                  {isBlocked ? <Lock className="w-5 h-5" /> : item.icon}
+                  {isBlocked ? <Lock className="w-4 h-4 xl:w-5 xl:h-5" /> : item.icon}
                   <span className="font-medium">{item.label} {isBlocked && '(Locked)'}</span>
                 </button>
               )
             })}
 
-            <div className="pt-4 border-t border-gray-200">
+            <div className="pt-3 xl:pt-4 border-t border-gray-200">
               <button
                 onClick={() => navigate('/')}
-                className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-all"
+                className="w-full flex items-center space-x-2.5 xl:space-x-3 px-3 xl:px-4 py-2.5 xl:py-3 rounded-lg text-red-600 hover:bg-red-50 transition-all text-xs xl:text-sm"
               >
-                <LogOut className="w-5 h-5" />
+                <LogOut className="w-4 h-4 xl:w-5 xl:h-5" />
                 <span className="font-medium">Logout</span>
               </button>
             </div>
@@ -271,7 +271,7 @@ export default function StudentLayout({ children }: StudentLayoutProps) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 lg:ml-64">
+        <main className="flex-1 p-3.5 sm:p-5 lg:p-6 xl:p-8 lg:ml-56 xl:ml-64 min-w-0 max-w-full overflow-x-hidden">
           {children}
         </main>
       </div>

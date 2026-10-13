@@ -1,7 +1,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-size: 16px;
+  --font-size: 15px;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
@@ -119,40 +119,78 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* Responsive root font-size scaling across different laptops and high-DPI displays */
+@media screen and (min-width: 1601px) {
+  :root {
+    --font-size: 16px;
+  }
+}
+
+/* Standard 15.6" Full HD Laptops with 125% Windows scaling (viewport <= 1536px) */
+@media screen and (max-width: 1536px) {
+  :root {
+    --font-size: 14.5px;
+  }
+}
+
+/* 13"-14" Laptops with 125%-150% scaling or 1366x768 / 1440x900 screens (viewport <= 1366px) */
+@media screen and (max-width: 1366px) {
+  :root {
+    --font-size: 14px;
+  }
+}
+
+/* Compact Laptops, Sub-notebooks (viewport <= 1199px) */
+@media screen and (max-width: 1199px) {
+  :root {
+    --font-size: 13.5px;
+  }
+}
+
+/* Mobile & Small Tablets (viewport <= 768px) */
+@media screen and (max-width: 768px) {
+  :root {
+    --font-size: 14px;
+  }
+}
+
 @layer base {
-  * {
+  *, *::before, *::after {
+    box-sizing: border-box;
     @apply border-border outline-ring/50;
+  }
+
+  html {
+    font-size: var(--font-size);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground;
-  }
-
-  /**
-  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
-  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
-  */
-
-  html {
-    font-size: var(--font-size);
+    max-width: 100%;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1 {
-    font-size: var(--text-2xl);
+    font-size: clamp(1.35rem, 2vw + 0.5rem, 1.85rem);
     font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    line-height: 1.35;
   }
 
   h2 {
-    font-size: var(--text-xl);
+    font-size: clamp(1.15rem, 1.5vw + 0.4rem, 1.5rem);
     font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    line-height: 1.4;
   }
 
   h3 {
-    font-size: var(--text-lg);
+    font-size: clamp(1rem, 1vw + 0.35rem, 1.25rem);
     font-weight: var(--font-weight-medium);
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
   h4 {
@@ -162,21 +200,26 @@
   }
 
   label {
-    font-size: var(--text-base);
+    font-size: var(--text-sm, 0.875rem);
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
   }
 
   button {
-    font-size: var(--text-base);
+    font-size: inherit;
     font-weight: var(--font-weight-medium);
     line-height: 1.5;
   }
 
   input {
-    font-size: var(--text-base);
+    font-size: var(--text-sm, 0.875rem);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+  }
+
+  img, svg, video, canvas {
+    max-width: 100%;
+    height: auto;
   }
 }
 

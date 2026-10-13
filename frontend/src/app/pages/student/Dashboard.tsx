@@ -103,7 +103,7 @@ export default function Dashboard() {
         {/* New LeetCode-style Stats & Badges */}
         <StudentStats />
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {/* Ranks */}
           <Card className="h-[265px] flex flex-col shadow-sm border-t-4 border-t-[#FF7A00]">
             <CardHeader className="py-2.5 px-4 border-b border-gray-100 flex-shrink-0">
