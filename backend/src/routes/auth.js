@@ -167,4 +167,96 @@ export function registerAuthRoutes(router, ctx) {
     const result = await authService.changePassword(req.user.id, oldPassword, newPassword);
     return ok(res, result);
   }));
+
+  /**
+   * POST /api/auth/admin/mfa/setup
+   * Initiate Admin Two-Factor Authentication setup (generates Base32 secret, OTP URI, and backup codes)
+   */
+  router.post('/api/auth/admin/mfa/setup', asyncHandler(async (req, res) => {
+    if (!requireAuth(req, res, 'admin')) return;
+    const result = await authService.setupAdminMfa(req.user.id);
+    return ok(res, { success: true, ...result });
+  }));
+
+  /**
+   * POST /api/auth/admin/mfa/verify-setup
+   * Confirm initial 6-digit TOTP code to permanently activate MFA on admin account
+   */
+  router.post('/api/auth/admin/mfa/verify-setup', asyncHandler(async (req, res) => {
+    if (!requireAuth(req, res, 'admin')) return;
+    const { token } = req.body || {};
+    if (!token) {
+      return badRequest(res, '6-digit TOTP token is required');
+    }
+
+    const result = await authService.verifyAndEnableAdminMfa(req.user.id, token);
+    return ok(res, result);
+  }));
+
+  /**
+   * POST /api/auth/admin/mfa/verify
+   * Verify TOTP code or backup recovery code during admin login
+   */
+  router.post('/api/auth/admin/mfa/verify', asyncHandler(async (req, res) => {
+    const rateLimited = await authRateLimiter(req, res);
+    if (rateLimited) return;
+
+    const { mfaToken, token, backupCode } = req.body || {};
+    if (!mfaToken) {
+      return badRequest(res, 'mfaToken is required');
+    }
+    if (!token && !backupCode) {
+      return badRequest(res, 'Either 6-digit token or backupCode must be provided');
+    }
+
+    const result = await authService.verifyAdminMfaLogin(mfaToken, token, backupCode);
+
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isSecureConnection = req.headers['x-forwarded-proto'] === 'https' || isProduction;
+
+    const accessCookie = [
+      `token=${encodeURIComponent(result.token)}`,
+      'HttpOnly',
+      'Path=/',
+      `Max-Age=${15 * 60}`,
+      isProduction ? 'SameSite=Strict' : 'SameSite=Lax'
+    ];
+
+    const refreshCookie = [
+      `refreshToken=${encodeURIComponent(result.refreshToken)}`,
+      'HttpOnly',
+      'Path=/',
+      `Max-Age=${7 * 24 * 60 * 60}`,
+      isProduction ? 'SameSite=Strict' : 'SameSite=Lax'
+    ];
+
+    if (isSecureConnection) {
+      accessCookie.push('Secure');
+      refreshCookie.push('Secure');
+    }
+
+    res.setHeader('Set-Cookie', [accessCookie.join('; '), refreshCookie.join('; ')]);
+
+    return ok(res, {
+      success: true,
+      token: result.token,
+      refreshToken: result.refreshToken,
+      user: result.user
+    });
+  }));
+
+  /**
+   * POST /api/auth/admin/mfa/disable
+   * Disable Admin MFA with password and current TOTP token
+   */
+  router.post('/api/auth/admin/mfa/disable', asyncHandler(async (req, res) => {
+    if (!requireAuth(req, res, 'admin')) return;
+    const { password, token } = req.body || {};
+    if (!password || !token) {
+      return badRequest(res, 'password and 6-digit TOTP token are required');
+    }
+
+    const result = await authService.disableAdminMfa(req.user.id, password, token);
+    return ok(res, result);
+  }));
 }

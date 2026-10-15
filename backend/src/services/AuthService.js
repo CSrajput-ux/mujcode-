@@ -1,8 +1,9 @@
 import bcrypt from 'bcrypt';
-import { signToken, signRefreshToken, publicUser, revokeToken } from '../lib/auth.js';
+import { signToken, signRefreshToken, signMfaPendingToken, publicUser, revokeToken } from '../lib/auth.js';
 import { UserRepository } from '../repositories/UserRepository.js';
 import { redis } from '../config/redis.js';
 import { logger } from '../lib/logger.js';
+import { config } from '../config.js';
 
 export const BCRYPT_SALT_ROUNDS = 12;
 
@@ -142,6 +143,19 @@ export class AuthService {
     // Reset failed attempts upon successful authentication
     await this.resetFailedAttempts(attemptsKey, lockoutKey);
 
+    // If user is an administrator with MFA enabled, issue intermediate challenge token
+    if (user.role === 'admin' && user.mfaEnabled) {
+      return {
+        mfaRequired: true,
+        mfaToken: signMfaPendingToken(user),
+        user: {
+          id: user.id || user._id,
+          email: user.email,
+          role: user.role
+        }
+      };
+    }
+
     return {
       token: signToken(user),
       refreshToken: signRefreshToken(user),
@@ -214,5 +228,193 @@ export class AuthService {
     logger.info(`[Auth] Password changed securely for user ${user.id} (${user.email})`);
 
     return { success: true, message: 'Password changed successfully' };
+  }
+
+  /**
+   * Admin MFA: Generate Base32 secret, OTP URI, and 8 backup codes
+   */
+  async setupAdminMfa(userId) {
+    if (!userId) throw { status: 401, message: 'Authentication required' };
+    const allUsers = await this.userRepo.findAll();
+    const user = allUsers.find(u => u.id === userId || u._id === userId);
+    if (!user || user.role !== 'admin') {
+      throw { status: 403, message: 'MFA setup is restricted to administrators' };
+    }
+
+    const { generateBase32Secret, generateOtpAuthUri, generateBackupCodes } = await import('../lib/totp.js');
+    const secret = generateBase32Secret(20);
+    const otpAuthUri = generateOtpAuthUri({
+      secret,
+      email: user.email,
+      issuer: 'MujCode'
+    });
+
+    const backupCodes = generateBackupCodes(8);
+    const hashedBackupCodes = await Promise.all(
+      backupCodes.map(async code => ({
+        codeHash: await bcrypt.hash(code.replace('-', '').toUpperCase(), 10),
+        used: false
+      }))
+    );
+
+    // Cache pending setup in Redis / in-memory store (TTL 15 minutes)
+    const pendingData = JSON.stringify({
+      secret,
+      hashedBackupCodes
+    });
+
+    await redis.set(`auth:mfa:pending:${user.id}`, pendingData, 'EX', 15 * 60);
+
+    return {
+      secret,
+      otpAuthUri,
+      backupCodes
+    };
+  }
+
+  /**
+   * Admin MFA: Verify initial TOTP token to activate MFA
+   */
+  async verifyAndEnableAdminMfa(userId, code) {
+    if (!userId) throw { status: 401, message: 'Authentication required' };
+    const allUsers = await this.userRepo.findAll();
+    const user = allUsers.find(u => u.id === userId || u._id === userId);
+    if (!user || user.role !== 'admin') {
+      throw { status: 403, message: 'MFA is restricted to administrators' };
+    }
+
+    const rawPending = await redis.get(`auth:mfa:pending:${user.id}`);
+    if (!rawPending) {
+      throw { status: 400, message: 'MFA setup session expired or not initialized. Please initiate setup again.' };
+    }
+
+    const pending = JSON.parse(rawPending);
+    const { verifyTOTP, encryptMfaSecret } = await import('../lib/totp.js');
+    const isValid = verifyTOTP(code, pending.secret);
+    if (!isValid) {
+      throw { status: 400, message: 'Invalid 6-digit TOTP code. Please check your authenticator app.' };
+    }
+
+    const masterKey = process.env.MFA_ENCRYPTION_KEY || config.tokenSecret;
+    const encryptedSecret = encryptMfaSecret(pending.secret, masterKey);
+
+    user.mfaEnabled = true;
+    user.mfaSecret = encryptedSecret;
+    user.mfaBackupCodes = pending.hashedBackupCodes;
+    user.mfaEnabledAt = new Date().toISOString();
+
+    await this.userRepo.save(user);
+    await redis.del(`auth:mfa:pending:${user.id}`);
+    logger.info(`[Auth] MFA successfully enabled for admin ${user.email} (${user.id})`);
+
+    return { success: true, message: 'Two-Factor Authentication successfully activated.' };
+  }
+
+  /**
+   * Admin MFA: Verify TOTP passcode or backup recovery code during login
+   */
+  async verifyAdminMfaLogin(mfaToken, code, backupCode) {
+    if (!mfaToken) {
+      throw { status: 400, message: 'MFA token is required' };
+    }
+
+    const { verifyToken, signToken, signRefreshToken, publicUser } = await import('../lib/auth.js');
+    const payload = verifyToken(null, mfaToken);
+    if (!payload || payload.type !== 'mfa_pending') {
+      throw { status: 401, message: 'Invalid or expired MFA session. Please log in again.' };
+    }
+
+    const allUsers = await this.userRepo.findAll();
+    const user = allUsers.find(u => u.id === payload.id || u.email?.toLowerCase() === payload.email?.toLowerCase());
+    if (!user || user.role !== 'admin' || !user.mfaEnabled) {
+      throw { status: 403, message: 'User is not eligible for MFA completion' };
+    }
+
+    // Rate limiting for MFA verification (max 5 failed attempts per 15 mins)
+    const mfaAttemptsKey = `auth:mfa:attempts:${user.id}`;
+    const attempts = await redis.incr(mfaAttemptsKey);
+    if (attempts === 1) await redis.expire(mfaAttemptsKey, 15 * 60);
+    if (attempts > 5) {
+      throw { status: 429, message: 'Too many invalid MFA attempts. Please try again in 15 minutes.' };
+    }
+
+    let authenticated = false;
+    const masterKey = process.env.MFA_ENCRYPTION_KEY || config.tokenSecret;
+    const { decryptMfaSecret, verifyTOTP } = await import('../lib/totp.js');
+
+    if (code) {
+      const secret = decryptMfaSecret(user.mfaSecret, masterKey);
+      authenticated = verifyTOTP(code, secret);
+    } else if (backupCode) {
+      const cleanBackup = String(backupCode).replace('-', '').trim().toUpperCase();
+      if (Array.isArray(user.mfaBackupCodes)) {
+        for (const item of user.mfaBackupCodes) {
+          if (!item.used) {
+            const match = await bcrypt.compare(cleanBackup, item.codeHash).catch(() => false);
+            if (match) {
+              item.used = true;
+              item.usedAt = new Date().toISOString();
+              authenticated = true;
+              await this.userRepo.save(user);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    if (!authenticated) {
+      throw { status: 401, message: 'Invalid authentication code or recovery code.' };
+    }
+
+    // Reset MFA attempts upon successful verification
+    await redis.del(mfaAttemptsKey);
+
+    return {
+      token: signToken(user),
+      refreshToken: signRefreshToken(user),
+      user: publicUser(user)
+    };
+  }
+
+  /**
+   * Admin MFA: Disable 2FA with password and TOTP validation
+   */
+  async disableAdminMfa(userId, password, code) {
+    if (!userId) throw { status: 401, message: 'Authentication required' };
+    const allUsers = await this.userRepo.findAll();
+    const user = allUsers.find(u => u.id === userId || u._id === userId);
+    if (!user || user.role !== 'admin') {
+      throw { status: 403, message: 'Action restricted to administrators' };
+    }
+
+    if (!user.mfaEnabled) {
+      throw { status: 400, message: 'MFA is not currently enabled for this account' };
+    }
+
+    // Verify password
+    const isPwdValid = await bcrypt.compare(password, user.password).catch(() => false);
+    if (!isPwdValid) {
+      throw { status: 401, message: 'Current password is incorrect' };
+    }
+
+    // Verify TOTP code
+    const masterKey = process.env.MFA_ENCRYPTION_KEY || config.tokenSecret;
+    const { decryptMfaSecret, verifyTOTP } = await import('../lib/totp.js');
+    const secret = decryptMfaSecret(user.mfaSecret, masterKey);
+    const isCodeValid = verifyTOTP(code, secret);
+    if (!isCodeValid) {
+      throw { status: 400, message: 'Invalid 6-digit TOTP code' };
+    }
+
+    user.mfaEnabled = false;
+    user.mfaSecret = null;
+    user.mfaBackupCodes = [];
+    user.mfaDisabledAt = new Date().toISOString();
+
+    await this.userRepo.save(user);
+    logger.info(`[Auth] MFA disabled for admin ${user.email} (${user.id})`);
+
+    return { success: true, message: 'Two-Factor Authentication has been disabled.' };
   }
 }

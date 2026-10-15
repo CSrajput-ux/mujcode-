@@ -98,6 +98,41 @@ export function signRefreshToken(user) {
   return `${signingInput}.${signature}`;
 }
 
+export const MFA_PENDING_TOKEN_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
+
+/**
+ * Sign an MFA Pending intermediate token (5-minute validity, algorithm pinned to HS256)
+ */
+export function signMfaPendingToken(user) {
+  const header = {
+    alg: 'HS256',
+    typ: 'JWT'
+  };
+
+  const payload = {
+    id: user.id || user._id,
+    email: user.email,
+    role: user.role,
+    jti: crypto.randomUUID(),
+    iss: ISSUER,
+    aud: AUDIENCE,
+    type: 'mfa_pending',
+    issuedAt: Date.now(),
+    expiresAt: Date.now() + MFA_PENDING_TOKEN_EXPIRY_MS
+  };
+
+  const encodedHeader = base64Url(JSON.stringify(header));
+  const encodedPayload = base64Url(JSON.stringify(payload));
+  const signingInput = `${encodedHeader}.${encodedPayload}`;
+
+  const signature = crypto
+    .createHmac('sha256', SECRET_KEY)
+    .update(signingInput)
+    .digest('base64url');
+
+  return `${signingInput}.${signature}`;
+}
+
 /**
  * Check if a token has been revoked (by JTI)
  */

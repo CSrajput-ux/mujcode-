@@ -27,7 +27,7 @@ All critical code-level security vulnerabilities—including exposed demo creden
 | **Operational & Infrastructure Readiness** | **58 / 100** | ⚠️ **ACTION REQUIRED** — Operational approval blocked pending manual cloud console verification (MongoDB Atlas IP allowlist, Neon/RDS backup drill, GitHub branch protection, cloud secret rotation). |
 | **E2E Readiness** | `NOT VERIFIED` | ⚠️ **PENDING STAGING** — Local Playwright suite passes (14/14 journeys), but live production/staging cloud E2E gate remains unexecuted. |
 | **Disaster Recovery** | `NOT VERIFIED` | 🛑 **BLOCKED** — Restore drill against a disposable database has not yet been executed by the DBA. |
-| **Admin Multi-Factor Auth (MFA)** | `PENDING` | ⚠️ **P1 RISK** — TOTP MFA not yet implemented in admin auth route; strongly recommended before handling production student records. |
+| **Admin Multi-Factor Auth (MFA)** | ✅ **VERIFIED (27 Tests Passing)** | ✅ **IMPLEMENTED & SECURED** — RFC 6238 TOTP (Base32, HMAC-SHA1, 30s window), AES-256-GCM secret encryption, 8 single-use recovery codes, and `mfa_pending` challenge guards active and verified in `backend/test/admin_mfa.test.mjs`. |
 
 ### Final Launch Verdict
 
@@ -184,11 +184,10 @@ Before transitioning the verdict from `PRODUCTION CANDIDATE` to `PRODUCTION APPR
    - *Evidence Needed:* Restore execution log and verification report in `audit-remediation/restore-drill-evidence.md`.
    - *Suggested Deadline:* T-Minus 48 Hours to Launch.
 
-3. **Admin Multi-Factor Authentication (Blocker 3 - High / Launch Recommendation):**
-   - *Owner:* Backend Engineering Lead
-   - *Required Action:* Implement TOTP-based 2-factor authentication for admin accounts according to [docs/ADMIN_MFA_DESIGN.md](file:///c:/Users/jkgga/Music/muj%20code%201/docs/ADMIN_MFA_DESIGN.md). Strongly recommended prior to launch to safeguard university records.
-   - *Evidence Needed:* Passing unit tests for TOTP enrollment and challenge verification.
-   - *Suggested Deadline:* Launch Pre-Requisite.
+3. **Admin Multi-Factor Authentication (Blocker 3 - Resolved in Code):**
+   - *Status:* ✅ **RESOLVED & VERIFIED IN CODE**
+   - *Implementation:* RFC 6238 TOTP in [backend/src/lib/totp.js](file:///c:/Users/jkgga/Music/muj%20code%201/backend/src/lib/totp.js), `AuthService.js`, and `routes/auth.js`.
+   - *Evidence:* 27 passing unit and integration tests in [backend/test/admin_mfa.test.mjs](file:///c:/Users/jkgga/Music/muj%20code%201/backend/test/admin_mfa.test.mjs) verifying enrollment, AES-256-GCM secret encryption, login challenges, backup code one-time consumption, rate-limiting, and safe disablement.
 
 4. **GitHub Branch Protection Enforcement (Blocker 4 - High):**
    - *Owner:* GitHub Organization Administrator

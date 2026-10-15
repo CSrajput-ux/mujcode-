@@ -5,7 +5,7 @@ import { sendJson } from './http.js';
  */
 
 export function requireAuth(req, res, role = null) {
-  if (!req.user) {
+  if (!req.user || req.user.type === 'mfa_pending') {
     sendJson(res, 401, { error: 'Authentication required. Please log in.' });
     return false;
   }
@@ -35,7 +35,7 @@ export function requireStudent(req, res) {
 }
 
 export function requireAnyRole(req, res, ...roles) {
-  if (!req.user) {
+  if (!req.user || req.user.type === 'mfa_pending') {
     sendJson(res, 401, { error: 'Authentication required. Please log in.' });
     return false;
   }
