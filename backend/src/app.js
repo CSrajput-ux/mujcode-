@@ -11,7 +11,7 @@ import { config } from './config.js';
 import { registerRoutes } from './routes/index.js';
 import { registerAtsRoutes } from './modules/ats/routes.js';
 import { monitorEventLoopDelay } from 'node:perf_hooks';
-import { getPostgresPoolStats, auditDatabaseIntegrity } from './lib/postgres.js';
+import { getPostgresPoolStats, auditDatabaseIntegrity, isPostgresConnected } from './lib/postgres.js';
 import { getRedisStats } from './config/redis.js';
 
 const eventLoopMonitor = monitorEventLoopDelay({ resolution: 20 });
@@ -198,8 +198,30 @@ export async function createApp() {
     req.user = verifyToken(req.headers.authorization, token || queryToken);
 
     try {
-      // ── Prometheus metrics endpoint ─────────────────────────────────────────
+      // ── Prometheus metrics endpoint (Restricted: Internal/Admin/Token) ──
       if (pathname === METRICS_PATH) {
+        // Enforce physical socket peer IP — never trust client-supplied X-Forwarded-For for security bypass
+        const socketIp = req.socket?.remoteAddress || '';
+        const isDirectLoopback = socketIp === '127.0.0.1' || socketIp === '::1' || socketIp === '::ffff:127.0.0.1';
+        
+        // Internal monitoring token authentication (e.g. Prometheus scraper across VPC)
+        const metricsToken = process.env.METRICS_TOKEN;
+        const authHeader = req.headers.authorization;
+        const bearerToken = authHeader?.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
+        const providedToken = req.headers['x-metrics-token'] || bearerToken;
+        const hasValidToken = Boolean(metricsToken && providedToken && providedToken === metricsToken);
+        
+        // Admin user authentication
+        const isAdmin = Boolean(req.user && req.user.role === 'admin');
+
+        // In production, reject any untrusted access (spoofed headers like X-Forwarded-For are ignored)
+        if (config.nodeEnv === 'production') {
+          if (!isDirectLoopback && !hasValidToken && !isAdmin) {
+            return sendJson(res, 403, { 
+              error: 'Forbidden: /metrics is restricted to direct loopback, valid X-Metrics-Token, or admin authentication' 
+            });
+          }
+        }
         res.setHeader('Content-Type', register.contentType);
         return sendText(res, 200, await register.metrics());
       }
@@ -264,6 +286,49 @@ export async function createApp() {
 
       const handled = await router.handle(req, res, ctx, pathname);
       if (handled) return;
+
+      // ── Kubernetes / Cloud Liveness Probe ────────────────────────────────────
+      if (pathname === '/health/live') {
+        return sendJson(res, 200, {
+          status: 'ok',
+          uptimeSeconds: Math.floor((Date.now() - ctx.startedAt.getTime()) / 1000)
+        });
+      }
+
+      // ── Kubernetes / Cloud Readiness Probe ───────────────────────────────────
+      if (pathname === '/health/ready') {
+        const isPgOk = isPostgresConnected();
+        const redisStats = getRedisStats();
+        const isRedisOk = redisStats.mode === 'in-memory-fallback' || redisStats.isRemoteConnected;
+
+        // Verify MongoDB readiness when ATS module is active
+        let isMongoOk = true;
+        let mongoStatus = 'disabled';
+        if (process.env.MONGODB_URI) {
+          try {
+            const { default: mongoose } = await import('mongoose');
+            isMongoOk = mongoose.connection && mongoose.connection.readyState === 1;
+            mongoStatus = isMongoOk ? 'connected' : (mongoose.connection?.readyState === 2 ? 'connecting' : 'disconnected');
+          } catch {
+            isMongoOk = false;
+            mongoStatus = 'error';
+          }
+        }
+
+        const isReady = Boolean(isPgOk && isRedisOk && isMongoOk);
+
+        const healthData = {
+          status: isReady ? 'ready' : 'unhealthy',
+          services: {
+            database: isPgOk ? 'connected' : 'disconnected',
+            cache: redisStats.mode === 'remote' ? (redisStats.isRemoteConnected ? 'connected' : 'reconnecting') : 'in-memory',
+            atsMongo: mongoStatus
+          },
+          uptimeSeconds: Math.floor((Date.now() - ctx.startedAt.getTime()) / 1000)
+        };
+
+        return sendJson(res, isReady ? 200 : 503, healthData);
+      }
 
       // ── Root / health endpoint ──────────────────────────────────────────────
       if (pathname === '/' || pathname === API_PATH) {

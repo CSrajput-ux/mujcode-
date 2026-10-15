@@ -364,10 +364,22 @@ GitHub Actions (`.github/workflows/ci-cd.yml`):
 
 Comprehensive guides are maintained in the [`docs/`](docs/) directory:
 
+- 📘 [Production Deployment Architecture](docs/DEPLOYMENT_ARCHITECTURE.md) — Single production path, secrets, approval gates, and zero-downtime rollbacks.
+- 📘 [Disaster Recovery & Backup Runbook](docs/DISASTER_RECOVERY.md) — PostgreSQL PITR, cold restoration drill, and RPO/RTO SLAs.
+- 📘 [Admin MFA / TOTP Enterprise Design](docs/ADMIN_MFA_DESIGN.md) — Multi-factor specification for administrative accounts.
 - 📘 [Self-Hosted Judge0 CE Deployment Guide](docs/JUDGE0_DEPLOYMENT.md) — Prerequisites, cgroup v1 kernel setup, multi-worker scaling, and security hardening.
 - 📕 [SOP: Compiler Deadlock Recovery](docs/runbooks/SOP-Compiler-Deadlock.md) — Mitigating queue worker stalls and stuck isolation containers.
 - 📕 [SOP: PostgreSQL Failover](docs/runbooks/SOP-Postgres-Failover.md) — Judge0 database failover procedures.
 - 📕 [SOP: Scale-Down Operations](docs/runbooks/SOP-Scale-Down.md) — Graceful cluster draining without disrupting active student exams.
+
+---
+
+## 🚦 Production Status
+
+The repository is production-candidate after the documented security,
+testing, deployment and disaster-recovery gates pass.
+
+A successful local build alone does not constitute production approval.
 
 ---
 

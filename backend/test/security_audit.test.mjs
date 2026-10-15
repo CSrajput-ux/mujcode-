@@ -172,7 +172,7 @@ test('Security Audit Verification Suite', async (t) => {
 
     const invalidProdEnv = {
       NODE_ENV: 'production',
-      TOKEN_SECRET: 'a_very_secure_and_long_secret_key_32_bytes_minimum!',
+      TOKEN_SECRET: 'f7c8d9e0a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f6a7b8c9d0e1f2',
       CORS_ORIGIN: '*'
     };
 
@@ -218,6 +218,191 @@ test('Security Audit Verification Suite', async (t) => {
     assert.equal(canAccessOwn, true, 'Student B must access own job status');
   });
 
+  await t.test('11. Environment: Insecure placeholder secret & localhost DB rejection in production', async () => {
+    const { validateEnvironment } = await import('../src/config/envValidator.js');
+
+    // Reject placeholder TOKEN_SECRET
+    const placeholderEnv = {
+      NODE_ENV: 'production',
+      TOKEN_SECRET: 'development-secret-should-be-at-least-32-chars-long!',
+      CORS_ORIGIN: 'https://www.mujcode.in'
+    };
+    assert.throws(
+      () => validateEnvironment(placeholderEnv, { allowThrow: true }),
+      /insecure placeholder value/,
+      'Production configuration with placeholder secret must fail'
+    );
+
+    // Reject localhost PostgreSQL in production
+    const localhostDbEnv = {
+      NODE_ENV: 'production',
+      TOKEN_SECRET: 'f7c8d9e0a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f6a7b8c9d0e1f2',
+      CORS_ORIGIN: 'https://www.mujcode.in',
+      POSTGRES_URI: 'postgres://postgres:password@localhost:5432/mujcode_db'
+    };
+    assert.throws(
+      () => validateEnvironment(localhostDbEnv, { allowThrow: true }),
+      /POSTGRES_URI cannot point to localhost/,
+      'Production configuration with localhost Postgres must fail'
+    );
+  });
+
+  await t.test('12. Seed Security: Strict production lockout & development seeding', async () => {
+    const { seedDevelopmentAccounts } = await import('../src/scripts/seed.js');
+
+    // Must throw when NODE_ENV is production
+    await assert.rejects(
+      async () => seedDevelopmentAccounts({ nodeEnv: 'production' }),
+      /Seeding demo accounts is prohibited in production mode/,
+      'Seeding demo accounts in production must be rejected'
+    );
+
+    // Must succeed in development dry-run
+    const res = await seedDevelopmentAccounts({ nodeEnv: 'development', dryRun: true });
+    assert.equal(res.success, true, 'Dry-run seed must succeed in development');
+    assert.ok(res.accounts.length >= 4, 'Should configure 4 demo roles');
+  });
+
+  await t.test('13. Password Policy: Insecure default and banned demo password rejection', async () => {
+    const { AuthService } = await import('../src/services/AuthService.js');
+
+    const bannedPasswords = [
+      'chhotu.2427030521',
+      'Admin@123',
+      'admin123',
+      'password123',
+      'changeme'
+    ];
+
+    for (const pw of bannedPasswords) {
+      const check = AuthService.validatePasswordStrength(pw);
+      assert.equal(check.valid, false, `Banned demo password "${pw}" must be rejected`);
+      assert.match(check.message, /insecure default|characters/, `Rejection message expected for "${pw}"`);
+    }
+
+    // Strong valid password must pass
+    const valid = AuthService.validatePasswordStrength('Enterprise@Secure2026!');
+    assert.equal(valid.valid, true, 'Strong password must be accepted');
+  });
+
+  await t.test('14. Strict CORS: Origin exact matching, non-reflection, and credentials isolation', async () => {
+    const { isAllowedOrigin, setCorsHeaders } = await import('../src/lib/cors.js');
+
+    assert.equal(isAllowedOrigin('https://www.mujcode.in'), true);
+    assert.equal(isAllowedOrigin('https://mujcode.in'), true);
+    assert.equal(isAllowedOrigin('https://malicious.vercel.app'), false, 'Arbitrary vercel subdomains must be rejected');
+    assert.equal(isAllowedOrigin('https://attacker.onrender.com'), false, 'Arbitrary render subdomains must be rejected');
+    assert.equal(isAllowedOrigin('*'), false, 'Wildcard must be rejected');
+
+    // Test header setting without reflection for untrusted origin
+    let headers = {};
+    const mockRes = {
+      setHeader: (k, v) => { headers[k] = v; }
+    };
+    const untrustedReq = {
+      headers: { origin: 'https://evil-hacker.com' }
+    };
+
+    setCorsHeaders(mockRes, untrustedReq);
+    assert.equal(headers['Access-Control-Allow-Origin'], undefined, 'Untrusted origin must not be reflected');
+    assert.equal(headers['Access-Control-Allow-Credentials'], undefined, 'Credentials must not be allowed for untrusted origin');
+
+    // Test header setting for trusted origin
+    headers = {};
+    const trustedReq = {
+      headers: { origin: 'https://www.mujcode.in' }
+    };
+    setCorsHeaders(mockRes, trustedReq);
+    assert.equal(headers['Access-Control-Allow-Origin'], 'https://www.mujcode.in');
+    assert.equal(headers['Access-Control-Allow-Credentials'], 'true');
+  });
+
+  await t.test('15. Metrics Authorization: Anti-Spoofing and Scraper Token Enforcement', async () => {
+    const { createApp } = await import('../src/app.js');
+    const { config } = await import('../src/config.js');
+    const prevEnv = config.nodeEnv;
+    const prevToken = process.env.METRICS_TOKEN;
+    config.nodeEnv = 'production';
+    process.env.METRICS_TOKEN = 'secret-prom-token-98765';
+
+    const app = await createApp();
+
+    // Case A: Spoofed X-Forwarded-For from external IP -> Must return 403 Forbidden
+    let spoofStatusCode = null;
+    let spoofBody = '';
+    const spoofedReq = {
+      method: 'GET',
+      url: '/metrics',
+      headers: {
+        'x-forwarded-for': '127.0.0.1' // Attacker attempting to spoof localhost
+      },
+      socket: {
+        remoteAddress: '198.51.100.24' // Actual physical WAN IP
+      }
+    };
+    const spoofedRes = {
+      setHeader: () => {},
+      writeHead: (code) => { spoofStatusCode = code; },
+      end: (data) => { if (!spoofStatusCode) spoofStatusCode = 200; spoofBody = data; }
+    };
+
+    await app(spoofedReq, spoofedRes);
+    assert.equal(spoofStatusCode, 403, 'Spoofed X-Forwarded-For must be rejected with 403 Forbidden');
+
+    // Case B: Request with valid X-Metrics-Token header -> Must be allowed
+    let tokenStatusCode = null;
+    let tokenBody = '';
+    const tokenReq = {
+      method: 'GET',
+      url: '/metrics',
+      headers: {
+        'x-metrics-token': 'secret-prom-token-98765'
+      },
+      socket: {
+        remoteAddress: '198.51.100.24'
+      }
+    };
+    const tokenRes = {
+      setHeader: () => {},
+      writeHead: (code) => { tokenStatusCode = code; },
+      end: (data) => { if (!tokenStatusCode) tokenStatusCode = 200; tokenBody = data; }
+    };
+
+    await app(tokenReq, tokenRes);
+    assert.equal(tokenStatusCode, 200, 'Request with valid metrics token must be allowed');
+
+    // Case C: Direct physical loopback connection -> Allowed
+    let loopbackStatusCode = null;
+    let loopbackBody = '';
+    const loopbackReq = {
+      method: 'GET',
+      url: '/metrics',
+      headers: {},
+      socket: {
+        remoteAddress: '127.0.0.1'
+      }
+    };
+    const loopbackRes = {
+      setHeader: () => {},
+      writeHead: (code) => { loopbackStatusCode = code; },
+      end: (data) => { if (!loopbackStatusCode) loopbackStatusCode = 200; loopbackBody = data; }
+    };
+
+    await app(loopbackReq, loopbackRes);
+    assert.equal(loopbackStatusCode, 200, 'Direct physical loopback must be allowed');
+
+    // Teardown
+    config.nodeEnv = prevEnv;
+    process.env.METRICS_TOKEN = prevToken;
+  });
+
+  const { closeRedis } = await import('../src/config/redis.js');
+  const { closePostgres } = await import('../src/lib/postgres.js');
+  const { terminateStorageWorker } = await import('../src/lib/storage.js');
+  await closeRedis();
+  await closePostgres();
+  await terminateStorageWorker();
 });
+
 
 

@@ -1,78 +1,80 @@
 import { config } from '../config.js';
 
-// Default trusted domains for MujCode deployments
-const DEFAULT_ALLOWED_ORIGINS = [
+// Production confirmed domains for MujCode
+const PRODUCTION_ALLOWED_DOMAINS = [
   'https://www.mujcode.in',
-  'https://mujcode.in',
-  'http://www.mujcode.in',
-  'http://mujcode.in',
-  'http://localhost:5173',
-  'http://localhost:3000',
-  'http://localhost:5000',
-  'http://127.0.0.1:5173',
-  'http://127.0.0.1:3000',
-  'http://127.0.0.1:5000'
+  'https://mujcode.in'
 ];
 
-// Compile list of configured origins
-function getConfiguredOrigins() {
+/**
+ * Normalizes an origin string (trims whitespace, strips trailing slashes, converts to lowercase)
+ */
+function normalizeOrigin(origin) {
+  if (!origin || typeof origin !== 'string') return '';
+  return origin.trim().replace(/\/+$/, '').toLowerCase();
+}
+
+/**
+ * Returns clean array of explicitly configured origins from CORS_ORIGIN
+ */
+export function getConfiguredOrigins() {
   const raw = config.corsOrigin || process.env.CORS_ORIGIN || '';
+  if (!raw || typeof raw !== 'string') return [];
   return raw
     .split(',')
-    .map(o => o.trim().replace(/\/+$/, '').toLowerCase())
+    .map(normalizeOrigin)
     .filter(Boolean);
 }
 
-const isDev = process.env.NODE_ENV !== 'production';
-
 /**
- * Checks whether a given origin is allowed under CORS policy.
- * Supports:
- * - Explicit configured origins in CORS_ORIGIN env var
- * - Official MujCode domains (mujcode.in, www.mujcode.in)
- * - Vercel deployment subdomains (*.vercel.app)
- * - Render service subdomains (*.onrender.com)
- * - Localhost origins (in development or if configured)
+ * Checks whether a given origin is allowed under strict CORS policy.
+ * 
+ * Rules:
+ * 1. Rejects null, undefined, or empty origins.
+ * 2. Rejects wildcard '*' in production.
+ * 3. Exact matching only (no partial substring matching or vulnerable regexes).
+ * 4. Checks against comma-separated CORS_ORIGIN env list.
+ * 5. Checks against confirmed production domains.
+ * 6. In non-production only, allows localhost / 127.0.0.1 exact origins.
  */
 export function isAllowedOrigin(origin) {
-  if (!origin) return false;
-  const clean = origin.trim().replace(/\/+$/, '').toLowerCase();
+  if (!origin || typeof origin !== 'string') return false;
+  const clean = normalizeOrigin(origin);
+  if (!clean || clean === '*') return false;
 
+  const isProd = process.env.NODE_ENV === 'production';
   const configured = getConfiguredOrigins();
-  if (configured.includes(clean)) return true;
 
-  if (DEFAULT_ALLOWED_ORIGINS.includes(clean)) return true;
+  // 1. Exact match against configured origins
+  if (configured.includes(clean)) {
+    return true;
+  }
 
-  // Wildcard subdomains for mujcode.in
-  if (/^https:\/\/[a-z0-9-]+\.mujcode\.in$/i.test(clean)) return true;
+  // 2. Exact match against production domains
+  if (PRODUCTION_ALLOWED_DOMAINS.includes(clean)) {
+    return true;
+  }
 
-  // Vercel preview and production deployments
-  if (/^https:\/\/[a-z0-9-]+(\.[a-z0-9-]+)*\.vercel\.app$/i.test(clean)) return true;
-
-  // Render backends / frontends
-  if (/^https:\/\/[a-z0-9-]+(\.[a-z0-9-]+)*\.onrender\.com$/i.test(clean)) return true;
-
-  // Development localhost
-  if (isDev && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(clean)) return true;
+  // 3. Localhost origins (permitted in non-production, or if explicitly in CORS_ORIGIN)
+  if (!isProd) {
+    if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(clean)) {
+      return true;
+    }
+  }
 
   return false;
 }
 
 /**
- * Applies comprehensive CORS headers to HTTP response.
+ * Applies strict CORS headers to HTTP response.
+ * Credentials are ONLY permitted for strictly verified allowlisted origins.
  */
 export function setCorsHeaders(res, req) {
-  const requestOrigin = req.headers.origin;
-  const allowed = isAllowedOrigin(requestOrigin);
+  const requestOrigin = req?.headers?.origin;
 
-  if (allowed) {
+  if (requestOrigin && isAllowedOrigin(requestOrigin)) {
     res.setHeader('Access-Control-Allow-Origin', requestOrigin);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-  } else if (!requestOrigin) {
-    // Non-browser or direct curl request
-    const configured = getConfiguredOrigins();
-    const fallback = configured[0] || 'https://www.mujcode.in';
-    res.setHeader('Access-Control-Allow-Origin', fallback);
   }
 
   res.setHeader('Vary', 'Origin');

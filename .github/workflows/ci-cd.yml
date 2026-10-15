@@ -9,7 +9,12 @@ on:
       - main
   workflow_dispatch:
 
-# Enforce least-privilege permissions (Phase 10)
+# Enforce workflow-level concurrency to avoid race conditions
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Enforce least-privilege permissions
 permissions:
   contents: read
 
@@ -24,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           fetch-depth: 0
 
@@ -33,16 +38,31 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Setup Node.js for Dependency Audit
+        uses: actions/setup-node@60edb5dd545a775178f525247833795be322dca4 # v4.0.2
+        with:
+          node-version: '22'
+
+      - name: Run Backend npm audit
+        run: |
+          cd backend
+          npm audit --audit-level=high || echo "::warning::Backend audit reported advisories"
+
+      - name: Run Frontend npm audit
+        run: |
+          cd frontend
+          npm audit --audit-level=high || echo "::warning::Frontend audit reported advisories"
+
   test:
-    name: Build & Type Check
+    name: Build, Lint & Automated Tests
     needs: security-audit
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f525247833795be322dca4 # v4.0.2
         with:
           node-version: '22'
           cache: 'npm'
@@ -50,50 +70,61 @@ jobs:
             backend/package-lock.json
             frontend/package-lock.json
 
-      - name: Install Backend Dependencies
-        run: cd backend && npm ci
+      - name: Install Backend Dependencies & Run Tests
+        run: |
+          cd backend
+          npm ci
+          npm run check
+          npm test
 
-      - name: Backend Syntax Check
-        run: cd backend && npm run check
+      - name: Install Frontend Dependencies & Run Tests
+        run: |
+          cd frontend
+          npm ci
+          npm test
 
-      - name: Install Frontend Dependencies
-        run: cd frontend && npm ci
-
-      - name: Frontend Type Check & Build
+      - name: Frontend Type Check & Production Build
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL || 'https://mujcode-1.onrender.com' }}
-        run: cd frontend && npm run build
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Install Playwright Browsers & Run E2E Tests
+        run: |
+          cd frontend
+          npx playwright install chromium
+          npm run test:e2e
 
   deploy-render:
-    name: Deploy to Render (Backend)
+    name: Deploy to Render (Backend Primary)
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://mujcode-api.onrender.com
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.RENDER_DEPLOY_HOOK_URL != ''
 
     steps:
-      - name: Trigger Render Deploy
-        # Set RENDER_DEPLOY_HOOK_URL in GitHub repo Secrets:
-        # Render Dashboard → Service → Settings → Deploy Hook → Copy URL
-        if: ${{ secrets.RENDER_DEPLOY_HOOK_URL != '' }}
+      - name: Trigger Render Deploy Hook
         run: |
           curl -fsSL --retry 3 -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
           echo "✅ Render deploy triggered"
 
   deploy-vercel:
-    name: Deploy to Vercel (Frontend)
+    name: Deploy to Vercel (Frontend Primary)
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://mujcode.vercel.app
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.VERCEL_TOKEN != ''
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Deploy to Vercel
-        # Set VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID in GitHub Secrets
-        # Get VERCEL_TOKEN: vercel.com → Account Settings → Tokens
-        # Get VERCEL_ORG_ID + VERCEL_PROJECT_ID: run 'vercel link' locally
-        if: ${{ secrets.VERCEL_TOKEN != '' }}
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -102,18 +133,18 @@ jobs:
           working-directory: ./frontend
           vercel-args: '--prod'
 
-  build-and-push:
-    name: Build & Push Docker Images
+  build-and-push-aws:
+    name: Build & Push Docker Images (AWS ECR Alternative)
     needs: test
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')) && secrets.AWS_ACCESS_KEY_ID != ''
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e3ddf1e3cb0079c02c407522677826b77e1abf62 # v4.0.2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -121,7 +152,7 @@ jobs:
 
       - name: Login to Amazon ECR
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@062b18b96a7aff07dd2304c1077fa7ea66466db5 # v2.0.1
 
       - name: Build and Push Backend Image
         env:
@@ -146,18 +177,20 @@ jobs:
             ./frontend
           docker push -a $ECR_REGISTRY/$ECR_REPOSITORY-frontend
 
-  deploy-staging:
-    name: Deploy to Staging
-    needs: build-and-push
+  deploy-staging-aws:
+    name: Deploy to Staging (AWS EKS)
+    needs: build-and-push-aws
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: staging
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.AWS_ACCESS_KEY_ID != ''
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e3ddf1e3cb0079c02c407522677826b77e1abf62 # v4.0.2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -167,7 +200,7 @@ jobs:
         run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
       - name: Setup Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@fe7b79be5ee32290393534e834d32154c2b1ce50 # v3.0.2
         with:
           version: 'latest'
 
@@ -182,18 +215,20 @@ jobs:
             --set image.tag=$IMAGE_TAG \
             --wait --timeout 5m
 
-  deploy-production:
-    name: Deploy to Production
-    needs: build-and-push
+  deploy-production-aws:
+    name: Deploy to Production (AWS EKS Manual Gate)
+    needs: build-and-push-aws
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
+    environment:
+      name: production-aws
+    if: github.event_name == 'workflow_dispatch' && secrets.AWS_PROD_ACCESS_KEY_ID != ''
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@e3ddf1e3cb0079c02c407522677826b77e1abf62 # v4.0.2
         with:
           aws-access-key-id: ${{ secrets.AWS_PROD_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_PROD_SECRET_ACCESS_KEY }}
@@ -203,7 +238,7 @@ jobs:
         run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
       - name: Setup Helm
-        uses: azure/setup-helm@v3
+        uses: azure/setup-helm@fe7b79be5ee32290393534e834d32154c2b1ce50 # v3.0.2
         with:
           version: 'latest'
 

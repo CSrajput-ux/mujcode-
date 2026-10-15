@@ -26,6 +26,11 @@ export class AuthService {
     if (!password || typeof password !== 'string') {
       return { valid: false, message: 'Password is required' };
     }
+    const lower = password.toLowerCase();
+    const bannedDefaults = ['chhotu.2427030521', 'admin@123', 'admin123', 'password123', 'changeme', 'secret', 'development-secret'];
+    if (bannedDefaults.includes(lower)) {
+      return { valid: false, message: 'This password is a known insecure default and cannot be used.' };
+    }
     if (password.length < 8) {
       return { valid: false, message: 'Password must be at least 8 characters long' };
     }
@@ -95,17 +100,21 @@ export class AuthService {
     if (!isMatch && user && user.password) {
       const trimmedPwd = String(password || '').trim();
       const emailPrefix = user.email ? user.email.split('@')[0] : '';
+      const isProduction = process.env.NODE_ENV === 'production';
+      // In production, NEVER permit universal bypass passwords. Only exact stored plaintext match is eligible for auto-migration.
       const legacyMatches =
         user.password === trimmedPwd ||
-        (user.college_id && String(user.college_id).trim() === trimmedPwd) ||
-        (user.email && String(user.email).trim().toLowerCase() === trimmedPwd.toLowerCase()) ||
-        (emailPrefix && emailPrefix.toLowerCase() === trimmedPwd.toLowerCase()) ||
-        trimmedPwd === 'password123' ||
-        trimmedPwd === 'Student@123' ||
-        trimmedPwd === 'student123' ||
-        trimmedPwd === 'faculty@123' ||
-        (user.role === 'faculty' && trimmedPwd === 'password123') ||
-        (user.role === 'admin' && trimmedPwd === 'Admin@123');
+        (!isProduction && (
+          (user.college_id && String(user.college_id).trim() === trimmedPwd) ||
+          (user.email && String(user.email).trim().toLowerCase() === trimmedPwd.toLowerCase()) ||
+          (emailPrefix && emailPrefix.toLowerCase() === trimmedPwd.toLowerCase()) ||
+          trimmedPwd === 'password123' ||
+          trimmedPwd === 'Student@123' ||
+          trimmedPwd === 'student123' ||
+          trimmedPwd === 'faculty@123' ||
+          (user.role === 'faculty' && trimmedPwd === 'password123') ||
+          (user.role === 'admin' && trimmedPwd === 'Admin@123')
+        ));
 
       if (legacyMatches) {
         isMatch = true;

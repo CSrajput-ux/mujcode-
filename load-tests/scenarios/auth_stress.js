@@ -2,6 +2,8 @@ import { httpRequest } from '../lib/client.js';
 import { MetricsCollector } from '../lib/metrics.js';
 import { signToken } from '../lib/generator.js';
 
+const TEST_PASSWORD = process.env.LOAD_TEST_PASSWORD || 'DevTestPassword#2026';
+
 export async function runAuthStressTest(baseUrl = 'http://127.0.0.1:5000') {
   console.log(`\n===============================================================`);
   console.log(`[TEST 16] AUTHENTICATION LOAD & STRESS TEST`);
@@ -18,7 +20,7 @@ export async function runAuthStressTest(baseUrl = 'http://127.0.0.1:5000') {
     headers: { 'X-Forwarded-For': '10.0.0.1' },
     body: {
       email: 'admin@jaipur.manipal.edu',
-      password: 'Admin@123',
+      password: TEST_PASSWORD,
       role: 'admin'
     }
   });
@@ -53,7 +55,7 @@ export async function runAuthStressTest(baseUrl = 'http://127.0.0.1:5000') {
       headers: { 'X-Forwarded-For': `10.1.${Math.floor(i / 250)}.${i % 250}` },
       body: {
         email: 'admin@jaipur.manipal.edu',
-        password: 'Admin@123',
+        password: TEST_PASSWORD,
         role: 'admin'
       }
     }).then(res => c50Collector.record(res.latencyMs, res.statusCode, res.error))
@@ -75,7 +77,7 @@ export async function runAuthStressTest(baseUrl = 'http://127.0.0.1:5000') {
       headers: { 'X-Forwarded-For': `10.2.${Math.floor(i / 250)}.${i % 250}` },
       body: {
         email: 'admin@jaipur.manipal.edu',
-        password: 'Admin@123',
+        password: TEST_PASSWORD,
         role: 'admin'
       }
     }).then(res => c100Collector.record(res.latencyMs, res.statusCode, res.error))
@@ -97,7 +99,7 @@ export async function runAuthStressTest(baseUrl = 'http://127.0.0.1:5000') {
       headers: { 'X-Forwarded-For': `10.5.${Math.floor(i / 250)}.${i % 250}` },
       body: {
         email: 'admin@jaipur.manipal.edu',
-        password: 'Admin@123',
+        password: TEST_PASSWORD,
         role: 'admin'
       }
     }).then(res => c500Collector.record(res.latencyMs, res.statusCode, res.error))

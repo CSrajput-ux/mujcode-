@@ -31,7 +31,7 @@
 #### 1c. MongoDB Atlas (Free — only for ATS/Placement module)
 1. [cloud.mongodb.com](https://cloud.mongodb.com) → Free M0 cluster
 2. Database Access → Add user with password
-3. Network Access → Allow `0.0.0.0/0`
+3. Network Access → Add IP Address → Add your backend server's static outbound IP (Render outbound IP, VPS static IP, or VPC NAT Gateway). ⚠️ **NEVER allow 0.0.0.0/0 in production.**
 4. Connect → Connection String → save as `MONGODB_URI`
    ```
    mongodb+srv://user:pass@cluster.mongodb.net/mujcode_ats?retryWrites=true&w=majority
@@ -107,9 +107,27 @@ Save the output as `TOKEN_SECRET`.
    | **Output Directory** | `dist` |
 
 4. Set **Environment Variables**:
-   | Variable | Value |
-   |----------|-------|
-   | `VITE_API_URL` | `https://your-backend.onrender.com` |
+   | Variable | Value | Allowed Scope |
+   |----------|-------|---------------|
+   | `VITE_API_URL` | `https://mujcode-api.onrender.com` | Public Frontend Only |
+
+> [!CAUTION]
+> **CRITICAL SECURITY WARNING: NEVER ADD BACKEND SECRETS TO VERCEL**
+> Never place backend secrets in Vercel `VITE_*` variables because Vite variables are exposed to the browser bundle.
+>
+> **Allowed in Vercel:**
+> - `VITE_API_URL=https://api.example.com`
+>
+> **STRICTLY PROHIBITED in Vercel:**
+> - `TOKEN_SECRET`
+> - `POSTGRES_PASSWORD` / `POSTGRES_URI`
+> - `MONGO_PASSWORD` / `MONGODB_URI`
+> - `REDIS_PASSWORD` / `REDIS_URI`
+> - `CLOUDINARY_API_SECRET`
+> - `AWS_SECRET_ACCESS_KEY`
+> - `JUDGE0_AUTH_TOKEN`
+>
+> All database, token, and cloud infrastructure secrets must reside exclusively in backend environment managers (Render Environment, AWS Secrets Manager, or HashiCorp Vault).
 
 5. Click **Deploy**
 6. Note your frontend URL: `https://mujcode.vercel.app`

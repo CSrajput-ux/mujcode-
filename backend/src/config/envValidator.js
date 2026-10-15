@@ -4,18 +4,37 @@ import { logger } from '../lib/logger.js';
 /**
  * Startup Environment Variable Validator
  *
- * Enforces security requirements before the server starts:
- * 1. Required secrets (TOKEN_SECRET) must be present and at least 32 bytes/characters.
- * 2. Database URIs and ports are validated.
- * 3. Insecure configurations (e.g. CORS '*' in production with credentials) are rejected.
+ * Enforces production security requirements before the server starts:
+ * 1. Required secrets (TOKEN_SECRET) must be present, at least 32 bytes/characters, and not a known placeholder.
+ * 2. In production, wildcard CORS ('*') is strictly forbidden.
+ * 3. In production, localhost database connections are rejected unless explicitly overridden.
+ * 4. Never exposes or logs secret contents in error logs.
  */
+
+const BANNED_TOKEN_SUBSTRINGS = [
+  'change-me',
+  'generate-a-strong',
+  'development-secret',
+  'default-secret',
+  'changeme',
+  'chhotu.2427030521'
+];
+
+const BANNED_EXACT_SECRETS = new Set([
+  'secret',
+  'password',
+  'postgres',
+  'admin@123',
+  'admin123',
+  'password123'
+]);
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   HOST: z.string().default('0.0.0.0'),
   PORT: z.coerce.number().int().min(1).max(65535).default(5000),
 
-  // TOKEN_SECRET: Must be at least 32 characters long to ensure HMAC-SHA256 security
+  // TOKEN_SECRET: Must be at least 32 characters long
   TOKEN_SECRET: z.string().min(32, {
     message: 'TOKEN_SECRET must be at least 32 characters (256 bits) long for secure HMAC signing'
   }),
@@ -83,9 +102,68 @@ export function validateEnvironment(rawEnv = process.env, { allowThrow = false }
 
   const validated = result.data;
 
-  // Additional security rule: In production, reject wildcard CORS with credentials
-  if (validated.NODE_ENV === 'production' && validated.CORS_ORIGIN === '*') {
+  // 1. Check for banned placeholder TOKEN_SECRET values
+  const tokenSecretLower = validated.TOKEN_SECRET.trim().toLowerCase();
+  if (BANNED_EXACT_SECRETS.has(tokenSecretLower)) {
+    const errorMsg = `FATAL SECURITY ERROR: TOKEN_SECRET contains insecure placeholder value ("${tokenSecretLower}"). Generate a random 256-bit secret.\n`;
+    process.stderr.write(errorMsg);
+    logger.error(errorMsg);
+    if (!isTestMode) {
+      process.exit(1);
+    }
+    throw new Error(errorMsg);
+  }
+
+  for (const pattern of BANNED_TOKEN_SUBSTRINGS) {
+    if (tokenSecretLower.includes(pattern)) {
+      const errorMsg = `FATAL SECURITY ERROR: TOKEN_SECRET contains insecure placeholder value ("${pattern}"). Generate a random 256-bit secret.\n`;
+      process.stderr.write(errorMsg);
+      logger.error(errorMsg);
+      if (!isTestMode) {
+        process.exit(1);
+      }
+      throw new Error(errorMsg);
+    }
+  }
+
+  // 2. In production, reject wildcard CORS
+  const origins = validated.CORS_ORIGIN.split(',').map(s => s.trim());
+  if (validated.NODE_ENV === 'production' && (origins.includes('*') || validated.CORS_ORIGIN === '*')) {
     const errorMsg = 'FATAL SECURITY ERROR: CORS_ORIGIN cannot be "*" in production when credentials are enabled.\n';
+    process.stderr.write(errorMsg);
+    logger.error(errorMsg);
+    if (!isTestMode) {
+      process.exit(1);
+    }
+    throw new Error(errorMsg);
+  }
+
+  // 3. In production, reject localhost database URIs unless explicitly permitted for test harnesses
+  if (validated.NODE_ENV === 'production' && !rawEnv.ALLOW_LOCAL_DB_IN_PROD) {
+    if (validated.POSTGRES_URI && (validated.POSTGRES_URI.includes('localhost') || validated.POSTGRES_URI.includes('127.0.0.1'))) {
+      const errorMsg = 'FATAL SECURITY ERROR: POSTGRES_URI cannot point to localhost or 127.0.0.1 in production.\n';
+      process.stderr.write(errorMsg);
+      logger.error(errorMsg);
+      if (!isTestMode) {
+        process.exit(1);
+      }
+      throw new Error(errorMsg);
+    }
+
+    if (validated.MONGODB_URI && (validated.MONGODB_URI.includes('localhost') || validated.MONGODB_URI.includes('127.0.0.1'))) {
+      const errorMsg = 'FATAL SECURITY ERROR: MONGODB_URI cannot point to localhost or 127.0.0.1 in production.\n';
+      process.stderr.write(errorMsg);
+      logger.error(errorMsg);
+      if (!isTestMode) {
+        process.exit(1);
+      }
+      throw new Error(errorMsg);
+    }
+  }
+
+  // 4. Feature configuration consistency (e.g. Cloudinary)
+  if (validated.CLOUDINARY_CLOUD_NAME && (!validated.CLOUDINARY_API_KEY || !validated.CLOUDINARY_API_SECRET)) {
+    const errorMsg = 'CONFIGURATION ERROR: CLOUDINARY_CLOUD_NAME is specified but CLOUDINARY_API_KEY or CLOUDINARY_API_SECRET is missing.\n';
     process.stderr.write(errorMsg);
     logger.error(errorMsg);
     if (!isTestMode) {

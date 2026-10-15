@@ -48,6 +48,12 @@ worker.on('error', (err) => {
   isFlushing = false;
 });
 
+export async function terminateStorageWorker() {
+  try {
+    await worker.terminate();
+  } catch {}
+}
+
 export function setDbCache(cache) {
   dbCache = cache;
   if (!dbCache.faculty) dbCache.faculty = [];

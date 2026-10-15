@@ -61,6 +61,7 @@ export function registerPermissionsRoutes(router) {
   });
 
   router.get('/api/permissions', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const { requests, created } = ensurePermissionRequests(db);
     if (created) ctx.saveDb(db);
@@ -68,10 +69,12 @@ export function registerPermissionsRoutes(router) {
   });
 
   router.get('/api/permissions/blocks', (req, res, ctx) => {
+    if (!requireAuth(req, res)) return;
     return sendJson(res, 200, ctx.getDb().permissions.filter(block => block.status !== 'revoked'));
   });
 
   router.patch('/api/permissions/:id/status', (req, res, ctx) => {
+    if (!requireAnyRole(req, res, 'faculty', 'admin')) return;
     const db = ctx.getDb();
     const { requests } = ensurePermissionRequests(db);
     const request = requests.find(item => item._id === req.params.id);

@@ -17,12 +17,16 @@ npm run dev
 
 No dependency installation is required. The server uses Node.js built-ins and persists demo data in `src/data/db.json`.
 
-## Default Logins
+## Local Demo Accounts
 
-- Student: `chhotu.2427030521@muj.manipal.edu` / `chhotu.2427030521`
-- Faculty: `dr.rishigupta@jaipur.manipal.edu` / `chhotu.2427030521`
-- Admin: `dr.rishigupta@jaipur.manipal.edu` / `chhotu.2427030521`
-- Company: `recruiter@microsoft.com` / `chhotu.2427030521`
+Demo accounts are generated only in non-production environments.
+
+Do not use demo credentials in production.
+Run the local seed command to create development accounts:
+
+```powershell
+npm run seed
+```
 
 ## API Areas
 
