@@ -13,6 +13,7 @@ const IPC_CHANNELS = {
   GET_SUPPORTED_LANGUAGES: 'compiler:get-languages',
   OPEN_EXTERNAL_URL: 'system:open-external',
   INSTALL_TOOLCHAIN: 'doctor:install-toolchain',
+  RESCAN_LANGUAGE: 'doctor:rescan-language',
   GET_CONNECTION_STATE: 'agent:get-connection-state',
   GET_PAIRING_STATUS: 'agent:get-pairing-status',
   CONNECT: 'agent:connect',
@@ -38,6 +39,9 @@ const api = {
   },
   installToolchain: (wingetId) => {
     return ipcRenderer.invoke(IPC_CHANNELS.INSTALL_TOOLCHAIN, wingetId);
+  },
+  rescanLanguage: (languageKey) => {
+    return ipcRenderer.invoke(IPC_CHANNELS.RESCAN_LANGUAGE, languageKey);
   },
 
 

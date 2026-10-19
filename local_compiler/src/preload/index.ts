@@ -17,6 +17,7 @@ export interface MujCodeBridgeApi {
   getSupportedLanguages: () => Promise<LanguageDefinition[]>;
   openExternalUrl: (url: string) => Promise<{ success: boolean; error?: string }>;
   installToolchain: (wingetId: string) => Promise<{ success: boolean; output: string }>;
+  rescanLanguage: (languageKey: string) => Promise<ToolchainDiagnostic>;
 
 
   // Secure Networking & Pairing
@@ -44,6 +45,9 @@ const api: MujCodeBridgeApi = {
   },
   installToolchain: (wingetId: string): Promise<{ success: boolean; output: string }> => {
     return ipcRenderer.invoke(IPC_CHANNELS.INSTALL_TOOLCHAIN, wingetId);
+  },
+  rescanLanguage: (languageKey: string): Promise<ToolchainDiagnostic> => {
+    return ipcRenderer.invoke(IPC_CHANNELS.RESCAN_LANGUAGE, languageKey);
   },
 
 

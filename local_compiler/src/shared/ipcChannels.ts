@@ -10,6 +10,7 @@ export const IPC_CHANNELS = {
   GET_SUPPORTED_LANGUAGES: 'compiler:get-languages',
   OPEN_EXTERNAL_URL: 'system:open-external',
   INSTALL_TOOLCHAIN: 'doctor:install-toolchain',
+  RESCAN_LANGUAGE: 'doctor:rescan-language',
 
 
   // Secure Networking & Pairing

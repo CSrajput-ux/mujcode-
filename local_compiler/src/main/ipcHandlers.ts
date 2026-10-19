@@ -105,6 +105,12 @@ export function registerIpcHandlers(mainWindow?: BrowserWindow | null): void {
     return runtimeDoctor.installToolchainViaWinget(wingetId);
   });
 
+  // Rescan / verify a single language toolchain
+  ipcMain.handle(IPC_CHANNELS.RESCAN_LANGUAGE, async (_event: any, langKey: string) => {
+    console.log(`[Main IPC] Rescan/verify requested for language: ${langKey}`);
+    return runtimeDoctor.rescanLanguage(langKey);
+  });
+
   // --- Networking & Pairing Endpoints ---
 
 

@@ -8,7 +8,7 @@
  * searching standard user/system directories, and supporting py.exe).
  */
 
-import { spawn } from 'node:child_process';
+import { spawn, execSync } from 'node:child_process';
 import path from 'node:path';
 import fs from 'node:fs';
 import { ToolchainDiagnostic } from '../shared/executionTypes.js';
@@ -449,63 +449,212 @@ export class RuntimeDoctor {
   }
 
   /**
-   * Install a missing toolchain via verified Windows Package Manager (Winget).
-   * Requires explicit user consent before invocation.
+   * Refresh environment PATH from Windows Registry and standard directories.
+   * Ensures newly installed packages are immediately visible to this running process.
    */
-  async installToolchainViaWinget(wingetId: string): Promise<{ success: boolean; output: string }> {
-    return new Promise((resolve) => {
-      // Validate wingetId to prevent arbitrary execution
-      const allowedWingetIds = new Set([
-        'Python.Python.3.12',
-        'MSYS2.MSYS2',
-        'EclipseAdoptium.Temurin.21.JDK',
-        'OpenJS.NodeJS.LTS',
-        'Golang.Go'
-      ]);
+  refreshEnvironmentPath(): void {
+    if (process.platform !== 'win32') return;
 
-      if (!allowedWingetIds.has(wingetId)) {
-        return resolve({
-          success: false,
-          output: `Installation package "${wingetId}" is not in the verified MUJCODE repository package allowlist.`
-        });
-      }
+    try {
+      const extraDirs: string[] = [];
 
-      let output = '';
+      // Query User Environment PATH
       try {
-        const child = spawn(
-          'winget',
-          ['install', '--exact', '--id', wingetId, '--accept-source-agreements', '--accept-package-agreements'],
-          {
-            stdio: ['ignore', 'pipe', 'pipe'],
-            windowsHide: false,
-            shell: false
-          }
-        );
+        const userPathRaw = execSync('reg query "HKCU\\Environment" /v Path', {
+          encoding: 'utf8',
+          stdio: ['ignore', 'pipe', 'ignore']
+        });
+        const match = userPathRaw.match(/Path\s+REG_(?:EXPAND_)?SZ\s+(.*)/i);
+        if (match && match[1]) {
+          extraDirs.push(...match[1].trim().split(';').filter(Boolean));
+        }
+      } catch {}
+
+      // Query System Environment PATH
+      try {
+        const sysPathRaw = execSync('reg query "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment" /v Path', {
+          encoding: 'utf8',
+          stdio: ['ignore', 'pipe', 'ignore']
+        });
+        const match = sysPathRaw.match(/Path\s+REG_(?:EXPAND_)?SZ\s+(.*)/i);
+        if (match && match[1]) {
+          extraDirs.push(...match[1].trim().split(';').filter(Boolean));
+        }
+      } catch {}
+
+      // Standard installation directories for supported compilers
+      const standardToolDirs = [
+        'C:\\msys64\\mingw64\\bin',
+        'C:\\msys64\\ucrt64\\bin',
+        'C:\\Program Files\\Go\\bin',
+        'C:\\Go\\bin',
+        'C:\\Program Files\\nodejs',
+        path.join(process.env.LOCALAPPDATA || '', 'Programs', 'Python', 'Python312'),
+        path.join(process.env.LOCALAPPDATA || '', 'Programs', 'Python', 'Python311'),
+        'C:\\Program Files\\Eclipse Adoptium\\jdk-21*\\bin',
+        'C:\\Program Files\\Java\\jdk-21\\bin'
+      ];
+      extraDirs.push(...standardToolDirs);
+
+      const currentDirs = (process.env.PATH || '').split(';').filter(Boolean);
+      const combined = Array.from(new Set([...currentDirs, ...extraDirs]));
+      process.env.PATH = combined.join(';');
+    } catch (err: any) {
+      console.warn('[RuntimeDoctor] Could not refresh registry environment PATH:', err?.message);
+    }
+  }
+
+  /**
+   * Check if Microsoft Windows Package Manager (Winget) is available on the system.
+   */
+  async isWingetAvailable(): Promise<boolean> {
+    return new Promise((resolve) => {
+      try {
+        const child = spawn('winget', ['--version'], {
+          stdio: ['ignore', 'pipe', 'pipe'],
+          windowsHide: true,
+          shell: false
+        });
 
         const timer = setTimeout(() => {
           try { child.kill('SIGKILL'); } catch {}
-          resolve({ success: false, output: 'Installation timed out after 5 minutes.' });
-        }, 5 * 60 * 1000);
+          resolve(false);
+        }, 3000);
 
-        child.stdout?.on('data', (c) => (output += c.toString('utf8')));
-        child.stderr?.on('data', (c) => (output += c.toString('utf8')));
-
-        child.on('error', (err) => {
+        child.on('error', () => {
           clearTimeout(timer);
-          resolve({ success: false, output: `Failed to launch Winget: ${err.message}` });
+          resolve(false);
         });
 
         child.on('close', (code) => {
           clearTimeout(timer);
-          resolve({
-            success: code === 0,
-            output: output.trim() || (code === 0 ? 'Installation completed successfully.' : `Winget exited with code ${code}`)
-          });
+          resolve(code === 0);
         });
-      } catch (err: any) {
-        resolve({ success: false, output: `Winget execution exception: ${err.message}` });
+      } catch {
+        resolve(false);
       }
     });
+  }
+
+  /**
+   * Active in-flight installation promises to prevent concurrent duplicate installations
+   * (e.g. C and C++ both sharing MSYS2.MSYS2).
+   */
+  private activeInstalls: Map<string, Promise<{ success: boolean; output: string }>> = new Map();
+
+  /**
+   * Install a missing toolchain via verified Windows Package Manager (Winget).
+   * Deduplicates concurrent calls for the same package ID (such as MSYS2 for C and C++).
+   * Requires explicit user consent before invocation.
+   */
+  async installToolchainViaWinget(wingetId: string): Promise<{ success: boolean; output: string }> {
+    // 1. Prevent duplicate concurrent installations for the same wingetId
+    if (this.activeInstalls.has(wingetId)) {
+      return this.activeInstalls.get(wingetId)!;
+    }
+
+    // 2. Validate wingetId to prevent arbitrary execution
+    const allowedWingetIds = new Set([
+      'Python.Python.3.12',
+      'MSYS2.MSYS2',
+      'EclipseAdoptium.Temurin.21.JDK',
+      'OpenJS.NodeJS.LTS',
+      'Golang.Go'
+    ]);
+
+    if (!allowedWingetIds.has(wingetId)) {
+      return {
+        success: false,
+        output: `Installation package "${wingetId}" is not in the verified MUJCODE repository package allowlist.`
+      };
+    }
+
+    const installPromise = (async () => {
+      // 3. Verify Winget availability
+      const hasWinget = await this.isWingetAvailable();
+      if (!hasWinget) {
+        return {
+          success: false,
+          output: 'Microsoft Winget (Windows Package Manager) is not available on this machine.\n' +
+            'Please install App Installer from the Microsoft Store or visit: https://learn.microsoft.com/windows/package-manager/winget/\n' +
+            'Alternatively, you can manually install the required compiler and rescan.'
+        };
+      }
+
+      return new Promise<{ success: boolean; output: string }>((resolve) => {
+        let output = '';
+        try {
+          const child = spawn(
+            'winget',
+            ['install', '--exact', '--id', wingetId, '--accept-source-agreements', '--accept-package-agreements'],
+            {
+              stdio: ['ignore', 'pipe', 'pipe'],
+              windowsHide: false,
+              shell: false
+            }
+          );
+
+          const timer = setTimeout(() => {
+            try { child.kill('SIGKILL'); } catch {}
+            resolve({ success: false, output: 'Installation timed out after 5 minutes.' });
+          }, 5 * 60 * 1000);
+
+          child.stdout?.on('data', (c) => (output += c.toString('utf8')));
+          child.stderr?.on('data', (c) => (output += c.toString('utf8')));
+
+          child.on('error', (err) => {
+            clearTimeout(timer);
+            resolve({ success: false, output: `Failed to launch Winget: ${err.message}` });
+          });
+
+          child.on('close', (code) => {
+            clearTimeout(timer);
+            const isSuccess = code === 0;
+            if (isSuccess) {
+              // Refresh PATH immediately so new binaries are discoverable
+              this.refreshEnvironmentPath();
+            }
+            resolve({
+              success: isSuccess,
+              output: output.trim() || (isSuccess ? 'Installation completed successfully.' : `Winget exited with code ${code}`)
+            });
+          });
+        } catch (err: any) {
+          resolve({ success: false, output: `Winget execution exception: ${err.message}` });
+        }
+      });
+    })();
+
+    this.activeInstalls.set(wingetId, installPromise);
+    try {
+      const result = await installPromise;
+      return result;
+    } finally {
+      this.activeInstalls.delete(wingetId);
+    }
+  }
+
+  /**
+   * Rescan and re-verify a single toolchain, refreshing environment and running smoke test.
+   */
+  async rescanLanguage(languageKey: string): Promise<ToolchainDiagnostic> {
+    this.refreshEnvironmentPath();
+    const key = languageKey.toLowerCase();
+
+    if (key === 'sql' || key === 'sqlite') {
+      const diag = await this.checkSqlSupport();
+      this.cachedDiagnostics.set('sql', diag);
+      return diag;
+    }
+
+    const def = TOOL_DEFINITIONS.find((t) => t.languageKey === key);
+    if (!def) {
+      throw new Error(`Unknown language key for diagnosis: ${languageKey}`);
+    }
+
+    const diag = await this.diagnoseTool(def);
+    this.cachedDiagnostics.set(key, diag);
+    return diag;
   }
 }
 

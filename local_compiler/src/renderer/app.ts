@@ -11,6 +11,7 @@ declare global {
       getSupportedLanguages: () => Promise<any[]>;
       openExternalUrl: (url: string) => Promise<any>;
       installToolchain: (wingetId: string) => Promise<{ success: boolean; output: string }>;
+      rescanLanguage: (languageKey: string) => Promise<any>;
 
       // Networking & Pairing
       getConnectionState: () => Promise<{ status: string; lastError: string | null; backendUrl?: string }>;
@@ -43,6 +44,70 @@ function escapeHtml(str: string): string {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
 }
+
+interface LanguageDisplayMeta {
+  icon: string;
+  name: string;
+  wingetId?: string;
+  publisher?: string;
+  packageName?: string;
+  estimatedSizeMb?: number;
+}
+
+const LANGUAGE_META: Record<string, LanguageDisplayMeta> = {
+  c: {
+    icon: '⚡',
+    name: 'C — GCC / MinGW-w64',
+    wingetId: 'MSYS2.MSYS2',
+    publisher: 'MSYS2 Project',
+    packageName: 'MinGW-w64 GCC Compiler Toolchain',
+    estimatedSizeMb: 120
+  },
+  cpp: {
+    icon: '⚙️',
+    name: 'C++ — G++ / MinGW-w64',
+    wingetId: 'MSYS2.MSYS2',
+    publisher: 'MSYS2 Project',
+    packageName: 'MinGW-w64 G++ Compiler Toolchain',
+    estimatedSizeMb: 120
+  },
+  java: {
+    icon: '☕',
+    name: 'Java — OpenJDK / Temurin JDK',
+    wingetId: 'EclipseAdoptium.Temurin.21.JDK',
+    publisher: 'Eclipse Foundation',
+    packageName: 'Eclipse Temurin OpenJDK 21 (JDK)',
+    estimatedSizeMb: 190
+  },
+  python: {
+    icon: '🐍',
+    name: 'Python — Python 3.12',
+    wingetId: 'Python.Python.3.12',
+    publisher: 'Python Software Foundation',
+    packageName: 'Python 3.12 Runtime',
+    estimatedSizeMb: 35
+  },
+  javascript: {
+    icon: '🟨',
+    name: 'JavaScript — Node.js LTS',
+    wingetId: 'OpenJS.NodeJS.LTS',
+    publisher: 'OpenJS Foundation',
+    packageName: 'Node.js LTS Runtime',
+    estimatedSizeMb: 30
+  },
+  go: {
+    icon: '🔵',
+    name: 'Go — Go compiler',
+    wingetId: 'Golang.Go',
+    publisher: 'Google LLC / Go Authors',
+    packageName: 'Go Programming Language Compiler',
+    estimatedSizeMb: 130
+  },
+  sql: {
+    icon: '🗄️',
+    name: 'SQL — Bundled SQLite WASM'
+  }
+};
 
 async function initApp() {
   const statusLight = document.getElementById('status-light')!;
@@ -339,15 +404,28 @@ async function initApp() {
   const modalCancelBtn = document.getElementById('modal-cancel-btn') as HTMLButtonElement | null;
   const modalConfirmBtn = document.getElementById('modal-confirm-btn') as HTMLButtonElement | null;
 
+  interface PackageModalItem {
+    languageKeys: string[];
+    displayName: string;
+    wingetId: string;
+    packageName: string;
+    publisher: string;
+    estimatedSizeMb?: number;
+    installationMethod: string;
+    permissions: string;
+  }
+
   let currentDiagnostics: any[] = [];
-  const selectedLanguages = new Set<string>();
-  let pendingPackagesToInstall: any[] = [];
+  const installingLanguages = new Set<string>();
+  const verifyingLanguages = new Set<string>();
+  const failedLanguages = new Map<string, string>();
+  let pendingPackagesToInstall: PackageModalItem[] = [];
   let isInstalling = false;
 
-  function openConsentModal(items: any[]) {
+  function openConsentModal(items: PackageModalItem[]) {
     if (!consentModal || !modalPackageList) return;
     if (items.length === 0) {
-      showAlert('No missing language toolchains selected for installation.', 'warning');
+      showAlert('No missing language toolchains to install.', 'warning');
       return;
     }
 
@@ -357,15 +435,17 @@ async function initApp() {
         (item) => `
       <div class="package-item">
         <div>
-          <div class="package-name">${escapeHtml(item.packageName || item.runtimeName)}</div>
+          <div class="package-name">${escapeHtml(item.displayName)}</div>
           <div class="package-meta">
-            ID: <span class="mono">${escapeHtml(item.wingetId || 'N/A')}</span> •
-            Publisher: ${escapeHtml(item.publisher || 'Verified Package')}
-            ${item.estimatedSizeMb ? ` • ~${escapeHtml(String(item.estimatedSizeMb))} MB` : ''} •
-            Permissions: Standard User
+            <strong>Package:</strong> ${escapeHtml(item.packageName)} &bull;
+            <strong>ID:</strong> <span class="mono">${escapeHtml(item.wingetId)}</span> &bull;
+            <strong>Publisher:</strong> ${escapeHtml(item.publisher)}
+            ${item.estimatedSizeMb ? ` &bull; <strong>Est. Size:</strong> ~${escapeHtml(String(item.estimatedSizeMb))} MB` : ''}<br/>
+            <strong>Method:</strong> ${escapeHtml(item.installationMethod)} &bull;
+            <strong>Permissions:</strong> ${escapeHtml(item.permissions)}
           </div>
         </div>
-        <span class="badge ${item.wingetId ? 'connected' : 'error'}">${item.wingetId ? 'Winget Verified' : 'Manual'}</span>
+        <span class="badge connected">Winget Verified</span>
       </div>
     `
       )
@@ -391,19 +471,29 @@ async function initApp() {
   modalCancelBtn?.addEventListener('click', () => {
     if (isInstalling) return;
     consentModal?.classList.add('hidden');
+    pendingPackagesToInstall = [];
   });
 
   modalConfirmBtn?.addEventListener('click', async () => {
     if (isInstalling || !pendingPackagesToInstall.length) return;
     isInstalling = true;
-    if (modalConfirmBtn) modalConfirmBtn.disabled = true;
+    modalConfirmBtn.disabled = true;
     if (modalCancelBtn) modalCancelBtn.disabled = true;
     if (consentCheckbox) consentCheckbox.disabled = true;
+
+    // Mark all affected languages as installing
+    for (const pkg of pendingPackagesToInstall) {
+      for (const lKey of pkg.languageKeys) {
+        installingLanguages.add(lKey);
+        failedLanguages.delete(lKey);
+      }
+    }
+    renderDiagnosticsGrid();
 
     if (modalInstallStatus) {
       modalInstallStatus.style.display = 'block';
       modalInstallStatus.className = 'info-message';
-      modalInstallStatus.textContent = 'Starting package installation via Microsoft Winget...';
+      modalInstallStatus.textContent = 'Initiating Microsoft Winget package installation...';
     }
 
     try {
@@ -412,43 +502,299 @@ async function initApp() {
         if (!pkg.wingetId) continue;
 
         if (modalInstallStatus) {
-          modalInstallStatus.textContent = `[${i + 1}/${pendingPackagesToInstall.length}] Installing ${pkg.packageName || pkg.runtimeName} (${pkg.wingetId})... This may take 1-3 minutes.`;
+          modalInstallStatus.textContent = `[${i + 1}/${pendingPackagesToInstall.length}] Installing ${pkg.displayName} (${pkg.wingetId})... This may take 1-3 minutes.`;
         }
+        showAlert(`Installing ${pkg.displayName} via Winget (${pkg.wingetId})...`, 'info');
 
         const res = await api!.installToolchain(pkg.wingetId);
+
         if (!res.success) {
+          for (const lKey of pkg.languageKeys) {
+            failedLanguages.set(lKey, res.output || 'Installation failed.');
+          }
+          showAlert(`Failed to install ${pkg.displayName}: ${res.output.slice(-150)}`, 'error');
           if (modalInstallStatus) {
             modalInstallStatus.className = 'info-message error';
-            modalInstallStatus.textContent = `Installation failed for ${pkg.runtimeName}: ${res.output.slice(-200)}`;
+            modalInstallStatus.textContent = `Installation failed for ${pkg.displayName}: ${res.output.slice(-200)}`;
           }
-          showAlert(`Failed to install ${pkg.runtimeName}: ${res.output.slice(-150)}`, 'error');
-          await new Promise((r) => setTimeout(r, 2500));
+          await new Promise((r) => setTimeout(r, 2000));
         } else {
-          showAlert(`Installed ${pkg.runtimeName} successfully!`, 'success');
+          // Verification: Re-scan installed executable
+          for (const lKey of pkg.languageKeys) {
+            try {
+              const updated = await api!.rescanLanguage(lKey);
+              const idx = currentDiagnostics.findIndex((d) => d.languageKey === lKey);
+              if (idx >= 0) currentDiagnostics[idx] = updated;
+
+              if (updated.available) {
+                failedLanguages.delete(lKey);
+              } else {
+                failedLanguages.set(
+                  lKey,
+                  'Installed via Winget, but executable was not found on PATH. A restart of the MUJCODE application may be required.'
+                );
+              }
+            } catch (err: any) {
+              failedLanguages.set(lKey, `Verification error: ${err.message}`);
+            }
+          }
+          showAlert(`Installed and verified ${pkg.displayName}!`, 'success');
         }
       }
 
       if (modalInstallStatus) {
         modalInstallStatus.className = 'info-message success';
-        modalInstallStatus.textContent = 'Installation process completed! Verifying toolchains...';
+        modalInstallStatus.textContent = 'Installation process finished! Updating diagnostics...';
       }
 
       await new Promise((r) => setTimeout(r, 1200));
       consentModal?.classList.add('hidden');
-      await refreshDiagnostics();
     } catch (err: any) {
       showAlert(`Installation error: ${err.message}`, 'error');
-      if (modalInstallStatus) {
-        modalInstallStatus.className = 'info-message error';
-        modalInstallStatus.textContent = `Error: ${err.message}`;
-      }
     } finally {
+      for (const pkg of pendingPackagesToInstall) {
+        for (const lKey of pkg.languageKeys) {
+          installingLanguages.delete(lKey);
+        }
+      }
+      pendingPackagesToInstall = [];
       isInstalling = false;
       if (modalConfirmBtn) modalConfirmBtn.disabled = false;
       if (modalCancelBtn) modalCancelBtn.disabled = false;
       if (consentCheckbox) consentCheckbox.disabled = false;
+      updateHealthSummary();
+      renderDiagnosticsGrid();
     }
   });
+
+  function handleInstallLanguage(langKey: string) {
+    if (installingLanguages.has(langKey)) return;
+
+    if (langKey === 'c' || langKey === 'cpp') {
+      openConsentModal([
+        {
+          languageKeys: ['c', 'cpp'],
+          displayName: 'C & C++ Toolchain (MinGW-w64 GCC / G++)',
+          wingetId: 'MSYS2.MSYS2',
+          packageName: 'MinGW-w64 GCC / G++ Toolchain',
+          publisher: 'MSYS2 Project',
+          estimatedSizeMb: 120,
+          installationMethod: 'Microsoft Windows Package Manager (Winget CLI)',
+          permissions: 'Standard User (elevates if required by installer)'
+        }
+      ]);
+      return;
+    }
+
+    const diag = currentDiagnostics.find((d) => d.languageKey === langKey);
+    const meta = LANGUAGE_META[langKey];
+    const wId = diag?.wingetId || meta?.wingetId;
+
+    if (!wId) {
+      showAlert(`No automated Winget package configured for ${meta?.name || langKey}. Please install manually.`, 'warning');
+      return;
+    }
+
+    openConsentModal([
+      {
+        languageKeys: [langKey],
+        displayName: meta?.name || diag?.runtimeName || langKey,
+        wingetId: wId,
+        packageName: diag?.packageName || meta?.packageName || wId,
+        publisher: diag?.publisher || meta?.publisher || 'Verified Package Publisher',
+        estimatedSizeMb: diag?.estimatedSizeMb || meta?.estimatedSizeMb || 50,
+        installationMethod: 'Microsoft Windows Package Manager (Winget CLI)',
+        permissions: 'Standard User'
+      }
+    ]);
+  }
+
+  async function handleVerifyLanguage(langKey: string) {
+    if (verifyingLanguages.has(langKey) || installingLanguages.has(langKey)) return;
+    verifyingLanguages.add(langKey);
+    renderDiagnosticsGrid();
+
+    try {
+      const updated = await api!.rescanLanguage(langKey);
+      const idx = currentDiagnostics.findIndex((d) => d.languageKey === langKey);
+      if (idx >= 0) currentDiagnostics[idx] = updated;
+
+      if (langKey === 'c' || langKey === 'cpp') {
+        const siblingKey = langKey === 'c' ? 'cpp' : 'c';
+        const siblingUpdated = await api!.rescanLanguage(siblingKey);
+        const sIdx = currentDiagnostics.findIndex((d) => d.languageKey === siblingKey);
+        if (sIdx >= 0) currentDiagnostics[sIdx] = siblingUpdated;
+      }
+
+      const meta = LANGUAGE_META[langKey];
+      if (updated.available) {
+        failedLanguages.delete(langKey);
+        showAlert(`${meta?.name || langKey} verified! ${updated.detectedVersion || 'OK'}`, 'success');
+      } else {
+        showAlert(`${meta?.name || langKey} verification completed: not found on system PATH.`, 'warning');
+      }
+    } catch (err: any) {
+      showAlert(`Verification error for ${langKey}: ${err.message}`, 'error');
+    } finally {
+      verifyingLanguages.delete(langKey);
+      updateHealthSummary();
+      renderDiagnosticsGrid();
+    }
+  }
+
+  function handleRetryLanguage(langKey: string) {
+    failedLanguages.delete(langKey);
+    if (langKey === 'c' || langKey === 'cpp') {
+      failedLanguages.delete('c');
+      failedLanguages.delete('cpp');
+    }
+    handleInstallLanguage(langKey);
+  }
+
+  function updateHealthSummary() {
+    const availableCount = currentDiagnostics.filter((d) => d.available).length;
+    const missingCount = currentDiagnostics.length - availableCount;
+
+    healthSummary.textContent = `${availableCount} of ${currentDiagnostics.length} Available`;
+    healthSummary.className = `badge ${availableCount === currentDiagnostics.length ? 'connected' : 'connecting'}`;
+
+    if (missingCount > 0) {
+      setupBanner?.classList.remove('hidden');
+      if (setupMissingCount) setupMissingCount.textContent = `${missingCount} Missing`;
+    } else {
+      setupBanner?.classList.add('hidden');
+    }
+  }
+
+  function renderDiagnosticsGrid() {
+    const ORDERED_LANG_KEYS = ['c', 'cpp', 'java', 'python', 'javascript', 'go', 'sql'];
+    currentDiagnostics.sort((a, b) => {
+      const ia = ORDERED_LANG_KEYS.indexOf(a.languageKey);
+      const ib = ORDERED_LANG_KEYS.indexOf(b.languageKey);
+      return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+    });
+
+    diagnosticsGrid.innerHTML = currentDiagnostics
+      .map((d) => {
+        const langKey = d.languageKey;
+        const meta = LANGUAGE_META[langKey] || {
+          icon: '💻',
+          name: d.runtimeName
+        };
+
+        const isInstallingNow = installingLanguages.has(langKey);
+        const isVerifyingNow = verifyingLanguages.has(langKey);
+        const isFailedNow = failedLanguages.has(langKey);
+        const isAvail = Boolean(d.available);
+        const isWasm = Boolean(d.isBundled);
+        const hasSmoke = Boolean(d.smokeTestPassed);
+
+        let cardClass = 'diag-card';
+        let statusTagClass = 'status-tag';
+        let statusText = '';
+        let versionText = '';
+        let pathText = '';
+
+        if (isInstallingNow) {
+          cardClass += ' installing';
+          statusTagClass += ' installing';
+          statusText = 'INSTALLING...';
+          versionText = 'Installing package via Winget...';
+          pathText = d.wingetId ? `Package ID: ${d.wingetId}` : 'In progress...';
+        } else if (isFailedNow) {
+          cardClass += ' failed';
+          statusTagClass += ' failed';
+          statusText = 'FAILED';
+          versionText = 'Installation or verification failed';
+          pathText = 'Executable not found on PATH';
+        } else if (isAvail) {
+          cardClass += ' available';
+          statusTagClass += ' ok';
+          statusText = isWasm ? 'AVAILABLE — BUNDLED' : 'INSTALLED';
+          versionText = d.detectedVersion || 'Installed';
+          pathText = isWasm ? 'sql.js (Bundled in-process WASM)' : (d.executablePath || 'Path resolved');
+        } else {
+          cardClass += ' missing';
+          statusTagClass += ' missing';
+          statusText = 'MISSING';
+          versionText = 'Not installed on host system';
+          pathText = 'Not configured on system PATH';
+        }
+
+        // Action button
+        let actionButtonHtml = '';
+        if (isInstallingNow) {
+          actionButtonHtml = `<button class="btn-card-action btn-installing" disabled><span class="spinner-small"></span> Installing...</button>`;
+        } else if (isVerifyingNow) {
+          actionButtonHtml = `<button class="btn-card-action btn-verify" disabled>Verifying...</button>`;
+        } else if (isFailedNow) {
+          actionButtonHtml = `<button class="btn-card-action btn-retry" data-action="retry" data-lang="${escapeHtml(langKey)}">🔄 Retry Install</button>`;
+        } else if (isAvail) {
+          actionButtonHtml = `<button class="btn-card-action btn-verify" data-action="verify" data-lang="${escapeHtml(langKey)}">${isWasm ? 'Verify WASM Engine' : 'Verify / Rescan'}</button>`;
+        } else {
+          actionButtonHtml = `<button class="btn-card-action btn-install" data-action="install" data-lang="${escapeHtml(langKey)}">⬇ Download & Install</button>`;
+        }
+
+        // Smoke tag
+        let smokeHtml = '';
+        if (isAvail && hasSmoke) {
+          smokeHtml = `<span class="diag-smoke-tag passed">✓ Verified Smoke Test</span>`;
+        } else if (isAvail && hasSmoke === false) {
+          smokeHtml = `<span class="diag-smoke-tag" style="background:rgba(239,68,68,0.15);color:#f87171;">⚠️ Smoke Test Failed</span>`;
+        }
+
+        // Error box
+        let errorBoxHtml = '';
+        if (isFailedNow && failedLanguages.has(langKey)) {
+          errorBoxHtml = `<div class="diag-error-box">${escapeHtml(failedLanguages.get(langKey)!)}</div>`;
+        }
+
+        return `
+          <div class="${cardClass}" id="card-lang-${escapeHtml(langKey)}">
+            <div class="diag-header">
+              <span class="diag-title">
+                <span class="lang-icon">${meta.icon}</span>
+                ${escapeHtml(meta.name)}
+              </span>
+              <span class="${statusTagClass}">${escapeHtml(statusText)}</span>
+            </div>
+
+            <div class="diag-detail" title="${escapeHtml(versionText)}">
+              <strong>Version:</strong> ${escapeHtml(versionText)}
+            </div>
+            <div class="diag-detail mono" style="font-size:11px; opacity:0.85;" title="${escapeHtml(pathText)}">
+              <strong>Path:</strong> ${escapeHtml(pathText)}
+            </div>
+
+            ${smokeHtml}
+            ${errorBoxHtml}
+
+            <div class="diag-card-footer">
+              ${actionButtonHtml}
+            </div>
+          </div>
+        `;
+      })
+      .join('');
+
+    // Attach card button handlers
+    diagnosticsGrid.querySelectorAll<HTMLButtonElement>('.btn-card-action').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const action = btn.getAttribute('data-action');
+        const lang = btn.getAttribute('data-lang');
+        if (!action || !lang) return;
+
+        if (action === 'verify') {
+          await handleVerifyLanguage(lang);
+        } else if (action === 'install') {
+          handleInstallLanguage(lang);
+        } else if (action === 'retry') {
+          handleRetryLanguage(lang);
+        }
+      });
+    });
+  }
 
   // Setup banner button clicks
   installMissingBtn?.addEventListener('click', () => {
@@ -457,16 +803,38 @@ async function initApp() {
       showAlert('All supported toolchains are either installed or require manual installation.', 'info');
       return;
     }
-    openConsentModal(missing);
+
+    const packagesMap = new Map<string, PackageModalItem>();
+    for (const d of missing) {
+      const meta = LANGUAGE_META[d.languageKey];
+      const wId = d.wingetId || meta?.wingetId;
+      if (!wId) continue;
+
+      if (!packagesMap.has(wId)) {
+        const isCShare = wId === 'MSYS2.MSYS2';
+        packagesMap.set(wId, {
+          languageKeys: isCShare ? ['c', 'cpp'] : [d.languageKey],
+          displayName: isCShare ? 'C & C++ Toolchain (MinGW-w64 GCC / G++)' : (meta?.name || d.runtimeName),
+          wingetId: wId,
+          packageName: d.packageName || meta?.packageName || wId,
+          publisher: d.publisher || meta?.publisher || 'Verified Package Publisher',
+          estimatedSizeMb: d.estimatedSizeMb || meta?.estimatedSizeMb || 50,
+          installationMethod: 'Microsoft Windows Package Manager (Winget CLI)',
+          permissions: 'Standard User'
+        });
+      }
+    }
+
+    openConsentModal(Array.from(packagesMap.values()));
   });
 
   installSelectedBtn?.addEventListener('click', () => {
-    const selected = currentDiagnostics.filter((d) => !d.available && selectedLanguages.has(d.language) && d.wingetId);
-    if (!selected.length) {
-      showAlert('Please check one or more missing toolchains in the grid below to install.', 'warning');
+    const missing = currentDiagnostics.filter((d) => !d.available && d.wingetId);
+    if (!missing.length) {
+      showAlert('All supported toolchains are installed.', 'info');
       return;
     }
-    openConsentModal(selected);
+    installMissingBtn?.click();
   });
 
   rescanSystemBtn?.addEventListener('click', () => {
@@ -475,7 +843,7 @@ async function initApp() {
 
   continueInstalledBtn?.addEventListener('click', () => {
     setupBanner?.classList.add('hidden');
-    showAlert('Continuing with currently installed language runtimes. You can rescan or install at any time.', 'info');
+    showAlert('Continuing with currently installed language runtimes. You can verify or install anytime.', 'info');
   });
 
   // --- Diagnostics ---
@@ -484,7 +852,7 @@ async function initApp() {
     isScanning = true;
     refreshDoctorBtn.disabled = true;
     refreshDoctorBtn.textContent = 'Scanning...';
-    diagnosticsGrid.innerHTML = '<div class="loading-state">Diagnosing host toolchains (GCC, G++, Java, Python, Go, Node.js, SQLite)...</div>';
+    diagnosticsGrid.innerHTML = '<div class="loading-state">Diagnosing host toolchains (C, C++, Java, Python, Node.js, Go, SQLite WASM)...</div>';
     healthSummary.textContent = 'Scanning...';
     healthSummary.className = 'badge connecting';
 
@@ -495,62 +863,8 @@ async function initApp() {
       }
 
       currentDiagnostics = diagnostics;
-      const availableCount = diagnostics.filter((d) => d.available).length;
-      const missingList = diagnostics.filter((d) => !d.available);
-
-      healthSummary.textContent = `${availableCount} of ${diagnostics.length} Available`;
-      healthSummary.className = `badge ${availableCount === diagnostics.length ? 'connected' : 'connecting'}`;
-
-      if (missingList.length > 0) {
-        setupBanner?.classList.remove('hidden');
-        if (setupMissingCount) setupMissingCount.textContent = `${missingList.length} Missing`;
-      } else {
-        setupBanner?.classList.add('hidden');
-      }
-
-      diagnosticsGrid.innerHTML = diagnostics
-        .map((d) => {
-          const isAvail = d.available;
-          const isWasm = Boolean(d.isBundled);
-          const hasSmoke = Boolean(d.smokeTestPassed);
-
-          return `
-            <div class="diag-card ${isAvail ? 'available' : 'missing'}">
-              <div class="diag-header">
-                <span class="diag-title">${escapeHtml(d.runtimeName)}</span>
-                <span class="status-tag ${isAvail ? 'ok' : 'missing'}">${isAvail ? (isWasm ? 'BUNDLED' : 'READY') : 'MISSING'}</span>
-              </div>
-              <div class="diag-detail" title="${escapeHtml(d.executablePath || '')}">
-                ${escapeHtml(isAvail ? (d.detectedVersion || 'Installed') : 'Not found on system')}
-              </div>
-              ${isAvail && hasSmoke ? `<span class="diag-smoke-tag passed">✓ Smoke Test Passed</span>` : ''}
-              ${!isAvail && d.wingetId ? `
-                <div class="diag-pkg-meta">Winget: ${escapeHtml(d.packageName || d.wingetId)}</div>
-                <label class="diag-checkbox-label">
-                  <input type="checkbox" class="toolchain-select-cb" data-lang="${escapeHtml(d.language)}" ${selectedLanguages.has(d.language) ? 'checked' : ''} />
-                  <span>Select for installation</span>
-                </label>
-              ` : ''}
-              ${d.troubleshootingInstructions ? `<div class="diag-help">${escapeHtml(d.troubleshootingInstructions)}</div>` : ''}
-            </div>
-          `;
-        })
-        .join('');
-
-      // Wire checkboxes
-      const checkboxes = diagnosticsGrid.querySelectorAll<HTMLInputElement>('.toolchain-select-cb');
-      checkboxes.forEach((cb) => {
-        cb.addEventListener('change', () => {
-          const lang = cb.getAttribute('data-lang');
-          if (lang) {
-            if (cb.checked) {
-              selectedLanguages.add(lang);
-            } else {
-              selectedLanguages.delete(lang);
-            }
-          }
-        });
-      });
+      updateHealthSummary();
+      renderDiagnosticsGrid();
     } catch (err: any) {
       healthSummary.textContent = 'Scan Error';
       healthSummary.className = 'badge error';

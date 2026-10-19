@@ -84,4 +84,47 @@ describe('7-Language Setup & Windows Executable Resolution Tests', () => {
     assert.strictEqual(goResult.status, 'DEPENDENCY_MISSING');
     assert.strictEqual(goResult.verdict, 'Dependency Missing');
   });
+
+  it('should allow individual rescan for each of the 7 languages without reinstalling', async () => {
+    const langs = ['c', 'cpp', 'java', 'python', 'javascript', 'go', 'sql'];
+    for (const lang of langs) {
+      const diag = await runtimeDoctor.rescanLanguage(lang);
+      assert.ok(diag, `rescanLanguage("${lang}") must return diagnostic`);
+      assert.strictEqual(diag.languageKey, lang);
+      assert.strictEqual(typeof diag.available, 'boolean');
+      if (lang === 'sql') {
+        assert.strictEqual(diag.available, true);
+        assert.strictEqual(diag.isBundled, true);
+        assert.strictEqual(diag.smokeTestPassed, true);
+      }
+    }
+  });
+
+  it('should ensure C and C++ both share the MSYS2.MSYS2 Winget package ID', async () => {
+    const cDiag = await runtimeDoctor.getDiagnosticForLanguage('c');
+    const cppDiag = await runtimeDoctor.getDiagnosticForLanguage('cpp');
+    assert.strictEqual(cDiag.wingetId, 'MSYS2.MSYS2', 'C must target MSYS2.MSYS2');
+    assert.strictEqual(cppDiag.wingetId, 'MSYS2.MSYS2', 'C++ must target MSYS2.MSYS2');
+  });
+
+  it('should match verified Winget package IDs for all installable languages', async () => {
+    const expectedPackageMap: Record<string, string> = {
+      c: 'MSYS2.MSYS2',
+      cpp: 'MSYS2.MSYS2',
+      java: 'EclipseAdoptium.Temurin.21.JDK',
+      python: 'Python.Python.3.12',
+      javascript: 'OpenJS.NodeJS.LTS',
+      go: 'Golang.Go'
+    };
+
+    for (const [lang, expectedId] of Object.entries(expectedPackageMap)) {
+      const diag = await runtimeDoctor.getDiagnosticForLanguage(lang);
+      assert.strictEqual(diag.wingetId, expectedId, `Language ${lang} must use package ID ${expectedId}`);
+    }
+  });
+
+  it('should verify Winget availability checking logic', async () => {
+    const isAvail = await runtimeDoctor.isWingetAvailable();
+    assert.strictEqual(typeof isAvail, 'boolean');
+  });
 });
