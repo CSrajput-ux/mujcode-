@@ -1,8 +1,20 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { sendJson } from '../lib/http.js';
 import { requireAuth } from '../lib/requireAuth.js';
 import { AgentDeviceService } from '../services/AgentDeviceService.js';
 import { AgentJobRouter } from '../services/AgentJobRouter.js';
 import { logger } from '../lib/logger.js';
+
+function findLocalInstaller() {
+  const candidatePaths = [
+    path.resolve(process.cwd(), '../local_compiler/release/MUJCODE-Local-Compiler-Setup-1.0.0.exe'),
+    path.resolve(process.cwd(), 'local_compiler/release/MUJCODE-Local-Compiler-Setup-1.0.0.exe'),
+    path.resolve(process.cwd(), 'release/MUJCODE-Local-Compiler-Setup-1.0.0.exe'),
+    path.resolve(process.cwd(), '../../local_compiler/release/MUJCODE-Local-Compiler-Setup-1.0.0.exe')
+  ];
+  return candidatePaths.find(p => fs.existsSync(p)) || null;
+}
 
 export function registerAgentRoutes(router) {
   /**
@@ -139,24 +151,34 @@ export function registerAgentRoutes(router) {
 
   /**
    * GET /api/agent/download-info
-
    * ────────────────────────────
-   * Returns published installer metadata, version, checksum, and official download URL.
+   * Returns published installer metadata, version, checksum, and download URL.
    */
   router.get('/api/agent/download-info', async (req, res) => {
     try {
-      const downloadUrl = process.env.LOCAL_COMPILER_DOWNLOAD_URL || 
-        process.env.VITE_LOCAL_COMPILER_DOWNLOAD_URL || 
-        'https://github.com/CSrajput-ux/mujcode-/releases/download/v1.0.0/MUJCODE-Local-Compiler-Setup-1.0.0.exe';
+      const localInstaller = findLocalInstaller();
+      const explicitExternalUrl = process.env.LOCAL_COMPILER_DOWNLOAD_URL || 
+        process.env.VITE_LOCAL_COMPILER_DOWNLOAD_URL;
+
+      // In local development or where the binary exists on disk, download directly via backend endpoint
+      const downloadUrl = explicitExternalUrl || (localInstaller ? '/api/agent/download/MUJCODE-Local-Compiler-Setup-1.0.0.exe' : 'https://github.com/CSrajput-ux/mujcode-/releases/download/v1.0.0/MUJCODE-Local-Compiler-Setup-1.0.0.exe');
+
+      let fileSizeBytes = 92907917;
+      if (localInstaller) {
+        try {
+          fileSizeBytes = fs.statSync(localInstaller).size;
+        } catch {}
+      }
 
       return sendJson(res, 200, {
         success: true,
         version: '1.0.0',
         platform: 'win32-x64',
         fileName: 'MUJCODE-Local-Compiler-Setup-1.0.0.exe',
-        fileSizeBytes: 92907917,
+        fileSizeBytes,
         sha256: '49644B00B1891FD46A9F203A0D160CA94D0CA9B3866EDB804AB2DD45C2FB7197',
         downloadUrl,
+        isLocalFile: Boolean(localInstaller),
         supportedLanguages: ['c', 'cpp', 'java', 'python', 'javascript', 'go', 'sql']
       });
     } catch (err) {
@@ -169,18 +191,38 @@ export function registerAgentRoutes(router) {
   });
 
   /**
-   * GET /api/agent/download
-   * ───────────────────────
-   * Direct download redirect to the published Windows x64 installer.
+   * GET /api/agent/download and GET /api/agent/download/:filename
+   * ─────────────────────────────────────────────────────────────
+   * Streams the Windows x64 installer directly from local storage if available,
+   * or redirects to configured production hosting URL.
    */
-  router.get('/api/agent/download', async (req, res) => {
-    const downloadUrl = process.env.LOCAL_COMPILER_DOWNLOAD_URL || 
-      process.env.VITE_LOCAL_COMPILER_DOWNLOAD_URL || 
-      'https://github.com/CSrajput-ux/mujcode-/releases/download/v1.0.0/MUJCODE-Local-Compiler-Setup-1.0.0.exe';
+  const handleDownload = async (req, res) => {
+    const localInstaller = findLocalInstaller();
+    const explicitExternalUrl = process.env.LOCAL_COMPILER_DOWNLOAD_URL || 
+      process.env.VITE_LOCAL_COMPILER_DOWNLOAD_URL;
 
-    if (downloadUrl) {
+    // 1. If local installer binary exists on disk, stream it directly with binary headers
+    if (localInstaller) {
+      try {
+        const stat = fs.statSync(localInstaller);
+        res.writeHead(200, {
+          'Content-Type': 'application/vnd.microsoft.portable-executable',
+          'Content-Length': stat.size,
+          'Content-Disposition': 'attachment; filename="MUJCODE-Local-Compiler-Setup-1.0.0.exe"',
+          'Cache-Control': 'no-cache'
+        });
+        const stream = fs.createReadStream(localInstaller);
+        return stream.pipe(res);
+      } catch (err) {
+        logger.error('[api/agent/download] Error streaming local installer:', err.message);
+      }
+    }
+
+    // 2. Otherwise redirect to explicit or external download URL
+    const targetUrl = explicitExternalUrl || 'https://github.com/CSrajput-ux/mujcode-/releases/download/v1.0.0/MUJCODE-Local-Compiler-Setup-1.0.0.exe';
+    if (targetUrl) {
       res.writeHead(302, {
-        'Location': downloadUrl,
+        'Location': targetUrl,
         'Cache-Control': 'no-cache'
       });
       return res.end();
@@ -188,8 +230,11 @@ export function registerAgentRoutes(router) {
 
     return sendJson(res, 404, {
       success: false,
-      error: 'Installer download URL is not configured on this server.'
+      error: 'Installer file is not available locally and no external download URL is configured.'
     });
-  });
+  };
+
+  router.get('/api/agent/download', handleDownload);
+  router.get('/api/agent/download/:filename', handleDownload);
 }
 

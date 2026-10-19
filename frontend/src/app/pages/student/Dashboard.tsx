@@ -11,7 +11,7 @@ import {
   Loader2
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import apiClient from '../../services/apiClient';
+import apiClient, { API_BASE_URL } from '../../services/apiClient';
 import { toast } from 'sonner';
 
 export default function Dashboard() {
@@ -50,13 +50,17 @@ export default function Dashboard() {
         throw new Error('Download URL is not configured. Please contact support.');
       }
 
+      // If URL is relative (e.g. /api/agent/download), prefix with API_BASE_URL
+      const downloadHref = url.startsWith('http') 
+        ? url 
+        : `${API_BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
+
       setDownloadProgress('Downloading...');
       
       // Trigger download via anchor
       const a = document.createElement('a');
-      a.href = url;
+      a.href = downloadHref;
       a.setAttribute('download', 'MUJCODE-Local-Compiler-Setup-1.0.0.exe');
-      a.target = '_blank';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

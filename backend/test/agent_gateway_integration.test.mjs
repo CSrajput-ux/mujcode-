@@ -352,12 +352,16 @@ describe('Agent Gateway & Device Pairing Integration Suite', () => {
       assert.deepStrictEqual(data.supportedLanguages, ['c', 'cpp', 'java', 'python', 'javascript', 'go', 'sql']);
     });
 
-    it('should redirect download request to configured installer URL', async () => {
+    it('should deliver installer via download stream (200) or redirect (302)', async () => {
       const res = await fetch(`http://127.0.0.1:${serverPort}/api/agent/download`, {
         redirect: 'manual'
       });
-      assert.strictEqual(res.status, 302);
-      assert.ok(res.headers.get('location').includes('MUJCODE-Local-Compiler-Setup-1.0.0.exe'));
+      assert.ok(res.status === 200 || res.status === 302, `Expected 200 or 302 but got ${res.status}`);
+      if (res.status === 200) {
+        assert.strictEqual(res.headers.get('content-type'), 'application/vnd.microsoft.portable-executable');
+      } else {
+        assert.ok(res.headers.get('location').includes('MUJCODE-Local-Compiler-Setup-1.0.0.exe'));
+      }
     });
   });
 });
