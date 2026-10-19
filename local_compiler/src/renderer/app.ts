@@ -698,25 +698,25 @@ async function initApp() {
         if (isInstallingNow) {
           cardClass += ' installing';
           statusTagClass += ' installing';
-          statusText = 'INSTALLING...';
+          statusText = 'Installing...';
           versionText = 'Installing package via Winget...';
           pathText = d.wingetId ? `Package ID: ${d.wingetId}` : 'In progress...';
         } else if (isFailedNow) {
           cardClass += ' failed';
           statusTagClass += ' failed';
-          statusText = 'FAILED';
+          statusText = 'Failed';
           versionText = 'Installation or verification failed';
           pathText = 'Executable not found on PATH';
         } else if (isAvail) {
           cardClass += ' available';
           statusTagClass += ' ok';
-          statusText = isWasm ? 'AVAILABLE — BUNDLED' : 'INSTALLED';
+          statusText = isWasm ? 'Available — Bundled' : 'Installed';
           versionText = d.detectedVersion || 'Installed';
           pathText = isWasm ? 'sql.js (Bundled in-process WASM)' : (d.executablePath || 'Path resolved');
         } else {
           cardClass += ' missing';
           statusTagClass += ' missing';
-          statusText = 'MISSING';
+          statusText = 'Missing';
           versionText = 'Not installed on host system';
           pathText = 'Not configured on system PATH';
         }
