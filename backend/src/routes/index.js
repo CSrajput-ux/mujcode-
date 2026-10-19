@@ -16,6 +16,7 @@ import { registerCommunityRoutes } from './communities.js';
 import { registerLiveClassRoutes } from './liveClasses.js';
 import { registerExamSecurityRoutes } from './examSecurity.js';
 import { registerExamRecoveryRoutes } from './examRecovery.js';
+import { registerAgentRoutes } from './agent.js';
 
 export function registerRoutes(router, ctx) {
   registerAuthRoutes(router, ctx);
@@ -24,6 +25,7 @@ export function registerRoutes(router, ctx) {
   registerStudentRoutes(router, ctx);
   registerProblemsRoutes(router, ctx);
   registerJudgeRoutes(router, ctx);
+  registerAgentRoutes(router, ctx);
   registerTestsRoutes(router, ctx);
   registerAssignmentsRoutes(router, ctx);
   registerAdminRoutes(router, ctx);

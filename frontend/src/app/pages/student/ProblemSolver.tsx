@@ -6,6 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Play, Send, CheckCircle2, XCircle, Clock, ArrowLeft, Save, MessageSquare, Lightbulb, Copy, Check } from 'lucide-react';
 import { Textarea } from '../../components/ui/textarea';
 import apiClient from '../../services/apiClient';
+import LocalCompilerWidget from '../../components/LocalCompilerWidget';
 import { toast } from 'sonner';
 
 function renderFormattedText(text?: string) {
@@ -43,6 +44,7 @@ export default function ProblemSolver() {
     const [code, setCode] = useState('');
     const [language, setLanguage] = useState('python');
     const [showInput, setShowInput] = useState(false);
+    const [useLocalAgent, setUseLocalAgent] = useState(true);
 
     // Results state
     const [verdict, setVerdict] = useState('');
@@ -150,7 +152,8 @@ export default function ProblemSolver() {
                 problemId: id,
                 code,
                 language,
-                mode: 'run'
+                mode: 'run',
+                useLocalAgent
             });
 
             // Use jobId for real-time in-memory queue polling
@@ -350,6 +353,10 @@ export default function ProblemSolver() {
                         </Badge>
                     </div>
                     <div className="flex items-center space-x-2">
+                        <LocalCompilerWidget
+                            useLocalAgent={useLocalAgent}
+                            onToggleUseLocalAgent={setUseLocalAgent}
+                        />
                         <Button
                             onClick={handleRun}
                             disabled={isRunning}

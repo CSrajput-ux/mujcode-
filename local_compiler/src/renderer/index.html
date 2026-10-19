@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MUJCODE Local Compiler Agent</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="brand">
+        <div id="status-light" class="status-indicator offline"></div>
+        <div>
+          <h1>MUJCODE Local Compiler</h1>
+          <p class="subtitle">Secure Desktop Execution Agent for Windows</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="connection-badge" class="badge">DISCONNECTED</span>
+        <button id="refresh-doctor-btn" class="btn secondary">Scan Toolchains</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Device Pairing & Cloud Connection Card -->
+      <section class="card highlight-card">
+        <div class="card-header">
+          <h2>Cloud Connection & Device Pairing</h2>
+          <div class="controls">
+            <button id="connect-toggle-btn" class="btn primary">Connect</button>
+          </div>
+        </div>
+
+        <div id="connection-alert" class="alert-box hidden" role="alert"></div>
+
+        <div id="pairing-section">
+          <!-- Unpaired State -->
+          <div id="unpaired-view" class="pairing-box">
+            <p class="pairing-desc">
+              Pair this desktop agent with your MUJCODE account to execute code submitted via the website locally on your computer.
+            </p>
+            <div class="pairing-server-row">
+              <label for="pairing-server-url" class="field-label">Server Endpoint:</label>
+              <input type="text" id="pairing-server-url" class="text-input server-input" placeholder="https://mujcode-1.onrender.com" value="https://mujcode-1.onrender.com" spellcheck="false" />
+            </div>
+            <div class="pairing-form">
+              <input type="text" id="pairing-code-input" class="text-input" placeholder="Enter pairing challenge (e.g. PAIR-A719E5A5)" autocomplete="off" spellcheck="false" />
+              <button id="submit-pairing-btn" class="btn primary">Pair Device</button>
+            </div>
+            <div id="pairing-message" class="info-message"></div>
+          </div>
+
+          <!-- Paired State -->
+          <div id="paired-view" class="pairing-box hidden">
+            <div class="paired-details">
+              <div><strong>Paired Account:</strong> <span id="paired-user-name">-</span></div>
+              <div><strong>Device ID:</strong> <span id="paired-device-id" class="mono">-</span></div>
+              <div><strong>Server:</strong> <span id="paired-server-url" class="mono">-</span></div>
+            </div>
+            <div class="paired-actions">
+              <button id="unpair-btn" class="btn danger">Unpair Device</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Toolchain Diagnostic Matrix -->
+      <section class="card">
+        <div class="card-header">
+          <h2>Compiler & Runtime Health (7 Languages)</h2>
+          <span id="health-summary" class="badge">Scanning...</span>
+        </div>
+        <div id="diagnostics-grid" class="diagnostics-grid">
+          <div class="loading-state">Checking host toolchains...</div>
+        </div>
+      </section>
+
+      <!-- Interactive Test Playground -->
+      <section class="card">
+        <div class="card-header">
+          <h2>Local Execution Sandbox</h2>
+          <div class="controls">
+            <select id="language-select" class="select-input"></select>
+            <button id="run-code-btn" class="btn primary">Execute Sample</button>
+          </div>
+        </div>
+        <div class="editor-pane">
+          <textarea id="code-input" class="code-textarea" spellcheck="false"></textarea>
+        </div>
+        <div class="output-pane">
+          <div class="output-header">
+            <span>Execution Output</span>
+            <span id="execution-metrics" class="metrics"></span>
+          </div>
+          <pre id="code-output" class="console-output">Output will appear here after execution...</pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import { codeRateLimiter } from '../middlewares/rateLimiter.js';
 import { CodeExecution } from '../models/CodeExecution.js';
 import { CodeExecutionService } from '../services/CodeExecutionService.js';
 import { Judge0Service } from '../services/Judge0Service.js';
+import { AgentJobRouter } from '../services/AgentJobRouter.js';
 import { logger } from '../lib/logger.js';
 
 const MAX_CODE_BYTES = 64 * 1024; // 64 KB
@@ -83,7 +84,39 @@ export function registerJudgeRoutes(router) {
       let executionResult;
 
       try {
-        if (mode === 'run' && (!testCases || testCases.length === 0)) {
+        const connectedAgent = (req.body.useLocalAgent !== false) ? AgentJobRouter.getConnectedDeviceForUser(userId) : null;
+
+        if (mode === 'run' && connectedAgent) {
+          try {
+            const runStdin = (!testCases || testCases.length === 0) ? (req.body.stdin || '') : (testCases[0]?.input || req.body.stdin || '');
+            const agentRes = await AgentJobRouter.dispatchRunJob({
+              userId,
+              deviceId: connectedAgent.deviceId,
+              jobId,
+              language,
+              sourceCode: code,
+              stdin: runStdin,
+              timeLimitMs: 5000
+            });
+
+            executionResult = {
+              verdict: agentRes.verdict,
+              status: agentRes.status,
+              output: `[Local Compiler - ${connectedAgent.device?.deviceName || 'Local Computer'}]\n` + agentRes.output,
+              compileOutput: agentRes.compileOutput || '',
+              executionTime: agentRes.executionTime,
+              isLocalExecution: true,
+              agentVersion: agentRes.agentVersion
+            };
+          } catch (agentErr) {
+            logger.warn(`[Judge] Local agent run error: ${agentErr.message}. Falling back to cloud judge.`);
+            if (req.body.forceLocalOnly) {
+              throw agentErr;
+            }
+          }
+        }
+
+        if (!executionResult && mode === 'run' && (!testCases || testCases.length === 0)) {
           // Single execution run
           const singleRes = await CodeExecutionService.runCode({
             language,
@@ -104,7 +137,7 @@ export function registerJudgeRoutes(router) {
             columns: singleRes.columns,
             rows: singleRes.rows
           };
-        } else {
+        } else if (!executionResult) {
           // Multiple test cases execution
           const testRes = await CodeExecutionService.executeTestCases({
             language,

@@ -1,6 +1,7 @@
 import { Server } from 'socket.io';
 import { createAdapter } from '@socket.io/redis-adapter';
 import { setupExamProctorSockets } from './examProctor.js';
+import { setupAgentGateway } from './agentGateway.js';
 import { verifyToken } from '../lib/auth.js';
 import { config } from '../config.js';
 import { logger } from '../lib/logger.js';
@@ -81,6 +82,9 @@ export function setupSockets(server) {
 
   // Setup Secure Exam Mode real-time proctoring sockets
   setupExamProctorSockets(io);
+
+  // Setup Local Compiler Agent Gateway
+  setupAgentGateway(io);
 
   const liveNamespace = io.of('/live');
 
