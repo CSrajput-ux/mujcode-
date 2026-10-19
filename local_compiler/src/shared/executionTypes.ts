@@ -66,5 +66,13 @@ export interface ToolchainDiagnostic {
   available: boolean;
   detectedVersion: string | null;
   executablePath: string | null;
+  isBundled?: boolean;
+  smokeTestPassed?: boolean;
+  packageName?: string;
+  publisher?: string;
+  wingetId?: string;
+  installCommand?: string;
+  estimatedSizeMb?: number;
   troubleshootingInstructions: string | null;
 }
+

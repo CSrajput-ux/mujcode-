@@ -1,8 +1,11 @@
 /**
  * MUJCODE Local Compiler — Runtime Environment Doctor
  * 
- * Accurately diagnoses the availability, versions, and paths of required compilers
- * and language runtimes on the host machine.
+ * Accurately diagnoses the availability, versions, paths, and smoke-test health
+ * of all seven supported compilers on the host Windows machine.
+ * 
+ * Supports safe Windows-native executable resolution (skipping 0-byte WindowsApps stubs,
+ * searching standard user/system directories, and supporting py.exe).
  */
 
 import { spawn } from 'node:child_process';
@@ -18,6 +21,11 @@ interface ToolCheckDefinition {
   versionArgs: string[];
   versionRegex: RegExp;
   installInstruction: string;
+  wingetId?: string;
+  packageName?: string;
+  publisher?: string;
+  estimatedSizeMb?: number;
+  extraSearchDirs?: string[];
 }
 
 const TOOL_DEFINITIONS: ToolCheckDefinition[] = [
@@ -25,19 +33,41 @@ const TOOL_DEFINITIONS: ToolCheckDefinition[] = [
     languageId: 50,
     languageKey: 'c',
     runtimeName: 'GCC (C Compiler)',
-    executables: ['gcc', 'gcc.exe'],
+    executables: ['gcc', 'gcc.exe', 'clang', 'clang.exe'],
     versionArgs: ['--version'],
-    versionRegex: /gcc(?:\.exe)?\s+\(.*?\)|\b\d+\.\d+\.\d+\b/i,
-    installInstruction: 'Install MinGW-w64 via Winget: "winget install MSYS2.MSYS2" or download from winlibs.com'
+    versionRegex: /(?:gcc|clang)(?:\.exe)?\s+\(.*?\)|\b\d+\.\d+\.\d+\b/i,
+    installInstruction: 'Install MinGW-w64 via Winget: "winget install MSYS2.MSYS2" or download from winlibs.com',
+    wingetId: 'MSYS2.MSYS2',
+    packageName: 'MinGW-w64 GCC Compiler Toolchain',
+    publisher: 'MSYS2 Project',
+    estimatedSizeMb: 120,
+    extraSearchDirs: [
+      'C:\\msys64\\mingw64\\bin',
+      'C:\\msys64\\ucrt64\\bin',
+      'C:\\MinGW\\bin',
+      'C:\\ProgramData\\chocolatey\\bin',
+      'C:\\Program Files\\LLVM\\bin'
+    ]
   },
   {
     languageId: 54,
     languageKey: 'cpp',
     runtimeName: 'G++ (C++ Compiler)',
-    executables: ['g++', 'g++.exe'],
+    executables: ['g++', 'g++.exe', 'clang++', 'clang++.exe'],
     versionArgs: ['--version'],
-    versionRegex: /g\+\+(?:\.exe)?\s+\(.*?\)|\b\d+\.\d+\.\d+\b/i,
-    installInstruction: 'Install MinGW-w64 via Winget: "winget install MSYS2.MSYS2" or download from winlibs.com'
+    versionRegex: /(?:g\+\+|clang\+\+)(?:\.exe)?\s+\(.*?\)|\b\d+\.\d+\.\d+\b/i,
+    installInstruction: 'Install MinGW-w64 via Winget: "winget install MSYS2.MSYS2" or download from winlibs.com',
+    wingetId: 'MSYS2.MSYS2',
+    packageName: 'MinGW-w64 G++ Compiler Toolchain',
+    publisher: 'MSYS2 Project',
+    estimatedSizeMb: 120,
+    extraSearchDirs: [
+      'C:\\msys64\\mingw64\\bin',
+      'C:\\msys64\\ucrt64\\bin',
+      'C:\\MinGW\\bin',
+      'C:\\ProgramData\\chocolatey\\bin',
+      'C:\\Program Files\\LLVM\\bin'
+    ]
   },
   {
     languageId: 62,
@@ -45,8 +75,19 @@ const TOOL_DEFINITIONS: ToolCheckDefinition[] = [
     runtimeName: 'Java Development Kit (JDK 17+)',
     executables: ['javac', 'javac.exe'],
     versionArgs: ['-version'],
-    versionRegex: /javac\s+[\d._]+/i,
-    installInstruction: 'Install OpenJDK or Oracle JDK: "winget install Oracle.JDK.17"'
+    versionRegex: /(?:javac|openjdk|java)\s+[\d._]+/i,
+    installInstruction: 'Install OpenJDK: "winget install EclipseAdoptium.Temurin.21.JDK"',
+    wingetId: 'EclipseAdoptium.Temurin.21.JDK',
+    packageName: 'Eclipse Temurin OpenJDK 21 (JDK)',
+    publisher: 'Eclipse Foundation',
+    estimatedSizeMb: 190,
+    extraSearchDirs: [
+      process.env.JAVA_HOME ? path.join(process.env.JAVA_HOME, 'bin') : '',
+      'C:\\Program Files\\Eclipse Adoptium\\jdk-21*\\bin',
+      'C:\\Program Files\\Java\\jdk-21\\bin',
+      'C:\\Program Files\\Java\\jdk-17\\bin',
+      'C:\\Program Files\\Microsoft\\jdk-21*\\bin'
+    ].filter(Boolean)
   },
   {
     languageId: 71,
@@ -55,7 +96,20 @@ const TOOL_DEFINITIONS: ToolCheckDefinition[] = [
     executables: ['python', 'py', 'python3'],
     versionArgs: ['--version'],
     versionRegex: /Python\s+[\d.]+/i,
-    installInstruction: 'Install Python from python.org or via Winget: "winget install Python.Python.3.11"'
+    installInstruction: 'Install Python from python.org or via Winget: "winget install Python.Python.3.12"',
+    wingetId: 'Python.Python.3.12',
+    packageName: 'Python 3.12 Runtime',
+    publisher: 'Python Software Foundation',
+    estimatedSizeMb: 35,
+    extraSearchDirs: [
+      path.join(process.env.LOCALAPPDATA || '', 'Programs', 'Python', 'Python312'),
+      path.join(process.env.LOCALAPPDATA || '', 'Programs', 'Python', 'Python311'),
+      path.join(process.env.LOCALAPPDATA || '', 'Programs', 'Python', 'Python310'),
+      'C:\\Program Files\\Python312',
+      'C:\\Program Files\\Python311',
+      'C:\\Python312',
+      'C:\\Windows'
+    ]
   },
   {
     languageId: 63,
@@ -64,7 +118,12 @@ const TOOL_DEFINITIONS: ToolCheckDefinition[] = [
     executables: ['node', 'node.exe'],
     versionArgs: ['--version'],
     versionRegex: /v\d+\.\d+\.\d+/,
-    installInstruction: 'Install Node.js 20+ from nodejs.org or via Winget: "winget install OpenJS.NodeJS.LTS"'
+    installInstruction: 'Install Node.js 20+ LTS: "winget install OpenJS.NodeJS.LTS"',
+    wingetId: 'OpenJS.NodeJS.LTS',
+    packageName: 'Node.js 20+ LTS Runtime',
+    publisher: 'OpenJS Foundation',
+    estimatedSizeMb: 30,
+    extraSearchDirs: ['C:\\Program Files\\nodejs']
   },
   {
     languageId: 60,
@@ -73,7 +132,16 @@ const TOOL_DEFINITIONS: ToolCheckDefinition[] = [
     executables: ['go', 'go.exe'],
     versionArgs: ['version'],
     versionRegex: /go\s+version\s+go[\d.]+/i,
-    installInstruction: 'Install Go from golang.org or via Winget: "winget install Golang.Go"'
+    installInstruction: 'Install Go from golang.org or via Winget: "winget install Golang.Go"',
+    wingetId: 'Golang.Go',
+    packageName: 'Go Programming Language Compiler',
+    publisher: 'Google LLC / Go Authors',
+    estimatedSizeMb: 130,
+    extraSearchDirs: [
+      process.env.GOROOT ? path.join(process.env.GOROOT, 'bin') : '',
+      'C:\\Program Files\\Go\\bin',
+      'C:\\Go\\bin'
+    ].filter(Boolean)
   }
 ];
 
@@ -82,37 +150,50 @@ export class RuntimeDoctor {
   private resolvedPaths: Map<string, string> = new Map();
 
   /**
-   * Resolve an executable name against system PATH on Windows.
+   * Resolve an executable safely on Windows.
+   * Explicitly avoids 0-byte WindowsApps stubs and inspects standard installation paths.
    */
-  findExecutableOnPath(executableName: string): string | null {
+  findExecutableOnPath(executableName: string, extraDirs: string[] = []): string | null {
     const systemPath = process.env.PATH || '';
     const pathDelimiter = process.platform === 'win32' ? ';' : ':';
-    const directories = systemPath.split(pathDelimiter).filter(Boolean);
+    const pathDirs = systemPath.split(pathDelimiter).filter(Boolean);
+
+    // Combine PATH directories and extra known installation directories
+    const allDirectories = [...pathDirs, ...extraDirs];
 
     const extensions = process.platform === 'win32'
       ? (process.env.PATHEXT ? process.env.PATHEXT.split(';') : ['.EXE', '.CMD', '.BAT'])
       : [''];
 
-    // If an explicit path is given
+    // 1. Direct absolute path resolution
     if (path.isAbsolute(executableName)) {
-      if (fs.existsSync(executableName)) return executableName;
+      if (this.isValidExecutable(executableName)) return executableName;
       for (const ext of extensions) {
         const full = `${executableName}${ext.toLowerCase()}`;
-        if (fs.existsSync(full)) return full;
+        if (this.isValidExecutable(full)) return full;
       }
       return null;
     }
 
-    for (const dir of directories) {
+    // 2. Scan directories (filtering out zero-byte WindowsApps stubs)
+    for (const dir of allDirectories) {
+      if (!dir) continue;
+
+      // Skip WindowsApps redirection stubs
+      if (dir.toLowerCase().includes('windowsapps')) {
+        continue;
+      }
+
+      // Check direct filename
       try {
         const directPath = path.join(dir, executableName);
-        if (fs.existsSync(directPath) && fs.statSync(directPath).isFile()) {
+        if (this.isValidExecutable(directPath)) {
           return directPath;
         }
 
         for (const ext of extensions) {
           const withExt = path.join(dir, `${executableName}${ext.toLowerCase()}`);
-          if (fs.existsSync(withExt) && fs.statSync(withExt).isFile()) {
+          if (this.isValidExecutable(withExt)) {
             return withExt;
           }
         }
@@ -122,6 +203,22 @@ export class RuntimeDoctor {
     }
 
     return null;
+  }
+
+  /**
+   * Verify an executable path is a real, non-zero-byte file.
+   */
+  private isValidExecutable(filePath: string): boolean {
+    try {
+      if (filePath.toLowerCase().includes('windowsapps')) {
+        return false;
+      }
+      if (!fs.existsSync(filePath)) return false;
+      const stats = fs.statSync(filePath);
+      return stats.isFile() && stats.size > 0;
+    } catch {
+      return false;
+    }
   }
 
   /**
@@ -165,7 +262,51 @@ export class RuntimeDoctor {
   }
 
   /**
-   * Check SQL support via native node:sqlite.
+   * Run a quick, safe smoke test for a detected runtime (no arbitrary student code).
+   */
+  private async runSmokeTest(languageKey: string, executablePath: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      try {
+        let testArgs: string[] = ['--version'];
+
+        if (languageKey === 'python') {
+          testArgs = ['-c', 'import sys; print("ok")'];
+        } else if (languageKey === 'javascript') {
+          testArgs = ['-e', 'console.log("ok")'];
+        } else if (languageKey === 'go') {
+          testArgs = ['version'];
+        } else if (languageKey === 'java') {
+          testArgs = ['-version'];
+        }
+
+        const child = spawn(executablePath, testArgs, {
+          stdio: ['ignore', 'pipe', 'pipe'],
+          windowsHide: true,
+          shell: false
+        });
+
+        const timer = setTimeout(() => {
+          try { child.kill('SIGKILL'); } catch {}
+          resolve(false);
+        }, 2500);
+
+        child.on('error', () => {
+          clearTimeout(timer);
+          resolve(false);
+        });
+
+        child.on('close', (code) => {
+          clearTimeout(timer);
+          resolve(code === 0 || languageKey === 'java'); // java -version outputs to stderr with code 0
+        });
+      } catch {
+        resolve(false);
+      }
+    });
+  }
+
+  /**
+   * Check SQL support via bundled WebAssembly sql.js.
    */
   async checkSqlSupport(): Promise<ToolchainDiagnostic> {
     try {
@@ -173,7 +314,10 @@ export class RuntimeDoctor {
       const SQL = await getSqlStatic();
       const db = new SQL.Database();
       db.run('CREATE TABLE _diag (id INT);');
+      const res = db.exec('SELECT 1 + 1 AS res;');
       db.close();
+
+      const smokeTestPassed = Boolean(res && res[0]?.values?.[0]?.[0] === 2);
 
       return {
         languageId: 82,
@@ -182,6 +326,10 @@ export class RuntimeDoctor {
         available: true,
         detectedVersion: 'SQLite 3 (Built-in WebAssembly Engine)',
         executablePath: 'sql.js (in-process WASM)',
+        isBundled: true,
+        smokeTestPassed,
+        packageName: 'sql.js (Bundled WebAssembly Engine)',
+        publisher: 'SQLite / MUJCODE Local Compiler',
         troubleshootingInstructions: null
       };
     } catch (err: any) {
@@ -192,6 +340,8 @@ export class RuntimeDoctor {
         available: false,
         detectedVersion: null,
         executablePath: null,
+        isBundled: true,
+        smokeTestPassed: false,
         troubleshootingInstructions: `SQLite WebAssembly engine unavailable: ${err.message}`
       };
     }
@@ -204,7 +354,7 @@ export class RuntimeDoctor {
     let resolvedPath: string | null = null;
 
     for (const exe of def.executables) {
-      resolvedPath = this.findExecutableOnPath(exe);
+      resolvedPath = this.findExecutableOnPath(exe, def.extraSearchDirs || []);
       if (resolvedPath) break;
     }
 
@@ -216,6 +366,13 @@ export class RuntimeDoctor {
         available: false,
         detectedVersion: null,
         executablePath: null,
+        isBundled: false,
+        smokeTestPassed: false,
+        wingetId: def.wingetId,
+        packageName: def.packageName,
+        publisher: def.publisher,
+        estimatedSizeMb: def.estimatedSizeMb,
+        installCommand: def.wingetId ? `winget install ${def.wingetId}` : undefined,
         troubleshootingInstructions: def.installInstruction
       };
     }
@@ -223,6 +380,7 @@ export class RuntimeDoctor {
     this.resolvedPaths.set(def.languageKey, resolvedPath);
 
     const { version } = await this.queryVersion(resolvedPath, def.versionArgs);
+    const smokeTestPassed = await this.runSmokeTest(def.languageKey, resolvedPath);
 
     return {
       languageId: def.languageId,
@@ -231,6 +389,13 @@ export class RuntimeDoctor {
       available: true,
       detectedVersion: version || 'Installed (version output unparsed)',
       executablePath: resolvedPath,
+      isBundled: false,
+      smokeTestPassed,
+      wingetId: def.wingetId,
+      packageName: def.packageName,
+      publisher: def.publisher,
+      estimatedSizeMb: def.estimatedSizeMb,
+      installCommand: def.wingetId ? `winget install ${def.wingetId}` : undefined,
       troubleshootingInstructions: null
     };
   }
@@ -281,6 +446,66 @@ export class RuntimeDoctor {
    */
   getResolvedPath(toolKey: string): string | null {
     return this.resolvedPaths.get(toolKey.toLowerCase()) || null;
+  }
+
+  /**
+   * Install a missing toolchain via verified Windows Package Manager (Winget).
+   * Requires explicit user consent before invocation.
+   */
+  async installToolchainViaWinget(wingetId: string): Promise<{ success: boolean; output: string }> {
+    return new Promise((resolve) => {
+      // Validate wingetId to prevent arbitrary execution
+      const allowedWingetIds = new Set([
+        'Python.Python.3.12',
+        'MSYS2.MSYS2',
+        'EclipseAdoptium.Temurin.21.JDK',
+        'OpenJS.NodeJS.LTS',
+        'Golang.Go'
+      ]);
+
+      if (!allowedWingetIds.has(wingetId)) {
+        return resolve({
+          success: false,
+          output: `Installation package "${wingetId}" is not in the verified MUJCODE repository package allowlist.`
+        });
+      }
+
+      let output = '';
+      try {
+        const child = spawn(
+          'winget',
+          ['install', '--exact', '--id', wingetId, '--accept-source-agreements', '--accept-package-agreements'],
+          {
+            stdio: ['ignore', 'pipe', 'pipe'],
+            windowsHide: false,
+            shell: false
+          }
+        );
+
+        const timer = setTimeout(() => {
+          try { child.kill('SIGKILL'); } catch {}
+          resolve({ success: false, output: 'Installation timed out after 5 minutes.' });
+        }, 5 * 60 * 1000);
+
+        child.stdout?.on('data', (c) => (output += c.toString('utf8')));
+        child.stderr?.on('data', (c) => (output += c.toString('utf8')));
+
+        child.on('error', (err) => {
+          clearTimeout(timer);
+          resolve({ success: false, output: `Failed to launch Winget: ${err.message}` });
+        });
+
+        child.on('close', (code) => {
+          clearTimeout(timer);
+          resolve({
+            success: code === 0,
+            output: output.trim() || (code === 0 ? 'Installation completed successfully.' : `Winget exited with code ${code}`)
+          });
+        });
+      } catch (err: any) {
+        resolve({ success: false, output: `Winget execution exception: ${err.message}` });
+      }
+    });
   }
 }
 

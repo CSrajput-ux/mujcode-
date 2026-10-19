@@ -1,6 +1,6 @@
 /**
  * MUJCODE Local Compiler — C++ Language Adapter (Language ID 54)
- * Reuses verified logic from compiler-engine/src/adapters/CppAdapter.js
+ * Hardened for Windows executable resolution and structured DEPENDENCY_MISSING handling.
  */
 
 import fs from 'node:fs';
@@ -8,15 +8,27 @@ import path from 'node:path';
 import { BaseAdapter, AdapterExecuteParams } from './BaseAdapter.js';
 import { executeProcess } from '../runner.js';
 import { ExecutionResult } from '../../shared/executionTypes.js';
+import { runtimeDoctor } from '../../services/runtimeDoctor.js';
 
 export class CppAdapter extends BaseAdapter {
+  private resolveCompilerCommand(override?: string): string {
+    if (override && fs.existsSync(override)) {
+      return override;
+    }
+    const cached = runtimeDoctor.getResolvedPath('cpp');
+    if (cached && fs.existsSync(cached)) {
+      return cached;
+    }
+    return runtimeDoctor.findExecutableOnPath('g++') || 'g++';
+  }
+
   async execute(params: AdapterExecuteParams): Promise<ExecutionResult> {
     const { requestId, sourceCode, stdin = '', timeLimitMs, runtimeExecutableOverride } = params;
     const workDir = this.createJobWorkspace();
     const sourceFile = path.join(workDir, 'source.cpp');
     const binExt = process.platform === 'win32' ? '.exe' : '.bin';
     const binaryFile = path.join(workDir, `out${binExt}`);
-    const gppCmd = runtimeExecutableOverride || this.lang.compilerCommand || 'g++';
+    const gppCmd = this.resolveCompilerCommand(runtimeExecutableOverride);
 
     try {
       fs.writeFileSync(sourceFile, sourceCode, 'utf8');
@@ -27,6 +39,28 @@ export class CppAdapter extends BaseAdapter {
         ['-O2', sourceFile, '-o', binaryFile],
         { cwd: workDir, timeoutMs: 10000 }
       );
+
+      if (
+        compRes.errorCode === 'ENOENT' ||
+        compRes.errorCode === 'SPAWN_ERROR' ||
+        compRes.stderr.includes('Executable not found')
+      ) {
+        return {
+          requestId,
+          status: 'DEPENDENCY_MISSING',
+          verdict: 'Dependency Missing',
+          stdout: '',
+          stderr: `G++ C++ compiler was not found on your system (${gppCmd}).\n\nInstallation instructions:\nPlease install MinGW-w64 via Winget: "winget install MSYS2.MSYS2" or download from winlibs.com`,
+          exitCode: 127,
+          executionTimeMs: compRes.timeMs,
+          truncated: false,
+          language: this.lang.name,
+          languageId: this.lang.id,
+          missingTool: 'G++ (C++ Compiler)',
+          installInstruction: 'winget install MSYS2.MSYS2',
+          errorCode: 'RUNTIME_NOT_FOUND'
+        };
+      }
 
       if (compRes.exitCode !== 0) {
         return {

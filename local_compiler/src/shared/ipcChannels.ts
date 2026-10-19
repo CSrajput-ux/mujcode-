@@ -9,6 +9,8 @@ export const IPC_CHANNELS = {
   GET_DIAGNOSTICS: 'doctor:get-diagnostics',
   GET_SUPPORTED_LANGUAGES: 'compiler:get-languages',
   OPEN_EXTERNAL_URL: 'system:open-external',
+  INSTALL_TOOLCHAIN: 'doctor:install-toolchain',
+
 
   // Secure Networking & Pairing
   GET_CONNECTION_STATE: 'agent:get-connection-state',

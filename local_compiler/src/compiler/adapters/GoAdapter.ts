@@ -1,6 +1,6 @@
 /**
  * MUJCODE Local Compiler — Go Language Adapter (Language ID 60)
- * Reuses verified logic from compiler-engine/src/adapters/GoAdapter.js
+ * Hardened for Windows Go toolchain resolution and structured DEPENDENCY_MISSING handling.
  */
 
 import fs from 'node:fs';
@@ -8,15 +8,31 @@ import path from 'node:path';
 import { BaseAdapter, AdapterExecuteParams } from './BaseAdapter.js';
 import { executeProcess } from '../runner.js';
 import { ExecutionResult } from '../../shared/executionTypes.js';
+import { runtimeDoctor } from '../../services/runtimeDoctor.js';
 
 export class GoAdapter extends BaseAdapter {
+  private resolveCompilerCommand(override?: string): string {
+    if (override && fs.existsSync(override)) {
+      return override;
+    }
+    const cached = runtimeDoctor.getResolvedPath('go');
+    if (cached && fs.existsSync(cached)) {
+      return cached;
+    }
+    if (process.env.GOROOT) {
+      const gorootExe = path.join(process.env.GOROOT, 'bin', process.platform === 'win32' ? 'go.exe' : 'go');
+      if (fs.existsSync(gorootExe)) return gorootExe;
+    }
+    return runtimeDoctor.findExecutableOnPath('go') || 'go';
+  }
+
   async execute(params: AdapterExecuteParams): Promise<ExecutionResult> {
     const { requestId, sourceCode, stdin = '', timeLimitMs, runtimeExecutableOverride } = params;
     const workDir = this.createJobWorkspace();
     const sourceFile = path.join(workDir, 'main.go');
     const binExt = process.platform === 'win32' ? '.exe' : '.bin';
     const binaryFile = path.join(workDir, `out${binExt}`);
-    const goCmd = runtimeExecutableOverride || this.lang.compilerCommand || 'go';
+    const goCmd = this.resolveCompilerCommand(runtimeExecutableOverride);
 
     try {
       fs.writeFileSync(sourceFile, sourceCode, 'utf8');
@@ -34,6 +50,28 @@ export class GoAdapter extends BaseAdapter {
           }
         }
       );
+
+      if (
+        compRes.errorCode === 'ENOENT' ||
+        compRes.errorCode === 'SPAWN_ERROR' ||
+        compRes.stderr.includes('Executable not found')
+      ) {
+        return {
+          requestId,
+          status: 'DEPENDENCY_MISSING',
+          verdict: 'Dependency Missing',
+          stdout: '',
+          stderr: `Go compiler (go) was not found on your system (${goCmd}).\n\nInstallation instructions:\nPlease install Go via Winget: "winget install Golang.Go" or download from https://golang.org/dl/`,
+          exitCode: 127,
+          executionTimeMs: compRes.timeMs,
+          truncated: false,
+          language: this.lang.name,
+          languageId: this.lang.id,
+          missingTool: 'Go Compiler (Golang)',
+          installInstruction: 'winget install Golang.Go',
+          errorCode: 'RUNTIME_NOT_FOUND'
+        };
+      }
 
       if (compRes.exitCode !== 0) {
         return {

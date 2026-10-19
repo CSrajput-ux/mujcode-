@@ -8,6 +8,7 @@ import { AgentJobRouter } from '../src/services/AgentJobRouter.js';
 import { setupAgentGateway } from '../src/sockets/agentGateway.js';
 import { CodeExecutionService } from '../src/services/CodeExecutionService.js';
 import { loadDb, saveDb } from '../src/lib/storage.js';
+import { createApp } from '../src/app.js';
 
 describe('Agent Gateway & Device Pairing Integration Suite', () => {
   let httpServer;
@@ -17,7 +18,8 @@ describe('Agent Gateway & Device Pairing Integration Suite', () => {
   let testUser2 = { id: 'usr_student_2', name: 'Student Two', email: 'two@muj.in' };
 
   before(async () => {
-    httpServer = createServer();
+    const app = await createApp();
+    httpServer = createServer(app);
     ioServer = new Server(httpServer, {
       cors: { origin: '*' }
     });
@@ -334,4 +336,29 @@ describe('Agent Gateway & Device Pairing Integration Suite', () => {
       AgentJobRouter.pendingJobs.delete(fakeJobId);
     });
   });
+
+  describe('5. Installer Download Metadata & Delivery Routes', () => {
+    it('should return valid published installer metadata with SHA-256 and version', async () => {
+      const res = await fetch(`http://127.0.0.1:${serverPort}/api/agent/download-info`);
+      assert.strictEqual(res.status, 200);
+      const data = await res.json();
+      assert.strictEqual(data.success, true);
+      assert.strictEqual(data.version, '1.0.0');
+      assert.strictEqual(data.platform, 'win32-x64');
+      assert.strictEqual(data.fileName, 'MUJCODE-Local-Compiler-Setup-1.0.0.exe');
+      assert.strictEqual(data.fileSizeBytes, 92907917);
+      assert.strictEqual(data.sha256, '49644B00B1891FD46A9F203A0D160CA94D0CA9B3866EDB804AB2DD45C2FB7197');
+      assert.ok(data.downloadUrl.includes('MUJCODE-Local-Compiler-Setup-1.0.0.exe'));
+      assert.deepStrictEqual(data.supportedLanguages, ['c', 'cpp', 'java', 'python', 'javascript', 'go', 'sql']);
+    });
+
+    it('should redirect download request to configured installer URL', async () => {
+      const res = await fetch(`http://127.0.0.1:${serverPort}/api/agent/download`, {
+        redirect: 'manual'
+      });
+      assert.strictEqual(res.status, 302);
+      assert.ok(res.headers.get('location').includes('MUJCODE-Local-Compiler-Setup-1.0.0.exe'));
+    });
+  });
 });
+

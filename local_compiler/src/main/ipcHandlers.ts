@@ -99,7 +99,14 @@ export function registerIpcHandlers(mainWindow?: BrowserWindow | null): void {
     return { success: false, error: 'Invalid URL protocol' };
   });
 
+  // Install missing toolchain safely via Winget
+  ipcMain.handle(IPC_CHANNELS.INSTALL_TOOLCHAIN, async (_event: any, wingetId: string) => {
+    console.log(`[Main IPC] Toolchain installation requested for: ${wingetId}`);
+    return runtimeDoctor.installToolchainViaWinget(wingetId);
+  });
+
   // --- Networking & Pairing Endpoints ---
+
 
   ipcMain.handle(IPC_CHANNELS.GET_CONNECTION_STATE, async () => {
     return {

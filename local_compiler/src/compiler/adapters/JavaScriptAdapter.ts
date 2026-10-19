@@ -4,6 +4,7 @@
  * 
  * Windows / Electron Safety:
  * Prevents invoking the Electron desktop binary as Node without the ELECTRON_RUN_AS_NODE flag.
+ * Traps ENOENT and returns structured DEPENDENCY_MISSING.
  */
 
 import fs from 'node:fs';
@@ -39,6 +40,28 @@ export class JavaScriptAdapter extends BaseAdapter {
           env: extraEnv
         }
       );
+
+      if (
+        runRes.errorCode === 'ENOENT' ||
+        runRes.errorCode === 'SPAWN_ERROR' ||
+        runRes.stderr.includes('Executable not found')
+      ) {
+        return {
+          requestId,
+          status: 'DEPENDENCY_MISSING',
+          verdict: 'Dependency Missing',
+          stdout: '',
+          stderr: `Node.js runtime was not found or could not be launched on your system (${nodeCmd}).\n\nInstallation instructions:\nPlease install Node.js via Winget: "winget install OpenJS.NodeJS.LTS" or download from https://nodejs.org/`,
+          exitCode: 127,
+          executionTimeMs: runRes.timeMs,
+          truncated: false,
+          language: this.lang.name,
+          languageId: this.lang.id,
+          missingTool: 'Node.js LTS Runtime',
+          installInstruction: 'winget install OpenJS.NodeJS.LTS',
+          errorCode: 'RUNTIME_NOT_FOUND'
+        };
+      }
 
       if (runRes.isTimedOut) {
         return {

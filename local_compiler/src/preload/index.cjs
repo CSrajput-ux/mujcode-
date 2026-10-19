@@ -12,6 +12,7 @@ const IPC_CHANNELS = {
   GET_DIAGNOSTICS: 'doctor:get-diagnostics',
   GET_SUPPORTED_LANGUAGES: 'compiler:get-languages',
   OPEN_EXTERNAL_URL: 'system:open-external',
+  INSTALL_TOOLCHAIN: 'doctor:install-toolchain',
   GET_CONNECTION_STATE: 'agent:get-connection-state',
   GET_PAIRING_STATUS: 'agent:get-pairing-status',
   CONNECT: 'agent:connect',
@@ -35,6 +36,10 @@ const api = {
   openExternalUrl: (url) => {
     return ipcRenderer.invoke(IPC_CHANNELS.OPEN_EXTERNAL_URL, url);
   },
+  installToolchain: (wingetId) => {
+    return ipcRenderer.invoke(IPC_CHANNELS.INSTALL_TOOLCHAIN, wingetId);
+  },
+
 
   // Secure Networking & Pairing
   getConnectionState: () => {

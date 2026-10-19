@@ -16,6 +16,8 @@ export interface MujCodeBridgeApi {
   getDiagnostics: () => Promise<ToolchainDiagnostic[]>;
   getSupportedLanguages: () => Promise<LanguageDefinition[]>;
   openExternalUrl: (url: string) => Promise<{ success: boolean; error?: string }>;
+  installToolchain: (wingetId: string) => Promise<{ success: boolean; output: string }>;
+
 
   // Secure Networking & Pairing
   getConnectionState: () => Promise<{ status: AgentConnectionStatus; lastError: string | null }>;
@@ -40,6 +42,10 @@ const api: MujCodeBridgeApi = {
   openExternalUrl: (url: string): Promise<{ success: boolean; error?: string }> => {
     return ipcRenderer.invoke(IPC_CHANNELS.OPEN_EXTERNAL_URL, url);
   },
+  installToolchain: (wingetId: string): Promise<{ success: boolean; output: string }> => {
+    return ipcRenderer.invoke(IPC_CHANNELS.INSTALL_TOOLCHAIN, wingetId);
+  },
+
 
   // Networking
   getConnectionState: () => {

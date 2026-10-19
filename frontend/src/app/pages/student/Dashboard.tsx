@@ -6,10 +6,13 @@ import {
   Trophy,
   Users,
   Calendar,
-  Clock
+  Clock,
+  Download,
+  Loader2
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import apiClient from '../../services/apiClient';
+import { toast } from 'sonner';
 
 export default function Dashboard() {
   const [ranks, setRanks] = useState([
@@ -22,6 +25,56 @@ export default function Dashboard() {
   const [loadingMentors, setLoadingMentors] = useState(true);
   const [upcomingTests, setUpcomingTests] = useState<{ title: string, type: string, date: string, time: string }[]>([]);
   const [loadingTests, setLoadingTests] = useState(true);
+  const [downloading, setDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState<string | null>(null);
+
+  const handleDownloadCompiler = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    setDownloadProgress('Checking installer...');
+
+    try {
+      // 1. Check production environment override first
+      let url = (import.meta as any).env?.VITE_LOCAL_COMPILER_DOWNLOAD_URL;
+
+      // 2. If not in env, query backend download-info endpoint
+      if (!url) {
+        setDownloadProgress('Fetching release...');
+        const res = await apiClient.get('/api/agent/download-info');
+        if (res.data?.success && res.data.downloadUrl) {
+          url = res.data.downloadUrl;
+        }
+      }
+
+      if (!url) {
+        throw new Error('Download URL is not configured. Please contact support.');
+      }
+
+      setDownloadProgress('Downloading...');
+      
+      // Trigger download via anchor
+      const a = document.createElement('a');
+      a.href = url;
+      a.setAttribute('download', 'MUJCODE-Local-Compiler-Setup-1.0.0.exe');
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      toast.success('Download started! Run the installer on your Windows PC to set up offline compilation.', {
+        duration: 5000
+      });
+    } catch (err: any) {
+      console.error('Failed to download installer:', err);
+      toast.error(err.response?.data?.error || err.message || 'Unable to download offline compiler. Please try again later.');
+    } finally {
+      setTimeout(() => {
+        setDownloading(false);
+        setDownloadProgress(null);
+      }, 2000);
+    }
+  };
+
 
   useEffect(() => {
     const fetchRankings = async () => {
@@ -93,11 +146,31 @@ export default function Dashboard() {
     <StudentLayout>
       <div className="space-y-4">
         {/* Header */}
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
-            Welcome back, {JSON.parse(localStorage.getItem('user') || '{}').name?.split(' ')[0] || 'Student'}! 👋
-          </h1>
-          <p className="text-sm text-gray-500">Here's your learning progress overview</p>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-1">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">
+              Welcome back, {JSON.parse(localStorage.getItem('user') || '{}').name?.split(' ')[0] || 'Student'}! 👋
+            </h1>
+            <p className="text-sm text-gray-500">Here's your learning progress overview</p>
+          </div>
+
+          <div className="flex items-center space-x-3 shrink-0">
+            <button
+              id="download-offline-compiler-btn"
+              type="button"
+              onClick={handleDownloadCompiler}
+              disabled={downloading}
+              className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-lg bg-[#FF7A00] hover:bg-[#FF6A00] text-white font-medium text-sm shadow-sm hover:shadow transition-all duration-150 active:scale-95 disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer group"
+              title="Download Windows x64 Desktop Compiler for local 0ms latency execution"
+            >
+              {downloading ? (
+                <Loader2 className="w-4 h-4 animate-spin text-white" />
+              ) : (
+                <Download className="w-4 h-4 text-white group-hover:-translate-y-0.5 transition-transform" />
+              )}
+              <span>{downloadProgress || 'Download Offline Compiler'}</span>
+            </button>
+          </div>
         </div>
 
         {/* New LeetCode-style Stats & Badges */}

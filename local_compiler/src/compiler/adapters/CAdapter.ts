@@ -1,6 +1,6 @@
 /**
  * MUJCODE Local Compiler — C Language Adapter (Language ID 50)
- * Reuses verified logic from compiler-engine/src/adapters/CAdapter.js
+ * Hardened for Windows executable resolution and structured DEPENDENCY_MISSING handling.
  */
 
 import fs from 'node:fs';
@@ -8,15 +8,27 @@ import path from 'node:path';
 import { BaseAdapter, AdapterExecuteParams } from './BaseAdapter.js';
 import { executeProcess } from '../runner.js';
 import { ExecutionResult } from '../../shared/executionTypes.js';
+import { runtimeDoctor } from '../../services/runtimeDoctor.js';
 
 export class CAdapter extends BaseAdapter {
+  private resolveCompilerCommand(override?: string): string {
+    if (override && fs.existsSync(override)) {
+      return override;
+    }
+    const cached = runtimeDoctor.getResolvedPath('c');
+    if (cached && fs.existsSync(cached)) {
+      return cached;
+    }
+    return runtimeDoctor.findExecutableOnPath('gcc') || 'gcc';
+  }
+
   async execute(params: AdapterExecuteParams): Promise<ExecutionResult> {
     const { requestId, sourceCode, stdin = '', timeLimitMs, runtimeExecutableOverride } = params;
     const workDir = this.createJobWorkspace();
     const sourceFile = path.join(workDir, 'source.c');
     const binExt = process.platform === 'win32' ? '.exe' : '.bin';
     const binaryFile = path.join(workDir, `out${binExt}`);
-    const gccCmd = runtimeExecutableOverride || this.lang.compilerCommand || 'gcc';
+    const gccCmd = this.resolveCompilerCommand(runtimeExecutableOverride);
 
     try {
       fs.writeFileSync(sourceFile, sourceCode, 'utf8');
@@ -27,6 +39,28 @@ export class CAdapter extends BaseAdapter {
         ['-O2', sourceFile, '-o', binaryFile, '-lm'],
         { cwd: workDir, timeoutMs: 10000 }
       );
+
+      if (
+        compRes.errorCode === 'ENOENT' ||
+        compRes.errorCode === 'SPAWN_ERROR' ||
+        compRes.stderr.includes('Executable not found')
+      ) {
+        return {
+          requestId,
+          status: 'DEPENDENCY_MISSING',
+          verdict: 'Dependency Missing',
+          stdout: '',
+          stderr: `GCC C compiler was not found on your system (${gccCmd}).\n\nInstallation instructions:\nPlease install MinGW-w64 via Winget: "winget install MSYS2.MSYS2" or download from winlibs.com`,
+          exitCode: 127,
+          executionTimeMs: compRes.timeMs,
+          truncated: false,
+          language: this.lang.name,
+          languageId: this.lang.id,
+          missingTool: 'GCC (C Compiler)',
+          installInstruction: 'winget install MSYS2.MSYS2',
+          errorCode: 'RUNTIME_NOT_FOUND'
+        };
+      }
 
       if (compRes.exitCode !== 0) {
         return {

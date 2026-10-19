@@ -71,6 +71,26 @@
           <h2>Compiler & Runtime Health (7 Languages)</h2>
           <span id="health-summary" class="badge">Scanning...</span>
         </div>
+
+        <!-- Setup Actions & Missing Runtime Banner -->
+        <div id="setup-banner" class="setup-banner hidden">
+          <div class="setup-banner-header">
+            <span class="setup-banner-title">
+              ⚠️ Missing Language Toolchains Detected
+            </span>
+            <span id="setup-missing-count" class="badge">0 Missing</span>
+          </div>
+          <p class="modal-desc" style="margin-bottom:8px;">
+            MUJCODE requires language runtimes to execute practice code locally. You can install missing toolchains safely via official Microsoft Windows Package Manager (Winget) or continue with your currently installed compilers.
+          </p>
+          <div class="setup-actions-row">
+            <button id="install-missing-btn" class="btn accent">Install Missing Languages</button>
+            <button id="install-selected-btn" class="btn primary">Install Selected</button>
+            <button id="rescan-system-btn" class="btn secondary">Rescan System</button>
+            <button id="continue-installed-btn" class="btn secondary">Continue with Installed Languages</button>
+          </div>
+        </div>
+
         <div id="diagnostics-grid" class="diagnostics-grid">
           <div class="loading-state">Checking host toolchains...</div>
         </div>
@@ -99,6 +119,27 @@
     </main>
   </div>
 
+  <!-- Installation Consent Modal -->
+  <div id="consent-modal" class="modal-overlay hidden">
+    <div class="modal-dialog">
+      <h3 class="modal-title">Install Language Toolchains (Winget)</h3>
+      <p class="modal-desc">
+        The following verified package(s) will be installed via Microsoft Windows Package Manager (Winget). No administrator privileges are required unless requested by the specific compiler installer.
+      </p>
+      <div id="modal-package-list" class="package-list"></div>
+      <label class="consent-checkbox-row">
+        <input type="checkbox" id="consent-checkbox" />
+        <span>I authorize MUJCODE Local Compiler to invoke Microsoft Winget to install the selected software packages.</span>
+      </label>
+      <div id="modal-install-status" class="info-message" style="display:none; margin-top:12px;"></div>
+      <div class="modal-btn-row">
+        <button id="modal-cancel-btn" class="btn secondary">Cancel</button>
+        <button id="modal-confirm-btn" class="btn accent" disabled>Confirm & Install</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="app.js"></script>
 </body>
 </html>
+

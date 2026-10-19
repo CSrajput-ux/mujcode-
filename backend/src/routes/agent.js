@@ -136,4 +136,60 @@ export function registerAgentRoutes(router) {
       });
     }
   });
+
+  /**
+   * GET /api/agent/download-info
+
+   * ────────────────────────────
+   * Returns published installer metadata, version, checksum, and official download URL.
+   */
+  router.get('/api/agent/download-info', async (req, res) => {
+    try {
+      const downloadUrl = process.env.LOCAL_COMPILER_DOWNLOAD_URL || 
+        process.env.VITE_LOCAL_COMPILER_DOWNLOAD_URL || 
+        'https://github.com/CSrajput-ux/mujcode-/releases/download/v1.0.0/MUJCODE-Local-Compiler-Setup-1.0.0.exe';
+
+      return sendJson(res, 200, {
+        success: true,
+        version: '1.0.0',
+        platform: 'win32-x64',
+        fileName: 'MUJCODE-Local-Compiler-Setup-1.0.0.exe',
+        fileSizeBytes: 92907917,
+        sha256: '49644B00B1891FD46A9F203A0D160CA94D0CA9B3866EDB804AB2DD45C2FB7197',
+        downloadUrl,
+        supportedLanguages: ['c', 'cpp', 'java', 'python', 'javascript', 'go', 'sql']
+      });
+    } catch (err) {
+      logger.error('[api/agent/download-info] Error fetching download info:', err.message);
+      return sendJson(res, 500, {
+        success: false,
+        error: 'Failed to retrieve installer metadata'
+      });
+    }
+  });
+
+  /**
+   * GET /api/agent/download
+   * ───────────────────────
+   * Direct download redirect to the published Windows x64 installer.
+   */
+  router.get('/api/agent/download', async (req, res) => {
+    const downloadUrl = process.env.LOCAL_COMPILER_DOWNLOAD_URL || 
+      process.env.VITE_LOCAL_COMPILER_DOWNLOAD_URL || 
+      'https://github.com/CSrajput-ux/mujcode-/releases/download/v1.0.0/MUJCODE-Local-Compiler-Setup-1.0.0.exe';
+
+    if (downloadUrl) {
+      res.writeHead(302, {
+        'Location': downloadUrl,
+        'Cache-Control': 'no-cache'
+      });
+      return res.end();
+    }
+
+    return sendJson(res, 404, {
+      success: false,
+      error: 'Installer download URL is not configured on this server.'
+    });
+  });
 }
+

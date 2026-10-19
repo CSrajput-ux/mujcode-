@@ -10,6 +10,7 @@ declare global {
       getDiagnostics: () => Promise<any[]>;
       getSupportedLanguages: () => Promise<any[]>;
       openExternalUrl: (url: string) => Promise<any>;
+      installToolchain: (wingetId: string) => Promise<{ success: boolean; output: string }>;
 
       // Networking & Pairing
       getConnectionState: () => Promise<{ status: string; lastError: string | null; backendUrl?: string }>;
@@ -323,6 +324,160 @@ async function initApp() {
     console.error('Failed to load supported languages:', err);
   }
 
+  // --- Missing Runtimes Setup & Consent Modal Elements ---
+  const setupBanner = document.getElementById('setup-banner');
+  const setupMissingCount = document.getElementById('setup-missing-count');
+  const installMissingBtn = document.getElementById('install-missing-btn') as HTMLButtonElement | null;
+  const installSelectedBtn = document.getElementById('install-selected-btn') as HTMLButtonElement | null;
+  const rescanSystemBtn = document.getElementById('rescan-system-btn') as HTMLButtonElement | null;
+  const continueInstalledBtn = document.getElementById('continue-installed-btn') as HTMLButtonElement | null;
+
+  const consentModal = document.getElementById('consent-modal');
+  const modalPackageList = document.getElementById('modal-package-list');
+  const consentCheckbox = document.getElementById('consent-checkbox') as HTMLInputElement | null;
+  const modalInstallStatus = document.getElementById('modal-install-status');
+  const modalCancelBtn = document.getElementById('modal-cancel-btn') as HTMLButtonElement | null;
+  const modalConfirmBtn = document.getElementById('modal-confirm-btn') as HTMLButtonElement | null;
+
+  let currentDiagnostics: any[] = [];
+  const selectedLanguages = new Set<string>();
+  let pendingPackagesToInstall: any[] = [];
+  let isInstalling = false;
+
+  function openConsentModal(items: any[]) {
+    if (!consentModal || !modalPackageList) return;
+    if (items.length === 0) {
+      showAlert('No missing language toolchains selected for installation.', 'warning');
+      return;
+    }
+
+    pendingPackagesToInstall = items;
+    modalPackageList.innerHTML = items
+      .map(
+        (item) => `
+      <div class="package-item">
+        <div>
+          <div class="package-name">${escapeHtml(item.packageName || item.runtimeName)}</div>
+          <div class="package-meta">
+            ID: <span class="mono">${escapeHtml(item.wingetId || 'N/A')}</span> •
+            Publisher: ${escapeHtml(item.publisher || 'Verified Package')}
+            ${item.estimatedSizeMb ? ` • ~${escapeHtml(String(item.estimatedSizeMb))} MB` : ''} •
+            Permissions: Standard User
+          </div>
+        </div>
+        <span class="badge ${item.wingetId ? 'connected' : 'error'}">${item.wingetId ? 'Winget Verified' : 'Manual'}</span>
+      </div>
+    `
+      )
+      .join('');
+
+    if (consentCheckbox) consentCheckbox.checked = false;
+    if (modalConfirmBtn) modalConfirmBtn.disabled = true;
+    if (modalInstallStatus) {
+      modalInstallStatus.style.display = 'none';
+      modalInstallStatus.textContent = '';
+      modalInstallStatus.className = 'info-message';
+    }
+
+    consentModal.classList.remove('hidden');
+  }
+
+  consentCheckbox?.addEventListener('change', () => {
+    if (modalConfirmBtn) {
+      modalConfirmBtn.disabled = !consentCheckbox.checked || isInstalling;
+    }
+  });
+
+  modalCancelBtn?.addEventListener('click', () => {
+    if (isInstalling) return;
+    consentModal?.classList.add('hidden');
+  });
+
+  modalConfirmBtn?.addEventListener('click', async () => {
+    if (isInstalling || !pendingPackagesToInstall.length) return;
+    isInstalling = true;
+    if (modalConfirmBtn) modalConfirmBtn.disabled = true;
+    if (modalCancelBtn) modalCancelBtn.disabled = true;
+    if (consentCheckbox) consentCheckbox.disabled = true;
+
+    if (modalInstallStatus) {
+      modalInstallStatus.style.display = 'block';
+      modalInstallStatus.className = 'info-message';
+      modalInstallStatus.textContent = 'Starting package installation via Microsoft Winget...';
+    }
+
+    try {
+      for (let i = 0; i < pendingPackagesToInstall.length; i++) {
+        const pkg = pendingPackagesToInstall[i];
+        if (!pkg.wingetId) continue;
+
+        if (modalInstallStatus) {
+          modalInstallStatus.textContent = `[${i + 1}/${pendingPackagesToInstall.length}] Installing ${pkg.packageName || pkg.runtimeName} (${pkg.wingetId})... This may take 1-3 minutes.`;
+        }
+
+        const res = await api!.installToolchain(pkg.wingetId);
+        if (!res.success) {
+          if (modalInstallStatus) {
+            modalInstallStatus.className = 'info-message error';
+            modalInstallStatus.textContent = `Installation failed for ${pkg.runtimeName}: ${res.output.slice(-200)}`;
+          }
+          showAlert(`Failed to install ${pkg.runtimeName}: ${res.output.slice(-150)}`, 'error');
+          await new Promise((r) => setTimeout(r, 2500));
+        } else {
+          showAlert(`Installed ${pkg.runtimeName} successfully!`, 'success');
+        }
+      }
+
+      if (modalInstallStatus) {
+        modalInstallStatus.className = 'info-message success';
+        modalInstallStatus.textContent = 'Installation process completed! Verifying toolchains...';
+      }
+
+      await new Promise((r) => setTimeout(r, 1200));
+      consentModal?.classList.add('hidden');
+      await refreshDiagnostics();
+    } catch (err: any) {
+      showAlert(`Installation error: ${err.message}`, 'error');
+      if (modalInstallStatus) {
+        modalInstallStatus.className = 'info-message error';
+        modalInstallStatus.textContent = `Error: ${err.message}`;
+      }
+    } finally {
+      isInstalling = false;
+      if (modalConfirmBtn) modalConfirmBtn.disabled = false;
+      if (modalCancelBtn) modalCancelBtn.disabled = false;
+      if (consentCheckbox) consentCheckbox.disabled = false;
+    }
+  });
+
+  // Setup banner button clicks
+  installMissingBtn?.addEventListener('click', () => {
+    const missing = currentDiagnostics.filter((d) => !d.available && d.wingetId);
+    if (!missing.length) {
+      showAlert('All supported toolchains are either installed or require manual installation.', 'info');
+      return;
+    }
+    openConsentModal(missing);
+  });
+
+  installSelectedBtn?.addEventListener('click', () => {
+    const selected = currentDiagnostics.filter((d) => !d.available && selectedLanguages.has(d.language) && d.wingetId);
+    if (!selected.length) {
+      showAlert('Please check one or more missing toolchains in the grid below to install.', 'warning');
+      return;
+    }
+    openConsentModal(selected);
+  });
+
+  rescanSystemBtn?.addEventListener('click', () => {
+    refreshDiagnostics();
+  });
+
+  continueInstalledBtn?.addEventListener('click', () => {
+    setupBanner?.classList.add('hidden');
+    showAlert('Continuing with currently installed language runtimes. You can rescan or install at any time.', 'info');
+  });
+
   // --- Diagnostics ---
   async function refreshDiagnostics() {
     if (isScanning) return;
@@ -339,26 +494,63 @@ async function initApp() {
         throw new Error('No diagnostic data returned from compiler bridge.');
       }
 
+      currentDiagnostics = diagnostics;
       const availableCount = diagnostics.filter((d) => d.available).length;
+      const missingList = diagnostics.filter((d) => !d.available);
+
       healthSummary.textContent = `${availableCount} of ${diagnostics.length} Available`;
       healthSummary.className = `badge ${availableCount === diagnostics.length ? 'connected' : 'connecting'}`;
 
+      if (missingList.length > 0) {
+        setupBanner?.classList.remove('hidden');
+        if (setupMissingCount) setupMissingCount.textContent = `${missingList.length} Missing`;
+      } else {
+        setupBanner?.classList.add('hidden');
+      }
+
       diagnosticsGrid.innerHTML = diagnostics
-        .map(
-          (d) => `
-        <div class="diag-card ${d.available ? 'available' : 'missing'}">
-          <div class="diag-header">
-            <span class="diag-title">${escapeHtml(d.runtimeName)}</span>
-            <span class="status-tag ${d.available ? 'ok' : 'missing'}">${d.available ? 'READY' : 'MISSING'}</span>
-          </div>
-          <div class="diag-detail" title="${escapeHtml(d.executablePath || '')}">
-            ${escapeHtml(d.available ? (d.detectedVersion || 'Installed') : 'Not found on system PATH')}
-          </div>
-          ${d.troubleshootingInstructions ? `<div class="diag-help">${escapeHtml(d.troubleshootingInstructions)}</div>` : ''}
-        </div>
-      `
-        )
+        .map((d) => {
+          const isAvail = d.available;
+          const isWasm = Boolean(d.isBundled);
+          const hasSmoke = Boolean(d.smokeTestPassed);
+
+          return `
+            <div class="diag-card ${isAvail ? 'available' : 'missing'}">
+              <div class="diag-header">
+                <span class="diag-title">${escapeHtml(d.runtimeName)}</span>
+                <span class="status-tag ${isAvail ? 'ok' : 'missing'}">${isAvail ? (isWasm ? 'BUNDLED' : 'READY') : 'MISSING'}</span>
+              </div>
+              <div class="diag-detail" title="${escapeHtml(d.executablePath || '')}">
+                ${escapeHtml(isAvail ? (d.detectedVersion || 'Installed') : 'Not found on system')}
+              </div>
+              ${isAvail && hasSmoke ? `<span class="diag-smoke-tag passed">✓ Smoke Test Passed</span>` : ''}
+              ${!isAvail && d.wingetId ? `
+                <div class="diag-pkg-meta">Winget: ${escapeHtml(d.packageName || d.wingetId)}</div>
+                <label class="diag-checkbox-label">
+                  <input type="checkbox" class="toolchain-select-cb" data-lang="${escapeHtml(d.language)}" ${selectedLanguages.has(d.language) ? 'checked' : ''} />
+                  <span>Select for installation</span>
+                </label>
+              ` : ''}
+              ${d.troubleshootingInstructions ? `<div class="diag-help">${escapeHtml(d.troubleshootingInstructions)}</div>` : ''}
+            </div>
+          `;
+        })
         .join('');
+
+      // Wire checkboxes
+      const checkboxes = diagnosticsGrid.querySelectorAll<HTMLInputElement>('.toolchain-select-cb');
+      checkboxes.forEach((cb) => {
+        cb.addEventListener('change', () => {
+          const lang = cb.getAttribute('data-lang');
+          if (lang) {
+            if (cb.checked) {
+              selectedLanguages.add(lang);
+            } else {
+              selectedLanguages.delete(lang);
+            }
+          }
+        });
+      });
     } catch (err: any) {
       healthSummary.textContent = 'Scan Error';
       healthSummary.className = 'badge error';
