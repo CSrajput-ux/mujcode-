@@ -35,10 +35,10 @@ export class AgentDeviceService {
     const userId = String(user.id || user.college_id);
     const now = Date.now();
 
-    // Check rate limit: 5 challenges per 5 minutes
+    // Check rate limit: 15 challenges per 5 minutes
     const rl = userChallengeRateLimits.get(userId) || [];
     const validRl = rl.filter(t => now - t < CHALLENGE_LIFETIME_MS);
-    if (validRl.length >= 5) {
+    if (validRl.length >= 15) {
       throw new Error('Rate limit exceeded: too many pairing attempts. Please wait 5 minutes.');
     }
     validRl.push(now);

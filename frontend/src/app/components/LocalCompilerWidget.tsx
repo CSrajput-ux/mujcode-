@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Laptop, CheckCircle2, AlertCircle, Copy, Check, RefreshCw, X, Shield, Cpu, Download } from 'lucide-react';
-import apiClient from '../services/apiClient';
+import { Laptop, CheckCircle2, AlertCircle, Copy, Check, RefreshCw, X, Shield, Cpu, Download, ArrowLeft, Loader2 } from 'lucide-react';
+import apiClient, { API_BASE_URL } from '../services/apiClient';
 import { toast } from 'sonner';
 
 export interface LocalAgentStatus {
@@ -29,11 +29,13 @@ export default function LocalCompilerWidget({
   const [status, setStatus] = useState<LocalAgentStatus>({ hasPairedDevice: false, isOnline: false });
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isPairingView, setIsPairingView] = useState(false);
   const [challengeCode, setChallengeCode] = useState<string | null>(null);
   const [challengeExpiresAt, setChallengeExpiresAt] = useState<number | null>(null);
   const [timeLeftSec, setTimeLeftSec] = useState<number>(0);
   const [copied, setCopied] = useState(false);
   const [unpairing, setUnpairing] = useState(false);
+  const [downloading, setDownloading] = useState(false);
 
   // Poll status on mount and when modal is open
   const fetchStatus = async () => {
@@ -48,9 +50,16 @@ export default function LocalCompilerWidget({
         setStatus(newStatus);
         onStatusChange?.(newStatus);
 
-        // If user was offline/unpaired and now paired+online, auto-enable local agent
-        if (newStatus.isOnline && !useLocalAgent) {
-          onToggleUseLocalAgent(true);
+        // If user was in pairing view and device comes online, auto-switch to online view
+        if (newStatus.isOnline) {
+          if (isPairingView) {
+            setIsPairingView(false);
+            setChallengeCode(null);
+            toast.success('MUJCODE Local Compiler connected successfully!');
+          }
+          if (!useLocalAgent) {
+            onToggleUseLocalAgent(true);
+          }
         }
       }
     } catch {
@@ -62,7 +71,7 @@ export default function LocalCompilerWidget({
     fetchStatus();
     const interval = setInterval(fetchStatus, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isPairingView, useLocalAgent]);
 
   // Countdown timer for pairing challenge
   useEffect(() => {
@@ -97,6 +106,11 @@ export default function LocalCompilerWidget({
     }
   };
 
+  const handleStartPairing = () => {
+    setIsPairingView(true);
+    requestChallenge();
+  };
+
   const handleCopyCode = () => {
     if (challengeCode) {
       navigator.clipboard.writeText(challengeCode);
@@ -112,13 +126,53 @@ export default function LocalCompilerWidget({
     try {
       await apiClient.delete(`/api/agent/devices/${status.activeDevice.deviceId}`);
       toast.success('Device unpaired successfully');
-      setModalOpen(false);
+      setIsPairingView(false);
+      setChallengeCode(null);
       onToggleUseLocalAgent(false);
-      fetchStatus();
+      await fetchStatus();
     } catch (err: any) {
       toast.error(err.response?.data?.error || 'Failed to unpair device');
     } finally {
       setUnpairing(false);
+    }
+  };
+
+  const handleDownloadApp = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    try {
+      // 1. Direct environment variable override if set
+      let url = (import.meta as any).env?.VITE_LOCAL_COMPILER_DOWNLOAD_URL;
+
+      // 2. Query backend download-info
+      if (!url) {
+        const res = await apiClient.get('/api/agent/download-info');
+        if (res.data?.success && res.data.downloadUrl) {
+          url = res.data.downloadUrl;
+        }
+      }
+
+      if (!url) {
+        url = '/api/agent/download';
+      }
+
+      const downloadHref = url.startsWith('http')
+        ? url
+        : `${API_BASE_URL || ''}${url.startsWith('/') ? '' : '/'}${url}`;
+
+      const a = document.createElement('a');
+      a.href = downloadHref;
+      a.setAttribute('download', 'MUJCODE-Local-Compiler-Setup-1.0.0.exe');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      toast.success('Download started! Run the installer on your Windows PC.');
+    } catch (err: any) {
+      console.error('Failed to download installer:', err);
+      toast.error(err.response?.data?.error || err.message || 'Unable to download offline compiler.');
+    } finally {
+      setTimeout(() => setDownloading(false), 2000);
     }
   };
 
@@ -128,7 +182,10 @@ export default function LocalCompilerWidget({
       {status.isOnline ? (
         <button
           type="button"
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setIsPairingView(false);
+            setModalOpen(true);
+          }}
           className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium bg-emerald-950/60 border border-emerald-800/80 text-emerald-300 hover:bg-emerald-900/60 transition-colors"
           title="Local Compiler is online and connected"
         >
@@ -139,7 +196,10 @@ export default function LocalCompilerWidget({
       ) : status.hasPairedDevice ? (
         <button
           type="button"
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            setIsPairingView(false);
+            setModalOpen(true);
+          }}
           className="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium bg-amber-950/50 border border-amber-800/80 text-amber-300 hover:bg-amber-900/50 transition-colors"
           title="Paired device is offline. Open MUJCODE Local Compiler on your desktop to connect."
         >
@@ -151,6 +211,7 @@ export default function LocalCompilerWidget({
         <button
           type="button"
           onClick={() => {
+            setIsPairingView(true);
             setModalOpen(true);
             if (!challengeCode) requestChallenge();
           }}
@@ -167,7 +228,10 @@ export default function LocalCompilerWidget({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
           <div className="bg-[#18191d] border border-zinc-700/80 rounded-xl max-w-lg w-full p-6 text-zinc-200 shadow-2xl relative">
             <button
-              onClick={() => setModalOpen(false)}
+              onClick={() => {
+                setModalOpen(false);
+                setIsPairingView(false);
+              }}
               className="absolute top-4 right-4 p-1 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800 transition-colors"
             >
               <X className="w-5 h-5" />
@@ -184,8 +248,104 @@ export default function LocalCompilerWidget({
               </div>
             </div>
 
-            {/* Current State Information */}
-            {status.isOnline ? (
+            {/* Dynamic View Rendering */}
+            {(isPairingView || (!status.hasPairedDevice && !status.isOnline)) ? (
+              /* View 1: Pairing Mode */
+              <div className="space-y-4">
+                {status.hasPairedDevice && (
+                  <div className="flex items-center justify-between pb-1 border-b border-zinc-800/80">
+                    <button
+                      type="button"
+                      onClick={() => setIsPairingView(false)}
+                      className="inline-flex items-center space-x-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
+                    >
+                      <ArrowLeft className="w-3.5 h-3.5" />
+                      <span>Back to Device Status</span>
+                    </button>
+                    <span className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">
+                      Pair New Device
+                    </span>
+                  </div>
+                )}
+
+                <p className="text-xs text-zinc-300 leading-relaxed">
+                  Connect your desktop compiler agent to run code directly on your local hardware using your GCC, G++, JDK, Python, and Node.js toolchains with 0ms server latency.
+                </p>
+
+                {loading ? (
+                  <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 flex flex-col items-center justify-center space-y-2.5">
+                    <Loader2 className="w-6 h-6 text-[#FF7A00] animate-spin" />
+                    <span className="text-xs text-zinc-400">Generating secure one-time pairing code...</span>
+                  </div>
+                ) : challengeCode ? (
+                  <div className="bg-zinc-900 border border-zinc-700/80 rounded-lg p-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
+                        Your One-Time Pairing Code
+                      </span>
+                      <span className="text-xs font-mono text-amber-400">
+                        Expires in {Math.floor(timeLeftSec / 60)}:{(timeLeftSec % 60).toString().padStart(2, '0')}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between bg-black/60 border border-zinc-700 rounded-lg px-4 py-3">
+                      <span className="font-mono text-2xl font-bold tracking-widest text-[#FF7A00]">
+                        {challengeCode}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleCopyCode}
+                        className="p-2 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
+                        title="Copy code"
+                      >
+                        {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                      </button>
+                    </div>
+
+                    <div className="text-xs text-zinc-400 space-y-1.5 pt-1">
+                      <p className="flex items-center space-x-1.5">
+                        <span className="w-4 h-4 rounded-full bg-zinc-800 text-[10px] flex items-center justify-center font-bold text-zinc-300">1</span>
+                        <span>Open <strong>MUJCODE Local Compiler</strong> on your Windows PC.</span>
+                      </p>
+                      <p className="flex items-center space-x-1.5">
+                        <span className="w-4 h-4 rounded-full bg-zinc-800 text-[10px] flex items-center justify-center font-bold text-zinc-300">2</span>
+                        <span>Paste this code into the pairing input and click <strong>Approve & Pair</strong>.</span>
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-4 space-y-3">
+                    <button
+                      type="button"
+                      disabled={loading}
+                      onClick={requestChallenge}
+                      className="w-full py-2.5 px-4 bg-[#FF7A00] hover:bg-[#FF6A00] text-white rounded-lg text-xs font-semibold shadow-md transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <RefreshCw className="w-4 h-4" />
+                      <span>Generate Pairing Code</span>
+                    </button>
+                  </div>
+                )}
+
+                <div className="border-t border-zinc-800 pt-3 flex items-center justify-between text-xs text-zinc-400">
+                  <span>Don't have the desktop app?</span>
+                  <button
+                    type="button"
+                    onClick={handleDownloadApp}
+                    disabled={downloading}
+                    className="inline-flex items-center space-x-1 text-[#FF7A00] hover:text-[#FF6A00] hover:underline font-medium cursor-pointer"
+                  >
+                    {downloading ? (
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    ) : (
+                      <Download className="w-3.5 h-3.5" />
+                    )}
+                    <span>{downloading ? 'Downloading...' : 'Download for Windows (.exe)'}</span>
+                  </button>
+                </div>
+              </div>
+            ) : status.isOnline ? (
+              /* View 2: Device is Connected & Online */
               <div className="space-y-4">
                 <div className="p-3.5 bg-emerald-950/40 border border-emerald-800/60 rounded-lg flex items-start space-x-3">
                   <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
@@ -223,16 +383,26 @@ export default function LocalCompilerWidget({
                   >
                     {unpairing ? 'Unpairing...' : 'Unpair Device'}
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setModalOpen(false)}
-                    className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-medium transition-colors"
-                  >
-                    Done
-                  </button>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      type="button"
+                      onClick={handleStartPairing}
+                      className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 rounded-lg text-xs font-medium transition-colors"
+                    >
+                      Pair Another Device
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setModalOpen(false)}
+                      className="px-4 py-1.5 bg-[#FF7A00] hover:bg-[#FF6A00] text-white rounded-lg text-xs font-medium transition-colors"
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
               </div>
-            ) : status.hasPairedDevice ? (
+            ) : (
+              /* View 3: Device is Paired but Offline */
               <div className="space-y-4">
                 <div className="p-3.5 bg-amber-950/40 border border-amber-800/60 rounded-lg flex items-start space-x-3">
                   <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
@@ -253,8 +423,28 @@ export default function LocalCompilerWidget({
                   <ul className="list-disc list-inside space-y-1 text-zinc-400 pl-1">
                     <li>Confirm the Local Compiler desktop app is running in your Windows taskbar.</li>
                     <li>Verify your internet connection.</li>
-                    <li>If the app is uninstalled, download and re-pair below.</li>
+                    <li>If the app is uninstalled or you need to re-pair, use the actions below.</li>
                   </ul>
+                </div>
+
+                <div className="flex items-center justify-between p-3 bg-zinc-900/60 border border-zinc-800 rounded-lg">
+                  <div className="text-xs text-zinc-400">
+                    <span className="font-medium text-zinc-200 block">Missing the Desktop App?</span>
+                    Re-install the Windows x64 compiler agent.
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleDownloadApp}
+                    disabled={downloading}
+                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white text-xs font-medium border border-zinc-700 transition-colors cursor-pointer"
+                  >
+                    {downloading ? (
+                      <Loader2 className="w-3.5 h-3.5 text-[#FF7A00] animate-spin" />
+                    ) : (
+                      <Download className="w-3.5 h-3.5 text-[#FF7A00]" />
+                    )}
+                    <span>{downloading ? 'Downloading...' : 'Download Installer (.exe)'}</span>
+                  </button>
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
@@ -268,78 +458,12 @@ export default function LocalCompilerWidget({
                   </button>
                   <button
                     type="button"
-                    onClick={() => {
-                      requestChallenge();
-                    }}
-                    className="px-3.5 py-1.5 bg-[#FF7A00] hover:bg-[#FF6A00] text-white rounded-lg text-xs font-medium transition-colors"
+                    onClick={handleStartPairing}
+                    className="px-3.5 py-1.5 bg-[#FF7A00] hover:bg-[#FF6A00] text-white rounded-lg text-xs font-medium transition-colors inline-flex items-center space-x-1.5 shadow-sm"
                   >
-                    Pair New Device
+                    <Cpu className="w-3.5 h-3.5" />
+                    <span>Pair New Device</span>
                   </button>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <p className="text-xs text-zinc-300 leading-relaxed">
-                  Install and connect the desktop compiler agent to run code directly on your local hardware using your MinGW GCC, G++, JDK, Python, and Node.js runtimes.
-                </p>
-
-                {challengeCode ? (
-                  <div className="bg-zinc-900 border border-zinc-700/80 rounded-lg p-4 space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Your One-Time Pairing Code</span>
-                      <span className="text-xs font-mono text-amber-400">Expires in {Math.floor(timeLeftSec / 60)}:{(timeLeftSec % 60).toString().padStart(2, '0')}</span>
-                    </div>
-
-                    <div className="flex items-center justify-between bg-black/60 border border-zinc-700 rounded-lg px-4 py-3">
-                      <span className="font-mono text-2xl font-bold tracking-widest text-[#FF7A00]">
-                        {challengeCode}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={handleCopyCode}
-                        className="p-2 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
-                        title="Copy code"
-                      >
-                        {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-                      </button>
-                    </div>
-
-                    <div className="text-xs text-zinc-400 space-y-1">
-                      <p>1. Open <strong>MUJCODE Local Compiler</strong> on your Windows PC.</p>
-                      <p>2. Paste this one-time code into the pairing input and click <strong>Approve & Pair</strong>.</p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-4 space-y-3">
-                    <button
-                      type="button"
-                      disabled={loading}
-                      onClick={requestChallenge}
-                      className="w-full py-2.5 px-4 bg-[#FF7A00] hover:bg-[#FF6A00] text-white rounded-lg text-xs font-semibold shadow-md transition-colors flex items-center justify-center space-x-2"
-                    >
-                      {loading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Cpu className="w-4 h-4" />}
-                      <span>Generate Pairing Code</span>
-                    </button>
-                  </div>
-                )}
-
-                <div className="border-t border-zinc-800 pt-3 flex items-center justify-between text-xs text-zinc-400">
-                  <span>Don't have the desktop app?</span>
-                  {((import.meta as any).env?.VITE_LOCAL_COMPILER_DOWNLOAD_URL) ? (
-                    <a
-                      href={(import.meta as any).env.VITE_LOCAL_COMPILER_DOWNLOAD_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center space-x-1 text-[#FF7A00] hover:underline font-medium"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                      <span>Download for Windows</span>
-                    </a>
-                  ) : (
-                    <span className="text-zinc-500 italic text-[11px]" title="Set VITE_LOCAL_COMPILER_DOWNLOAD_URL in production environment">
-                      Download installer from release assets
-                    </span>
-                  )}
                 </div>
               </div>
             )}
