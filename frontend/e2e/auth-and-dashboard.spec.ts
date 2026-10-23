@@ -48,7 +48,7 @@ test.describe('MujCode authentication E2E journeys', () => {
     await page.getByRole('tab', { name: 'Faculty' }).click();
 
     await expect(page.getByLabel('Username')).toBeVisible();
-    await expect(page.getByLabel('faculty-password')).toBeVisible();
+    await expect(page.getByLabel('Password')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Login as Faculty' })).toBeVisible();
   });
 
