@@ -47,7 +47,7 @@ Backend live integration tests can depend on a running Judge0 or compiler engine
 - Backend Node test runner suites exist for compiler behavior, Judge0, security, storage, MFA, agent gateway, and production-hardening gates.
 - Frontend Vitest suites and a Playwright E2E file exist.
 - Compiler-engine has language-matrix and security tests.
-- The current Playwright file contains several assertions that only check URL definedness or test local placeholder logic. These do not verify the actual login/dashboard/submit behavior and should be rewritten to assert observable UI state and network effects.
+- The earlier Playwright suite included placeholder checks. This branch replaces those with browser assertions for login form rendering, faculty role switching, invalid-credential feedback, successful student login/session navigation, and network-error handling. Admin/faculty/student authorization isolation still requires route-level access-control tests and backend authorization tests.
 - Existing audit evidence calls out incomplete end-to-end auth, authenticated API/database integration, database migrations, upload/download, exam-proctoring and environment-dependent language execution checks.
 - This branch adds a small live HTTP contract smoke suite. It is an initial system-test layer, not a substitute for isolated database integration tests or real browser journeys.
 
