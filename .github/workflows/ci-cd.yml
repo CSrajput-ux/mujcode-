@@ -71,6 +71,9 @@ jobs:
             frontend/package-lock.json
 
       - name: Install Backend Dependencies & Run Tests
+        env:
+          NODE_ENV: test
+          TOKEN_SECRET: mujcode-ci-only-test-secret-never-use-in-production-839b2b1f
         run: |
           cd backend
           npm ci
