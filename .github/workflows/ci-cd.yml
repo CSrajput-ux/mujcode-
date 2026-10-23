@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js for Dependency Audit
-        uses: actions/setup-node@60edb5dd545a775178f525247833795be322dca4 # v4.0.2
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
 
@@ -62,7 +62,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@60edb5dd545a775178f525247833795be322dca4 # v4.0.2
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22'
           cache: 'npm'
@@ -70,17 +70,22 @@ jobs:
             backend/package-lock.json
             frontend/package-lock.json
 
-      - name: Install Backend Dependencies & Run Tests
+      - name: Install Backend & Frontend Dependencies; Validate Backend; Run Backend Tests
+        env:
+          NODE_ENV: test
+          TOKEN_SECRET: mujcode-ci-only-test-secret-never-use-in-production-839b2b1f
         run: |
           cd backend
           npm ci
           npm run check
+          cd ../frontend
+          npm ci
+          cd ../backend
           npm test
 
-      - name: Install Frontend Dependencies & Run Tests
+      - name: Run Frontend Unit & Component Tests
         run: |
           cd frontend
-          npm ci
           npm test
 
       - name: Frontend Type Check & Production Build
@@ -89,6 +94,12 @@ jobs:
         run: |
           cd frontend
           npm run build
+
+      - name: Install Compiler Engine Dependencies & Run Tests
+        run: |
+          cd compiler-engine
+          npm ci
+          npm test
 
       - name: Install Playwright Browsers & Run E2E Tests
         run: |
@@ -103,14 +114,20 @@ jobs:
     environment:
       name: production
       url: https://mujcode-api.onrender.com
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.RENDER_DEPLOY_HOOK_URL != ''
+    env:
+      RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-      - name: Trigger Render Deploy Hook
-        run: |
-          curl -fsSL --retry 3 -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
-          echo "✅ Render deploy triggered"
+      - name: Skip Render deployment when hook is not configured
+        if: env.RENDER_DEPLOY_HOOK_URL == ''
+        run: echo "::notice::Render deployment skipped because RENDER_DEPLOY_HOOK_URL is not configured."
 
+      - name: Trigger Render Deploy Hook
+        if: env.RENDER_DEPLOY_HOOK_URL != ''
+        run: |
+          curl -fsSL --retry 3 -X POST "$RENDER_DEPLOY_HOOK_URL"
+          echo "✅ Render deploy triggered"
   deploy-vercel:
     name: Deploy to Vercel (Frontend Primary)
     needs: test
@@ -118,137 +135,180 @@ jobs:
     environment:
       name: production
       url: https://mujcode.vercel.app
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.VERCEL_TOKEN != ''
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
+      - name: Skip Vercel deployment when credentials are not configured
+        if: env.VERCEL_TOKEN == '' || env.VERCEL_ORG_ID == '' || env.VERCEL_PROJECT_ID == ''
+        run: echo "::notice::Vercel deployment skipped because one or more Vercel secrets are not configured."
+
       - name: Deploy to Vercel
+        if: env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
         uses: amondnet/vercel-action@v25
         with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-token: ${{ env.VERCEL_TOKEN }}
+          vercel-org-id: ${{ env.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ env.VERCEL_PROJECT_ID }}
           working-directory: ./frontend
           vercel-args: '--prod'
-
   build-and-push-aws:
     name: Build & Push Docker Images (AWS ECR Alternative)
     needs: test
     runs-on: ubuntu-latest
-    if: (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')) && secrets.AWS_ACCESS_KEY_ID != ''
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
+      - name: Skip AWS image build when credentials are not configured
+        if: env.AWS_ACCESS_KEY_ID == '' || env.AWS_SECRET_ACCESS_KEY == '' || env.AWS_ACCOUNT_ID == ''
+        run: echo "::notice::AWS image build skipped because one or more AWS secrets are not configured."
+
       - name: Configure AWS Credentials
+        if: env.AWS_ACCESS_KEY_ID != '' && env.AWS_SECRET_ACCESS_KEY != ''
         uses: aws-actions/configure-aws-credentials@e3ddf1e3cb0079c02c407522677826b77e1abf62 # v4.0.2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
+        if: env.AWS_ACCESS_KEY_ID != '' && env.AWS_SECRET_ACCESS_KEY != '' && env.AWS_ACCOUNT_ID != ''
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@062b18b96a7aff07dd2304c1077fa7ea66466db5 # v2.0.1
 
       - name: Build and Push Backend Image
+        if: env.AWS_ACCESS_KEY_ID != '' && env.AWS_SECRET_ACCESS_KEY != '' && env.AWS_ACCOUNT_ID != ''
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY-backend:$IMAGE_TAG \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY-backend:latest \
+            -t "$ECR_REGISTRY/$ECR_REPOSITORY-backend:$IMAGE_TAG" \
+            -t "$ECR_REGISTRY/$ECR_REPOSITORY-backend:latest" \
             ./backend
-          docker push -a $ECR_REGISTRY/$ECR_REPOSITORY-backend
+          docker push -a "$ECR_REGISTRY/$ECR_REPOSITORY-backend"
 
       - name: Build and Push Frontend Image
+        if: env.AWS_ACCESS_KEY_ID != '' && env.AWS_SECRET_ACCESS_KEY != '' && env.AWS_ACCOUNT_ID != ''
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build \
-            --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY-frontend:$IMAGE_TAG \
-            -t $ECR_REGISTRY/$ECR_REPOSITORY-frontend:latest \
+            --build-arg VITE_API_URL="$VITE_API_URL" \
+            -t "$ECR_REGISTRY/$ECR_REPOSITORY-frontend:$IMAGE_TAG" \
+            -t "$ECR_REGISTRY/$ECR_REPOSITORY-frontend:latest" \
             ./frontend
-          docker push -a $ECR_REGISTRY/$ECR_REPOSITORY-frontend
-
+          docker push -a "$ECR_REGISTRY/$ECR_REPOSITORY-frontend"
   deploy-staging-aws:
     name: Deploy to Staging (AWS EKS)
     needs: build-and-push-aws
     runs-on: ubuntu-latest
     environment:
       name: staging
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.AWS_ACCESS_KEY_ID != ''
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
+      - name: Skip staging deployment when AWS credentials are not configured
+        if: env.AWS_ACCESS_KEY_ID == '' || env.AWS_SECRET_ACCESS_KEY == '' || env.AWS_ACCOUNT_ID == ''
+        run: echo "::notice::AWS staging deployment skipped because one or more AWS secrets are not configured."
+
       - name: Configure AWS Credentials
+        if: env.AWS_ACCESS_KEY_ID != '' && env.AWS_SECRET_ACCESS_KEY != ''
         uses: aws-actions/configure-aws-credentials@e3ddf1e3cb0079c02c407522677826b77e1abf62 # v4.0.2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Update Kubeconfig
+        if: env.AWS_ACCESS_KEY_ID != '' && env.AWS_SECRET_ACCESS_KEY != '' && env.AWS_ACCOUNT_ID != ''
         run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
       - name: Setup Helm
+        if: env.AWS_ACCESS_KEY_ID != '' && env.AWS_SECRET_ACCESS_KEY != '' && env.AWS_ACCOUNT_ID != ''
         uses: azure/setup-helm@fe7b79be5ee32290393534e834d32154c2b1ce50 # v3.0.2
         with:
           version: 'latest'
 
       - name: Deploy Staging via Helm
+        if: env.AWS_ACCESS_KEY_ID != '' && env.AWS_SECRET_ACCESS_KEY != '' && env.AWS_ACCOUNT_ID != ''
         env:
-          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+          ECR_REGISTRY: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
           IMAGE_TAG: ${{ github.sha }}
         run: |
           helm upgrade --install mujcode-staging ./helm/mujcode \
             --namespace staging --create-namespace \
-            --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \
-            --set image.tag=$IMAGE_TAG \
+            --set image.repository="$ECR_REGISTRY/$ECR_REPOSITORY" \
+            --set image.tag="$IMAGE_TAG" \
             --wait --timeout 5m
-
   deploy-production-aws:
     name: Deploy to Production (AWS EKS Manual Gate)
     needs: build-and-push-aws
     runs-on: ubuntu-latest
     environment:
       name: production-aws
-    if: github.event_name == 'workflow_dispatch' && secrets.AWS_PROD_ACCESS_KEY_ID != ''
+    env:
+      AWS_PROD_ACCESS_KEY_ID: ${{ secrets.AWS_PROD_ACCESS_KEY_ID }}
+      AWS_PROD_SECRET_ACCESS_KEY: ${{ secrets.AWS_PROD_SECRET_ACCESS_KEY }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+    if: github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
+      - name: Skip production deployment when AWS credentials are not configured
+        if: env.AWS_PROD_ACCESS_KEY_ID == '' || env.AWS_PROD_SECRET_ACCESS_KEY == '' || env.AWS_ACCOUNT_ID == ''
+        run: echo "::notice::AWS production deployment skipped because one or more AWS secrets are not configured."
+
       - name: Configure AWS Credentials
+        if: env.AWS_PROD_ACCESS_KEY_ID != '' && env.AWS_PROD_SECRET_ACCESS_KEY != ''
         uses: aws-actions/configure-aws-credentials@e3ddf1e3cb0079c02c407522677826b77e1abf62 # v4.0.2
         with:
-          aws-access-key-id: ${{ secrets.AWS_PROD_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_PROD_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ env.AWS_PROD_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_PROD_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Update Kubeconfig
+        if: env.AWS_PROD_ACCESS_KEY_ID != '' && env.AWS_PROD_SECRET_ACCESS_KEY != '' && env.AWS_ACCOUNT_ID != ''
         run: aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
       - name: Setup Helm
+        if: env.AWS_PROD_ACCESS_KEY_ID != '' && env.AWS_PROD_SECRET_ACCESS_KEY != '' && env.AWS_ACCOUNT_ID != ''
         uses: azure/setup-helm@fe7b79be5ee32290393534e834d32154c2b1ce50 # v3.0.2
         with:
           version: 'latest'
 
       - name: Deploy Production via Helm
+        if: env.AWS_PROD_ACCESS_KEY_ID != '' && env.AWS_PROD_SECRET_ACCESS_KEY != '' && env.AWS_ACCOUNT_ID != ''
         env:
-          ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+          ECR_REGISTRY: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
           IMAGE_TAG: ${{ github.sha }}
         run: |
           helm upgrade --install mujcode ./helm/mujcode \
             --namespace production --create-namespace \
-            --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY \
-            --set image.tag=$IMAGE_TAG \
+            --set image.repository="$ECR_REGISTRY/$ECR_REPOSITORY" \
+            --set image.tag="$IMAGE_TAG" \
             --wait --timeout 5m
