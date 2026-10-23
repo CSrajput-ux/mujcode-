@@ -20,9 +20,14 @@ export class GoAdapter extends BaseAdapter {
         ['build', '-o', binaryFile, sourceFile],
         {
           cwd: workDir,
-          timeoutSec: 10,
+          // Go's first build can compile the standard library and exceed the
+          // normal program-runtime limit. Keep compiler time bounded separately.
+          timeoutSec: 30,
+          maxTimeoutSec: 30,
           env: {
-            GOCACHE: path.join(workDir, '.cache'),
+            // Reuse Go's content-addressed build cache across jobs while keeping
+            // GOPATH and each submitted program workspace isolated.
+            GOCACHE: path.join(config.workBaseDir, '.go-cache'),
             GOPATH: path.join(workDir, '.gopath')
           }
         }
