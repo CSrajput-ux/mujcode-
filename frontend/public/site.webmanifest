@@ -1,0 +1,16 @@
+{
+  "name": "MujCode",
+  "short_name": "MujCode",
+  "description": "Coding practice, learning resources, online assessments, and placement preparation.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff7a00",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
