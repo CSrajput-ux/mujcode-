@@ -98,11 +98,11 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Code. Learn. Test. Get Placed.
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            Coding Practice, Online Assessments & Placement Preparation
           </h1>
           <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
-            The complete platform for college-level coding education, assessment, and placement
+            MujCode brings DSA and coding practice, learning resources, online assessments, faculty tools, and campus placement preparation together for college students and educators.
           </p>
           <Button
             onClick={() => navigate('/login')}
