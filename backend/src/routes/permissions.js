@@ -7,12 +7,15 @@ function ensurePermissionRequests(db) {
     return { requests: db.permissionRequests, created: false };
   }
 
-  const fallbackCourse = db.courses[0] || {
+  // File-backed / test databases may not have seeded every optional collection.
+  const courses = Array.isArray(db.courses) ? db.courses : [];
+  const studentsData = Array.isArray(db.students) ? db.students : [];
+  const fallbackCourse = courses[0] || {
     _id: 'course_1',
     title: 'Data Structures',
     department: 'Computer Science and Engineering'
   };
-  const students = db.students.slice(0, 2);
+  const students = studentsData.slice(0, 2);
 
   db.permissionRequests = students.map((student, index) => ({
     _id: nextId('preq'),

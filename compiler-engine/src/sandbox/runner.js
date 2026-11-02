@@ -9,13 +9,14 @@ export async function executeProcess(executable, args = [], options = {}) {
     cwd,
     stdin = '',
     timeoutSec = config.defaultTimeLimitSec,
+    maxTimeoutSec = config.maxTimeLimitSec,
     maxOutputBytes = config.maxOutputBytes,
     env = {}
   } = options;
 
   return new Promise((resolve) => {
     const startTime = process.hrtime.bigint();
-    const timeoutMs = Math.max(500, Math.min(config.maxTimeLimitSec * 1000, Number(timeoutSec) * 1000));
+    const timeoutMs = Math.max(500, Math.min(Number(maxTimeoutSec) * 1000, Number(timeoutSec) * 1000));
 
     let stdout = '';
     let stderr = '';
