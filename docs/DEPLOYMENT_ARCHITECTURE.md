@@ -8,26 +8,30 @@
 
 ## 1. Architecture Overview
 
-MujCode is deployed as an enterprise hybrid system designed for zero-downtime student assessment, real-time proctoring, and isolated multi-language code compilation.
+MujCode is deployed as a hybrid system for student assessment, real-time proctoring, and isolated multi-language code compilation.
 
 ```
                          [ Cloudflare DNS / WAF ]
                                     │
-               ┌────────────────────┴────────────────────┐
-               │                                         │
-               ▼                                         ▼
-    [ Vercel CDN (Frontend) ]                 [ Render Web Service (Backend) ]
-    https://mujcode.in                        https://mujcode-api.onrender.com
-    (React 18 + Vite + SPA)                   (Node.js 22 + Native ESM Cluster)
-               │                                         │
-               └────────────────────┬────────────────────┘
                                     │
-     ┌──────────────────────────────┼──────────────────────────────┐
-     │                              │                              │
-     ▼                              ▼                              ▼
-[ Neon.tech PostgreSQL ]    [ Upstash Redis ]              [ Ubuntu 22.04 LTS VPS ]
-Primary ACID Relational     Distributed Cache /            Dedicated Judge0 CE Node
-Data Store (TLS Required)   Rate Limiting (TLS Required)   (cgroups v1 Isolate Sandbox)
+                                    ▼
+                         [ Vercel CDN (Frontend) ]
+                              https://mujcode.in
+                                    │
+                                    ▼
+                   [ Render API Load Balancer ]
+                    https://mujcode-api-lb.onrender.com
+                           │                 │
+                           ▼                 ▼
+                [ Render Backend 1 ] [ Render Backend 2 ]
+                           │                 │
+             ┌─────────────┴─────────┬───────┴─────────────┐
+             ▼                       ▼                     ▼
+    [ Neon PostgreSQL ]       [ Upstash Redis ]     [ Cloudinary CDN ]
+       Shared data          Shared cache/sockets    Shared uploads
+                           │
+                           ▼
+                  [ Judge0 CE service ]
 ```
 
 ---
@@ -38,18 +42,21 @@ Data Store (TLS Required)   Rate Limiting (TLS Required)   (cgroups v1 Isolate S
 - **Frontend:** **Vercel** (`deploy-vercel` job in `.github/workflows/ci-cd.yml`).
   - Framework: Vite / React
   - Domain: `https://www.mujcode.in`, `https://mujcode.in`
-  - Environment Variable: `VITE_API_URL=https://mujcode-api.onrender.com`
-- **Backend:** **Render Web Service** (`deploy-render` job via Render Deploy Hook).
+  - Environment Variable: `VITE_API_URL=https://mujcode-api-lb.onrender.com`
+- **API Load Balancer:** Render Blueprint at `load-balancer/render.yaml`.
+  - Routes API traffic between the two backend service URLs in `API_BACKENDS`.
+  - Keeps Socket.IO requests from one client IP on the same backend.
+- **Backend:** Two Render Web Services (`mujcode-1` and `mujcode-2`).
   - Runtime: Node.js 22 LTS
   - Start Command: `node src/server.js` (No runtime transpilers)
-  - Scaling: 2+ Web Concurrency workers
+  - Both instances must share PostgreSQL, Redis, token secret, CORS origins, and Cloudinary storage.
 - **Primary Database:** **Neon.tech Managed PostgreSQL**
   - Connection: `POSTGRES_URI` with `sslmode=require`
   - Pool Max: 10–15 connections
   - Statement Timeout: 10,000ms
 - **Distributed Cache & Rate Limiting:** **Upstash Redis**
   - Connection: `REDIS_URI` with TLS (`rediss://...`)
-- **Media & File Storage:** **Cloudinary Media CDN**
+- **Media & File Storage:** **Cloudinary Media CDN** (shared by both backend instances)
   - PDF, PPT, and image uploads
 - **Code Execution Sandbox:** **Dedicated Ubuntu 22.04 LTS VPS**
   - Upstream Judge0 CE 1.13.1 on dedicated host with Linux cgroups v1 kernel parameters.

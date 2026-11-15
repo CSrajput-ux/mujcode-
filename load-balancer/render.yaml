@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: mujcode-api-lb
+    runtime: node
+    region: singapore
+    plan: free
+    rootDir: load-balancer
+    buildCommand: npm run check
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: API_BACKENDS
+        value: https://mujcode-1.onrender.com,https://mujcode-2.onrender.com

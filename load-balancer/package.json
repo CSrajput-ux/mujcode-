@@ -1,0 +1,13 @@
+{
+  "name": "mujcode-api-load-balancer",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "check": "node --check src/server.js",
+    "test": "node --test"
+  }
+}

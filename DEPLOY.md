@@ -92,6 +92,20 @@ Save the output as `TOKEN_SECRET`.
 6. Click **Deploy** → Wait for build to finish
 7. Note your backend URL: `https://mujcode-api.onrender.com`
 
+### Step 3b — Deploy the API Load Balancer
+
+For the two existing Render backends (`mujcode-1` and `mujcode-2`), deploy the
+load balancer as a separate Render Blueprint:
+
+1. In Render, choose **New → Blueprint** and connect this repository.
+2. Set the Blueprint file path to `load-balancer/render.yaml`.
+3. Deploy `mujcode-api-lb` and confirm its `/healthz` health check passes.
+4. Ensure both backends use the same PostgreSQL, Redis, `TOKEN_SECRET`, CORS
+   origins, and shared upload storage.
+
+The free Render plan may spin down while idle. Use an always-on plan for
+production traffic.
+
 ---
 
 ### Step 4 — Deploy Frontend to Vercel
@@ -109,14 +123,18 @@ Save the output as `TOKEN_SECRET`.
 4. Set **Environment Variables**:
    | Variable | Value | Allowed Scope |
    |----------|-------|---------------|
-   | `VITE_API_URL` | `https://mujcode-api.onrender.com` | Public Frontend Only |
+   | `VITE_API_URL` | `https://mujcode-api-lb.onrender.com` | Public Frontend Only |
+
+   If the GitHub Actions `VITE_API_URL` secret is set, update it to the same
+   load-balancer URL. `frontend/.env.production` is intentionally ignored by
+   Git; configure the production value in Vercel as well.
 
 > [!CAUTION]
 > **CRITICAL SECURITY WARNING: NEVER ADD BACKEND SECRETS TO VERCEL**
 > Never place backend secrets in Vercel `VITE_*` variables because Vite variables are exposed to the browser bundle.
 >
 > **Allowed in Vercel:**
-> - `VITE_API_URL=https://api.example.com`
+> - `VITE_API_URL=https://mujcode-api-lb.onrender.com`
 >
 > **STRICTLY PROHIBITED in Vercel:**
 > - `TOKEN_SECRET`
@@ -130,16 +148,21 @@ Save the output as `TOKEN_SECRET`.
 > All database, token, and cloud infrastructure secrets must reside exclusively in backend environment managers (Render Environment, AWS Secrets Manager, or HashiCorp Vault).
 
 5. Click **Deploy**
-6. Note your frontend URL: `https://mujcode.vercel.app`
+6. Note the production frontend URL configured in Vercel (for example,
+   `https://www.mujcode.in`).
+7. Remove `VITE_BACKEND_URL` if set; the frontend uses only `VITE_API_URL`.
 
 ---
 
 ### Step 5 — Update CORS on Render
-Go to Render → Backend service → Environment → Update `CORS_ORIGIN`:
+Go to both Render backend services → Environment → set `CORS_ORIGIN` to the
+exact production frontend origins (no trailing slashes):
 ```
-https://mujcode.vercel.app
+https://mujcode.in,https://www.mujcode.in
 ```
-Then **Manual Deploy** → Restart.
+If users also access the Vercel `*.vercel.app` domain, add that exact origin too.
+Do not use `*`. Then **Manual Deploy** both backends and verify the CORS
+preflight from each allowed frontend origin.
 
 ---
 

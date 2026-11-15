@@ -72,6 +72,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
+# Keep production/local environment values out of Git; commit only example templates.
 .env
 .env.*
 !.env.example
@@ -115,6 +116,7 @@ dist-ssr
 # IDEs and Editors
 .idea/
 .vscode/
+.vercel/
 *.swp
 *.swo
 
@@ -147,7 +149,7 @@ judge0/judge0.conf
 *.tfvars
 !*.tfvars.example
 .terraform/
-.terraform.lock.hcl
+# Keep .terraform.lock.hcl tracked for reproducible provider versions.
 
 # Certificates, Keys, and Kubeconfig
 *.pem
