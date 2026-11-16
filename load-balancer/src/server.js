@@ -5,6 +5,53 @@ import { fileURLToPath } from 'node:url';
 
 const SOCKET_IO_PATH = /^\/socket\.io(?:\/|$)/;
 const REQUEST_TIMEOUT_MS = 60_000;
+const DEFAULT_CORS_ORIGINS = ['https://mujcode.in', 'https://www.mujcode.in'];
+
+function getAllowedOrigins() {
+  const configuredOrigins = String(process.env.CORS_ORIGIN || '')
+    .split(',')
+    .map((origin) => origin.trim().replace(/\/+$/, '').toLowerCase())
+    .filter(Boolean);
+
+  return new Set([...DEFAULT_CORS_ORIGINS, ...configuredOrigins]);
+}
+
+function getCorsHeaders(req) {
+  const requestOrigin = req.headers.origin;
+  const normalizedOrigin = typeof requestOrigin === 'string'
+    ? requestOrigin.trim().replace(/\/+$/, '').toLowerCase()
+    : '';
+  const headers = { vary: 'Origin' };
+
+  if (normalizedOrigin && getAllowedOrigins().has(normalizedOrigin)) {
+    headers['access-control-allow-origin'] = requestOrigin;
+    headers['access-control-allow-credentials'] = 'true';
+  }
+
+  return headers;
+}
+
+function mergeCorsHeaders(req, responseHeaders = {}) {
+  const corsHeaders = getCorsHeaders(req);
+  const headers = { ...responseHeaders, ...corsHeaders };
+
+  if (!corsHeaders['access-control-allow-origin']) {
+    delete headers['access-control-allow-origin'];
+    delete headers['access-control-allow-credentials'];
+  }
+
+  const upstreamVary = responseHeaders.vary;
+  if (upstreamVary) {
+    const varyValues = Array.isArray(upstreamVary) ? upstreamVary : [upstreamVary];
+    const variesByOrigin = varyValues.some((value) =>
+      value.split(',').some((name) => name.trim().toLowerCase() === 'origin')
+    );
+    if (!variesByOrigin) {
+      headers.vary = [...varyValues, 'Origin'].join(', ');
+    }
+  }
+  return headers;
+}
 
 export function parseBackends(value) {
   const entries = String(value || '')
@@ -111,9 +158,25 @@ export function createLoadBalancer(backends) {
 
   const server = http.createServer((req, res) => {
     const requestPath = new URL(req.url, 'http://localhost').pathname;
+    const corsHeaders = getCorsHeaders(req);
+
     if (requestPath === '/healthz') {
-      res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+      res.writeHead(200, mergeCorsHeaders(req, {
+        'content-type': 'application/json',
+        'cache-control': 'no-store'
+      }));
       res.end(JSON.stringify({ status: 'ok' }));
+      return;
+    }
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204, {
+        ...corsHeaders,
+        'access-control-allow-methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+        'access-control-allow-headers': 'Content-Type, Authorization, x-auth-token, Accept, Origin, X-Requested-With',
+        'access-control-max-age': '86400'
+      });
+      res.end();
       return;
     }
 
@@ -133,7 +196,7 @@ export function createLoadBalancer(backends) {
         res.writeHead(
           upstreamResponse.statusCode || 502,
           upstreamResponse.statusMessage,
-          upstreamResponse.headers
+          mergeCorsHeaders(req, upstreamResponse.headers)
         );
         upstreamResponse.pipe(res);
       }
@@ -145,7 +208,10 @@ export function createLoadBalancer(backends) {
     upstreamRequest.on('error', (error) => {
       console.error(`Backend request failed (${backend.origin}): ${error.message}`);
       if (!res.headersSent) {
-        res.writeHead(502, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+        res.writeHead(502, mergeCorsHeaders(req, {
+          'content-type': 'application/json',
+          'cache-control': 'no-store'
+        }));
         res.end(JSON.stringify({ error: 'Backend unavailable' }));
       } else {
         res.destroy(error);

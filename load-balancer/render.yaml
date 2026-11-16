@@ -14,3 +14,5 @@ services:
         value: production
       - key: API_BACKENDS
         value: https://mujcode-1.onrender.com,https://mujcode-2.onrender.com
+      - key: CORS_ORIGIN
+        value: https://mujcode.in,https://www.mujcode.in

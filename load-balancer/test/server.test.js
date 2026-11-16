@@ -63,13 +63,40 @@ test('load balancer proxies HTTP requests and exposes a health endpoint', async 
 
   const baseUrl = `http://127.0.0.1:${balancer.address().port}`;
   const responses = await Promise.all([
-    fetch(`${baseUrl}/api/first`),
+    fetch(`${baseUrl}/api/first`, { headers: { Origin: 'https://www.mujcode.in' } }),
     fetch(`${baseUrl}/api/second`)
   ]);
   assert.deepEqual(
     await Promise.all(responses.map((response) => response.text())),
     ['one', 'two']
   );
+  assert.equal(
+    responses[0].headers.get('access-control-allow-origin'),
+    'https://www.mujcode.in'
+  );
+  assert.equal(responses[0].headers.get('access-control-allow-credentials'), 'true');
+
+  const preflight = await fetch(`${baseUrl}/api/auth/login`, {
+    method: 'OPTIONS',
+    headers: {
+      Origin: 'https://www.mujcode.in',
+      'Access-Control-Request-Method': 'POST',
+      'Access-Control-Request-Headers': 'content-type,authorization'
+    }
+  });
+  assert.equal(preflight.status, 204);
+  assert.equal(
+    preflight.headers.get('access-control-allow-origin'),
+    'https://www.mujcode.in'
+  );
+  assert.match(preflight.headers.get('access-control-allow-methods'), /POST/);
+
+  const untrustedPreflight = await fetch(`${baseUrl}/api/auth/login`, {
+    method: 'OPTIONS',
+    headers: { Origin: 'https://attacker.example', 'Access-Control-Request-Method': 'POST' }
+  });
+  assert.equal(untrustedPreflight.status, 204);
+  assert.equal(untrustedPreflight.headers.get('access-control-allow-origin'), null);
 
   const health = await fetch(`${baseUrl}/healthz`);
   assert.equal(health.status, 200);
